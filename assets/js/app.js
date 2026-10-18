@@ -1,14 +1,15 @@
-// For the Hams! Mobile Web App Logic
-// www.forthehams.co.uk | UK Ethical Hamster Care & Rescue Standards
-// Authentic 2000s / Noughties Glossy Web 2.0 Theme 🐹✨
+// For the Hams! — mobile web app
+// www.forthehams.co.uk | UK hamster care, checked against India's Hamster Rescue standards
+// Theme: "Zine × 2005" (see assets/css/style.css)
 
-import { speciesList } from './data/species.js?v=2.4';
-import { careGuides } from './data/guides.js?v=2.4';
-import { unsafeItems } from './data/unsafe.js?v=2.4';
-import { products } from './data/products.js?v=2.4';
-import { foodDatabase } from './data/foods.js?v=2.4';
-import { rescuesList } from './data/rescues.js?v=2.4';
-import { adoptionChecklist } from './data/checklist.js?v=2.4';
+import { speciesList } from './data/species.js?v=3.0';
+import { careGuides } from './data/guides.js?v=3.0';
+import { unsafeItems } from './data/unsafe.js?v=3.0';
+import { products } from './data/products.js?v=3.0';
+import { foodDatabase } from './data/foods.js?v=3.0';
+import { rescuesList } from './data/rescues.js?v=3.0';
+import { adoptionChecklist } from './data/checklist.js?v=3.0';
+import { icon, clean, cleanHtml } from './icons.js?v=3.0';
 
 // Application State
 const state = {
@@ -24,58 +25,72 @@ const state = {
   checkedItems: JSON.parse(localStorage.getItem('fth_checklist') || '{}')
 };
 
-// 2000s Tab Gel Highlighting Matrix
-const tabGelClasses = {
-  guides: 'gel-orange',
-  food: 'gel-green',
-  shop: 'gel-blue',
-  checklist: 'gel-pink',
-  rescues: 'gel-purple'
+// Species colours (flat zine palette)
+const speciesColour = {
+  all: 'ink',
+  syrian: 'mustard',
+  roborovski: 'sky',
+  winter_white: 'lilac',
+  campbells: 'pink',
+  chinese: 'mint'
 };
 
-// 2000s Species Gel Color Mapping
-const speciesGelClasses = {
-  all: 'gel-orange',
-  syrian: 'gel-yellow',
-  roborovski: 'gel-blue',
-  winter_white: 'gel-green',
-  campbells: 'gel-pink',
-  chinese: 'gel-purple'
+const speciesOptions = [
+  { id: 'all', name: 'All hamsters' },
+  { id: 'syrian', name: 'Syrian' },
+  { id: 'roborovski', name: 'Roborovski' },
+  { id: 'winter_white', name: 'Winter White' },
+  { id: 'campbells', name: "Campbell's" },
+  { id: 'chinese', name: 'Chinese' }
+];
+
+// Doodle icon per guide
+const guideIcons = {
+  enclosures: 'cage',
+  bedding: 'cloud',
+  wheels: 'wheel',
+  sand_baths: 'sand',
+  multi_chamber: 'hide',
+  substrates_textures: 'log',
+  forage_sprays: 'sprout',
+  food_mixes_nutrition: 'bowl',
+  solitary_rule: 'solo'
 };
 
-// Emoji icons for guides
-const guideEmojis = {
-  enclosures: '🏰',
-  bedding: '☁️',
-  wheels: '🎡',
-  sand_baths: '🏖️',
-  multi_chamber: '🏡',
-  substrates_textures: '🪵',
-  forage_sprays: '🌾',
-  food_mixes_nutrition: '🥣',
-  solitary_rule: '🛡️'
+const cardColours = ['mint', 'sky', 'pink', 'lilac', 'lime', 'mustard-soft', 'sky-soft', 'pink-soft'];
+
+const checklistColours = {
+  Habitat: 'sky',
+  Exercise: 'mustard',
+  Nesting: 'lilac',
+  Hygiene: 'mustard',
+  Enrichment: 'mint',
+  Safety: 'pink',
+  Welfare: 'tomato'
 };
 
-// Category badge color mapping for checklist
-const checklistCategoryGels = {
-  Habitat: 'gel-blue',
-  Exercise: 'gel-orange',
-  Nesting: 'gel-purple',
-  Hygiene: 'gel-yellow',
-  Enrichment: 'gel-green',
-  Safety: 'gel-pink',
-  Welfare: 'gel-red'
-};
+const speciesLabel = (id) => (speciesOptions.find(s => s.id === id)?.name) || String(id).replace('_', ' ');
 
 // Bootstrap
 document.addEventListener('DOMContentLoaded', () => {
+  injectStaticIcons();
   initRouting();
   setupBottomSheetListeners();
   renderSpeciesBar();
   renderCurrentTab();
   setupNavigationListeners();
-  updateIcons();
 });
+
+function injectStaticIcons() {
+  const logo = document.getElementById('logo-hamster');
+  if (logo) logo.innerHTML = icon('hamster', 46);
+  document.querySelectorAll('[data-nav-tab]').forEach(btn => {
+    const slot = btn.querySelector('.dock-icon');
+    if (slot) slot.innerHTML = icon(btn.getAttribute('data-icon') || 'paw', 24);
+  });
+  const closeBtn = document.getElementById('bottom-sheet-close');
+  if (closeBtn) closeBtn.innerHTML = icon('close', 18);
+}
 
 // Routing
 function initRouting() {
@@ -97,32 +112,21 @@ function switchTab(tab, subTab = null) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (['guides', 'food', 'shop', 'checklist', 'rescues'].includes(hash) && hash !== state.activeTab) {
+    state.activeTab = hash;
+    updateNavState();
+    renderCurrentTab();
+  }
+});
+
 function updateNavState() {
   document.querySelectorAll('[data-nav-tab]').forEach(btn => {
-    const tab = btn.getAttribute('data-nav-tab');
-    const iconBg = btn.querySelector('.tab-icon-bg');
-    const label = btn.querySelector('.tab-label');
-    const gelClass = tabGelClasses[tab] || 'gel-orange';
-
-    if (iconBg) {
-      iconBg.classList.remove('gel-btn', 'gel-orange', 'gel-green', 'gel-blue', 'gel-pink', 'gel-purple', 'gel-silver', 'text-slate-400');
-      
-      if (tab === state.activeTab) {
-        iconBg.classList.add('gel-btn', gelClass, 'shadow-md', '-translate-y-0.5');
-      } else {
-        iconBg.classList.add('text-slate-400', 'hover:bg-sky-50');
-      }
-    }
-
-    if (label) {
-      if (tab === state.activeTab) {
-        label.classList.add('text-sky-950', 'font-black');
-        label.classList.remove('text-slate-400');
-      } else {
-        label.classList.remove('text-sky-950', 'font-black');
-        label.classList.add('text-slate-400');
-      }
-    }
+    const isActive = btn.getAttribute('data-nav-tab') === state.activeTab;
+    btn.classList.toggle('is-active', isActive);
+    if (isActive) btn.setAttribute('aria-current', 'page');
+    else btn.removeAttribute('aria-current');
   });
 }
 
@@ -146,12 +150,12 @@ function openBottomSheet(title, htmlContent) {
 
   if (!backdrop || !titleEl || !bodyEl) return;
 
-  titleEl.textContent = title || 'Care Guide';
+  titleEl.textContent = clean(title) || 'Care guide';
   bodyEl.innerHTML = `
     ${htmlContent || ''}
-    <div class="mt-6 pt-4 border-t border-sky-100 flex justify-center">
-      <button type="button" data-close-sheet-bottom class="w-full py-2.5 gel-btn gel-silver text-xs font-black text-slate-700 flex items-center justify-center gap-1.5">
-        <span>✕ Close Guide</span>
+    <div class="mt-6 pt-4" style="border-top: 2px dashed rgba(34,24,15,.3)">
+      <button type="button" data-close-sheet-bottom class="btn btn-block">
+        ${icon('close', 16)} <span>Close</span>
       </button>
     </div>
   `;
@@ -167,7 +171,6 @@ function openBottomSheet(title, htmlContent) {
   backdrop.classList.remove('hidden');
   bodyEl.scrollTop = 0;
   document.body.classList.add('overflow-hidden');
-  updateIcons();
 }
 
 function closeBottomSheet() {
@@ -288,32 +291,22 @@ function setupBottomSheetListeners() {
   container.addEventListener('touchcancel', handleTouchEnd, { passive: true });
 }
 
-// 2000s Species Filter Bar (Wrap-Friendly Glossy Candy Pills — All Names Always Visible)
+// ==========================================
+// Species chips (wrap, always fully visible)
+// ==========================================
 function renderSpeciesBar() {
   const container = document.getElementById('species-filter-container');
   if (!container) return;
 
-  const speciesOptions = [
-    { id: 'all', emoji: '🐾', name: 'All Species' },
-    { id: 'syrian', emoji: '🐹', name: 'Syrian' },
-    { id: 'roborovski', emoji: '⚡', name: 'Roborovski' },
-    { id: 'winter_white', emoji: '❄️', name: 'Winter White' },
-    { id: 'campbells', emoji: '🌾', name: "Campbell's" },
-    { id: 'chinese', emoji: '🌿', name: 'Chinese' }
-  ];
-
   container.innerHTML = `
-    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 py-1 max-w-3xl mx-auto">
-      <span class="text-[10px] font-black text-sky-950 uppercase tracking-wider shrink-0 px-1">Filter by Hamster:</span>
+    <div class="max-w-3xl mx-auto flex flex-wrap items-center gap-1.5">
+      <span class="hand text-lg leading-none mr-0.5">which ham?</span>
       ${speciesOptions.map(opt => {
         const isActive = state.currentSpecies === opt.id;
-        const activeGel = speciesGelClasses[opt.id] || 'gel-orange';
+        const col = speciesColour[opt.id];
         return `
-          <button 
-            type="button"
-            data-species-btn="${opt.id}"
-            class="gel-btn ${isActive ? activeGel : 'gel-silver'} px-3 py-1.5 text-xs font-black transition-all duration-150 shrink-0 flex items-center gap-1">
-            <span>${opt.emoji}</span>
+          <button type="button" data-species-btn="${opt.id}" class="chip ${isActive ? 'is-active' : ''}" aria-pressed="${isActive}">
+            ${opt.id !== 'all' ? `<span class="swatch bg-${col}"></span>` : ''}
             <span>${opt.name}</span>
           </button>
         `;
@@ -324,8 +317,7 @@ function renderSpeciesBar() {
   container.querySelectorAll('[data-species-btn]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const selected = btn.getAttribute('data-species-btn') || 'all';
-      state.currentSpecies = selected;
+      state.currentSpecies = btn.getAttribute('data-species-btn') || 'all';
       renderSpeciesBar();
       renderCurrentTab();
     });
@@ -334,106 +326,63 @@ function renderSpeciesBar() {
   renderSpeciesDetailBanner();
 }
 
-// 2000s Species Metric Quick Card (Glossy Web 2.0 Pet Profile Panel)
+// Species profile card
 function renderSpeciesDetailBanner() {
   const banner = document.getElementById('species-banner-area');
   if (!banner) return;
 
-  if (state.currentSpecies === 'all') {
-    banner.innerHTML = '';
-    return;
-  }
-
-  const spec = speciesList.find(s => s.id === state.currentSpecies);
+  const spec = state.currentSpecies === 'all' ? null : speciesList.find(s => s.id === state.currentSpecies);
   if (!spec) {
     banner.innerHTML = '';
     return;
   }
 
-  const activeGel = speciesGelClasses[spec.id] || 'gel-yellow';
-  // Keep compact by default when browsing Safe Picks or Food Hub so filtered items stay right in view
+  const col = speciesColour[spec.id] || 'mustard';
+  // Keep compact by default when browsing Safe Picks or Food so filtered items stay in view
   const showFullByDefault = state.activeTab === 'guides';
   const isExpanded = state.speciesBannerExpanded !== undefined ? state.speciesBannerExpanded : showFullByDefault;
 
+  const fact = (label, value, note = '', tone = 'white') => `
+    <div class="rounded-lg p-2.5 bg-${tone}" style="border:1.5px solid var(--ink)">
+      <div class="v2005 text-[10px] font-bold uppercase tracking-wide muted">${label}</div>
+      <div class="font-display text-[17px] mt-0.5">${clean(value)}</div>
+      ${note ? `<div class="text-[12.5px] leading-snug mt-0.5 muted">${clean(note)}</div>` : ''}
+    </div>`;
+
   banner.innerHTML = `
-    <div class="web2-card my-2.5 border-sky-300 shadow-md">
-      <div class="web2-header-bar px-3.5 py-2 flex items-center justify-between gap-2">
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <div class="hidden sm:flex items-center gap-1 mr-1">
-            <span class="w-2.5 h-2.5 rounded-full bg-rose-400 border border-rose-600 inline-block"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-600 inline-block"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-600 inline-block"></span>
-          </div>
-          <span class="text-sm sm:text-base font-black text-slate-900 font-heading">${spec.name}</span>
-          <span class="gel-badge ${activeGel} text-[10px] font-black">${spec.badge || 'UK Standard'}</span>
+    <div class="panel mt-3">
+      <div class="panel-bar bg-${col}">
+        <div class="flex items-center gap-2 min-w-0">
+          ${icon('hamster', 22)}
+          <span class="font-display text-[15px] normal-case tracking-normal truncate">${clean(spec.name)}</span>
         </div>
         <div class="flex items-center gap-1.5 shrink-0">
-          <button type="button" id="toggle-species-details" class="gel-btn gel-silver px-2.5 py-1 text-[10px] font-black">
-            ${isExpanded ? 'Hide Stats ▴' : 'Full Stats ▾'}
-          </button>
-          <button type="button" id="close-species-banner" class="w-6 h-6 rounded-full gel-btn gel-silver text-xs font-black" title="Reset species filter">✕</button>
+          <button type="button" id="toggle-species-details" class="btn btn-xs">${isExpanded ? 'Less' : 'More'}</button>
+          <button type="button" id="close-species-banner" class="btn btn-xs" aria-label="Show all hamsters">${icon('close', 12)}</button>
         </div>
       </div>
-
-      <!-- Compact Summary Strip (Always Visible) -->
-      <div class="px-3.5 py-2 bg-sky-50/70 border-b border-sky-100 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold text-slate-700">
-        <span>🎡 <strong>Wheel:</strong> ${spec.minWheelSize || '28cm+'}</span>
-        <span>🏠 <strong>Cage:</strong> 100x50cm+</span>
-        <span>☁️ <strong>Bedding:</strong> ${spec.beddingDepth || '20cm+'}</span>
-        <span class="text-rose-700">🛡️ ${spec.solitaryStatus || 'Strictly Solitary'}</span>
+      <div class="px-3 py-2.5 flex flex-wrap gap-1.5">
+        <span class="tag">${icon('cage', 13)} 100 x 50cm+</span>
+        <span class="tag">${icon('wheel', 13)} Wheel ${clean(spec.minWheelSize || '28cm+')}</span>
+        <span class="tag">${icon('cloud', 13)} Bedding ${clean(spec.beddingDepth || '20cm+')}</span>
+        <span class="tag tag-tomato">${icon('solo', 13)} ${clean(spec.solitaryStatus || 'Lives alone')}</span>
       </div>
-
       ${isExpanded ? `
-        <div class="p-3.5 bg-gradient-to-b from-white to-sky-50/40">
-          <p class="text-xs font-medium text-slate-700 leading-relaxed mb-3">${spec.description || ''}</p>
-
-          <!-- Quick Metrics Grid -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-            <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
-              <div class="text-[9px] font-black text-sky-800 uppercase">🎡 Min Upright Wheel</div>
-              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minWheelSize || '28cm+'}</div>
-              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.wheelNote || ''}</div>
-            </div>
-
-            <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
-              <div class="text-[9px] font-black text-sky-800 uppercase">🏠 Min Unbroken Cage</div>
-              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minCageSize || '100 x 50 x 50 cm'}</div>
-              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.cageNote || ''}</div>
-            </div>
-
-            <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50/60 shadow-xs">
-              <div class="text-[9px] font-black text-rose-800 uppercase">🛡️ Social Housing</div>
-              <div class="font-black text-sm text-rose-700 mt-0.5">${spec.solitaryStatus || 'Strictly Solitary'}</div>
-              <div class="text-[10px] text-rose-900/80 font-medium leading-tight mt-0.5">${spec.solitaryNote || ''}</div>
-            </div>
-
-            <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
-              <div class="text-[9px] font-black text-sky-800 uppercase">☁️ Bedding Depth</div>
-              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.beddingDepth || '20cm+'}</div>
-              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Compacted paper or safe aspen</div>
-            </div>
-
-            <div class="p-2.5 rounded-xl border border-amber-200 bg-amber-50/50 shadow-xs">
-              <div class="text-[9px] font-black text-amber-900 uppercase">🏖️ Sand Bath Size</div>
-              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.sandBathSize || 'A4 Size+'}</div>
-              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.sandNote || ''}</div>
-            </div>
-
-            <div class="p-2.5 rounded-xl border border-purple-200 bg-purple-50/40 shadow-xs">
-              <div class="text-[9px] font-black text-purple-900 uppercase">📏 Vital Stats & Holes</div>
-              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.entranceHoleMin || '5cm+'} Hide Entrances</div>
-              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Lifespan: ${spec.lifespan || '2-3 yrs'} • Size: ${spec.avgSize || ''}</div>
-            </div>
+        <div class="px-3 pb-3">
+          ${spec.description ? `<p class="text-[14px] leading-relaxed mb-3">${clean(spec.description)}</p>` : ''}
+          <div class="grid grid-cols-2 gap-2">
+            ${fact('Wheel', spec.minWheelSize || '28cm+', spec.wheelNote)}
+            ${fact('Enclosure', spec.minCageSize || '100 x 50 x 50 cm', spec.cageNote)}
+            ${fact('Bedding depth', spec.beddingDepth || '20cm+', 'Packed paper or aspen. Never hay.')}
+            ${fact('Sand bath', spec.sandBathSize || 'A4 size+', spec.sandNote)}
+            ${fact('Living situation', spec.solitaryStatus || 'Alone', spec.solitaryNote, 'tomato-soft')}
+            ${fact('Hide doorways', `${spec.entranceHoleMin || '5cm+'}`, `Lives ${spec.lifespan || '2-3 yrs'}${spec.avgSize ? ' · ' + spec.avgSize : ''}`)}
           </div>
-
-          <!-- Diabetes & Diet Warning Pill -->
-          <div class="mt-2.5 p-2.5 rounded-xl border border-amber-300 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 text-[11px] font-bold text-amber-950 flex items-start gap-2 shadow-xs">
-            <span class="text-base leading-none mt-0.5">🥗</span>
-            <div>
-              <strong class="font-black uppercase tracking-wide text-amber-900">Species Diet & Diabetes Profile:</strong>
-              <span class="font-medium text-slate-800 ml-1">${spec.dietSpecial || ''}</span>
-            </div>
-          </div>
+          ${spec.dietSpecial ? `
+            <div class="note mt-3">
+              <div class="note-title">Food notes</div>
+              ${clean(spec.dietSpecial)}
+            </div>` : ''}
         </div>
       ` : ''}
     </div>
@@ -455,55 +404,103 @@ function renderSpeciesDetailBanner() {
 function renderCurrentTab() {
   renderSpeciesDetailBanner();
   switch (state.activeTab) {
-    case 'guides':
-      renderCareGuides();
-      break;
-    case 'food':
-      renderFoodHub();
-      break;
-    case 'shop':
-      renderShop();
-      break;
-    case 'checklist':
-      renderChecklist();
-      break;
-    case 'rescues':
-      renderRescues();
-      break;
-    default:
-      renderCareGuides();
+    case 'guides': renderCareGuides(); break;
+    case 'food': renderFoodHub(); break;
+    case 'shop': renderShop(); break;
+    case 'checklist': renderChecklist(); break;
+    case 'rescues': renderRescues(); break;
+    default: renderCareGuides();
   }
-  updateIcons();
+}
+
+// Shared bits
+function folderTabs(items, active, attr) {
+  return `
+    <div class="folder-tabs" role="tablist">
+      ${items.map(t => `
+        <button type="button" role="tab" aria-selected="${active === t.id}" ${attr}="${t.id}" class="folder-tab ${active === t.id ? 'is-active' : ''}">${t.label}</button>
+      `).join('')}
+    </div>`;
+}
+
+function sectionTitle(title, aside = '') {
+  return `
+    <div class="flex items-end justify-between gap-2 mb-3 mt-1">
+      <h2 class="text-[24px]">${title}</h2>
+      ${aside ? `<span class="hand text-lg leading-none -rotate-2 inline-block" style="color:var(--tomato)">${aside}</span>` : ''}
+    </div>`;
+}
+
+function speciesTags(list) {
+  return (list || []).map(sp => {
+    const on = state.currentSpecies === sp;
+    return `<span class="tag ${on ? 'tag-ink' : ''}">${on ? icon('tick', 11) : ''}${speciesLabel(sp)}</span>`;
+  }).join('');
+}
+
+function pickBadge(badges) {
+  const list = (badges || []).map(clean).filter(Boolean);
+  if (!list.length) return null;
+  const charity = list.find(b => /India|Profits|Charity/i.test(b));
+  if (charity) return { text: charity, tone: 'pink' };
+  const fav = list.find(b => /Favourite/i.test(b));
+  if (fav) return { text: fav, tone: 'mustard' };
+  const video = list.find(b => /Video|DIY/i.test(b));
+  if (video) return { text: video, tone: 'lilac' };
+  return { text: list[0], tone: 'mint' };
+}
+
+function productCard(p, idx = 0) {
+  const isVideo = /youtube\.com|youtu\.be/.test(p.url || '');
+  const badge = pickBadge(p.badges);
+  return `
+    <article class="panel flex flex-col ${idx % 3 === 1 ? 'tilt-r' : ''}">
+      <div class="panel-body flex-grow">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <span class="v2005 text-[11px] muted flex items-center gap-1 min-w-0">${icon('pin', 13)}<span class="truncate">${clean(p.retailer || 'UK stockists')}</span></span>
+          ${badge ? `<span class="tag tag-${badge.tone} shrink-0">${badge.text}</span>` : ''}
+        </div>
+        <h3 class="text-[18px] mb-1.5">${clean(p.name)}</h3>
+        <p class="text-[14px] leading-relaxed mb-3">${clean(p.summary)}</p>
+        <div class="flex flex-wrap items-center gap-1">
+          <span class="v2005 text-[10px] font-bold uppercase muted mr-0.5">Good for</span>
+          ${speciesTags(p.species)}
+        </div>
+      </div>
+      <div class="panel-foot">
+        <div>
+          <div class="v2005 text-[10px] uppercase font-bold muted">${isVideo ? 'DIY cost' : 'Around'}</div>
+          <div class="font-display text-[17px]">${clean(p.priceGuide)}</div>
+        </div>
+        <a href="${p.url || '#'}" target="_blank" rel="noopener noreferrer" class="btn btn-sm ${isVideo ? 'btn-lilac' : 'btn-tomato'}">
+          ${isVideo ? `${icon('play', 16)} Watch how` : `Where to buy ${icon('ext', 14)}`}
+        </a>
+      </div>
+    </article>`;
+}
+
+function searchField(id, value, placeholder, clearId) {
+  return `
+    <div class="field">
+      <span class="field-icon">${icon('search', 18)}</span>
+      <input type="text" id="${id}" value="${value.replace(/"/g, '&quot;')}" placeholder="${placeholder}" autocomplete="off">
+      ${value ? `<button type="button" id="${clearId}" class="field-clear" aria-label="Clear search">${icon('close', 16)}</button>` : ''}
+    </div>`;
 }
 
 // ==========================================
-// 1. CARE GUIDES (2000s Web 2.0 Style)
+// 1. CARE GUIDES
 // ==========================================
 function renderCareGuides() {
   const main = document.getElementById('main-tab-content');
 
   main.innerHTML = `
-    <div>
-      <!-- Sub-Tab Switcher (Noughties Glossy Pills) -->
-      <div class="flex items-center gap-2 mb-4 max-w-md mx-auto justify-center flex-wrap">
-        <button data-guide-sub="core" class="gel-btn ${
-          state.guidesSubTab === 'core' ? 'gel-orange' : 'gel-silver'
-        } px-4 py-1.5 text-xs font-black">
-          📖 Core Care Guides
-        </button>
-        <button data-guide-sub="unsafe" class="gel-btn ${
-          state.guidesSubTab === 'unsafe' ? 'gel-red' : 'gel-silver'
-        } px-4 py-1.5 text-xs font-black">
-          🛑 Unsafe Hall of Shame
-        </button>
-        <button data-guide-sub="inspiration" class="gel-btn ${
-          state.guidesSubTab === 'inspiration' ? 'gel-blue' : 'gel-silver'
-        } px-4 py-1.5 text-xs font-black">
-          📸 Real Foster Setups
-        </button>
-      </div>
-
-      <!-- Render Sub-View -->
+    ${folderTabs([
+      { id: 'core', label: 'Care guides' },
+      { id: 'unsafe', label: 'Things to avoid' },
+      { id: 'inspiration', label: 'Real setups' }
+    ], state.guidesSubTab, 'data-guide-sub')}
+    <div class="folder-body">
       ${state.guidesSubTab === 'core' ? renderCoreGuidesView() : ''}
       ${state.guidesSubTab === 'unsafe' ? renderUnsafeView() : ''}
       ${state.guidesSubTab === 'inspiration' ? renderInspirationView() : ''}
@@ -519,169 +516,107 @@ function renderCareGuides() {
 
   document.querySelectorAll('[data-quick-jump]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const target = btn.getAttribute('data-quick-jump');
-      const sub = btn.getAttribute('data-quick-sub') || null;
-      switchTab(target, sub);
+      switchTab(btn.getAttribute('data-quick-jump'), btn.getAttribute('data-quick-sub') || null);
     });
   });
 
   document.querySelectorAll('[data-open-guide]').forEach(card => {
-    card.addEventListener('click', () => {
-      const guideId = card.getAttribute('data-open-guide');
-      const guide = careGuides.find(g => g.id === guideId);
-      if (guide) {
-        const emoji = guideEmojis[guide.id] || '🐹';
-        openBottomSheet(
-          `${emoji} ${guide.title}`,
-          `
-            <div class="guide-content">
-              <span class="gel-badge gel-yellow px-3 py-1 text-xs font-black mb-3 inline-block">${guide.badge || 'Rescue Standard'}</span>
-              ${guide.content || ''}
-            </div>
-          `
-        );
-      }
-    });
+    const open = () => {
+      const guide = careGuides.find(g => g.id === card.getAttribute('data-open-guide'));
+      if (!guide) return;
+      openBottomSheet(
+        guide.title,
+        `<div class="guide-content">
+           <span class="tag tag-mustard mb-2">${clean(guide.badge || 'Rescue standard')}</span>
+           ${cleanHtml(guide.content || '')}
+         </div>`
+      );
+    };
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
   });
 }
 
 function renderCoreGuidesView() {
-  const badgeGels = ['gel-yellow', 'gel-green', 'gel-blue', 'gel-pink', 'gel-purple', 'gel-orange'];
+  const rest = careGuides.filter(g => g.id !== 'enclosures');
 
   return `
-    <div class="space-y-3.5">
-      <!-- 2000s Web 2.0 Glossy Welcome Hero Card -->
-      <div class="web2-card overflow-hidden border-sky-300">
-        <div class="web2-header-bar px-4 py-2 flex items-center justify-between">
-          <div class="flex items-center gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-full bg-rose-400 border border-rose-600 inline-block"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-600 inline-block"></span>
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-600 inline-block"></span>
-            <span class="text-[11px] font-black text-sky-950 uppercase tracking-wide ml-1 font-heading">Welcome to For the Hams! v2.0 ✨</span>
-          </div>
-          <span class="gel-badge gel-green text-[9px]">UK Welfare Hub</span>
-        </div>
-        <div class="p-4 bg-gradient-to-br from-sky-50 via-white to-amber-50/50">
-          <div class="flex items-start gap-3">
-            <div class="w-12 h-12 rounded-2xl gel-yellow flex items-center justify-center text-2xl shrink-0 shadow-sm">
-              🏆
-            </div>
-            <div>
-              <h2 class="font-black text-base sm:text-lg text-slate-900 font-heading leading-snug">
-                The UK's Ethical Hamster Care & Rescue Bible
-              </h2>
-              <p class="text-xs font-medium text-slate-600 leading-relaxed mt-1">
-                Built alongside <strong>India's Hamster Rescue (#1213919)</strong>, <strong>Bright Horizon</strong>, and <strong>Fable's Product Library</strong>. 100x50cm unbroken cages, 20cm+ hay-free burrowing bedding, and zero pet shop myths!
-              </p>
-            </div>
-          </div>
+    <section class="mb-5 pt-1">
+      <p class="hand text-[22px] leading-none -rotate-2 inline-block" style="color:var(--tomato)">psst, hamster people...</p>
+      <h1 class="text-[32px] sm:text-[40px] mt-1.5">Hamsters need <span class="scribble">way more space</span> than you think.</h1>
+      <p class="mt-3 text-[15px] leading-relaxed">Plain-English care guides, checked against India's Hamster Rescue standards. No pet shop myths, no hay, no tiny cages.</p>
+    </section>
 
-          <!-- Quick Action Candy Buttons -->
-          <div class="flex flex-wrap items-center gap-2 mt-3.5 pt-3 border-t border-sky-200/70">
-            <button data-quick-jump="shop" data-quick-sub="enclosures" class="gel-btn gel-blue px-3 py-1 text-[11px] font-black">
-              🏠 100x50cm Cages
-            </button>
-            <button data-quick-jump="food" data-quick-sub="fresh" class="gel-btn gel-green px-3 py-1 text-[11px] font-black">
-              🥗 Safe / Toxic Food Lookup
-            </button>
-            <button data-quick-jump="checklist" class="gel-btn gel-pink px-3 py-1 text-[11px] font-black">
-              ✅ Adoption Readiness Quiz
-            </button>
-            <button data-quick-jump="rescues" class="gel-btn gel-purple px-3 py-1 text-[11px] font-black">
-              💖 16+ UK Rescues
-            </button>
-          </div>
-        </div>
+    <!-- Featured: enclosure -->
+    <div data-open-guide="enclosures" role="button" tabindex="0" class="panel bg-mustard tappable p-4 mb-4 flex items-center gap-3">
+      <div class="shrink-0" style="color:var(--ink)">${icon('cage', 78)}</div>
+      <div class="min-w-0">
+        <div class="stat">100 × 50<span class="text-[24px]">cm</span></div>
+        <div class="text-[14px] font-bold mt-1 leading-snug">of unbroken floor. The minimum, for every species.</div>
+        <div class="font-display text-[14px] mt-2 flex items-center gap-1">Read the cage guide ${icon('arrow', 18)}</div>
       </div>
+    </div>
 
-      <!-- Guides List Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        ${careGuides.map((guide, idx) => {
-          const badgeClass = badgeGels[idx % badgeGels.length];
-          const emoji = guideEmojis[guide.id] || '🐹';
-          return `
-            <div data-open-guide="${guide.id}" class="web2-card hover:shadow-lg active:scale-[0.99] cursor-pointer flex flex-col justify-between group">
-              <div>
-                <div class="web2-header-bar px-3.5 py-2 flex items-center justify-between">
-                  <span class="gel-badge ${badgeClass}">${guide.badge || 'Essential'}</span>
-                  <div class="w-6 h-6 rounded-full gel-btn gel-silver flex items-center justify-center text-slate-700 group-hover:scale-110 transition-transform">
-                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                  </div>
-                </div>
-                <div class="p-4 pb-3">
-                  <div class="flex items-start gap-2.5 mb-1.5">
-                    <span class="text-2xl leading-none select-none">${emoji}</span>
-                    <h3 class="font-black text-base text-slate-900 font-heading leading-snug group-hover:text-sky-800 transition-colors">${guide.title}</h3>
-                  </div>
-                  <p class="text-xs font-medium text-slate-600 leading-relaxed">${guide.summary || ''}</p>
-                </div>
-              </div>
-              <div class="px-4 py-2.5 bg-sky-50/50 border-t border-sky-100 flex items-center justify-between text-[11px] font-black text-amber-700">
-                <span>Tap to open full guide</span>
-                <span class="group-hover:translate-x-1 transition-transform">Read Now ➔</span>
-              </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
+    <!-- Quick jumps -->
+    <div class="grid grid-cols-2 gap-2 mb-6">
+      <button data-quick-jump="food" data-quick-sub="fresh" class="btn btn-sm btn-mint justify-start">${icon('apple', 18)} Can they eat this?</button>
+      <button data-quick-jump="checklist" class="btn btn-sm btn-pink justify-start">${icon('check', 18)} Am I ready?</button>
+      <button data-quick-jump="shop" data-quick-sub="enclosures" class="btn btn-sm btn-sky justify-start">${icon('cage', 18)} Big enough cages</button>
+      <button data-quick-jump="rescues" class="btn btn-sm btn-lilac justify-start">${icon('heart', 18)} Find a rescue</button>
+    </div>
+
+    ${sectionTitle('The guides', 'tap one!')}
+
+    <div class="grid grid-cols-2 gap-3">
+      ${rest.map((guide, idx) => `
+        <div data-open-guide="${guide.id}" role="button" tabindex="0"
+             class="panel tappable bg-${cardColours[idx % cardColours.length]} p-3 flex flex-col ${idx % 2 ? 'tilt-r' : 'tilt-l'}">
+          <div class="mb-2">${icon(guideIcons[guide.id] || 'paw', 36)}</div>
+          <h3 class="text-[16px] leading-tight mb-1.5">${clean(guide.title)}</h3>
+          <p class="text-[12.5px] leading-snug clamp-3 mb-2">${clean(guide.summary)}</p>
+          <span class="tag mt-auto self-start">${clean(guide.badge || 'Essential')}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="note mt-6 tilt-l">
+      <div class="note-title flex items-center gap-1.5">${icon('bulb', 22)} Did you know?</div>
+      Wild hamsters cover up to <span class="highlight font-bold">9km a night</span>. That's why a big enclosure, a proper wheel and deep bedding to dig in aren't optional extras.
     </div>
   `;
 }
 
 function renderUnsafeView() {
   return `
-    <div class="space-y-3.5">
-      <div class="web2-card overflow-hidden border-rose-300">
-        <div class="px-4 py-2 bg-gradient-to-r from-rose-600 via-red-500 to-rose-600 text-white flex items-center justify-between">
-          <span class="text-xs font-black uppercase tracking-wider font-heading flex items-center gap-1.5">
-            <span>🚨</span>
-            <span>Rescue Blacklist • Do Not Buy</span>
-          </span>
-          <span class="gel-badge gel-yellow text-[9px]">Veterinary Alert</span>
-        </div>
-        <div class="p-4 bg-rose-50/70 text-xs">
-          <h3 class="font-black text-base text-rose-950 font-heading mb-1">
-            Unsafe Pet Shop Items Hall of Shame!
-          </h3>
-          <p class="text-xs text-slate-700 font-medium leading-relaxed">
-            These items are still legally sold in major UK pet shops despite causing fatal bowel obstructions, limb amputations, corneal eye punctures, and severe spinal warping.
-          </p>
-        </div>
-      </div>
+    <section class="mb-4">
+      <h2 class="text-[26px]">Still sold in UK pet shops. <span class="scribble">Still not safe.</span></h2>
+      <p class="mt-2 text-[14.5px] leading-relaxed">These are on shelves right now, and rescues see the injuries they cause: blocked guts, lost limbs, eye injuries and bent spines.</p>
+    </section>
 
-      <div class="space-y-3.5">
-        ${unsafeItems.map(item => {
-          const examples = Array.isArray(item.examples) ? item.examples : [];
-          return `
-            <div class="web2-card border-rose-200 overflow-hidden">
-              <div class="web2-header-bar px-4 py-2 flex items-center justify-between bg-rose-50">
-                <span class="gel-badge gel-red text-[10px] font-black">${item.badge || 'Severe Hazard'}</span>
-                <span class="text-[10px] font-black text-rose-800 bg-rose-100 border border-rose-300 px-2.5 py-0.5 rounded-full">🚫 Banned by UK Rescues</span>
-              </div>
-              <div class="p-4">
-                <h4 class="font-black text-slate-900 text-base font-heading mb-1">${item.name || ''}</h4>
-                <p class="text-xs font-bold text-rose-900 leading-relaxed mb-2.5">${item.danger || ''}</p>
-                <div class="bg-rose-50/90 border border-rose-200 rounded-xl p-3 text-xs text-slate-800 font-medium mb-3 leading-relaxed">
-                  <strong class="font-black text-rose-950 block mb-0.5">🔬 Veterinary Pathology & Risk:</strong>
-                  ${item.vetExplanation || ''}
-                </div>
-                ${examples.length > 0 ? `
-                  <div>
-                    <div class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5">Common Offending Products to Avoid:</div>
-                    <div class="flex flex-wrap gap-1.5">
-                      ${examples.map(ex => `
-                        <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-red-50 border border-red-200 text-red-900">
-                          ❌ ${ex}
-                        </span>
-                      `).join('')}
-                    </div>
-                  </div>
-                ` : ''}
-              </div>
+    <div class="space-y-4">
+      ${unsafeItems.map((item, i) => {
+        const examples = Array.isArray(item.examples) ? item.examples : [];
+        return `
+          <article class="panel ${i % 2 ? 'tilt-r' : ''}">
+            <div class="panel-bar bg-tomato" style="color:var(--white)">
+              <span class="flex items-center gap-1.5">${icon('nope', 16)} Nope</span>
+              <span class="tag">${clean(item.badge || 'Serious hazard')}</span>
             </div>
-          `;
-        }).join('')}
-      </div>
+            <div class="panel-body">
+              <h3 class="text-[19px] mb-1.5">${clean(item.name)}</h3>
+              <p class="text-[14.5px] font-bold leading-relaxed mb-3">${clean(item.danger)}</p>
+              <div class="rounded-lg p-3 bg-tomato-soft text-[14px] leading-relaxed mb-3" style="border:1.5px solid var(--ink)">
+                <div class="v2005 text-[10px] font-bold uppercase mb-1">What vets see</div>
+                ${clean(item.vetExplanation)}
+              </div>
+              ${examples.length ? `
+                <div class="v2005 text-[10px] font-bold uppercase muted mb-1.5">Look out for</div>
+                <div class="flex flex-wrap gap-1.5">
+                  ${examples.map(ex => `<span class="tag">${icon('close', 11)} ${clean(ex)}</span>`).join('')}
+                </div>` : ''}
+            </div>
+          </article>`;
+      }).join('')}
     </div>
   `;
 }
@@ -689,99 +624,76 @@ function renderUnsafeView() {
 function renderInspirationView() {
   const photos = [
     {
-      title: "Natural Syrian Enclosure (120x60cm)",
-      subtitle: "Bucatstate 3.0 / Bandaby / DIY Setup",
+      title: "Syrian setup, 120x60cm",
+      subtitle: "Bucatstate 3.0 / Bandaby / DIY",
       image: "assets/images/enclosures/setup_inspiration_1.jpg",
-      details: "30cm compacted paper bedding, 32cm upright wheel on heavy stilts, deep A4 sand bath, multi-chamber hide, and rich flax spray clutter."
+      details: "30cm of packed paper bedding, a 32cm wheel up on stilts, a deep A4 sand bath, a multi-chamber hide and loads of flax sprays."
     },
     {
-      title: "Roborovski Sand-Rich Habitat",
-      subtitle: "Desert Welfare Standard",
+      title: "Robo sand paradise",
+      subtitle: "Desert-style layout",
       image: "assets/images/enclosures/setup_inspiration_2.jpg",
-      details: "Over 1/3 of floor space dedicated to deep natural desert sand, 26cm running wheel, coco coir dig box, and dried millet sprays."
+      details: "Over a third of the floor is deep natural sand, plus a 26cm wheel, a coco coir dig box and dried millet sprays."
     },
     {
-      title: "Russian Dwarf Naturalistic Setup",
-      subtitle: "Multi-Texture Steppe Environment",
+      title: "Russian dwarf steppe",
+      subtitle: "Lots of textures",
       image: "assets/images/enclosures/setup_inspiration_3.jpg",
-      details: "Beech chip dig zone, cork granules, 20cm paper/aspen burrowing layers, and bottomless 3-room wooden hide."
+      details: "Beech chip dig zone, cork granules, 20cm of paper/aspen to burrow in and a bottomless 3-room wooden hide."
     },
     {
-      title: "IKEA DIY Platsa Conversion",
-      subtitle: "Affordable 120cm Foster Enclosure",
+      title: "IKEA Platsa build",
+      subtitle: "Budget 120cm foster tank",
       image: "assets/images/enclosures/setup_inspiration_4.jpg",
-      details: "Constructed using IKEA Platsa frame with acrylic front panel. Massive unbroken burrowing depth and top mesh airflow."
+      details: "IKEA Platsa frame with an acrylic front. Huge burrowing depth and mesh on top for airflow."
     },
     {
-      title: "Natural Foraging & Clutter Layout",
-      subtitle: "Prey-Animal Comfort Design",
+      title: "Forage jungle",
+      subtitle: "Cover everywhere",
       image: "assets/images/enclosures/setup_inspiration_5.jpg",
-      details: "Dense coverage using sorghum, flax bouquets, hollow cork logs, and ceramic hideaway cooling zones."
+      details: "Sorghum, flax bouquets, hollow cork logs and a ceramic hide to cool off in. Prey animals feel safer with cover."
     },
     {
-      title: "Multi-Substrate Digging Haven",
-      subtitle: "Full Tactile Enrichment",
+      title: "Digging heaven",
+      subtitle: "Multi-substrate",
       image: "assets/images/enclosures/setup_inspiration_6.jpg",
-      details: "Features coco coir, terrarium moss, beech chips, and kiln-dried aspen shaving layers holding stable tunnels."
+      details: "Coco coir, terrarium moss, beech chips and aspen layers that hold their tunnels."
     }
   ];
 
   return `
-    <div class="space-y-4">
-      <div class="web2-card p-4 bg-gradient-to-r from-sky-50 via-white to-amber-50 border-sky-300 text-xs">
-        <h3 class="font-black text-slate-900 text-base font-heading">Real UK Foster Setups 📸</h3>
-        <p class="text-xs font-medium text-slate-600 mt-0.5">Real enclosure setups from India's Hamster Rescue fosterers showcasing deep hay-free burrowing, stilts, and enrichment!</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        ${photos.map(p => `
-          <div class="web2-card overflow-hidden">
-            <div class="web2-header-bar px-3.5 py-2 flex items-center justify-between">
-              <span class="font-black text-xs text-slate-900 font-heading truncate">${p.title}</span>
-              <span class="gel-badge gel-blue text-[9px]">Verified Setup</span>
-            </div>
-            <div class="relative h-52 bg-slate-100 overflow-hidden border-b border-sky-100">
-              <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
-            </div>
-            <div class="p-3.5">
-              <div class="text-[11px] font-black text-amber-700 mb-1">${p.subtitle}</div>
-              <p class="text-xs font-medium text-slate-600 leading-relaxed">${p.details}</p>
-            </div>
-          </div>
-        `).join('')}
-      </div>
+    <section class="mb-5">
+      <h2 class="text-[26px]">Real setups from <span class="scribble">real fosterers</span></h2>
+      <p class="mt-2 text-[14.5px] leading-relaxed">Enclosures from India's Hamster Rescue fosterers. Deep bedding, no hay, and plenty to do.</p>
+    </section>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-7 pt-2">
+      ${photos.map((p, i) => `
+        <figure class="polaroid tape ${['tape-pink', '', 'tape-mustard'][i % 3]} ${i % 2 ? 'tilt-r' : 'tilt-l'}">
+          <div class="h-56 overflow-hidden"><img src="${p.image}" alt="${p.title}: ${p.details}" class="w-full h-full object-cover" loading="lazy"></div>
+          <figcaption>
+            <div class="caption">${p.title}</div>
+            <div class="v2005 text-[11px] muted mt-0.5">${p.subtitle}</div>
+            <p class="text-[13.5px] leading-snug mt-1.5">${p.details}</p>
+          </figcaption>
+        </figure>
+      `).join('')}
     </div>
   `;
 }
 
 // ==========================================
-// 2. FOOD HUB (2000s Web 2.0 Style)
+// 2. FOOD
 // ==========================================
 function renderFoodHub() {
   const main = document.getElementById('main-tab-content');
 
   main.innerHTML = `
-    <div>
-      <!-- Food Hub Switcher -->
-      <div class="flex items-center gap-2 mb-4 max-w-md mx-auto justify-center flex-wrap">
-        <button type="button" data-food-sub="mixes" class="gel-btn ${
-          state.foodSubTab === 'mixes' ? 'gel-yellow' : 'gel-silver'
-        } px-4 py-1.5 text-xs font-black">
-          🥣 Approved Seed Mixes
-        </button>
-        <button type="button" data-food-sub="fresh" class="gel-btn ${
-          state.foodSubTab === 'fresh' ? 'gel-green' : 'gel-silver'
-        } px-4 py-1.5 text-xs font-black">
-          🥗 Safe Fresh Foods
-        </button>
-        <button type="button" data-food-sub="toxic" class="gel-btn ${
-          state.foodSubTab === 'toxic' ? 'gel-red' : 'gel-silver'
-        } px-4 py-1.5 text-xs font-black">
-          🛑 Toxic Forbidden List
-        </button>
-      </div>
-
-      <!-- Render Selected Food Sub-View -->
+    ${folderTabs([
+      { id: 'mixes', label: 'Seed mixes' },
+      { id: 'fresh', label: 'Fresh food' },
+      { id: 'toxic', label: 'Never feed' }
+    ], state.foodSubTab, 'data-food-sub')}
+    <div class="folder-body">
       ${state.foodSubTab === 'mixes' ? renderCommercialMixesView() : ''}
       ${state.foodSubTab === 'fresh' ? renderFreshFoodsView() : ''}
       ${state.foodSubTab === 'toxic' ? renderToxicFoodsView() : ''}
@@ -800,8 +712,14 @@ function renderFoodHub() {
     renderSpeciesBar();
     renderCurrentTab();
   });
+}
 
-  updateIcons();
+function speciesFilterNote(spec, text, resetId) {
+  return `
+    <div class="rounded-xl p-3 mb-4 bg-${speciesColour[spec.id] || 'mustard'}-soft flex items-start justify-between gap-2" style="border:2px solid var(--ink)">
+      <div class="text-[14px] leading-snug"><strong class="font-display">Showing: ${clean(spec.name)}.</strong> ${text}</div>
+      <button type="button" id="${resetId}" class="btn btn-xs shrink-0">All</button>
+    </div>`;
 }
 
 function renderCommercialMixesView() {
@@ -814,100 +732,27 @@ function renderCommercialMixesView() {
   const activeSpecObj = speciesList.find(s => s.id === state.currentSpecies);
 
   return `
-    <div class="space-y-4">
-      ${activeSpecObj ? `
-        <div class="web2-card p-3.5 bg-gradient-to-r from-amber-50 via-yellow-50 to-sky-50 border-amber-300 flex items-center justify-between gap-2 flex-wrap">
-          <div class="text-xs font-bold text-slate-800">
-            <span class="font-black text-amber-950">🐹 Filtered for ${activeSpecObj.name}:</span>
-            Showing <strong>${mixes.length}</strong> species-appropriate seed mixes (${activeSpecObj.dietSpecial})
-          </div>
-          <button type="button" id="reset-food-species" class="gel-btn gel-silver px-3 py-1 text-[11px] font-black">Show All Species</button>
-        </div>
-      ` : ''}
+    <h2 class="text-[26px] mb-2">What goes in the bowl <span class="hand text-[22px]" style="color:var(--tomato)">(well, the bedding)</span></h2>
 
-      <!-- 48-Hour Freezer Protocol Card -->
-      <div class="web2-card p-4 border-sky-300 bg-gradient-to-br from-sky-50 via-white to-sky-100/50">
-        <div class="flex items-start gap-3">
-          <span class="text-3xl animate-bounce">❄️</span>
-          <div>
-            <h3 class="font-black text-base text-slate-900 font-heading">The 48-Hour Freezer Protocol!</h3>
-            <p class="text-xs font-medium text-slate-700 leading-relaxed mt-0.5">
-              High-welfare seed mixes and sprays are 100% pesticide-free, meaning harmless grain mite eggs can hatch in warm rooms. <strong>Always freeze new food bags for 48 hours</strong> upon delivery to safely neutralise any eggs. Thaw to room temperature before feeding!
-            </p>
-          </div>
-        </div>
-      </div>
+    ${activeSpecObj ? speciesFilterNote(activeSpecObj, `${mixes.length} mixes that suit them. ${clean(activeSpecObj.dietSpecial || '')}`, 'reset-food-species') : ''}
 
-      <!-- Pellet-Free Warning Panel -->
-      <div class="web2-card p-4">
-        <div class="font-black text-sm text-slate-900 font-heading mb-1 flex items-center gap-1.5">
-          <span>🌾</span>
-          <span>Why Pellet-Free Mueslis are Best</span>
-        </div>
-        <p class="text-xs font-medium text-slate-600 leading-relaxed">
-          Standard pet shop mueslis (like Harry Hamster) contain dyed sugary biscuits and hard pellets that hamsters hate. Rescue-approved seed diets provide 25+ whole seeds, grains, and mealworms with <strong>15–18% protein</strong> and <strong>zero fruit/sugars for dwarfs</strong>.
-        </p>
-      </div>
+    <div class="note mb-4">
+      <div class="note-title flex items-center gap-1.5">${icon('snow', 20)} Freeze it first</div>
+      Good mixes and sprays aren't sprayed with pesticides, so grain mite eggs can hatch in a warm room. <strong>Freeze new bags for 48 hours</strong>, then let them come back to room temperature before feeding.
+    </div>
 
-      <!-- Mix Cards List -->
-      <div class="space-y-3">
-        ${mixes.map(p => `
-          <div class="web2-card overflow-hidden flex flex-col justify-between">
-            <div class="web2-header-bar px-4 py-2 flex flex-wrap items-center justify-between gap-1">
-              <span class="text-[10px] font-black text-sky-900 uppercase tracking-wider">${p.brand || ''} • ${p.retailer || ''}</span>
-              <div class="flex flex-wrap gap-1">
-                ${(p.badges || []).map(b => `
-                  <span class="gel-badge ${
-                    b.includes('Favourite') || b.includes('Hope')
-                      ? 'gel-yellow'
-                      : 'gel-green'
-                  }">${b}</span>
-                `).join('')}
-              </div>
-            </div>
-            <div class="p-4">
-              <h4 class="font-black text-base text-slate-900 font-heading mb-1 leading-snug">${p.name || ''}</h4>
-              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary || ''}</p>
+    <div class="panel p-4 mb-5 bg-lime-soft">
+      <h3 class="text-[17px] mb-1 flex items-center gap-1.5">${icon('sprout', 22)} Why no pellets?</h3>
+      <p class="text-[14px] leading-relaxed">Pet shop muesli (like Harry Hamster) is full of dyed, sugary biscuits and hard pellets that hamsters leave behind. Rescue-approved mixes have 25+ whole seeds, grains and mealworms, with <strong>15–18% protein</strong> and <strong>no fruit or sugar for dwarfs</strong>.</p>
+    </div>
 
-              <div class="flex flex-wrap items-center gap-1.5 mb-3">
-                <span class="text-[10px] font-black text-slate-500 uppercase mr-1">Suitable For:</span>
-                ${(p.species || []).map(sp => {
-                  const isSelected = state.currentSpecies === sp;
-                  return `
-                    <span class="text-[10px] px-2.5 py-0.5 rounded-full border ${
-                      isSelected
-                        ? 'border-emerald-500 bg-emerald-100 text-emerald-950 font-black ring-2 ring-emerald-300'
-                        : 'border-sky-200 bg-sky-50 text-sky-900 font-bold'
-                    } capitalize">
-                      ${isSelected ? '✓ ' : '🐹 '}${sp.replace('_', ' ')}
-                    </span>
-                  `;
-                }).join('')}
-              </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      ${mixes.map((p, i) => productCard(p, i)).join('')}
+    </div>
 
-              <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <div>
-                  <div class="text-[9px] font-black text-slate-400 uppercase">Price Guide</div>
-                  <div class="text-base font-black text-slate-900 font-heading">${p.priceGuide || ''}</div>
-                </div>
-
-                <a 
-                  href="${p.url || '#'}" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="gel-btn gel-orange px-4 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
-                  <span>Where to Buy ↗</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-
-      <!-- Scatter Feed Pill -->
-      <div class="web2-card p-3.5 bg-amber-50/70 border-amber-300 text-xs text-slate-700 font-medium">
-        <strong class="font-black text-slate-900">💡 Scatter Feed Tip:</strong> Ditch the food bowl! Scatter 1–2 tablespoons of seeds across deep bedding every 1–2 days. It burns energy, eliminates boredom, and lets hamsters pouch like they do in the wild.
-      </div>
+    <div class="panel p-4 mt-5 bg-sky-soft tilt-l">
+      <h3 class="text-[17px] mb-1">Ditch the bowl</h3>
+      <p class="text-[14px] leading-relaxed">Scatter 1–2 tablespoons of seed across the bedding every day or two. Foraging burns energy, beats boredom, and lets them fill their pouches like they would in the wild.</p>
     </div>
   `;
 }
@@ -918,7 +763,7 @@ function renderFreshFoodsView() {
 
   const safeFoods = foodDatabase.filter(f => {
     if (f.status !== 'SAFE' && f.status !== 'CAUTION_DIABETES') return false;
-    // If a diabetes-prone dwarf species is selected, hide sugary Syrian-only fruits (or filter to safe items)
+    // If a diabetes-prone dwarf species is selected, hide sugary Syrian-only foods
     if (isDwarfSelected && f.status === 'CAUTION_DIABETES' && (f.speciesNotes || '').toLowerCase().includes('syrian')) {
       return false;
     }
@@ -928,7 +773,7 @@ function renderFreshFoodsView() {
   const filtered = safeFoods.filter(food => {
     if (state.foodSearch.trim()) {
       const q = state.foodSearch.toLowerCase();
-      return (food.name || '').toLowerCase().includes(q) || 
+      return (food.name || '').toLowerCase().includes(q) ||
              (food.details || '').toLowerCase().includes(q) ||
              (food.speciesNotes || '').toLowerCase().includes(q);
     }
@@ -936,64 +781,42 @@ function renderFreshFoodsView() {
   });
 
   return `
+    <h2 class="text-[26px] mb-1">Can they eat this?</h2>
+    <p class="text-[14px] mb-3 muted">Tiny portions. Think pea-sized, a few times a week.</p>
+
+    ${activeSpecObj ? speciesFilterNote(activeSpecObj, isDwarfSelected
+      ? 'Sugary foods are hidden, because dwarf hamsters are prone to diabetes.'
+      : 'Showing safe veg, protein and the odd fruit treat.', 'reset-food-species') : ''}
+
+    <div class="mb-4">${searchField('food-search-input', state.foodSearch, 'Try broccoli, egg, cucumber...', 'clear-food-search')}</div>
+
     <div class="space-y-3">
-      ${activeSpecObj ? `
-        <div class="web2-card p-3.5 bg-gradient-to-r from-emerald-50 via-white to-amber-50 border-emerald-300 flex items-center justify-between gap-2 flex-wrap">
-          <div class="text-xs font-bold text-slate-800">
-            <span class="font-black text-emerald-950">🥗 Filtered for ${activeSpecObj.name}:</span>
-            ${isDwarfSelected 
-              ? 'Sugary fruits (Apples, Bananas, Carrots/Corn) have been automatically hidden to protect against Dwarf Diabetes!' 
-              : 'Showing all safe vegetables, proteins, and occasional Syrian fruit treats.'}
-          </div>
-          <button type="button" id="reset-food-species" class="gel-btn gel-silver px-3 py-1 text-[11px] font-black">Show All Species</button>
-        </div>
-      ` : ''}
-
-      <!-- Search Bar -->
-      <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-sky-600 absolute left-3.5 top-3"></i>
-        <input 
-          type="text" 
-          id="food-search-input" 
-          value="${state.foodSearch}"
-          placeholder="Search broccoli, apple, egg, mealworms, cucumber..."
-          class="w-full bg-white border-2 border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-sm">
-        ${state.foodSearch ? `
-          <button id="clear-food-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
-        ` : ''}
-      </div>
-
-      <div class="space-y-3">
-        ${filtered.map(food => {
-          const isSafe = food.status === 'SAFE';
-          const speciesInfo = food.speciesNotes || food.portionGuide || 'All Species';
-          const prepInfo = food.prep || food.prepInstructions || 'Wash thoroughly and serve a pea-sized portion.';
-
-          return `
-            <div class="web2-card overflow-hidden">
-              <div class="web2-header-bar px-4 py-2 flex items-center justify-between">
-                <h4 class="font-black text-sm sm:text-base text-slate-900 font-heading">${food.name || ''}</h4>
-                <span class="gel-badge ${isSafe ? 'gel-green' : 'gel-yellow'}">
-                  ${isSafe ? '🟢 Safe Staple' : '🟡 Diabetes Caution'}
-                </span>
+      ${filtered.length === 0 ? `<p class="hand text-2xl text-center py-6">nothing found, try another food?</p>` : ''}
+      ${filtered.map(food => {
+        const isSafe = food.status === 'SAFE';
+        const speciesInfo = food.speciesNotes || food.portionGuide || 'All species';
+        const prepInfo = food.prep || food.prepInstructions || 'Wash well and give a pea-sized piece.';
+        return `
+          <article class="panel">
+            <div class="panel-body">
+              <div class="flex items-start justify-between gap-2 mb-1.5">
+                <h3 class="text-[18px]">${clean(food.name)}</h3>
+                <span class="tag ${isSafe ? 'tag-mint' : 'tag-mustard'} shrink-0">${isSafe ? 'Safe' : 'Sparingly'}</span>
               </div>
-              <div class="p-4">
-                <p class="text-xs font-medium text-slate-700 leading-relaxed mb-3">${food.details || ''}</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2.5 border-t border-sky-100">
-                  <div class="p-2 rounded-xl bg-sky-50/70 border border-sky-200 text-slate-800">
-                    <span class="font-black text-sky-900 block text-[10px] uppercase">🐾 Species Suitability</span>
-                    <span class="font-bold">${speciesInfo}</span>
-                  </div>
-                  <div class="p-2 rounded-xl bg-emerald-50/70 border border-emerald-200 text-slate-800">
-                    <span class="font-black text-emerald-900 block text-[10px] uppercase">🍽️ Portion & Prep Guide</span>
-                    <span class="font-bold">${prepInfo}</span>
-                  </div>
+              <p class="text-[14px] leading-relaxed mb-3">${clean(food.details)}</p>
+              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13.5px]">
+                <div class="rounded-lg p-2.5 bg-paper" style="border:1.5px solid var(--ink)">
+                  <dt class="v2005 text-[10px] font-bold uppercase muted">Who</dt>
+                  <dd>${clean(speciesInfo)}</dd>
                 </div>
-              </div>
+                <div class="rounded-lg p-2.5 bg-mint-soft" style="border:1.5px solid var(--ink)">
+                  <dt class="v2005 text-[10px] font-bold uppercase muted">How</dt>
+                  <dd>${clean(prepInfo)}</dd>
+                </div>
+              </dl>
             </div>
-          `;
-        }).join('')}
-      </div>
+          </article>`;
+      }).join('')}
     </div>
   `;
 }
@@ -1010,52 +833,28 @@ function renderToxicFoodsView() {
   });
 
   return `
+    <h2 class="text-[26px] mb-1">Never, <span class="scribble">ever</span> feed these</h2>
+    <p class="text-[14px] mb-3 leading-relaxed">They're either poisonous (onion, garlic, citrus, raw potato, chocolate and more) or can block a hamster's gut.</p>
+
+    <div class="mb-4">${searchField('food-search-input', state.foodSearch, 'Search onion, citrus, chocolate...', 'clear-food-search')}</div>
+
     <div class="space-y-3">
-      <!-- Search Bar -->
-      <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-rose-600 absolute left-3.5 top-3"></i>
-        <input 
-          type="text" 
-          id="food-search-input" 
-          value="${state.foodSearch}"
-          placeholder="Search toxic foods (onion, garlic, citrus, chocolate, potato)..."
-          class="w-full bg-white border-2 border-rose-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-rose-400 shadow-sm">
-        ${state.foodSearch ? `
-          <button id="clear-food-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
-        ` : ''}
-      </div>
-
-      <div class="web2-card p-4 border-rose-300 bg-rose-50/70 text-xs">
-        <h3 class="font-black text-base text-rose-950 font-heading mb-1">⚠️ Strictly Forbidden Toxic Foods!</h3>
-        <p class="text-xs text-slate-700 font-medium leading-relaxed">
-          These items contain toxic compounds (cyanide, allium disulfides, solanine, oxalic acid, theobromine) or pose fatal gastrointestinal blockages. Never feed these!
-        </p>
-      </div>
-
-      <div class="space-y-3">
-        ${filtered.map(food => {
-          const speciesInfo = food.speciesNotes || 'All Hamster Species';
-          const ruleInfo = food.prep || food.prepInstructions || 'Strictly forbidden.';
-
-          return `
-            <div class="web2-card border-rose-200 overflow-hidden">
-              <div class="web2-header-bar px-4 py-2 flex items-center justify-between bg-rose-50">
-                <h4 class="font-black text-sm sm:text-base text-slate-900 font-heading">${food.name || ''}</h4>
-                <span class="gel-badge gel-red">
-                  🔴 Toxic / Lethal
-                </span>
-              </div>
-              <div class="p-4">
-                <p class="text-xs font-medium text-rose-950 leading-relaxed mb-2.5">${food.details || ''}</p>
-                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] pt-2 border-t border-rose-100 font-bold text-rose-900">
-                  <span>🚫 Applies To: ${speciesInfo}</span>
-                  <span class="px-2.5 py-0.5 rounded-full bg-rose-100 border border-rose-300 text-rose-950">⚠️ Action: ${ruleInfo}</span>
-                </div>
-              </div>
+      ${filtered.length === 0 ? `<p class="hand text-2xl text-center py-6">not on the list, but if in doubt, leave it out</p>` : ''}
+      ${filtered.map(food => `
+        <article class="panel bg-tomato-soft">
+          <div class="panel-body">
+            <div class="flex items-start justify-between gap-2 mb-1.5">
+              <h3 class="text-[18px] flex items-center gap-1.5">${icon('nope', 20)} ${clean(food.name)}</h3>
+              <span class="tag tag-ink shrink-0">Never</span>
             </div>
-          `;
-        }).join('')}
-      </div>
+            <p class="text-[14px] leading-relaxed mb-2">${clean(food.details)}</p>
+            <div class="text-[13px] flex flex-wrap gap-x-4 gap-y-1">
+              <span><strong>Who:</strong> ${clean(food.speciesNotes || 'All hamsters')}</span>
+              <span><strong>Rule:</strong> ${clean(food.prep || food.prepInstructions || 'Do not feed.')}</span>
+            </div>
+          </div>
+        </article>
+      `).join('')}
     </div>
   `;
 }
@@ -1073,55 +872,51 @@ document.addEventListener('input', (e) => {
   }
 });
 document.addEventListener('click', (e) => {
-  if (e.target.id === 'clear-food-search') {
+  if (e.target.closest('#clear-food-search')) {
     state.foodSearch = '';
     renderFoodHub();
   }
 });
 
-// Species-specific guidance per category so filtering any category by species gives immediate tailored advice
+// Species-specific guidance per category
 function getCategorySpeciesGuidance(category, speciesId) {
   const spec = speciesList.find(s => s.id === speciesId);
   if (!spec) return '';
+  const n = clean(spec.name);
   switch (category) {
     case 'bedding':
-      return `<strong>${spec.name} Bedding Rule:</strong> Provide at least <strong>${spec.beddingDepth}</strong> of tightly compacted paper or kiln-dried aspen bedding (strictly no hay or fluffy cotton wool).`;
+      return `${n}s need at least <strong>${clean(spec.beddingDepth)}</strong> of packed-down paper or kiln-dried aspen. No hay, no fluffy cotton.`;
     case 'enclosures':
-      return `<strong>${spec.name} Enclosure Rule:</strong> Minimum <strong>${spec.minCageSize}</strong>. ${spec.cageNote}`;
+      return `At least <strong>${clean(spec.minCageSize)}</strong>. ${clean(spec.cageNote)}`;
     case 'wheels':
-      return `<strong>${spec.name} Wheel Rule:</strong> Requires an upright solid wheel of <strong>${spec.minWheelSize}</strong>. ${spec.wheelNote}`;
+      return `A solid upright wheel of <strong>${clean(spec.minWheelSize)}</strong>. ${clean(spec.wheelNote)}`;
     case 'sand':
-      return `<strong>${spec.name} Sand Bath Rule:</strong> ${spec.sandBathSize}. ${spec.sandNote}`;
+      return `${clean(spec.sandBathSize)}. ${clean(spec.sandNote)}`;
     case 'hides':
-      return `<strong>${spec.name} Multi-Chamber Rule:</strong> Entrance holes must be at least <strong>${spec.entranceHoleMin}</strong> wide so stuffed cheek pouches never get scraped or trapped.`;
+      return `Doorways at least <strong>${clean(spec.entranceHoleMin)}</strong> wide, so full cheek pouches never get stuck.`;
     case 'food_mixes':
-      return `<strong>${spec.name} Diet Rule:</strong> ${spec.dietSpecial}`;
+      return clean(spec.dietSpecial);
     default:
-      return `<strong>${spec.name} Welfare Standard:</strong> All ${filteredCountText(speciesId)} items below are verified safe for ${spec.name}s (${spec.entranceHoleMin} entrances, ${spec.minWheelSize} wheel, ${spec.beddingDepth} bedding).`;
+      return `Everything here suits ${n}s: ${clean(spec.entranceHoleMin)} doorways, ${clean(spec.minWheelSize)} wheel, ${clean(spec.beddingDepth)} bedding.`;
   }
 }
 
-function filteredCountText(speciesId) {
-  const s = speciesList.find(x => x.id === speciesId);
-  return s ? s.name : 'all';
-}
-
 // ==========================================
-// 3. SAFE PICKS — RESCUE-APPROVED PRODUCT DIRECTORY
+// 3. SAFE PICKS (independent directory, not a shop)
 // ==========================================
 function renderShop() {
   const main = document.getElementById('main-tab-content');
 
   const categories = [
-    { id: 'all', label: '🌟 All Safe Picks' },
-    { id: 'enclosures', label: '🏠 Enclosures & Cages' },
-    { id: 'wheels', label: '🎡 Upright Wheels' },
-    { id: 'bedding', label: '🛏️ Safe Bedding' },
-    { id: 'food_mixes', label: '🥣 Seed Mixes' },
-    { id: 'substrates', label: '🪵 Dig Substrates' },
-    { id: 'sand', label: '🏖️ Sand & Baths' },
-    { id: 'hides', label: '🏡 Multi-Chamber Hides' },
-    { id: 'forage', label: '🌾 Sprays & Forage' }
+    { id: 'all', label: 'Everything' },
+    { id: 'enclosures', label: 'Enclosures' },
+    { id: 'wheels', label: 'Wheels' },
+    { id: 'bedding', label: 'Bedding' },
+    { id: 'food_mixes', label: 'Seed mixes' },
+    { id: 'substrates', label: 'Dig stuff' },
+    { id: 'sand', label: 'Sand & baths' },
+    { id: 'hides', label: 'Hides' },
+    { id: 'forage', label: 'Sprays & forage' }
   ];
 
   const filtered = products.filter(p => {
@@ -1130,15 +925,15 @@ function renderShop() {
     if (state.shopRetailer !== 'all' && !(p.retailer || '').toLowerCase().includes(state.shopRetailer.toLowerCase())) return false;
     if (state.shopSearch.trim()) {
       const q = state.shopSearch.toLowerCase();
-      return (p.name || '').toLowerCase().includes(q) || 
-             (p.summary || '').toLowerCase().includes(q) || 
+      return (p.name || '').toLowerCase().includes(q) ||
+             (p.summary || '').toLowerCase().includes(q) ||
              (p.brand || '').toLowerCase().includes(q) ||
              (p.retailer || '').toLowerCase().includes(q);
     }
     return true;
   });
 
-  // Sort species-specific items (fewer total species = more specifically tailored to the selected hamster) first when a species is chosen
+  // Species-specific items first when a species is chosen
   if (state.currentSpecies !== 'all') {
     filtered.sort((a, b) => (a.species?.length || 5) - (b.species?.length || 5));
   }
@@ -1148,158 +943,37 @@ function renderShop() {
   const speciesGuidance = activeSpecObj ? getCategorySpeciesGuidance(state.shopCategory, state.currentSpecies) : '';
 
   main.innerHTML = `
-    <div class="space-y-3.5">
-      <!-- Directory Header Card (Clarifies this is a Vetted Reference Library, NOT a Store) -->
-      <div class="web2-card p-3.5 bg-gradient-to-r from-sky-50 via-white to-amber-50/60 border-sky-300">
-        <div class="flex items-center justify-between gap-2 mb-1">
-          <div class="flex items-center gap-2">
-            <span class="text-xl">🏆</span>
-            <h3 class="font-black text-sm sm:text-base text-slate-900 font-heading">Rescue-Approved Safe Picks Directory</h3>
-          </div>
-          <span class="gel-badge gel-blue text-[9px]">Independent Guide</span>
-        </div>
-        <p class="text-xs font-medium text-slate-600 leading-relaxed">
-          We don't run a shop! This is a curated directory of ethical cages, wheels, beddings, and mixes vetted by UK rescues, with direct links to where you can find them or build them yourself.
-        </p>
-      </div>
+    <section class="mb-4 relative">
+      <span class="sticker tilt-r absolute right-0 -top-1">we don't sell<br>anything!</span>
+      <h1 class="text-[32px]">Safe picks</h1>
+      <p class="mt-2 text-[14.5px] leading-relaxed pr-2">Kit we'd happily put in our own enclosures, all checked against rescue standards. Links go straight to the maker, shop or DIY video.</p>
+    </section>
 
-      <!-- Search Input -->
-      <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-sky-600 absolute left-3.5 top-3"></i>
-        <input 
-          type="text" 
-          id="shop-search-input" 
-          value="${state.shopSearch}"
-          placeholder="Search Bandaby, Bucatstate, Fitch, IKEA DIY, Hope's..."
-          class="w-full bg-white border-2 border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-sm">
-        ${state.shopSearch ? `
-          <button type="button" id="clear-shop-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
-        ` : ''}
-      </div>
+    <div class="mb-3">${searchField('shop-search-input', state.shopSearch, 'Search Bandaby, Fitch, IKEA...', 'clear-shop-search')}</div>
 
-      <!-- Full-Visibility Wrap Category Picker (All Full Names Always Visible!) -->
-      <div class="web2-card p-3 bg-white/90 border-sky-200">
-        <div class="text-[10px] font-black text-sky-900 uppercase tracking-wider mb-2 px-0.5 flex items-center justify-between">
-          <span>📂 Choose Category:</span>
-          <span class="text-slate-500 font-bold">${filtered.length} Safe Picks Shown</span>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          ${categories.map(c => `
-            <button 
-              type="button"
-              data-cat-btn="${c.id}"
-              class="gel-btn ${
-                state.shopCategory === c.id ? 'gel-orange' : 'gel-silver'
-              } px-3.5 py-1.5 text-xs font-black">
-              ${c.label}
-            </button>
-          `).join('')}
-        </div>
-      </div>
-
-      <!-- Active Filter & Species-Specific Category Rule Banner -->
-      ${activeSpecObj ? `
-        <div class="web2-card p-3.5 bg-gradient-to-r from-emerald-50 via-amber-50/60 to-sky-50 border-emerald-300 shadow-xs">
-          <div class="flex items-center justify-between gap-2 flex-wrap mb-1">
-            <div class="flex items-center gap-1.5">
-              <span class="gel-badge gel-green">✓ Species Filter Active</span>
-              <span class="text-xs font-black text-slate-900 font-heading">
-                ${activeCategoryObj.label} for ${activeSpecObj.name} (${filtered.length} Items)
-              </span>
-            </div>
-            <button type="button" id="clear-species-in-shop" class="gel-btn gel-silver px-2.5 py-0.5 text-[10px] font-black">
-              Show All Species ✕
-            </button>
-          </div>
-          <p class="text-xs font-medium text-slate-700 leading-relaxed">
-            ${speciesGuidance}
-          </p>
-        </div>
-      ` : ''}
-
-      <!-- Products Grid -->
-      ${filtered.length === 0 ? `
-        <div class="web2-card p-8 text-center my-6">
-          <p class="text-xs font-bold text-slate-600">No matching items found. Try clearing your search or category filter!</p>
-          <button type="button" id="reset-shop-filters" class="mt-3 gel-btn gel-yellow px-4 py-1.5 text-xs font-black">Reset All Filters ✨</button>
-        </div>
-      ` : `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          ${filtered.map(p => {
-            const isVideo = (p.url || '').includes('youtube.com') || (p.url || '').includes('youtu.be');
-            const ctaLabel = isVideo ? '🎬 Watch DIY Video ↗' : 'Where to Buy ↗';
-            const ctaGel = isVideo ? 'gel-purple' : 'gel-orange';
-            const priceLabel = isVideo ? 'Est. DIY Cost' : 'Price Guide';
-
-            return `
-              <div class="web2-card flex flex-col justify-between overflow-hidden">
-                <div>
-                  <div class="web2-header-bar px-3.5 py-2 flex flex-wrap gap-1 items-center justify-between">
-                    <span class="text-[10px] font-black text-sky-950 uppercase tracking-wider">${p.brand || ''}</span>
-                    <div class="flex flex-wrap gap-1">
-                      ${(p.badges || []).slice(0, 2).map(b => `
-                        <span class="gel-badge ${
-                          b.includes('India') || b.includes('Profits')
-                            ? 'gel-pink'
-                            : b.includes('Hope')
-                            ? 'gel-green'
-                            : b.includes('Video')
-                            ? 'gel-purple'
-                            : b.includes('Favourite')
-                            ? 'gel-yellow'
-                            : 'gel-blue'
-                        }">${b}</span>
-                      `).join('')}
-                    </div>
-                  </div>
-
-                  <div class="p-4 pb-3">
-                    <div class="text-[10px] font-bold text-slate-500 mb-0.5">📍 ${p.retailer || 'UK Stockist'}</div>
-                    <h4 class="font-black text-base text-slate-900 font-heading mb-1.5 leading-snug">${p.name || ''}</h4>
-                    <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary || ''}</p>
-                    
-                    <div class="flex flex-wrap items-center gap-1">
-                      <span class="text-[9px] font-black text-slate-400 uppercase mr-0.5">Fits:</span>
-                      ${(p.species || []).map(sp => {
-                        const isSelected = state.currentSpecies === sp;
-                        return `
-                          <span class="text-[10px] px-2 py-0.5 rounded-full border ${
-                            isSelected
-                              ? 'border-emerald-500 bg-emerald-100 text-emerald-950 font-black ring-2 ring-emerald-300'
-                              : 'border-sky-200 bg-sky-50 text-sky-900 font-bold'
-                          } capitalize">
-                            ${isSelected ? '✓ ' : ''}${sp.replace('_', ' ')}
-                          </span>
-                        `;
-                      }).join('')}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="px-4 py-3 bg-sky-50/40 border-t border-sky-100 flex items-center justify-between">
-                  <div>
-                    <div class="text-[9px] font-black text-slate-400 uppercase">${priceLabel}</div>
-                    <div class="text-sm font-black text-slate-900 font-heading">${p.priceGuide || ''}</div>
-                  </div>
-
-                  <a 
-                    href="${p.url || '#'}" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="gel-btn ${ctaGel} px-3.5 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
-                    <span>${ctaLabel}</span>
-                  </a>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `}
-
-      <div class="text-center text-[10px] font-bold text-slate-500 pt-2">
-        Independent UK Welfare Directory • Every item is vetted against 100x50cm & hay-free rescue criteria.
-      </div>
+    <div class="flex flex-wrap gap-1.5 mb-2">
+      ${categories.map(c => `
+        <button type="button" data-cat-btn="${c.id}" class="chip ${state.shopCategory === c.id ? 'is-active' : ''}" aria-pressed="${state.shopCategory === c.id}">${c.label}</button>
+      `).join('')}
     </div>
+    <div class="v2005 text-[11px] muted mb-4">${filtered.length} ${filtered.length === 1 ? 'pick' : 'picks'} · ${activeCategoryObj.label.toLowerCase()}${activeSpecObj ? ` · ${clean(activeSpecObj.name)}` : ''}</div>
+
+    ${activeSpecObj ? `
+      <div class="rounded-xl p-3 mb-4 bg-${speciesColour[activeSpecObj.id] || 'mustard'}-soft flex items-start justify-between gap-2" style="border:2px solid var(--ink)">
+        <div class="text-[14px] leading-snug"><strong class="font-display">${clean(activeSpecObj.name)}:</strong> ${speciesGuidance}</div>
+        <button type="button" id="clear-species-in-shop" class="btn btn-xs shrink-0">All</button>
+      </div>` : ''}
+
+    ${filtered.length === 0 ? `
+      <div class="panel p-6 text-center">
+        <p class="hand text-2xl mb-3">hmm, nothing matches that</p>
+        <button type="button" id="reset-shop-filters" class="btn btn-sm btn-mustard">${icon('reset', 16)} Reset filters</button>
+      </div>
+    ` : `
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        ${filtered.map((p, i) => productCard(p, i)).join('')}
+      </div>
+    `}
   `;
 
   document.querySelectorAll('[data-cat-btn]').forEach(btn => {
@@ -1340,107 +1014,61 @@ function renderShop() {
     renderSpeciesBar();
     renderShop();
   });
-
-  updateIcons();
 }
 
 // ==========================================
-// 4. ADOPTION READY CHECKLIST
+// 4. ADOPTION CHECKLIST
 // ==========================================
 function renderChecklist() {
   const main = document.getElementById('main-tab-content');
 
   const total = adoptionChecklist.length;
-  const checkedCount = Object.values(state.checkedItems).filter(Boolean).length;
-  const percent = Math.round((checkedCount / total) * 100);
+  const checkedCount = adoptionChecklist.filter(i => state.checkedItems[i.id]).length;
+  const percent = total ? Math.round((checkedCount / total) * 100) : 0;
 
   main.innerHTML = `
-    <div class="space-y-4">
-      <!-- 2000s Progress Score Panel -->
-      <div class="web2-card overflow-hidden border-pink-300">
-        <div class="web2-header-bar px-4 py-2 flex items-center justify-between">
-          <span class="text-xs font-black text-slate-900 font-heading">✨ Let's Get You Adoption Ready!</span>
-          <span class="gel-badge gel-pink">${checkedCount}/${total} Complete</span>
+    <section class="panel bg-pink p-4 mb-5">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h1 class="text-[28px]">Ready for a hamster?</h1>
+          <p class="text-[14px] leading-snug mt-1">Tick off what you've got. Rescues check the same things on a home visit.</p>
         </div>
-        <div class="p-4 bg-gradient-to-br from-pink-50 via-white to-sky-50">
-          <div class="flex items-center justify-between mb-2">
-            <div>
-              <h3 class="font-black text-base text-slate-900 font-heading">UK Rescue Home-Check Score</h3>
-              <p class="text-[11px] font-bold text-slate-600">Tick each requirement to verify your setup meets UK adoption criteria!</p>
-            </div>
-            <span class="text-2xl font-black text-pink-700 font-heading">${percent}%</span>
-          </div>
-
-          <!-- 2000s Glossy Progress Bar -->
-          <div class="w-full bg-slate-100 border-2 border-slate-300 rounded-full h-4 p-0.5 overflow-hidden shadow-inner">
-            <div class="h-full rounded-full transition-all duration-300 ${percent === 100 ? 'gel-green' : 'gel-orange'}" style="width: ${percent}%"></div>
-          </div>
-
-          <div class="text-[11px] font-bold text-slate-600 mt-2 flex items-center justify-between">
-            <span>${checkedCount} of ${total} rescue requirements satisfied</span>
-            ${percent === 100 ? '<span class="gel-badge gel-green">🎉 100% Rescue Ready!</span>' : ''}
-          </div>
+        <div class="text-right shrink-0">
+          <div class="stat">${percent}<span class="text-[22px]">%</span></div>
+          <div class="v2005 text-[10px] font-bold">${checkedCount} of ${total}</div>
         </div>
       </div>
+      <div class="progress mt-3"><div class="progress-fill" style="width:${percent}%"></div></div>
+      ${percent === 100 ? `<p class="hand text-2xl mt-2">you're ready! go and find your ham</p>` : ''}
+    </section>
 
-      <!-- Checklist Items -->
-      <div class="space-y-3">
-        ${adoptionChecklist.map(item => {
-          const isChecked = !!state.checkedItems[item.id];
-          const catBadge = item.category || item.badge || 'Standard';
-          const badgeGel = checklistCategoryGels[catBadge] || 'gel-yellow';
-          const stepNum = item.step ? `Step ${item.step}: ` : '';
-
-          return `
-            <label class="web2-card block cursor-pointer select-none transition-all overflow-hidden ${
-              isChecked ? 'border-emerald-400 bg-emerald-50/20' : ''
-            }">
-              <div class="web2-header-bar px-4 py-2 flex items-center justify-between ${isChecked ? 'bg-emerald-50' : ''}">
-                <div class="flex items-center gap-2">
-                  <input 
-                    type="checkbox" 
-                    data-check-id="${item.id}"
-                    ${isChecked ? 'checked' : ''}
-                    class="w-4 h-4 rounded text-amber-500 focus:ring-amber-400 border-slate-300 accent-emerald-600">
-                  <h4 class="font-black text-xs sm:text-sm text-slate-900 font-heading ${isChecked ? 'line-through text-emerald-900' : ''}">
-                    ${stepNum}${item.title || ''}
-                  </h4>
+    <div class="space-y-3">
+      ${adoptionChecklist.map(item => {
+        const isChecked = !!state.checkedItems[item.id];
+        const cat = clean(item.category || item.badge || 'Standard');
+        const tone = checklistColours[cat] || 'mustard';
+        return `
+          <label class="panel block cursor-pointer select-none ${isChecked ? 'is-checked bg-mint-soft' : ''}">
+            <div class="panel-body flex gap-3">
+              <input type="checkbox" data-check-id="${item.id}" ${isChecked ? 'checked' : ''} class="sr-only">
+              <span class="check-box mt-0.5">${isChecked ? icon('tick', 18) : ''}</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2 mb-1">
+                  <h3 class="text-[16.5px] leading-tight">${item.step ? `<span class="muted">${item.step}.</span> ` : ''}${clean(item.title)}</h3>
+                  <span class="tag tag-${tone} shrink-0">${cat}</span>
                 </div>
-                <span class="gel-badge ${isChecked ? 'gel-green' : badgeGel}">
-                  ${isChecked ? '✓ Verified' : catBadge}
-                </span>
+                <p class="text-[14px] font-bold leading-snug">${clean(item.requirement || item.description)}</p>
+                ${item.whyImportant ? `<p class="text-[13.5px] leading-relaxed mt-1 muted">${clean(item.whyImportant)}</p>` : ''}
+                ${item.rescueTip ? `<p class="text-[13.5px] leading-snug mt-2"><span class="hand text-[19px]" style="color:var(--tomato)">rescue tip:</span> ${clean(item.rescueTip)}</p>` : ''}
               </div>
+            </div>
+          </label>`;
+      }).join('')}
+    </div>
 
-              <div class="p-3.5 space-y-1.5">
-                <p class="text-xs font-bold text-slate-800 leading-relaxed">
-                  📌 ${item.requirement || item.description || ''}
-                </p>
-                ${item.whyImportant ? `
-                  <p class="text-xs font-medium text-slate-600 leading-relaxed">
-                    ${item.whyImportant}
-                  </p>
-                ` : ''}
-                ${item.rescueTip ? `
-                  <div class="mt-2 p-2 rounded-xl bg-amber-50/80 border border-amber-200 text-[11px] font-medium text-amber-950">
-                    <strong class="font-black">💡 Rescue Tip:</strong> ${item.rescueTip}
-                  </div>
-                ` : ''}
-              </div>
-            </label>
-          `;
-        }).join('')}
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-2 pt-2">
-        <button id="copy-summary-btn" class="flex-1 py-2.5 gel-btn gel-orange text-white text-xs font-black shadow-md flex items-center justify-center gap-1.5">
-          <i data-lucide="copy" class="w-4 h-4"></i>
-          <span>Copy Adoption Summary for Rescue Application</span>
-        </button>
-        <button id="reset-checklist-btn" class="py-2.5 px-5 gel-btn gel-silver text-slate-700 text-xs font-black">
-          Reset
-        </button>
-      </div>
+    <div class="flex gap-2 pt-5">
+      <button id="copy-summary-btn" class="btn btn-tomato flex-1">${icon('copy', 18)} <span>Copy summary for your application</span></button>
+      <button id="reset-checklist-btn" class="btn" aria-label="Reset checklist">${icon('reset', 18)}</button>
     </div>
   `;
 
@@ -1450,9 +1078,9 @@ function renderChecklist() {
       state.checkedItems[id] = input.checked;
       localStorage.setItem('fth_checklist', JSON.stringify(state.checkedItems));
 
-      const newCheckedCount = Object.values(state.checkedItems).filter(Boolean).length;
+      const newCheckedCount = adoptionChecklist.filter(i => state.checkedItems[i.id]).length;
       if (newCheckedCount === total && typeof confetti === 'function') {
-        confetti({ particleCount: 90, spread: 70, origin: { y: 0.7 } });
+        confetti({ particleCount: 90, spread: 70, origin: { y: 0.7 }, colors: ['#ef5a3c', '#f6bc2f', '#8fd6b1', '#bfaaf3', '#f8acc8'] });
       }
 
       renderChecklist();
@@ -1460,18 +1088,18 @@ function renderChecklist() {
   });
 
   document.getElementById('copy-summary-btn')?.addEventListener('click', () => {
-    let summaryText = `🐹 For the Hams! Adoption Readiness Summary\n`;
-    summaryText += `Score: ${checkedCount}/${total} Requirements Met (${percent}%)\n\n`;
+    let summaryText = `For the Hams! Adoption readiness summary\n`;
+    summaryText += `Score: ${checkedCount}/${total} (${percent}%)\n\n`;
     adoptionChecklist.forEach(item => {
-      const status = state.checkedItems[item.id] ? '✅' : '❌';
-      const cat = item.category || item.badge || 'Requirement';
-      summaryText += `${status} ${item.title} [${cat}] — ${item.requirement || ''}\n`;
+      const status = state.checkedItems[item.id] ? '[x]' : '[ ]';
+      const cat = clean(item.category || item.badge || 'Requirement');
+      summaryText += `${status} ${clean(item.title)} (${cat}): ${clean(item.requirement || '')}\n`;
     });
-    summaryText += `\nVerified against India's Hamster Rescue criteria via www.forthehams.co.uk`;
+    summaryText += `\nChecked against India's Hamster Rescue standards via www.forthehams.co.uk`;
 
     navigator.clipboard.writeText(summaryText).then(() => {
       const btn = document.getElementById('copy-summary-btn');
-      if (btn) btn.innerHTML = `<span>✓ Copied to Clipboard! ✨</span>`;
+      if (btn) btn.innerHTML = `${icon('tick', 18)} <span>Copied!</span>`;
       setTimeout(() => renderChecklist(), 2000);
     });
   });
@@ -1484,7 +1112,7 @@ function renderChecklist() {
 }
 
 // ==========================================
-// 5. RESCUE DIRECTORY (2000s Web 2.0 Style)
+// 5. RESCUES
 // ==========================================
 function renderRescues() {
   const main = document.getElementById('main-tab-content');
@@ -1494,8 +1122,8 @@ function renderRescues() {
     const reg = (r.region || '').toLowerCase();
     const loc = (r.locations || '').toLowerCase();
     if (state.rescueRegion === 'England') {
-      return reg.includes('england') || reg.includes('london') || reg.includes('midlands') || 
-             reg.includes('thames') || reg.includes('south') || reg.includes('north') || 
+      return reg.includes('england') || reg.includes('london') || reg.includes('midlands') ||
+             reg.includes('thames') || reg.includes('south') || reg.includes('north') ||
              loc.includes('london') || reg.includes('national');
     }
     if (state.rescueRegion === 'Wales') {
@@ -1508,102 +1136,51 @@ function renderRescues() {
   });
 
   const regions = [
-    { id: 'all', label: `All Rescues (${rescuesList.length})` },
-    { id: 'England', label: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 England' },
-    { id: 'Wales', label: '🏴󠁧󠁢󠁷󠁬󠁳󠁿 Wales' },
-    { id: 'Scotland', label: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland' }
+    { id: 'all', label: `Everywhere (${rescuesList.length})` },
+    { id: 'England', label: 'England' },
+    { id: 'Wales', label: 'Wales' },
+    { id: 'Scotland', label: 'Scotland' }
   ];
 
   main.innerHTML = `
-    <div class="space-y-3.5">
-      <!-- Rescue Header Banner -->
-      <div class="web2-card p-4 bg-gradient-to-r from-purple-50 via-pink-50 to-amber-50 border-purple-300">
-        <div class="flex items-center gap-2 mb-1">
-          <span class="text-xl">🏡</span>
-          <h3 class="font-black text-base text-purple-950 font-heading">Verified Ethical UK Rescue Network</h3>
-        </div>
-        <p class="text-xs font-medium text-slate-700 leading-relaxed">
-          Adopt, don't shop! Every foster rescue and registered charity listed here upholds ethical 100x50cm habitats, veterinary care, and solitary welfare setups.
-        </p>
-      </div>
+    <section class="mb-4">
+      <p class="hand text-[22px] leading-none -rotate-2 inline-block" style="color:var(--tomato)">adopt, don't shop</p>
+      <h1 class="text-[32px] mt-1">Find a <span class="scribble">rescue</span></h1>
+      <p class="mt-2 text-[14.5px] leading-relaxed">Every rescue here keeps hamsters in 100x50cm+ setups, alone, with proper vet care. Lots of lovely hams are waiting.</p>
+    </section>
 
-      <!-- Region Filter -->
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-        ${regions.map(reg => `
-          <button 
-            data-region-btn="${reg.id}"
-            class="gel-btn ${
-              state.rescueRegion === reg.id ? 'gel-purple' : 'gel-silver'
-            } px-3.5 py-1 text-xs font-black whitespace-nowrap">
-            ${reg.label}
-          </button>
-        `).join('')}
-      </div>
+    <div class="flex flex-wrap gap-1.5 mb-4">
+      ${regions.map(reg => `
+        <button type="button" data-region-btn="${reg.id}" class="chip ${state.rescueRegion === reg.id ? 'is-active' : ''}" aria-pressed="${state.rescueRegion === reg.id}">${reg.label}</button>
+      `).join('')}
+    </div>
 
-      <!-- Rescues Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        ${filtered.map(r => {
-          const cNum = r.charityNumber || 'Community Rescue';
-          const charityText = cNum.startsWith('1') || cNum.startsWith('2') || cNum.startsWith('SC') 
-            ? `Registered Charity #${cNum}` 
-            : cNum;
-          const targetUrl = r.adoptUrl || r.website || r.url || '#';
-          const donationUrl = r.donateUrl || r.website || '#';
-          const details = r.speciality || r.summary || '';
-          const locationText = r.locations || r.coverage || r.region || 'UK';
-          const badges = Array.isArray(r.badges) ? r.badges : [];
-
-          return `
-            <div class="web2-card flex flex-col justify-between overflow-hidden">
-              <div>
-                <div class="web2-header-bar px-3.5 py-2 flex flex-wrap items-center justify-between gap-1">
-                  <span class="text-[10px] font-black text-purple-900 uppercase tracking-wider">${charityText}</span>
-                  <div class="flex flex-wrap gap-1">
-                    ${badges.slice(0, 2).map(b => `
-                      <span class="gel-badge ${
-                        b.includes('Partner') || b.includes('1213919') 
-                          ? 'gel-yellow' 
-                          : b.includes('Charity') || b.includes('Standard')
-                          ? 'gel-purple'
-                          : 'gel-blue'
-                      }">${b}</span>
-                    `).join('')}
-                  </div>
-                </div>
-
-                <div class="p-4 pb-3">
-                  <h4 class="font-black text-base text-slate-900 font-heading mb-0.5">${r.name || ''}</h4>
-                  <div class="text-[11px] font-bold text-purple-800 mb-1.5">${r.region || 'UK'}</div>
-
-                  <div class="text-[11px] font-bold text-slate-600 mb-2.5 flex items-start gap-1 bg-sky-50/60 border border-sky-100 p-2 rounded-xl">
-                    <span class="shrink-0">📍</span>
-                    <span>${locationText}</span>
-                  </div>
-
-                  <p class="text-xs font-medium text-slate-600 leading-relaxed">${details}</p>
-                </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      ${filtered.map((r, i) => {
+        const cNum = String(r.charityNumber || 'Community rescue');
+        const charityText = /^(1|2|SC)/.test(cNum) ? `Charity #${cNum}` : cNum;
+        const targetUrl = r.adoptUrl || r.website || r.url || '#';
+        const donationUrl = r.donateUrl || r.website || '#';
+        const details = r.speciality || r.summary || '';
+        const locationText = r.locations || r.coverage || r.region || 'UK';
+        const isPartner = (r.badges || []).some(b => /Partner|1213919/.test(b)) || /India/.test(r.name || '');
+        return `
+          <article class="panel flex flex-col ${isPartner ? 'bg-mustard-soft tape tape-pink' : ''} ${i % 3 === 2 ? 'tilt-r' : ''}">
+            <div class="panel-body flex-grow">
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <span class="v2005 text-[11px] font-bold muted">${clean(charityText)}</span>
+                ${isPartner ? `<span class="tag tag-pink">Our partner</span>` : ''}
               </div>
-
-              <div class="px-4 py-3 bg-purple-50/30 border-t border-purple-100 flex items-center gap-2">
-                <a 
-                  href="${targetUrl}" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="flex-1 py-1.5 gel-btn gel-orange text-white text-xs font-black shadow-md text-center">
-                  Apply to Adopt ✨
-                </a>
-                <a 
-                  href="${donationUrl}" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="px-4 py-1.5 gel-btn gel-pink text-white text-xs font-black shadow-md">
-                  Donate 💖
-                </a>
-              </div>
+              <h3 class="text-[19px]">${clean(r.name)}</h3>
+              <div class="text-[13.5px] mt-1 mb-2 flex items-start gap-1">${icon('pin', 15)} <span>${clean(locationText)}</span></div>
+              <p class="text-[14px] leading-relaxed">${clean(details)}</p>
             </div>
-          `;
-        }).join('')}
-      </div>
+            <div class="panel-foot">
+              <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tomato flex-1">Adopt ${icon('ext', 14)}</a>
+              <a href="${donationUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-pink">${icon('heart', 15)} Donate</a>
+            </div>
+          </article>`;
+      }).join('')}
     </div>
   `;
 
@@ -1613,11 +1190,4 @@ function renderRescues() {
       renderRescues();
     });
   });
-}
-
-// Icon helper
-function updateIcons() {
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
 }

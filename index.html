@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>For the Hams! 🐹✨ | UK Ethical Hamster Care, Rescues & Cage Standards</title>
+  <title>For the Hams! | UK Hamster Care, Cage Sizes & Rescues</title>
   <meta name="description" content="The premier UK authority for ethical hamster care. Vetted 100x50cm minimum cage sizes, solitary housing science, diabetes prevention, toxic food search, and verified rescue directory. Working in conjunction with India's Hamster Rescue.">
   <meta name="keywords" content="hamster care UK, minimum hamster cage size, Syrian hamster care, dwarf hamster diabetes, toxic hamster foods, hamster rescue UK, India's Hamster Rescue, Bandaby, Fitch bedding, safe hamster wheel, 100x50 cage">
   <link rel="canonical" href="https://www.forthehams.co.uk/">
@@ -12,13 +12,13 @@
   <!-- OpenGraph / Social Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.forthehams.co.uk/">
-  <meta property="og:title" content="For the Hams! 🐹✨ | UK Ethical Hamster Care & Rescue Standards">
+  <meta property="og:title" content="For the Hams! | UK Hamster Care & Rescue Standards">
   <meta property="og:description" content="100% Rescue-vetted UK hamster welfare standards, safe foods lookup, 100x50cm cage guides, and verified UK rescue directory.">
   <meta property="og:image" content="https://liamribrown.github.io/forthehams/assets/images/partners/indias_rescue_logo.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="For the Hams! 🐹✨ | UK Ethical Hamster Care">
+  <meta name="twitter:title" content="For the Hams! | UK Hamster Care">
   <meta name="twitter:description" content="UK premier ethical hamster care authority and rescue directory. 100x50cm cage baselines, zero pet shop myths.">
   <meta name="twitter:image" content="https://liamribrown.github.io/forthehams/assets/images/partners/indias_rescue_logo.png">
 
@@ -115,145 +115,108 @@
   }
   </script>
 
-  <!-- Tailwind CSS via CDN -->
+  <!-- Tailwind CSS via CDN (layout utilities only) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Lucide Icons & Confetti -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Confetti (checklist celebration) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <!-- Noughties / 2000s Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css?v=2.4">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css?v=3.0">
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-sky-200 selection:text-sky-950">
+<body class="min-h-screen flex flex-col">
 
-  <!-- 2000s Glossy Top App Bar -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-sky-200 shadow-xs">
-    
-    <!-- Top Partner Gloss Ribbon -->
-    <div class="relative py-1 px-3 text-center text-white text-[11px] font-bold overflow-hidden shadow-xs" style="background: linear-gradient(180deg, #ff8c26 0%, #eb5500 50%, #d64700 51%, #eb5500 100%); border-bottom: 1px solid #b33900; text-shadow: 0 -1px 1px rgba(100,20,0,0.6);">
-      <div class="absolute inset-x-0 top-0 h-[45%] bg-gradient-to-b from-white/40 to-transparent pointer-events-none"></div>
-      <div class="relative flex items-center justify-center gap-1.5 tracking-tight">
-        <span>🐾</span>
-        <span>Working in conjunction with <strong>India's Hamster Rescue</strong> (Charity #1213919) ✨</span>
+  <header class="site-header sticky top-0 z-40">
+    <!-- 2005-style marquee ticker -->
+    <div class="ticker" aria-label="With India's Hamster Rescue, registered charity 1213919">
+      <div class="ticker-track">
+        <span>With India's Hamster Rescue</span><span class="dot">&#9632;</span>
+        <span>Charity #1213919</span><span class="dot">&#9632;</span>
+        <span>100 x 50cm minimum</span><span class="dot">&#9632;</span>
+        <span>No hay, ever</span><span class="dot">&#9632;</span>
+        <span>One hamster per home</span><span class="dot">&#9632;</span>
+        <span>Adopt, don't shop</span><span class="dot">&#9632;</span>
+        <span>With India's Hamster Rescue</span><span class="dot">&#9632;</span>
+        <span>Charity #1213919</span><span class="dot">&#9632;</span>
+        <span>100 x 50cm minimum</span><span class="dot">&#9632;</span>
+        <span>No hay, ever</span><span class="dot">&#9632;</span>
+        <span>One hamster per home</span><span class="dot">&#9632;</span>
+        <span>Adopt, don't shop</span><span class="dot">&#9632;</span>
       </div>
     </div>
 
-    <!-- App Navigation Header -->
-    <div class="max-w-3xl mx-auto px-3.5 py-2 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2.5 group">
-        <!-- Glossy Hamster Gel Bubble Icon -->
-        <div class="w-10 h-10 rounded-2xl flex items-center justify-center text-2xl gel-orange shadow-md">
-          🐹
-        </div>
-        <div>
-          <div class="text-lg font-black text-slate-900 tracking-tight leading-none font-heading flex items-center gap-1.5">
-            <span>For the Hams!</span>
-            <span class="text-[10px] font-black px-2 py-0.5 rounded-full gel-pink uppercase tracking-wider">UK</span>
-          </div>
-          <div class="text-[10px] font-bold text-sky-800 tracking-wide mt-0.5">
-            100% Rescue Vetted • Zero Pet Shop Myths
-          </div>
-        </div>
+    <div class="max-w-3xl mx-auto px-4 pt-3 pb-2 flex items-center justify-between gap-3">
+      <a href="#guides" class="flex items-center gap-2 min-w-0" aria-label="For the Hams! home">
+        <span id="logo-hamster" class="wiggle" style="display:inline-flex"></span>
+        <span class="wordmark">For the<br>Hams<span class="bang">!</span></span>
       </a>
-
-      <!-- Quick Action / India's Rescue Badge (Aqua Green Gel Pill) -->
-      <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="gel-btn gel-green px-3 py-1 text-xs font-black shadow-xs flex items-center gap-1">
-        <span>🌿</span>
-        <span>India's Rescue ↗</span>
+      <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="sticker shrink-0" title="Visit India's Hamster Rescue">
+        with India's<br>Hamster Rescue
       </a>
     </div>
 
-    <!-- Sticky Horizontal-Scroll Species Carousel -->
-    <div class="border-t border-sky-100 bg-white/80 px-3 py-1.5" id="species-filter-container">
-      <!-- Injected by app.js -->
-    </div>
+    <!-- Species chips (injected) -->
+    <div class="px-3 pb-2.5" id="species-filter-container"></div>
   </header>
 
-  <!-- Species Metric Quick Banner (Dynamic) -->
-  <div class="max-w-3xl mx-auto px-3 w-full" id="species-banner-area">
-    <!-- Injected by app.js -->
-  </div>
+  <!-- Species profile (injected) -->
+  <div class="max-w-3xl mx-auto px-3.5 w-full" id="species-banner-area"></div>
 
-  <!-- Main Mobile App Viewport -->
-  <main class="flex-grow max-w-3xl mx-auto px-3 sm:px-4 py-3 w-full pb-28">
-    <div id="main-tab-content">
-      <!-- Injected by app.js -->
-    </div>
+  <main class="flex-grow max-w-3xl mx-auto px-3.5 sm:px-4 pt-4 w-full pb-32">
+    <div id="main-tab-content"></div>
+
+    <!-- 2005 footer: 88x31 buttons -->
+    <footer class="mt-10 text-center">
+      <div class="flex flex-wrap justify-center gap-1.5">
+        <span class="badge-88 bg-lime">NO HAY<br>EVER!</span>
+        <span class="badge-88 bg-mustard">100x50<br>OR BUST</span>
+        <span class="badge-88 bg-pink">ADOPT<br>DON'T SHOP</span>
+        <span class="badge-88 bg-sky">ONE HAM<br>PER HOME</span>
+      </div>
+      <p class="hand text-xl mt-4">made with love for the hams</p>
+      <p class="v2005 text-[11px] muted mt-1">
+        Advice checked against India's Hamster Rescue (Charity #1213919) standards.<br>
+        We don't sell anything. Links go straight to makers, shops and rescues.
+      </p>
+    </footer>
   </main>
 
-  <!-- 2000s Web 2.0 Bottom Sheet Modal -->
-  <div id="bottom-sheet-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden transition-opacity">
-    <div id="bottom-sheet-container" class="fixed inset-x-0 bottom-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-lg w-full max-h-[88vh] bg-white border border-sky-300 rounded-t-3xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
-      <!-- Sheet Header & Swipe Handle (Metallic Gloss Bar) -->
-      <div id="bottom-sheet-header" class="web2-header-bar shrink-0 select-none cursor-grab active:cursor-grabbing">
-        <!-- Mobile Drag Pill -->
-        <div class="pt-2.5 pb-0.5 sm:hidden flex flex-col items-center justify-center">
-          <div class="w-12 h-1.5 bg-slate-400/80 rounded-full"></div>
-        </div>
-        <div class="px-5 py-2.5 flex items-center justify-between gap-2">
-          <h3 id="bottom-sheet-title" class="font-black text-base text-slate-900 font-heading leading-snug">Details</h3>
-          <button id="bottom-sheet-close" class="w-8 h-8 rounded-full gel-btn gel-silver flex items-center justify-center text-slate-700 font-black text-xs shrink-0" aria-label="Close">
-            ✕
-          </button>
+  <!-- Bottom sheet -->
+  <div id="bottom-sheet-backdrop" class="fixed inset-0 z-50 hidden" style="background: rgba(34,24,15,0.45)">
+    <div id="bottom-sheet-container" class="sheet fixed inset-x-0 bottom-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-lg w-full max-h-[88vh] rounded-t-2xl sm:rounded-2xl flex flex-col overflow-hidden animate-slide-up">
+      <div id="bottom-sheet-header" class="sheet-head shrink-0 select-none cursor-grab active:cursor-grabbing">
+        <div class="pt-2.5 sm:hidden flex justify-center"><div class="sheet-handle"></div></div>
+        <div class="px-4 py-2.5 flex items-center justify-between gap-3">
+          <h3 id="bottom-sheet-title" class="text-lg leading-tight">Details</h3>
+          <button id="bottom-sheet-close" class="btn btn-icon btn-sm shrink-0" aria-label="Close"></button>
         </div>
       </div>
-
-      <!-- Sheet Scrollable Content -->
-      <div id="bottom-sheet-body" class="p-5 overflow-y-auto overscroll-contain flex-grow bg-white">
-        <!-- Injected dynamically -->
-      </div>
+      <div id="bottom-sheet-body" class="p-5 overflow-y-auto overscroll-contain flex-grow"></div>
     </div>
   </div>
 
-  <!-- Fixed Mobile Aqua Dock Navigation Bar -->
-  <nav class="fixed bottom-0 inset-x-0 z-40 aqua-dock px-1 pt-1.5 pb-safe">
-    <div class="max-w-md mx-auto flex items-center justify-around">
-      
-      <!-- 1. Care Guides -->
-      <button data-nav-tab="guides" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
-        <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
-          <i data-lucide="book-open" class="w-4 h-4"></i>
-        </div>
-        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Guides</span>
+  <!-- Bottom dock -->
+  <nav class="dock fixed bottom-0 inset-x-0 z-40 px-1 pt-1.5 pb-safe" aria-label="Main">
+    <div class="max-w-md mx-auto flex items-stretch justify-around">
+      <button data-nav-tab="guides" data-icon="book" class="dock-btn flex flex-col items-center flex-1 py-1 select-none">
+        <span class="dock-icon"></span><span class="dock-label">Guides</span>
       </button>
-
-      <!-- 2. Food Hub -->
-      <button data-nav-tab="food" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
-        <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
-          <i data-lucide="apple" class="w-4 h-4"></i>
-        </div>
-        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Food Hub</span>
+      <button data-nav-tab="food" data-icon="apple" class="dock-btn flex flex-col items-center flex-1 py-1 select-none">
+        <span class="dock-icon"></span><span class="dock-label">Food</span>
       </button>
-
-      <!-- 3. Safe Picks (Rescue-Approved Product Directory) -->
-      <button data-nav-tab="shop" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
-        <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
-          <i data-lucide="award" class="w-4 h-4"></i>
-        </div>
-        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Safe Picks</span>
+      <button data-nav-tab="shop" data-icon="rosette" class="dock-btn flex flex-col items-center flex-1 py-1 select-none">
+        <span class="dock-icon"></span><span class="dock-label">Safe Picks</span>
       </button>
-
-      <!-- 4. Adoption Ready Checklist -->
-      <button data-nav-tab="checklist" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
-        <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
-          <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-        </div>
-        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Checklist</span>
+      <button data-nav-tab="checklist" data-icon="check" class="dock-btn flex flex-col items-center flex-1 py-1 select-none">
+        <span class="dock-icon"></span><span class="dock-label">Checklist</span>
       </button>
-
-      <!-- 5. Rescue Directory -->
-      <button data-nav-tab="rescues" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
-        <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
-          <i data-lucide="heart" class="w-4 h-4"></i>
-        </div>
-        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Rescues</span>
+      <button data-nav-tab="rescues" data-icon="heart" class="dock-btn flex flex-col items-center flex-1 py-1 select-none">
+        <span class="dock-icon"></span><span class="dock-label">Rescues</span>
       </button>
-
     </div>
   </nav>
 
-  <!-- App Entry Script -->
-  <script type="module" src="assets/js/app.js?v=2.4"></script>
+  <script type="module" src="assets/js/app.js?v=3.0"></script>
 </body>
 </html>
