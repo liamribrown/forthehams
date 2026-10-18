@@ -7,32 +7,41 @@ export const careGuides = [
     title: "Enclosures & Cage Standards",
     icon: "home",
     badge: "100 x 50 x 50 cm Minimum",
-    summary: "Why cage size matters, barless vs barred enclosures, and why multi-level wire cages cause stress and fall injuries.",
+    summary: "Why cage size matters, barless vs barred enclosures, the trauma of bar chewing, and safe DIY builds.",
     content: `
       <h3>The 100 x 50 x 50 cm Minimum (5,000 cm²)</h3>
-      <p>Research and veterinary studies have established that hamsters require an unbroken floor space of at least <strong>100cm x 50cm x 50cm (5,000 cm²)</strong>. This is the official minimum standard required by major UK animal welfare organisations, including <strong>Blue Cross, PDSA, Woodgreen Pets Charity</strong>, and independent rescues like <strong>India's Hamster Rescue</strong>.</p>
+      <p>Veterinary science and UK rescue data establish that all hamster species require an unbroken floor space of at least <strong>100cm x 50cm x 50cm (5,000 cm² / ~775 sq inches)</strong>. This standard is mandated by major UK welfare organizations including <strong>Blue Cross, PDSA, Woodgreen Pets Charity</strong>, and independent rescue charities like <strong>India's Hamster Rescue (#1213919)</strong>.</p>
       
       <div class="callout callout-info">
         <strong>"Why so much space for such a small pet?"</strong><br/>
-        In the wild, hamsters roam up to 9 kilometers every single night. Small cages lead directly to severe chronic stress behaviours, such as bar-chewing, obsessive corner digging, monkey-barring, and cage aggression. A 100x50x50cm space is not a luxury—it is the baseline required to fit adequate bedding depth (20cm+), an appropriately sized upright wheel, multi-chamber burrows, and sand baths.
+        In the wild, hamsters patrol territories spanning up to 9 kilometers every single night. In captivity, restricted floor space is the primary driver of stereotypic chronic distress: compulsive bar-gnawing, wall-pacing, and cage-aggression. A 100x50x50cm space is the bare minimum required to accommodate 20cm+ bedding depth, an appropriately sized upright wheel (28–32cm), sand baths, and multi-chamber hides.
       </div>
 
-      <h4>Barless Enclosures (Strongly Recommended)</h4>
-      <p>India's Hamster Rescue generally recommends <strong>barless enclosures</strong> (acrylic, glass tanks, or wooden DIYs) as they are safer, allow for full 20-30cm bedding depth without spillage, eliminate the risk of bar climbing/falling, and keep dwarf hamsters from escaping through wire gaps.</p>
+      <h4>The Danger of Bar Chewing & "Monkey Barring"</h4>
+      <p>Pet stores often dismiss bar chewing as "teeth filing." In reality, hamsters only bite bars out of intense claustrophobia and desperation to escape:</p>
       <ul>
-        <li><strong>BUCATSTATE 2.0 / 3.0 (100cm & 120cm)</strong>: High quality acrylic/metal build with top ventilation.</li>
-        <li><strong>IKEA DIY Conversions (Platsa, Linnmon, Pax)</strong>: Affordable, customizable enclosures starting from ~£60.</li>
-        <li><strong>Pawhut 115cm Rectangular / Hexagonal</strong>: Wooden glass-fronted setups.</li>
-        <li><strong>Hope's Healthy Treats Large Enclosure</strong>: High-spec wooden and acrylic enclosure.</li>
-        <li><strong>Diversa / Aquarium Tanks (250L+)</strong>: 100cm to 120cm glass tanks with DIY mesh ventilation lids.</li>
+        <li><strong>Dental Trauma & Malocclusion:</strong> Hard metal bars fracture teeth roots and misalign incisors. Misaligned teeth grow continuously into the roof of the mouth, causing fatal starvation unless clipped by an exotic vet every 2–3 weeks.</li>
+        <li><strong>Micro-Concussions:</strong> Wire reverberation transmits high-frequency shock waves directly through the skull, leading to brain trauma and neurological twitching.</li>
+        <li><strong>Facial Abrasions:</strong> Constant friction rubs snout fur raw, creating chronic bacterial abscesses.</li>
+      </ul>
+
+      <h4>Barless Enclosures (Strongly Recommended)</h4>
+      <p>India's Hamster Rescue strongly recommends <strong>barless enclosures</strong> (acrylic, glass tanks, or wooden/aluminium DIYs). They prevent escape, eliminate bar climbing falls, and easily hold 25–30cm of bedding without spillage:</p>
+      <ul>
+        <li><strong>Bandaby Hamster Home (120x60x70cm)</strong>: Premium UK welfare standard built with chew-proof powder-coated aluminium and high-grade acrylic with massive 30cm+ bedding capacity.</li>
+        <li><strong>BUCATSTATE 2.0 / 3.0 (100cm & 120cm)</strong>: High quality acrylic and metal build with full top airflow.</li>
+        <li><strong>IKEA DIY Linnmon Conversion</strong>: Renowned budget build using IKEA tabletops and glass/acrylic front creating over 120cm of unbroken floor space for under £60.</li>
+        <li><strong>IKEA DIY Platsa (120x60cm)</strong>: Affordable, deep modular conversion.</li>
+        <li><strong>PawHut 115cm Wooden Habitat</strong>: Large glass-fronted setup (levels removed for unbroken deep bedding).</li>
+        <li><strong>Aquarium Tanks (250L+)</strong>: 100cm to 120cm glass terrariums with DIY wire mesh lids.</li>
       </ul>
 
       <h4>Using Barred Cages Safely</h4>
-      <p>If using a barred cage that meets the 100x50cm baseline (such as the <strong>Savic Plaza 100 or 120</strong>, or <strong>Ferplast Casita 100</strong>):</p>
+      <p>If using an approved barred cage that meets the 100x50cm baseline (such as the <strong>Savic Plaza 100 or 120</strong>):</p>
       <ul>
-        <li><strong>Bedding Barrier Mandatory:</strong> The standard base tray is usually only 15cm deep. You must install cardboard, grass mats, or acrylic/perspex sheets along the lower wire bars to allow at least 20cm+ of bedding depth.</li>
-        <li><strong>Remove Dangerous Included Accessories:</strong> Barred cages often come with tiny 15cm wheels and narrow plastic platforms that are dangerous. Remove them and replace with ethical accessories on stable stilts.</li>
-        <li><strong>Bar Spacing:</strong> Syrians need ≤ 1cm bar spacing. Dwarf species require ≤ 0.5cm to prevent fatal head entrapment or escape.</li>
+        <li><strong>Bedding Barrier Mandatory:</strong> The factory plastic base tray is usually only 15cm deep. You must secure cardboard, grass mats, or acrylic sheets along the bottom bars to achieve at least 20cm+ of bedding depth.</li>
+        <li><strong>Remove Included Accessories:</strong> Discard tiny included 15cm wheels and narrow wire ladders immediately.</li>
+        <li><strong>Bar Spacing:</strong> Syrians require ≤ 1cm bar spacing. Dwarf species require ≤ 0.5cm to avoid fatal head entrapment.</li>
       </ul>
     `
   },
@@ -41,32 +50,48 @@ export const careGuides = [
     title: "Bedding & Natural Burrowing",
     icon: "layers",
     badge: "20cm / 8 Inches Minimum",
-    summary: "How hamsters build subterranean burrow systems and which substrates are safe vs dangerous.",
+    summary: "Subterranean tunnel architecture, safe paper and aspen substrates, and why hay is strictly unsafe.",
     content: `
       <h3>Burrowing: An Essential Instinct</h3>
-      <p>In the wild, hamsters dig deep underground to build intricate, interconnected tunnel and chamber systems. These burrows feature dedicated sleeping nests, food storage pantries, and latrine zones.</p>
-      <p>Deep bedding is vital for domestic hamsters because it provides:</p>
+      <p>Wild hamsters build intricate subterranean networks underground with separate sleeping chambers, food storage pantries, and latrine zones. Domestic hamsters retain this exact biological drive:</p>
       <ul>
-        <li><strong>Stress Reduction:</strong> Burrowing satisfies their strongest natural drive and eliminates pacing.</li>
-        <li><strong>Security & Safety:</strong> Ground-dwelling prey animals feel vulnerable in open or shallow spaces.</li>
-        <li><strong>Thermal Regulation:</strong> Insulates against both cold drafts and heat fluctuations.</li>
+        <li><strong>Stress Reduction:</strong> Digging and burrowing satisfies their deepest psychological instinct and eliminates pacing.</li>
+        <li><strong>Security & Warmth:</strong> As ground-dwelling prey, hamsters feel exposed in shallow setups. Deep bedding insulates against cold drafts and thermal fluctuations.</li>
       </ul>
       <p>All enclosures must have a <strong>minimum of 20cm (8 inches)</strong> of safe bedding, with 25–30cm+ encouraged where possible, especially for female Syrian hamsters.</p>
 
       <h4>Approved Safe Beddings</h4>
       <ul>
         <li><strong>Paper-Based Bedding:</strong> Fitch First (recycled food-grade paper), Kaytee Clean & Cozy (unscented white), Small Pet Select Unbleached Paper, Carefresh. Paper beddings hold burrows well when gently compacted.</li>
-        <li><strong>Aspen Shavings:</strong> Small Pet Select Aspen, ProRep Aspen. Aspen is a safe hardwood with low aromatic oils.</li>
-        <li><strong>Unscented Softwood (Kiln-Dried):</strong> Chipsi Classic. <em>Rescue Top Tip:</em> If using wood shavings as your main substrate, mix with soft paper bedding and meadow hay layers to help burrows maintain structural integrity.</li>
+        <li><strong>Aspen Hardwood Shavings:</strong> Bandaby "Dig & Dream" Aspen Bedding, Small Pet Select Aspen, ProRep Aspen. Aspen is a safe, low-dust hardwood free from aromatic phenols.</li>
+        <li><strong>Kiln-Dried Softwood Shavings:</strong> Chipsi Classic. Kiln-drying debarks and bakes the wood at high heat, destroying harmful volatile oils.</li>
         <li><strong>Hemp Bedding:</strong> Aubiose (100% natural, dust-extracted hemp, highly absorbent).</li>
       </ul>
 
+      <h4>How to Create Sturdy, Non-Collapsing Burrows</h4>
+      <p>Hamsters need tunnels that hold their shape. You do not need unsafe hay to achieve sturdy burrows:</p>
+      <ul>
+        <li><strong>The Compaction Technique:</strong> When setting up an enclosure, add bedding in 5–8cm increments and press it down firmly with your palms before adding the next layer. Compressed paper and aspen fibers lock together naturally like soil.</li>
+        <li><strong>Substrate Blends:</strong> Mixing 50% soft paper bedding (Fitch or Kaytee) with 50% kiln-dried aspen (Bandaby or Small Pet Select) creates an unbeatable structural burrow density that holds intricate multi-room tunnels effortlessly.</li>
+      </ul>
+
       <div class="callout callout-danger">
-        <strong>Bedding Dangers to Avoid:</strong><br/>
+        <strong>⚠️ Why Hay & Straw Are Banned by Rescues:</strong><br/>
+        Unlike rabbits and guinea pigs, hamsters are not grazing herbivores and <strong>do not eat hay</strong>. Hay (Timothy hay, meadow hay) and straw feature sharp, rigid stalks that act like needles inside enclosures. Rescues and exotic vets regularly treat hamsters with:
+        <ul class="mt-2">
+          <li><strong>Corneal Ulcers & Eye Punctures:</strong> Stiff hay stalks poke directly into eyes during digging, causing blindness and painful eye removals.</li>
+          <li><strong>Cheek Pouch Abscesses:</strong> When hamsters attempt to pouch hay, sharp ends pierce the delicate elastic lining of cheek pouches, causing massive bacterial abscesses that require emergency surgery.</li>
+          <li><strong>Parasite Mites:</strong> Agricultural hay bags frequently carry dust and wild mite eggs.</li>
+        </ul>
+        <em>Always achieve tunnel stability using compressed paper bedding and safe aspen shavings—completely free of hay.</em>
+      </div>
+
+      <div class="callout callout-danger">
+        <strong>Other Lethal Beddings to Avoid:</strong><br/>
         <ul>
-          <li><strong>Fluffy / Cotton Bedding (Kapok / Bamboo / Pods):</strong> The #1 killer of pet hamsters. Fibers do not dissolve and wrap tightly around limbs, amputating toes or causing fatal bowel obstructions when ingested.</li>
-          <li><strong>Sawdust & Soft Pine / Cedar:</strong> Releases harmful phenols and dust that irritate eyes and trigger upper respiratory infections.</li>
-          <li><strong>Scented Beddings (Lavender, Lemon):</strong> Strong artificial perfumes cause severe olfactory distress and respiratory illness.</li>
+          <li><strong>Fluffy / Cotton Wool Bedding (Kapok, Safebed, Pods):</strong> The #1 killer of domestic hamsters. Non-dissolving fibers strangle intestines or wrap around limbs, cutting off circulation and amputating feet.</li>
+          <li><strong>Fresh Pine / Cedar Sawdust:</strong> Releases caustic abietic acid and toxic aromatic phenols that permanently scar lung tissue.</li>
+          <li><strong>Scented Beddings (Lavender, Lemon):</strong> Chemical perfumes cause severe respiratory illness.</li>
         </ul>
       </div>
     `
@@ -98,96 +123,92 @@ export const careGuides = [
         <div class="p-3 bg-rose-50 border border-rose-200 rounded-lg text-center">
           <div class="font-bold text-rose-900">Syrian Hamsters</div>
           <div class="text-2xl font-black text-rose-700">28cm – 32cm</div>
-          <div class="text-xs text-rose-800 mt-1">Larger females need 30cm+</div>
+          <div class="text-xs text-rose-800 mt-1">Accommodates full adult size</div>
         </div>
       </div>
 
-      <h4>Wheel Placement & Construction</h4>
-      <ul>
-        <li><strong>Solid Running Surface:</strong> The track must be continuous solid plastic, cork, or sealed wood. Never use wire rungs or metal mesh, which cause painful bumblefoot, caught nails, and broken legs.</li>
-        <li><strong>Platform Mounted:</strong> Always place the wheel stand on a secure wooden or acrylic platform/stilt, NEVER directly on soft bedding. If a hamster burrows underneath a heavy wheel, it can collapse and suffocate them.</li>
-        <li><strong>No Flying Saucers:</strong> Saucers force hamsters to run sideways in an unnatural curved posture and frequently launch them at high speed into cage walls. Saucers should never replace an upright wheel.</li>
-      </ul>
+      <h4>Why Flying Saucers are Dangerous</h4>
+      <p>Flying saucers force hamsters to run sideways at an awkward diagonal angle. Over months, this creates asymmetrical spine curvature, pelvic twisting, and frequent high-speed ejection accidents where the hamster is hurled violently against cage glass.</p>
+
+      <h4>Why Wire Rung Wheels are Prohibited</h4>
+      <p>Mesh or wire rung wheels cause <strong>bumblefoot (ulcerative pododermatitis)</strong>—a crippling bacterial infection of the footpad—and lead to compound fractures when tiny paws slip through moving rungs.</p>
     `
   },
   {
     id: "sand_baths",
     title: "Sand Baths & Hygiene",
     icon: "sparkles",
-    badge: "Never Bathe in Water!",
-    summary: "Why sand is vital for coat health, proper container sizes, and avoiding dangerous calcium and chinchilla dust.",
+    badge: "Never Bath in Water!",
+    summary: "Natural coat degreasing, safe desert vs dangerous calcium sands, and species proportions.",
     content: `
-      <h3>Hamsters Never Use Water to Bathe</h3>
-      <p>Water strips the protective natural oils from a hamster's coat and puts them at severe risk of hypothermia, shock, and fatal pneumonia. Instead, hamsters groom themselves using <strong>fine, clean sand</strong>.</p>
-      <p>Sand particles absorb excess sebum, exfoliate dead skin, and remove grease, leaving their fur silky and clean. Without sand, hamsters quickly develop greasy, parted coats that cannot regulate body temperature.</p>
+      <h3>⚠️ Hamsters Must NEVER Be Bathed in Water!</h3>
+      <p>Hamsters have very dense coats with natural protective sebum oils. Placing a hamster in water strips these vital oils, induces lethal hypothermia, and causes extreme panic. Water gets trapped in their undercoat, leading to fungal pneumonia and cardiac arrest.</p>
+      <p><strong>Hamsters clean themselves exclusively with sand.</strong></p>
 
-      <h4>Sand Bath Sizing Guidelines</h4>
+      <h4>The Functions of a Sand Bath</h4>
       <ul>
-        <li><strong>Syrians & Dwarfs:</strong> Minimum <strong>A4 paper size (25cm x 15cm)</strong>, with a depth of at least <strong>5cm</strong> so they can roll and dig freely.</li>
-        <li><strong>Roborovskis:</strong> As native desert dwellers, Roborovskis require a massive sand area—<strong>up to 1/3 of the entire enclosure floor space!</strong> Include hides, cork bark, and smooth pebbles inside the sand area.</li>
+        <li><strong>Coat Degreasing:</strong> Fine quartz sand particles absorb excess gland sebum, keeping fur fluffy and insulated.</li>
+        <li><strong>Nail Wear:</strong> Scratching in deep sand naturally grinds down sharp claws.</li>
+        <li><strong>Scent Marking & Scent Rolling:</strong> Hamsters rub their flank glands against sand to establish safe territory.</li>
+        <li><strong>Latrine Behavior:</strong> Many hamsters choose to urinate exclusively in one corner of their sand dish, making spot-cleaning effortless.</li>
       </ul>
 
-      <h4>Safe Sand vs Toxic Powders</h4>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
-          <h5 class="text-emerald-900 font-bold mb-2">✅ Safe Sand Options</h5>
-          <ul class="text-xs text-emerald-800 space-y-1">
-            <li><strong>Reptile Desert Sand (No Calcium/Dyes):</strong> Pets at Home Desert Sand, Komodo Natural Sand, ProRep Desert Sand, Unipac Reptile Sand.</li>
-            <li><strong>Children's Play Sand:</strong> Must be baked in an oven at 180°C / Gas Mark 4 for 20 minutes to sterilize, then sieved to remove coarse stones.</li>
-          </ul>
-        </div>
-        <div class="p-4 bg-rose-50 border border-rose-200 rounded-lg">
-          <h5 class="text-rose-900 font-bold mb-2">❌ Dangerous Sand to Avoid</h5>
-          <ul class="text-xs text-rose-800 space-y-1">
-            <li><strong>Chinchilla "Dust" or "Powder":</strong> Ultra-fine dust particles enter hamster lungs, causing respiratory distress.</li>
-            <li><strong>Calcium Sand ("Calci-Sand"):</strong> Formulated to clump when moist; causes fatal internal blockages if groomed and swallowed.</li>
-            <li><strong>Artificially Dyed / Scented Sand:</strong> Chemicals irritate eyes and skin.</li>
-          </ul>
-        </div>
-      </div>
+      <h4>Species Sand Requirements</h4>
+      <ul>
+        <li><strong>Roborovski Hamsters:</strong> Originating from the hyper-arid Gobi desert, Robos require at least <strong>one-third (1/3) of their entire enclosure</strong> dedicated to deep desert sand.</li>
+        <li><strong>Syrian & Other Dwarf Species:</strong> Require a sand bath container at least A4 paper size (approx. 25 x 20 cm) and 5–8cm deep. Heavy ceramic casserole dishes or glass oven baking dishes are chew-proof and easy to wash.</li>
+      </ul>
+
+      <h4>Safe vs Unsafe Sands</h4>
+      <ul>
+        <li><strong>Safe:</strong> Pure silica reptile desert sand (without calcium or dyes, such as Komodo Natural or Pets at Home Desert Sand), sterilised children's play sand (Argos/Suburban, baked at 180°C for 20 mins to dry and sterilise).</li>
+        <li><strong>Unsafe:</strong> Chinchilla dusting powder (causes acute pneumonia), calcium sand / calci-sand (clumps like concrete when moist, causing fatal gut cementation), scented or coloured sands.</li>
+      </ul>
     `
   },
   {
-    id: "multi_chambers",
-    title: "Multi-Chamber Hides",
-    icon: "grid",
-    badge: "Subterranean Sanctuary",
-    summary: "Replicating wild burrow networks with 3+ chamber hides, entrance dimensions, and stilt mounting.",
+    id: "multi_chamber",
+    title: "Multi-Chamber Hides & Burrows",
+    icon: "box",
+    badge: "Natural Underground Nesting",
+    summary: "Replicating wild burrow networks, removable roofs for spot-cleaning, and entrance sizes.",
     content: `
-      <h3>What is a Multi-Chamber Hide?</h3>
-      <p>A multi-chamber hide is a large wooden or ceramic box divided into at least <strong>3 separate internal compartments</strong> with a removable lid. In nature, wild hamsters do not sleep in a single open bowl; they divide their living quarters into separate rooms for sleeping, hoarding seeds, and toileting.</p>
-
-      <h4>Key Requirements for a Proper Multi-Chamber</h4>
+      <h3>Replicating the Subterranean Burrow System</h3>
+      <p>In nature, hamsters do not sleep in open, single-room plastic igloos. They excavate complex underground homes consisting of multiple specialized chambers:</p>
       <ul>
-        <li><strong>At Least 3 Sections:</strong> Allows the hamster to keep their sleeping nest warm and clean while hoarding food in an adjacent chamber.</li>
-        <li><strong>Bottomless Design:</strong> The hide should have no floor so the hamster can sit directly on deep bedding and dig subterranean tunnels directly downwards from their bedroom.</li>
-        <li><strong>Removable Lid:</strong> Essential for checking fresh food hoards and spot-cleaning without demolishing the hamster's carefully built burrows.</li>
-        <li><strong>Correct Entrance Sizing:</strong>
+        <li><strong>Sleeping Nest:</strong> Darkest, deepest room padded with soft bedding.</li>
+        <li><strong>Food Pantry:</strong> Dedicated dry chamber where foraged grains and seeds are hoarded.</li>
+        <li><strong>Latrine:</strong> Separate chamber used as a private toilet.</li>
+      </ul>
+
+      <h4>Key Requirements for a Multi-Chamber Hide</h4>
+      <ul>
+        <li><strong>Bottomless Design:</strong> The hide must have NO floor, allowing the hamster to dig deep into the bedding directly below.</li>
+        <li><strong>Removable Roof:</strong> Allows you to lift the lid to check food hoards and spot-clean soiled bedding without destroying the hamster's nest.</li>
+        <li><strong>Platform Stilts:</strong> Must be mounted on sturdy wooden dowel stilts resting on the enclosure base so it cannot crush a hamster burrowing underneath.</li>
+        <li><strong>Entrance Dimensions:</strong>
           <ul>
-            <li><strong>Dwarf Hamsters:</strong> Entrances must be at least <strong>5cm</strong> wide.</li>
-            <li><strong>Syrian Hamsters:</strong> Entrances must be at least <strong>7cm</strong> wide to prevent them getting stuck with full cheek pouches.</li>
+            <li>Syrian Hamsters: <strong>7cm+ diameter</strong> (prevents cheeks stuffed with food from scraping).</li>
+            <li>Dwarf Hamsters: <strong>5cm+ diameter</strong>.</li>
           </ul>
         </li>
-        <li><strong>Stilts / Platforms:</strong> Multi-chamber hides are heavy. Always attach wooden stilts or place them on a raised platform so that when your hamster burrows underneath, the hide cannot sink and trap them.</li>
       </ul>
     `
   },
   {
-    id: "substrates",
-    title: "Dig Boxes & Texture Substrates",
-    icon: "box",
+    id: "substrates_textures",
+    title: "Tactile Substrates & Dig Boxes",
+    icon: "grid",
     badge: "Sensory Enrichment",
-    summary: "Providing at least 2-3 tactile textures: coco coir, beech chips, cork granules, and sphagnum moss.",
+    summary: "Providing coco coir, beech chips, cork granules, and terrarium moss for claw health and digging fun.",
     content: `
-      <h3>Tactile Variety: The Multi-Substrate Setup</h3>
-      <p>In addition to their main burrowing bedding and sand bath, UK rescue standards require enclosures to offer <strong>at least 2 to 3 different textured substrates</strong> in dedicated dig boxes or partitioned sections.</p>
-      <p>Textured substrates simulate varied natural terrains, provide tactile mental stimulation, and keep claws trimmed naturally.</p>
+      <h3>Sensory Variety: Beyond Bedding</h3>
+      <p>In addition to 20cm+ deep paper bedding, hamsters thrive when provided with <strong>2 to 3 distinct tactile substrates</strong> in dedicated dig boxes or partitioned sections.</p>
 
-      <h4>Recommended Dig Box Sizes & Containers</h4>
-      <p>Containers should be around <strong>20cm x 15cm</strong> with a depth of <strong>5cm+</strong> so the hamster can climb in and forage. Great affordable containers include:</p>
+      <h4>Approved Containers</h4>
       <ul>
-        <li>IKEA Kuggis / Nojig plastic boxes or glass food storage dishes (ProCook, Pyrex)</li>
-        <li>Ceramic casserole/roasting dishes (Asda George Home, Dunelm)</li>
+        <li>Glass baking/roasting dishes (IKEA Mixtur)</li>
+        <li>Ceramic casserole/roasting dishes</li>
         <li>Wooden corner dig boxes on stilts (Happy Henry's Homes, Bucatstate, Hope's Healthy Treats)</li>
       </ul>
 

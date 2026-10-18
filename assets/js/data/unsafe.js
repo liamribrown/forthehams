@@ -2,10 +2,11 @@
 
 export const unsafeItems = [
   {
-    category: "Enclosures",
-    title: "Unsafe Cages & Multi-Level Plastic Habitats",
-    dangerLevel: "HIGH",
-    description: "Cages with tiny floor spaces, narrow tubes, or steep wire levels cause severe chronic stress, bar-biting, and fatal falls.",
+    id: "unsafe-cages",
+    name: "Tiny Cages & Multi-Level Plastic Habitats",
+    badge: "Severe Stress & Fall Injuries",
+    danger: "Cages with tiny floor spaces, narrow tubes, or steep wire levels cause chronic cage aggression, bar-biting, and fatal falls.",
+    vetExplanation: "Hamsters require at least 5,000 cm² (100x50x50cm) unbroken space. In tiny cages, hamsters develop severe stereotypical stress behaviours like bar gnawing (causing brain trauma and teeth misalignment). Vertical wire drops cause broken spines, while narrow plastic tubes accumulate ammonia, moisture, and trap hamsters with full pouches.",
     examples: [
       "Pets at Home Plastic Home / Habitat 1, 2, & 4",
       "Kaytee CritterTrail / Habitrail OVO",
@@ -14,74 +15,85 @@ export const unsafeItems = [
       "Rosewood Pico & Rosewood Abode",
       "PawHut Multi-Level & Pawhut 60x35cm",
       "Omlet Hamster Cages"
-    ],
-    whyDangerous: "These cages measure under 5,000 cm² (often under 2,000 cm²). Hamsters are ground-dwelling burrowers, not vertical climbers; wire levels cause bumblefoot and fall injuries, while narrow plastic tubes accumulate moisture, mold, and trap pregnant or pouch-stuffed hamsters."
+    ]
   },
   {
-    category: "Wheels & Activity",
-    title: "Hamster Balls, Tiny Wheels & Flying Saucers",
-    dangerLevel: "CRITICAL",
-    description: "Hamster exercise balls and inadequate wheels cause physical trauma and sensory disorientation.",
+    id: "unsafe-balls-wheels",
+    name: "Hamster Balls, Tiny Wheels & Flying Saucers",
+    badge: "Spinal Warping & Panic",
+    danger: "Hamster exercise balls and inadequate wheels cause severe physical trauma, joint warping, and extreme disorientation.",
+    vetExplanation: "Hamster balls have near-zero ventilation, trap heat and respiratory ammonia, and blind hamsters. Running inside a ball is a panicked attempt to escape, not fun. Tiny wheels (<28cm for Syrian, <26cm for Dwarfs) force the spine into a permanent unnatural curve, leading to spinal arthritis and disc herniation. Saucer discs cause severe spine curvature when running sideways.",
     examples: [
       "Plastic Hamster Exercise Balls (any brand)",
       "Under-sized wheels (<21cm for Robo, <26cm for Dwarfs, <28cm for Syrian)",
       "Flying Saucers / Saucer discs",
       "Wire rung and metal mesh wheels",
       "Cage-included wheels (usually 14–16cm)"
-    ],
-    whyDangerous: "Hamster balls offer practically zero ventilation, trap heat and ammonia, blind the hamster's vision, and toes frequently get sliced in air slits. Hamsters run in balls out of panic and claustrophobia, not enjoyment. Small wheels and flying saucers permanently warp spine curvature and cause painful joint deformity."
+    ]
   },
   {
-    category: "Bedding & Nesting",
-    title: "Fluffy Bedding, Pine Sawdust & Scented Shavings",
-    dangerLevel: "FATAL",
-    description: "Materials marketed as 'soft nesting' or 'natural pine' are among the most lethal products sold in pet shops.",
+    id: "unsafe-fluffy-bedding",
+    name: "Fluffy Bedding, Cotton Wool & Pine Sawdust",
+    badge: "Fatal Bowel Blockage & Amputation",
+    danger: "Materials sold as 'soft nesting' or 'fluffy wool' are among the most lethal pet shop products.",
+    vetExplanation: "Cotton wool and kapok fibers are completely indigestible. When pouched or swallowed, they form fatal gastrointestinal obstructions. The strong fibers also wrap tightly around delicate feet and limbs, cutting off blood supply until toes necrose and amputate. Fresh softwood sawdust releases toxic aromatic phenols (abietic acid) that cause acute respiratory distress.",
     examples: [
       "Fluffy / Cotton Wool / Kapok / Bamboo Bedding (Safebed, Rosewood Naturals Pods)",
       "Unextracted Pine & Cedar Sawdust",
       "Scented Beddings (Lemon, Lavender, Citrus Chipsi)",
       "Cat Litter & Hard Wood Fuel Pellets"
-    ],
-    whyDangerous: "Fluffy bedding fibers are completely indigestible; when ingested while grooming or pouching, they form fatal gastrointestinal obstructions, or wrap tightly around limbs like garrotes, cutting off circulation until toes amputate. Softwood sawdust contains toxic abietic acid and phenols that destroy lung tissue."
+    ]
   },
   {
-    category: "Sand & Bathing",
-    title: "Bathing Dust, Calcium Sand & Artificially Dyed Sands",
-    dangerLevel: "HIGH",
-    description: "Dusty or clumping minerals that damage delicate hamster respiratory and digestive systems.",
+    id: "unsafe-hay-straw",
+    name: "Hay & Straw (Meadow Hay, Timothy Hay, Straw)",
+    badge: "Eye & Pouch Puncture Hazard",
+    danger: "Stiff stalks can poke eyes causing corneal ulcers, puncture delicate cheek pouches leading to internal abscesses, and unsterilized bags carry mites.",
+    vetExplanation: "Hamsters are granivorous burrowers, not grazing herbivores like guinea pigs and rabbits. They do not eat hay. In enclosures, coarse dried hay stalks act like sharp needles. Rescues and exotic vets regularly treat hamsters with corneal scratches, punctured cheek pouches, and painful pouch abscesses caused by hay. Deep burrowing stability must be achieved safely using compressed paper bedding and kiln-dried aspen shavings, completely without hay.",
+    examples: [
+      "Meadow Hay (any brand)",
+      "Timothy Hay",
+      "Barley & Wheat Straw",
+      "Alfalfa Hay"
+    ]
+  },
+  {
+    id: "unsafe-sand",
+    name: "Bathing Dust, Calcium Sand & Coloured Sands",
+    badge: "Pneumonia & Bowel Cementation",
+    danger: "Dusty or clumping minerals that severely damage delicate hamster lungs and digestive tracts.",
+    vetExplanation: "Chinchilla bathing dust consists of pulverized pumice stone. When inhaled by a hamster, fine particles settle into the lungs, triggering acute respiratory infections and pneumonia. Calcium sand (reptile calci-sand) clumps into a rock-solid cement-like block when wet, causing fatal bowel impactions if licked during grooming.",
     examples: [
       "Chinchilla Bathing Dust / Dusting Powder",
       "Pets at Home Calci-Sand",
       "Tiny Friends Farm Bathing Sand (high fine dust content)",
       "Artificially coloured or scented reptile sands"
-    ],
-    whyDangerous: "Chinchilla dust is pulverized pumice designed for dense chinchilla fur; inhaled by a hamster, it triggers acute pneumonia. Calcium sand is made from calcium carbonate that sets like cement when moist, leading to fatal impaction if licked off paws."
+    ]
   },
   {
-    category: "Hides & Tunnels",
-    title: "Edible Sawdust Gnaw Hides, Bark Wood & Fabric",
-    dangerLevel: "MODERATE",
-    description: "Hides made from unsafe composites, softwoods with toxic glues, or chewable plastics.",
+    id: "unsafe-hides",
+    name: "Edible Sawdust Gnaw Logs & Stapled Bark Wood",
+    badge: "Sawdust Impaction & Punctures",
+    danger: "Hides made from unsafe sawdust composites, hidden wire staples, or toxic adhesives.",
+    vetExplanation: "Edible logs (Snak Shak) are made from compressed wood shavings bound together with honey and starch. Hamsters ingest the sawdust, causing fatal bowel blockages. Dark bark wood bridges and tunnels are frequently held together with hidden metal staples and toxic hot-melt glue that hamsters gnaw into.",
     examples: [
       "Edible 'Snak Shak' / Gnaw logs (compacted sawdust glued with honey/starch)",
       "Dark bark wood items with hidden metal staples and toxic resin",
       "Hanging rope hammocks and fabric pouches",
       "Narrow plastic tubes and plastic see-saws"
-    ],
-    whyDangerous: "Edible logs tempt hamsters into eating large quantities of sawdust, causing bowel impactions. Dark bark wood often splits into razor-sharp needles and contains staples. Fabric threads cause intestinal blockages, while hanging items lead to high falls."
+    ]
   },
   {
-    category: "Branches & Clutter",
-    title: "Spiderwood, Driftwood & Unvetted Outdoor Branches",
-    dangerLevel: "MODERATE",
-    description: "Woods that splinter into sharp daggers or carry outdoor chemicals.",
+    id: "unsafe-branches",
+    name: "Spiderwood & Unvetted Outdoor Branches",
+    badge: "Splinters & Chemical Toxins",
+    danger: "Woods that splinter into sharp daggers or carry wild parasite and pesticide contamination.",
+    vetExplanation: "Spiderwood dries out and snaps into razor-sharp needle-like splinters that puncture cheek pouches. Branches gathered from outdoor gardens or parks are frequently contaminated with automotive exhaust, bird mites, wild parasites, or garden weedkiller. Only safe, kiln-dried cork bark logs or grapevine should be used.",
     examples: [
       "Spiderwood / Azalea root",
       "Saltwater Driftwood",
-      "Flexible artificial reptile vines",
       "Outdoor garden twigs / branches",
       "Resin aquarium ornaments with flaking paint"
-    ],
-    whyDangerous: "Spiderwood easily snaps into long needles that puncture cheek pouches. Outdoor branches harbor wild bird mites, fungus, and toxic garden weedkiller. Stick to safe kiln-dried cork bark, Java wood, or grapevine."
+    ]
   }
 ];

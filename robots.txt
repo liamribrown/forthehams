@@ -1,0 +1,33 @@
+# For the Hams! Robots.txt
+# www.forthehams.co.uk | UK Ethical Hamster Care & Rescue Standards
+
+User-agent: *
+Allow: /
+
+# Welcome AI search engine crawlers and search indexers for Google AI Overviews
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://www.forthehams.co.uk/sitemap.xml
+Sitemap: https://liamribrown.github.io/forthehams/sitemap.xml

@@ -976,14 +976,25 @@ function renderRescues() {
   const main = document.getElementById('main-tab-content');
 
   const filtered = rescuesList.filter(r => {
-    if (state.rescueRegion !== 'all' && r.region !== state.rescueRegion && r.region !== 'All UK') {
-      return false;
+    if (state.rescueRegion === 'all') return true;
+    const reg = (r.region || '').toLowerCase();
+    const loc = (r.locations || '').toLowerCase();
+    if (state.rescueRegion === 'England') {
+      return reg.includes('england') || reg.includes('london') || reg.includes('midlands') || 
+             reg.includes('thames') || reg.includes('south') || reg.includes('north') || 
+             loc.includes('london') || reg.includes('national');
+    }
+    if (state.rescueRegion === 'Wales') {
+      return reg.includes('wales') || loc.includes('cardiff') || loc.includes('swansea') || reg.includes('national');
+    }
+    if (state.rescueRegion === 'Scotland') {
+      return reg.includes('scotland') || loc.includes('glasgow') || loc.includes('edinburgh') || reg.includes('national');
     }
     return true;
   });
 
   const regions = [
-    { id: 'all', label: 'All Rescues' },
+    { id: 'all', label: 'All Rescues (16+)' },
     { id: 'England', label: 'England' },
     { id: 'Wales', label: 'Wales' },
     { id: 'Scotland', label: 'Scotland' }
@@ -991,13 +1002,24 @@ function renderRescues() {
 
   main.innerHTML = `
     <div class="space-y-3">
+      <!-- Rescue Header Banner -->
+      <div class="web2-card p-3.5 bg-gradient-to-r from-purple-50 via-pink-50 to-amber-50 border-purple-200">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xl">🏡</span>
+          <h3 class="font-black text-sm text-purple-950 font-heading">Verified Ethical UK Rescue Network</h3>
+        </div>
+        <p class="text-xs font-medium text-slate-700 leading-relaxed">
+          Adopt, don't shop! Every foster rescue listed here upholds ethical 100x50cm habitats, veterinary care, and species-appropriate setups.
+        </p>
+      </div>
+
       <!-- Region Filter -->
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
         ${regions.map(reg => `
           <button 
             data-region-btn="${reg.id}"
             class="gel-btn ${
-              state.rescueRegion === reg.id ? 'gel-blue' : 'gel-silver'
+              state.rescueRegion === reg.id ? 'gel-purple' : 'gel-silver'
             } px-3.5 py-1 text-xs font-black whitespace-nowrap">
             ${reg.label}
           </button>
@@ -1006,38 +1028,63 @@ function renderRescues() {
 
       <!-- Rescues Grid -->
       <div class="space-y-3">
-        ${filtered.map(r => `
-          <div class="web2-card p-4">
-            <div class="flex items-start justify-between gap-2 mb-1.5">
-              <div>
-                <h4 class="font-black text-base text-slate-900 font-heading">${r.name}</h4>
-                <div class="text-[11px] font-bold text-sky-800">${r.charityNumber} • ${r.coverage}</div>
+        ${filtered.map(r => {
+          const charityText = r.charityNumber.startsWith('1') || r.charityNumber.startsWith('2') || r.charityNumber.startsWith('SC') 
+            ? `Charity #${r.charityNumber}` 
+            : r.charityNumber;
+          const targetUrl = r.adoptUrl || r.website || r.url || '#';
+          const donationUrl = r.donateUrl || r.website || '#';
+          const details = r.speciality || r.summary || '';
+          const locationText = r.locations || r.coverage || r.region;
+          const badges = r.badges || [];
+
+          return `
+            <div class="web2-card p-4">
+              <div class="flex flex-wrap items-center gap-1 mb-2">
+                ${badges.map(b => `
+                  <span class="gel-badge ${
+                    b.includes('Partner') || b.includes('1213919') 
+                      ? 'gel-yellow' 
+                      : b.includes('Charity') || b.includes('Standard')
+                      ? 'gel-purple'
+                      : 'gel-blue'
+                  }">${b}</span>
+                `).join('')}
               </div>
-              <span class="gel-badge gel-yellow">
-                ${r.region}
-              </span>
-            </div>
 
-            <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${r.summary}</p>
+              <div class="flex items-start justify-between gap-2 mb-1">
+                <div>
+                  <h4 class="font-black text-base text-slate-900 font-heading">${r.name}</h4>
+                  <div class="text-[11px] font-bold text-purple-800">${charityText} • ${r.region}</div>
+                </div>
+              </div>
 
-            <div class="flex items-center gap-2 pt-2.5 border-t border-slate-100">
-              <a 
-                href="${r.url}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="flex-1 py-1.5 gel-btn gel-orange text-white text-xs font-black shadow-md text-center">
-                Apply to Adopt ✨
-              </a>
-              <a 
-                href="${r.donateUrl}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="px-4 py-1.5 gel-btn gel-pink text-white text-xs font-black shadow-md">
-                Donate 💖
-              </a>
+              <div class="text-[11px] font-bold text-slate-500 mb-2 flex items-center gap-1">
+                <span>📍</span>
+                <span>${locationText}</span>
+              </div>
+
+              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${details}</p>
+
+              <div class="flex items-center gap-2 pt-2.5 border-t border-slate-100">
+                <a 
+                  href="${targetUrl}" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="flex-1 py-1.5 gel-btn gel-orange text-white text-xs font-black shadow-md text-center">
+                  Apply to Adopt ✨
+                </a>
+                <a 
+                  href="${donationUrl}" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="px-4 py-1.5 gel-btn gel-pink text-white text-xs font-black shadow-md">
+                  Donate 💖
+                </a>
+              </div>
             </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     </div>
   `;

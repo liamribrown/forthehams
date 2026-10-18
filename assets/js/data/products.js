@@ -150,16 +150,28 @@ export const products = [
     summary: "A favourite among UK fosterers. Lay a Platsa frame on its back, fit an acrylic front glass and DIY mesh lid for an enormous, modern enclosure."
   },
   {
+    id: "enc-bandaby-home",
+    name: "Bandaby Hamster Home (120x60x70cm)",
+    brand: "Bandaby",
+    category: "enclosures",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "From £249.00",
+    retailer: "Bandaby Official",
+    url: "https://bandaby.com",
+    badges: ["⭐ Team Favourite", "EU Welfare Standard", "Deep Bedding Base"],
+    summary: "Ultra-premium 120x60cm modern enclosure designed specifically for ethical small pet welfare. Features high transparent acrylic splash panels supporting 30cm+ undisturbed burrowing bedding depth and heavy-duty ventilation."
+  },
+  {
     id: "enc-ikea-linnmon",
     name: "IKEA LINNMON DIY Enclosure Build",
-    brand: "IKEA DIY",
+    brand: "IKEA DIY / YouTube Guide",
     category: "enclosures",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£55.00 - £75.00",
-    retailer: "IKEA UK",
-    url: "https://www.ikea.com/gb/en/cat/table-tops-11844/",
-    badges: ["DIY Alternative", "Budget Friendly"],
-    summary: "Custom cage built using 3 or 4 IKEA Linnmon/Lagkapten table tops with glass or acrylic front. Easily customizable up to 120cm."
+    retailer: "YouTube Step-by-Step Tutorial",
+    url: "https://www.youtube.com/watch?v=Ocdcl-82ybE",
+    badges: ["DIY Alternative", "Budget Friendly", "Video Guide"],
+    summary: "Viral custom build using IKEA Linnmon/Lagkapten table tops and acrylic/glass front. Watch the comprehensive step-by-step video guide for measurements and assembly."
   },
   {
     id: "enc-hopes-cage",
@@ -295,7 +307,19 @@ export const products = [
     retailer: "Zooplus UK / PetPlanet",
     url: "https://www.zooplus.co.uk/shop/small_pets/care_grooming/bedding/wood_shavings/14002",
     badges: ["⭐ Team Favourite", "Budget Friendly", "Kiln Dried"],
-    summary: "Debarked, kiln-dried soft spruce and fir shavings. Dust-extracted. Mix with paper bedding and hay for sturdy burrows."
+    summary: "Debarked, kiln-dried soft spruce and fir shavings. Dust-extracted. Mix with paper bedding (such as Fitch or Kaytee) and press down firmly to hold sturdy burrow tunnels."
+  },
+  {
+    id: "bed-bandaby-aspen",
+    name: "Bandaby 'Dig & Dream' Dust-Free Aspen Bedding",
+    brand: "Bandaby",
+    category: "bedding",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£21.99",
+    retailer: "Bandaby Official",
+    url: "https://bandaby.com",
+    badges: ["⭐ Team Favourite", "Dust Extracted", "Phenol Free"],
+    summary: "Specialist European hardwood aspen bedding crafted for maximum burrow structural stability without dust. 100% natural and free of aromatic oils or phenols."
   },
   {
     id: "bed-sps-aspen",
