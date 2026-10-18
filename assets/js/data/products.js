@@ -2,6 +2,92 @@
 // Informed by Fable's Hamster Rescue product library, India's Hamster Rescue recommendations, and Hope's Healthy Treats
 
 export const products = [
+  // --- APPROVED COMMERCIAL SEED MIXES & NUTRITION ---
+  {
+    id: "food-mixerama-syrian",
+    name: "Mixerama Syrian Hamster 'Gourmet Menu' (500g)",
+    brand: "Mixerama",
+    category: "food_mixes",
+    species: ["syrian"],
+    priceGuide: "£7.99 - £8.99",
+    retailer: "Hope's Healthy Treats (UK Stockist)",
+    url: "https://hopeshealthytreats.com",
+    badges: ["⭐ Rescue Favourite", "Pellet-Free", "High Biodiversity", "Hope's Healthy Treats"],
+    summary: "Gold-standard natural seed mix. Contains 16.5% crude protein, buckwheat, barley, rye, dried mealworms, pumpkin seeds, and flower blossoms. Strictly zero unpalatable pellets or artificial dyes."
+  },
+  {
+    id: "food-mixerama-dwarf",
+    name: "Mixerama Dwarf Hamster 'Dwarf Magic' Seed Mix (500g)",
+    brand: "Mixerama",
+    category: "food_mixes",
+    species: ["winter_white", "campbells", "chinese"],
+    priceGuide: "£7.99 - £8.99",
+    retailer: "Hope's Healthy Treats (UK Stockist)",
+    url: "https://hopeshealthytreats.com",
+    badges: ["⭐ Rescue Favourite", "Diabetes-Safe", "Dwarf Specific", "Hope's Healthy Treats"],
+    summary: "Formulated specifically for diabetes-prone Russian and Chinese dwarfs. Packed with canary grass seeds, diverse millets, buckwheat, mealworms, and clover seeds. Strictly zero dried fruit or sugary bits."
+  },
+  {
+    id: "food-mixerama-robo",
+    name: "Mixerama Roborovski Dwarf 'Gourmet Menu' (500g)",
+    brand: "Mixerama",
+    category: "food_mixes",
+    species: ["roborovski"],
+    priceGuide: "£7.99 - £8.99",
+    retailer: "Hope's Healthy Treats (UK Stockist)",
+    url: "https://hopeshealthytreats.com",
+    badges: ["⭐ Rescue Favourite", "Robo Specially Formulated", "Hope's Healthy Treats"],
+    summary: "Formulated specifically for Roborovski dwarf hamsters with an extra-high ratio of fine steppe grass seeds and miniature millets suited to tiny mouths and fast desert metabolisms."
+  },
+  {
+    id: "food-bunny-expert-syrian",
+    name: "Bunny Nature HamsterDream EXPERT (500g)",
+    brand: "Bunny Nature",
+    category: "food_mixes",
+    species: ["syrian"],
+    priceGuide: "£6.99 - £8.50",
+    retailer: "Zooplus UK / Amazon UK",
+    url: "https://www.zooplus.co.uk/shop/small_pets/food/hamster_food/bunny/406180",
+    badges: ["Rescue Approved", "Pellet-Free", "Widely Available"],
+    summary: "Easily available in the UK. Completely pellet-free muesli mix with mealworms, barley, pumpkin seeds, and vital grasses. (Note: Must be the EXPERT version, which contains zero compressed pellets)."
+  },
+  {
+    id: "food-bunny-expert-dwarf",
+    name: "Bunny Nature DwarfHamsterDream EXPERT (500g)",
+    brand: "Bunny Nature",
+    category: "food_mixes",
+    species: ["roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£6.99 - £8.50",
+    retailer: "Zooplus UK / Amazon UK",
+    url: "https://www.zooplus.co.uk/shop/small_pets/food/dwarf_hamster_food/bunny/406179",
+    badges: ["Rescue Approved", "Pellet-Free", "Dwarf Balanced"],
+    summary: "Specially balanced for all dwarf hamsters with micro-seeds, wild grass seeds, and mealworms. Sugar-free and fruit-free to safeguard against diabetes."
+  },
+  {
+    id: "food-getzoo-syrian",
+    name: "Getzoo Syrian Hamster Gourmet Food (500g / 1kg)",
+    brand: "Getzoo",
+    category: "food_mixes",
+    species: ["syrian"],
+    priceGuide: "£8.50 - £14.00",
+    retailer: "Getzoo (Ships to UK) / Specialty Resellers",
+    url: "https://www.getzoo.de/en/food/hamster/",
+    badges: ["German Welfare Standard", "Natural Steppe Diet"],
+    summary: "Modeled directly on wild Syrian hamster steppe foraging. Includes buckwheat, dari, millets, mealworms, and herbal blossoms. Human-grade quality."
+  },
+  {
+    id: "food-getzoo-dwarf",
+    name: "Getzoo Dwarf Hamster Food (Basic / Light)",
+    brand: "Getzoo",
+    category: "food_mixes",
+    species: ["roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£8.50 - £14.00",
+    retailer: "Getzoo (Ships to UK) / Specialty Resellers",
+    url: "https://www.getzoo.de/en/food/dwarf-hamster/",
+    badges: ["German Welfare Standard", "Grass Seed Rich"],
+    summary: "Rich in wild grass seeds and small grains mimicking the natural dry grasslands of dwarf hamsters. Zero sugary fillers or processed pellets."
+  },
+
   // --- ENCLOSURES & CAGES ---
   {
     id: "enc-bucatstate-3",
@@ -11,7 +97,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£169.99 - £199.99",
     retailer: "Amazon UK / BUCATSTATE Official",
-    url: "https://www.amazon.co.uk/dp/B0BP7M513F",
+    url: "https://www.amazon.co.uk/s?k=BUCATSTATE+hamster+cage+100cm",
     badges: ["⭐ Team Favourite", "Rescue Approved", "Barless"],
     summary: "Spacious 100x50x50cm barless setup with full clear front and heavy duty metal mesh lid for deep 25cm+ bedding without spillage."
   },
@@ -47,7 +133,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£74.99",
     retailer: "Aosom UK / Amazon UK",
-    url: "https://www.aosom.co.uk",
+    url: "https://www.aosom.co.uk/item/pawhut-hamster-cage-wooden-rodent-small-animal-house-exercise-play-mice-habitat-115-x-60-x-58cm-natural~D2-0041.html",
     badges: ["Budget Friendly", "Rescue Approved"],
     summary: "Affordable 115cm wooden setup with clear acrylic front panel. Remove intermediate wooden levels to create unbroken deep burrowing bedding."
   },
@@ -71,9 +157,9 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£55.00 - £75.00",
     retailer: "IKEA UK",
-    url: "https://www.ikea.com/gb/en/",
+    url: "https://www.ikea.com/gb/en/cat/table-tops-11844/",
     badges: ["DIY Alternative", "Budget Friendly"],
-    summary: "Custom cage built using 3 or 4 IKEA Linnmon table tops with glass or acrylic front. Easily customizable up to 120cm."
+    summary: "Custom cage built using 3 or 4 IKEA Linnmon/Lagkapten table tops with glass or acrylic front. Easily customizable up to 120cm."
   },
   {
     id: "enc-hopes-cage",
@@ -83,7 +169,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£179.99",
     retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.co.uk",
+    url: "https://hopeshealthytreats.com",
     badges: ["UK Small Business", "Hope's Healthy Treats", "Rescue Approved"],
     summary: "Beautiful, high welfare wooden and acrylic enclosure built to exceed UK rescue standards with deep bedding capacity and superb ventilation."
   },
@@ -97,7 +183,7 @@ export const products = [
     species: ["syrian"],
     priceGuide: "£39.99",
     retailer: "Amazon UK",
-    url: "https://www.amazon.co.uk/dp/B0B5Z8Z6X9",
+    url: "https://www.amazon.co.uk/s?k=BUCATSTATE+hamster+wheel+32cm",
     badges: ["⭐ Team Favourite", "Rescue Approved", "Whisper Quiet"],
     summary: "Massive 32cm diameter ensures even largest female Syrians run with zero spinal arching. Dual bearing system makes it completely silent."
   },
@@ -109,7 +195,7 @@ export const products = [
     species: ["roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£33.99",
     retailer: "Amazon UK",
-    url: "https://www.amazon.co.uk/dp/B0B5Z8Z6X9",
+    url: "https://www.amazon.co.uk/s?k=BUCATSTATE+hamster+wheel+26cm",
     badges: ["Rescue Approved", "Ideal for Dwarfs"],
     summary: "Perfect 26cm diameter for all dwarf species. Smooth solid running track with adjustable height stand."
   },
@@ -121,7 +207,7 @@ export const products = [
     species: ["syrian"],
     priceGuide: "£38.99",
     retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.co.uk",
+    url: "https://hopeshealthytreats.com",
     badges: ["Hope's Healthy Treats", "⭐ Team Favourite", "Natural Cork"],
     summary: "Premium wooden wheel lined with soft, natural cork that is gentle on delicate foot pads while providing silent rotation."
   },
@@ -133,7 +219,7 @@ export const products = [
     species: ["syrian", "chinese", "winter_white", "campbells"],
     priceGuide: "£42.99",
     retailer: "Amazon UK",
-    url: "https://www.amazon.co.uk/dp/B08FC7W5C1",
+    url: "https://www.amazon.co.uk/s?k=Niteangel+hamster+wheel+28cm",
     badges: ["⭐ Team Favourite", "Rescue Approved"],
     summary: "Heavy acrylic base prevents tipping; ultra-smooth rotation and clear acrylic aesthetic."
   },
@@ -145,7 +231,7 @@ export const products = [
     species: ["syrian", "winter_white", "campbells", "chinese"],
     priceGuide: "£19.99",
     retailer: "Zooplus UK / Amazon UK",
-    url: "https://www.zooplus.co.uk",
+    url: "https://www.zooplus.co.uk/shop/small_pets/accessories/exercise_wheels/125485",
     badges: ["Budget Friendly", "Rescue Approved"],
     summary: "Solid wood running surface with ball bearing. Paint with pet-safe Plastikote or water-based sealer for easy cleaning."
   },
@@ -154,10 +240,10 @@ export const products = [
     name: "Pets at Home Large Plastic Wheel (28cm)",
     brand: "Pets at Home",
     category: "wheels",
-    species: ["syrian", "dwarf", "chinese"],
+    species: ["syrian", "winter_white", "campbells", "chinese"],
     priceGuide: "£15.00",
     retailer: "Pets at Home",
-    url: "https://www.petsathome.com",
+    url: "https://www.petsathome.com/shop/en/pets/small-pet/hamster-toys/plastic-small-animal-exercise-wheel-large",
     badges: ["⭐ Team Favourite", "Budget Friendly", "Easy to Clean"],
     summary: "One of the few genuine gems sold at Pets at Home. A solid, safe 28cm wheel for only £15."
   },
@@ -169,7 +255,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£35.00 - £45.00",
     retailer: "Getzoo Germany (Ships to UK) / UK Resellers",
-    url: "https://www.getzoo.de",
+    url: "https://www.getzoo.de/en/wheel/",
     badges: ["German Welfare Standard", "Rescue Approved"],
     summary: "Handmade in Germany to the world's strictest small pet standards. Ultra-light spin suited for dwarfs up to Syrians."
   },
@@ -183,7 +269,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£49.20 (Bulk) or £26.00",
     retailer: "Fitch Recycling UK Official",
-    url: "https://www.fitchrecycling.co.uk",
+    url: "https://www.fitchrecycling.co.uk/animal-bedding.html",
     badges: ["⭐ Team Favourite", "Rescue Approved", "Bulk Value"],
     summary: "Food-grade, dust-free shredded paper bedding. Exceptionally soft, highly absorbent, and holds intricate tunnels effortlessly."
   },
@@ -195,7 +281,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£27.99 - £32.99",
     retailer: "Amazon UK / Zooplus UK",
-    url: "https://www.amazon.co.uk/dp/B007R6G8DA",
+    url: "https://www.amazon.co.uk/s?k=Kaytee+Clean+and+Cozy+white+paper+bedding",
     badges: ["⭐ Team Favourite", "Rescue Approved", "99.9% Dust Free"],
     summary: "Soft, unscented virgin paper bedding that expands 3x. Must buy the unscented white version only."
   },
@@ -207,7 +293,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£19.99 - £22.99",
     retailer: "Zooplus UK / PetPlanet",
-    url: "https://www.zooplus.co.uk",
+    url: "https://www.zooplus.co.uk/shop/small_pets/care_grooming/bedding/wood_shavings/14002",
     badges: ["⭐ Team Favourite", "Budget Friendly", "Kiln Dried"],
     summary: "Debarked, kiln-dried soft spruce and fir shavings. Dust-extracted. Mix with paper bedding and hay for sturdy burrows."
   },
@@ -219,7 +305,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£23.99",
     retailer: "Small Pet Select UK",
-    url: "https://smallpetselect.co.uk",
+    url: "https://smallpetselect.co.uk/collections/bedding-for-small-animals",
     badges: ["⭐ Team Favourite", "Hardwood Safe"],
     summary: "100% natural aspen hardwood shavings. Scent-free, phenol-free, and dust-extracted."
   },
@@ -257,7 +343,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£4.00 - £6.50",
     retailer: "Pets at Home / Swell Reptiles / Amazon UK",
-    url: "https://www.swelluk.com",
+    url: "https://www.swelluk.com/reptile/substrates/soil-coco-substrates",
     badges: ["⭐ Team Favourite", "Natural Soil Texture"],
     summary: "100% natural coconut fibre. Expand with warm water, then dry out thoroughly before adding to dig box."
   },
@@ -269,7 +355,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£7.99",
     retailer: "Swell Reptiles UK",
-    url: "https://www.swelluk.com",
+    url: "https://www.swelluk.com/reptile/substrates/wood-bark-chips",
     badges: ["Rescue Approved", "Tactile Texture"],
     summary: "Kiln-dried hardwood beech chips that satisfy foraging and claw maintenance without dust."
   },
@@ -281,7 +367,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£10.70",
     retailer: "Amazon UK",
-    url: "https://www.amazon.co.uk/dp/B07P8R4F7Y",
+    url: "https://www.amazon.co.uk/s?k=terrarium+cork+granules",
     badges: ["⭐ Team Favourite", "Soft Texture"],
     summary: "Naturally sterile, warm, lightweight cork granules. Hamsters love digging deep in this texture."
   },
@@ -293,7 +379,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£7.50",
     retailer: "Swell Reptiles / Pets at Home",
-    url: "https://www.swelluk.com",
+    url: "https://www.swelluk.com/reptile/substrates/moss",
     badges: ["Natural Scenery", "Rescue Approved"],
     summary: "100% natural dried sphagnum moss. Perfect for creating soft forest floors, hiding treats, and topping dig boxes."
   },
@@ -305,7 +391,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£26.99",
     retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.co.uk",
+    url: "https://hopeshealthytreats.com",
     badges: ["Hope's Healthy Treats", "⭐ Team Favourite", "UK Small Business"],
     summary: "Solid wood dig box divided into compartments so you can offer coco coir, beech chips, and cork side by side."
   },
@@ -319,7 +405,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£8.79",
     retailer: "Pets at Home",
-    url: "https://www.petsathome.com",
+    url: "https://www.petsathome.com/shop/en/pets/small-pet/hamster/grooming-sand",
     badges: ["⭐ Team Favourite", "Safe Mineral Sand", "No Calcium"],
     summary: "Natural desert sand free from dyes and calcium. Excellent consistency for grooming coats without dust."
   },
@@ -331,7 +417,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£10.00",
     retailer: "Swell Reptiles / Amazon UK",
-    url: "https://www.swelluk.com",
+    url: "https://www.swelluk.com/reptile/substrates/sand-soil-mixes",
     badges: ["⭐ Team Favourite", "Rescue Approved"],
     summary: "Pure fine silica desert sand without artificial colorants or chemical additives."
   },
@@ -343,7 +429,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£13.00",
     retailer: "Reptile Specialists / Amazon UK",
-    url: "https://www.amazon.co.uk",
+    url: "https://www.amazon.co.uk/s?k=Unipac+aquatic+reptile+sand+25kg",
     badges: ["⭐ Team Favourite", "Best Value"],
     summary: "Massive 25kg sack of pure washed reptile sand. Ideal for Roborovski enclosures where 1/3 of the cage is sand."
   },
@@ -355,7 +441,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£2.99 - £5.00",
     retailer: "Argos UK / B&Q / Wickes",
-    url: "https://www.argos.co.uk",
+    url: "https://www.argos.co.uk/search/play-sand/",
     badges: ["Budget Friendly", "Requires Baking"],
     summary: "Ultra-cheap play sand. IMPORTANT: Must bake in an oven at 180°C for 20 minutes to sterilize before use."
   },
@@ -367,7 +453,7 @@ export const products = [
     species: ["syrian", "winter_white", "campbells", "chinese"],
     priceGuide: "£4.50",
     retailer: "IKEA UK",
-    url: "https://www.ikea.com/gb/en/",
+    url: "https://www.ikea.com/gb/en/p/mixtur-oven-serving-dish-clear-glass-80058761/",
     badges: ["⭐ Team Favourite", "Budget Friendly", "Chew Proof"],
     summary: "Heavy glass dish meets A4 minimum size. 100% chew-proof and easy to wash with hot water."
   },
@@ -379,7 +465,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£31.95",
     retailer: "Amazon UK",
-    url: "https://www.amazon.co.uk",
+    url: "https://www.amazon.co.uk/s?k=Niteangel+sand+bath",
     badges: ["Rescue Approved", "Splash Guard"],
     summary: "Large container with curved entrance lid that prevents hamsters kicking sand out into their bedding."
   },
@@ -393,7 +479,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£19.99",
     retailer: "Amazon UK",
-    url: "https://www.amazon.co.uk/dp/B0BP8L2M7C",
+    url: "https://www.amazon.co.uk/s?k=BUCATSTATE+multi+chamber+hide",
     badges: ["⭐ Team Favourite", "Rescue Approved", "Slot Together"],
     summary: "Slot-together birch plywood without nails or glue. Removable roof allows easy spot-cleaning."
   },
@@ -405,7 +491,7 @@ export const products = [
     species: ["syrian", "winter_white", "campbells", "chinese"],
     priceGuide: "£26.99",
     retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.co.uk",
+    url: "https://hopeshealthytreats.com",
     badges: ["Hope's Healthy Treats", "⭐ Team Favourite", "UK Small Business"],
     summary: "Crafted by UK small business with spacious 7cm+ entrance holes and pre-drilled holes for stilt legs."
   },
@@ -417,7 +503,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "From £22.00",
     retailer: "Etsy UK",
-    url: "https://www.etsy.com",
+    url: "https://www.etsy.com/uk/search?q=happy+henrys+hamster+hide",
     badges: ["⭐ Team Favourite", "Handmade UK", "UK Small Business"],
     summary: "Handmade corner hide that optimizes space while providing 3 separate rooms and a rooftop platform for food dishes."
   },
@@ -429,7 +515,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£21.99",
     retailer: "Amazon UK",
-    url: "https://www.amazon.co.uk",
+    url: "https://www.amazon.co.uk/s?k=BUCATSTATE+ceramic+hide",
     badges: ["Summer Cooling", "Chew Proof"],
     summary: "Glazed ceramic hide remains cool in summer heat. 100% safe from chewing and easy to sterilize."
   },
@@ -455,7 +541,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£14.99",
     retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.co.uk",
+    url: "https://hopeshealthytreats.com",
     badges: ["Hope's Healthy Treats", "⭐ Team Favourite", "Pesticide Free"],
     summary: "Wholesome seasonal forage mix featuring dried dandelion leaves, marigold flowers, oat sprays, and safe herbs."
   },
@@ -466,8 +552,8 @@ export const products = [
     category: "forage",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£4.99",
-    retailer: "Etsy UK / Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.co.uk",
+    retailer: "Hope's Healthy Treats / Etsy UK",
+    url: "https://hopeshealthytreats.com",
     badges: ["Hamster Favourite", "Silky Fur"],
     summary: "Every hamster's absolute obsession. Packed with essential omega-3 fatty acids for a glossy coat and active foraging fun."
   },
@@ -479,7 +565,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£4.50",
     retailer: "Etsy UK",
-    url: "https://www.etsy.com",
+    url: "https://www.etsy.com/uk/search?q=sorghum+sprays+hamster",
     badges: ["Boredom Breaker", "UK Small Business"],
     summary: "Sturdy seed stems that provide great physical resistance, encouraging natural harvest work."
   },
@@ -491,7 +577,7 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£8.50 - £14.00",
     retailer: "Swell Reptiles / Hope's Healthy Treats",
-    url: "https://www.swelluk.com",
+    url: "https://www.swelluk.com/reptile/decor/cork-bark",
     badges: ["⭐ Team Favourite", "Nail Trimming", "Climbing Cover"],
     summary: "Hollow cork oak log. Rough bark texture naturally wears down sharp claws as hamsters clamber over and through it."
   }

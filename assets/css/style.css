@@ -1,92 +1,131 @@
-/* For the Hams! Custom Styling */
+/* For the Hams! Custom Mobile Web App Styling */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bg-app: #faf8f5;
+  --card-bg: #ffffff;
 }
 
 body {
   font-family: var(--font-body);
-  color: #1e293b;
-  background-color: #f8fafc;
+  color: #292524; /* Stone 800 */
+  background-color: var(--bg-app);
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1, h2, h3, h4, h5, h6, .font-heading {
   font-family: var(--font-heading);
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+/* Mobile Safe Areas & Ergonomics */
+.pb-safe {
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
 }
 
-/* Callout cards in care guides */
+/* Hide scrollbars for swipeable chip bars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Tactile mobile tap feedback */
+button:active, a.tap-active:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Custom scrollbar for desktop views */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
+}
+
+/* Educational Callouts in Care Guides */
 .callout {
-  padding: 1rem 1.25rem;
-  border-radius: 0.75rem;
-  margin: 1.25rem 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  padding: 0.875rem 1.125rem;
+  border-radius: 0.875rem;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
 }
 .callout-info {
-  background-color: #eff6ff;
-  border-left: 4px solid #3b82f6;
-  color: #1e40af;
+  background-color: #f0fdf4;
+  border-left: 4px solid #16a34a;
+  color: #14532d;
 }
 .callout-warning {
   background-color: #fffbeb;
-  border-left: 4px solid #f59e0b;
-  color: #92400e;
+  border-left: 4px solid #d97706;
+  color: #78350f;
 }
 .callout-danger {
   background-color: #fef2f2;
-  border-left: 4px solid #ef4444;
-  color: #991b1b;
+  border-left: 4px solid #dc2626;
+  color: #7f1d1d;
 }
 
-/* Guide content typography */
+/* Guide Content Typography */
 .guide-content h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  color: #0f172a;
-}
-.guide-content h4 {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
-  color: #1e293b;
+  color: #1c1917;
+  letter-spacing: -0.01em;
+}
+.guide-content h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 1.1rem;
+  margin-bottom: 0.4rem;
+  color: #292524;
 }
 .guide-content p {
-  margin-bottom: 0.85rem;
-  line-height: 1.7;
-  color: #334155;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: #44403c;
+  font-size: 0.925rem;
 }
 .guide-content ul {
   list-style-type: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
-  color: #334155;
-  line-height: 1.7;
+  padding-left: 1.25rem;
+  margin-bottom: 0.875rem;
+  color: #44403c;
+  line-height: 1.6;
+  font-size: 0.925rem;
 }
 .guide-content li {
   margin-bottom: 0.35rem;
+}
+
+/* Slide-up bottom sheet animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Print styles for adoption readiness summary */
@@ -102,7 +141,11 @@ h1, h2, h3, h4, h5, h6, .font-heading {
     left: 0;
     top: 0;
     width: 100%;
-    box-shadow: none;
-    border: none;
+    margin: 0;
+    padding: 20px;
+    background: white;
+  }
+  .no-print {
+    display: none !important;
   }
 }

@@ -228,6 +228,53 @@ export const careGuides = [
     `
   },
   {
+    id: "food_mixes_nutrition",
+    title: "Commercial Seed Mixes & Daily Nutrition",
+    icon: "sparkles",
+    badge: "Pellet-Free & Species-Specific",
+    summary: "Why pet shop mueslis fail, species nutritional ratios, the vital 48-hour freezer protocol, and scatter feeding.",
+    content: `
+      <h3>The Truth About Pet Shop Mueslis</h3>
+      <p>Most commercial hamster foods sold in standard UK high-street pet shops (such as Harry Hamster, Tiny Friends Farm, and generic store-brand mixes) do not meet modern welfare nutrition standards:</p>
+      <ul>
+        <li><strong>Unpalatable Compressed Pellets:</strong> Hamsters are natural granivores (seed and grain foragers). They consistently refuse compressed alfalfa and grass pellets, leaving behind up to 40% of the food and missing essential vitamins.</li>
+        <li><strong>Artificial Dyes & High Sugar:</strong> Bright pink, yellow, and green biscuits are laden with refined sugars, molasses, and synthetic colorants that cause obesity and accelerate diabetes.</li>
+        <li><strong>Low Biodiversity:</strong> Pet store mixes typically contain only 4 to 6 basic grains (mostly cheap corn and split peas) instead of the 25+ wild seeds hamsters naturally thrive on.</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <strong>The "Expert" Gold Standard:</strong> Look for <em>pellet-free, high-biodiversity seed mixes</em> made from whole seeds, wild grains, dried flower blossoms, and natural dried animal proteins (mealworms, crickets, or gammarus).
+      </div>
+
+      <h4>Species-Specific Nutritional Profiles</h4>
+      <ul>
+        <li><strong>Syrian Hamsters:</strong> Require 15–18% crude protein (18–22% for young hamsters under 6 months) and 6–8% healthy fats. Their mixes feature larger grains like buckwheat, barley, rye, spelt, pumpkin seeds, and sunflower seeds.</li>
+        <li><strong>Dwarf Hamsters (Russian, Campbell's, Chinese):</strong> Prone to genetic diabetes. Their diets must be strictly <strong>free from dried fruits, sugary carob/honey drops, and processed corn flakes</strong>. They require micro-seeds: canary grass, red/yellow millets, clover seed, and linseed.</li>
+        <li><strong>Roborovski Hamsters:</strong> As true desert dwellers, Robos thrive on extremely high ratios of tiny grass seeds and millets with moderate animal protein.</li>
+      </ul>
+
+      <h4>❄️ The 48-Hour Freezer Protocol (Vital)</h4>
+      <p>Because premium natural seed mixes and botanical sprays contain zero chemical pesticides or artificial preservatives, they naturally contain microscopic grain mite or moth eggs that can hatch in warm homes.</p>
+      <div class="callout callout-warning">
+        <strong>Rescue Rule:</strong> Always place new bags of seed mix, forage sprays, and herbs into your home freezer for a full <strong>48 hours</strong> upon delivery. This safely terminates any pantry pest eggs without affecting nutritional value. Let the food return to room temperature before feeding.
+      </div>
+
+      <h4>Scatter Feeding vs Food Bowls</h4>
+      <p>Hamsters in nature spend hours every night traversing steppe and desert landscapes searching for seeds to cram into their elastic cheek pouches. Dumping food into a ceramic bowl eliminates this natural behaviour and leads to boredom and selective eating.</p>
+      <ul>
+        <li><strong>Scatter Feed:</strong> Scatter 1–2 level tablespoons of seed mix directly across the bedding, on top of dig boxes, and around cork logs every 1–2 days.</li>
+        <li><strong>Water:</strong> Provide clean, fresh water in a small, heavy ceramic dish (like a tealight holder or ramekin) on an elevated platform, or a bottle. Shallow dishes are more natural for hamsters' spines than awkward high bottles.</li>
+      </ul>
+
+      <h4>Recommended UK Rescue-Approved Mixes</h4>
+      <ul>
+        <li><strong>Mixerama (Syrian Gourmet & Dwarf Magic):</strong> Available in the UK from independent stockist <strong>Hope's Healthy Treats</strong>. Outstanding variety with over 30 natural ingredients.</li>
+        <li><strong>Bunny Nature HamsterDream EXPERT (Syrian & Dwarf):</strong> Widely available on Zooplus UK and Amazon. Must specify <em>EXPERT</em> (the standard version contains pellets).</li>
+        <li><strong>Getzoo Hamster Food:</strong> Directly imported from Germany or UK craft retailers; deeply researched steppe-foraging recipes.</li>
+      </ul>
+    `
+  },
+  {
     id: "solitary_rule",
     title: "The Solitary Rule in Captivity",
     icon: "shield-alert",
