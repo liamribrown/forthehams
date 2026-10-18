@@ -1,0 +1,282 @@
+[
+  {
+    "name": "Broccoli",
+    "category": "Vegetables",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all 5 hamster species in moderation.",
+    "nutrition_notes": "Rich in vitamins C and K, dietary fiber, and sulforaphane.",
+    "preparation": "Wash thoroughly. Offer a small bite-sized floret (raw or lightly steamed without salt)."
+  },
+  {
+    "name": "Cucumber",
+    "category": "Vegetables",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species. Excellent for gentle hydration.",
+    "nutrition_notes": "High water content, low calories.",
+    "preparation": "Slice a 0.5cm wheel, peel if waxed. Avoid feeding excessively large pieces as high water can cause loose stools."
+  },
+  {
+    "name": "Carrot",
+    "category": "Vegetables",
+    "status": "Syrian only / Strict Dwarf Caution",
+    "species_guidance": "Safe in small amounts for Syrians. AVOID or very rare tiny sliver for Campbell's, Winter Whites, and Chinese due to natural sugar content.",
+    "nutrition_notes": "High in beta-carotene and vitamin A, but relatively high in natural sucrose.",
+    "preparation": "Peel, wash, and cut into a thumbnail-sized matchstick. Never feed whole baby carrots."
+  },
+  {
+    "name": "Bell Pepper (Red, Green, Yellow)",
+    "category": "Vegetables",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species. Green has lowest sugar, red has highest vitamin C.",
+    "nutrition_notes": "Superb source of vitamin C and antioxidants.",
+    "preparation": "Wash thoroughly and REMOVE ALL SEEDS and white pith. Slice into small slivers."
+  },
+  {
+    "name": "Cauliflower",
+    "category": "Vegetables",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species.",
+    "nutrition_notes": "Low sugar, high fiber. Can cause mild gas if fed in large quantities.",
+    "preparation": "Raw or steamed without seasoning. Feed a pea-sized piece."
+  },
+  {
+    "name": "Courgette (Zucchini)",
+    "category": "Vegetables",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species.",
+    "nutrition_notes": "Mild flavor, gentle on digestion, low in natural sugars.",
+    "preparation": "Wash skin thoroughly, slice into a thin quarter-circle."
+  },
+  {
+    "name": "Kale",
+    "category": "Vegetables",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species in moderation.",
+    "nutrition_notes": "High in calcium, iron, and vitamin A. Feed in moderation to prevent urinary calcium accumulation.",
+    "preparation": "Rinse well, tear into small leafy portions (postage-stamp size)."
+  },
+  {
+    "name": "Romaine Lettuce",
+    "category": "Vegetables",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species. (Do NOT confuse with Iceberg Lettuce).",
+    "nutrition_notes": "Nutrient dense green. NOT watery like iceberg.",
+    "preparation": "Wash crisp leaf, tear a small section. Avoid wilted leaves."
+  },
+  {
+    "name": "Iceberg Lettuce",
+    "category": "Vegetables",
+    "status": "Unsafe / Avoid",
+    "species_guidance": "Unsafe for all species.",
+    "nutrition_notes": "Contains lactucarium and near 96% water. Triggers rapid watery diarrhea, bloating, and dehydration in small rodents.",
+    "preparation": "Do not feed. Use dark leafy greens like romaine, kale, or rocket instead."
+  },
+  {
+    "name": "Raw Potato & Potato Skin",
+    "category": "Vegetables",
+    "status": "Strictly Toxic / Fatal Hazard",
+    "species_guidance": "Strictly toxic to all rodents.",
+    "nutrition_notes": "Contains high levels of solanine and chaconine (glycoalkaloids) causing neurological and gastrointestinal toxicity.",
+    "preparation": "NEVER FEED raw potato, potato sprouts, or green skin under any circumstances."
+  },
+  {
+    "name": "Onion, Garlic, Leeks, Chives & Shallots",
+    "category": "Vegetables",
+    "status": "Strictly Toxic / Fatal Hazard",
+    "species_guidance": "Deadly toxic to all hamster species.",
+    "nutrition_notes": "Contains thiosulfate and disulfides which induce oxidative hemolysis (destruction of red blood cells), causing fatal hemolytic anemia.",
+    "preparation": "NEVER FEED raw, cooked, dried, or powdered forms. Keep all allium away from hamsters."
+  },
+  {
+    "name": "Rhubarb (Stalks & Leaves)",
+    "category": "Vegetables",
+    "status": "Strictly Toxic / Fatal Hazard",
+    "species_guidance": "Deadly toxic to all hamster species.",
+    "nutrition_notes": "Extremely concentrated oxalic acid crystals bind systemic calcium, causing acute renal failure and rapid death.",
+    "preparation": "NEVER FEED."
+  },
+  {
+    "name": "Raw Kidney Beans & Raw Legumes",
+    "category": "Vegetables",
+    "status": "Strictly Toxic / Fatal Hazard",
+    "species_guidance": "Deadly toxic to all hamster species.",
+    "nutrition_notes": "Contains toxic phytohaemagglutinin (lectin) causing intestinal cell agglutination and fatal poisoning.",
+    "preparation": "NEVER FEED raw beans or lentils."
+  },
+  {
+    "name": "Apple (Flesh only)",
+    "category": "Fruits",
+    "status": "Syrian only / Avoid for Dwarfs",
+    "species_guidance": "Occasional treat for Syrians (once weekly). Avoid for Dwarfs and Chinese due to fructose triggering diabetes.",
+    "nutrition_notes": "Rich in pectin and vitamin C. SEEDS ARE DEADLY TOXIC (contain amygdalin / cyanide).",
+    "preparation": "Peel optional, cut a pea-sized piece of flesh. ABSOLUTELY REMOVE ALL SEEDS AND CORE."
+  },
+  {
+    "name": "Blueberries",
+    "category": "Fruits",
+    "status": "Syrian only / Dwarf Caution",
+    "species_guidance": "Great antioxidant treat for Syrians. Dwarfs can only have a half blueberry once a fortnight max.",
+    "nutrition_notes": "Packed with anthocyanins and vitamin C.",
+    "preparation": "Wash thoroughly. Syrians can have 1 berry; cut in half for dwarfs."
+  },
+  {
+    "name": "Strawberries",
+    "category": "Fruits",
+    "status": "Syrian only / Avoid for Dwarfs",
+    "species_guidance": "Syrians: small pea-sized treat. Dwarfs: avoid due to sugar sensitivity.",
+    "nutrition_notes": "High vitamin C and natural fruit sugar.",
+    "preparation": "Wash, remove green cap, cut tiny sliver."
+  },
+  {
+    "name": "Banana",
+    "category": "Fruits",
+    "status": "Caution (Pouching Hazard)",
+    "species_guidance": "Syrians only in micro amounts. Avoid for dwarfs.",
+    "nutrition_notes": "High sugar and potassium. Very sticky texture.",
+    "preparation": "Feed a paper-thin slice only by hand. Sticky banana can ferment and become impacted inside cheek pouches."
+  },
+  {
+    "name": "Citrus (Orange, Lemon, Lime, Grapefruit)",
+    "category": "Fruits",
+    "status": "Strictly Toxic / Harmful",
+    "species_guidance": "Harmful to all hamster species.",
+    "nutrition_notes": "Extremely high citric acid causes severe gastric erosion, painful mouth ulcers, and urinary bladder inflammation.",
+    "preparation": "NEVER FEED any citrus fruit, peel, or juice."
+  },
+  {
+    "name": "Avocado",
+    "category": "Fruits",
+    "status": "Strictly Toxic / Fatal Hazard",
+    "species_guidance": "Toxic to all hamster species.",
+    "nutrition_notes": "Contains persin (fungicidal toxin) and excessive fatty oils, causing myocardial damage and respiratory distress.",
+    "preparation": "NEVER FEED flesh, skin, or pit."
+  },
+  {
+    "name": "Dried Mealworms",
+    "category": "Proteins",
+    "status": "Safe for all",
+    "species_guidance": "Essential natural protein for all species. Roborovskis and Dwarfs relish insect forage.",
+    "nutrition_notes": "High protein (approx 50%) and healthy fats.",
+    "preparation": "Scatter 2-3 dried mealworms 2 to 3 times weekly. Roborovskis benefit greatly from insect foraging."
+  },
+  {
+    "name": "Black Soldier Fly Larvae (Calci Worms)",
+    "category": "Proteins",
+    "status": "Safe for all",
+    "species_guidance": "Superb for all species, especially growing or nursing hamsters.",
+    "nutrition_notes": "Optimal calcium-to-phosphorus ratio compared to mealworms.",
+    "preparation": "Feed 1-2 larvae as a healthy high-calcium forage treat."
+  },
+  {
+    "name": "Plain Boiled Chicken (Unseasoned)",
+    "category": "Proteins",
+    "status": "Safe for all",
+    "species_guidance": "Excellent lean protein source for all species.",
+    "nutrition_notes": "Pure lean animal protein.",
+    "preparation": "Boiled in plain water ONLY. No salt, pepper, oil, onions, or garlic. Shred a tiny fingernail-sized piece."
+  },
+  {
+    "name": "Plain Hard-Boiled Egg",
+    "category": "Proteins",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species. Particularly beneficial for elderly or convalescing hamsters.",
+    "nutrition_notes": "Complete amino acids, choline, and healthy yolk fats.",
+    "preparation": "Boiled hard, cooled, yolk and white mashed. Offer a pea-sized portion once weekly."
+  },
+  {
+    "name": "Flax Sprays (Linseed)",
+    "category": "Seeds & Sprays",
+    "status": "Safe for all",
+    "species_guidance": "Universal favorite across Syrians, Dwarfs, Robos, and Chinese.",
+    "nutrition_notes": "Rich in omega-3 fatty acids promoting glossy coat health and brain function.",
+    "preparation": "Place whole spray upright in substrate to encourage natural harvesting behavior."
+  },
+  {
+    "name": "Red & Yellow Spray Millet",
+    "category": "Seeds & Sprays",
+    "status": "Safe for all",
+    "species_guidance": "Safe and highly recommended for all species, especially Roborovskis.",
+    "nutrition_notes": "Easily digestible complex carbohydrates, low fat, excellent mental enrichment.",
+    "preparation": "Place entire spray or cut 5cm cluster and push into bedding."
+  },
+  {
+    "name": "Dari / Sorghum Sprays",
+    "category": "Seeds & Sprays",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species.",
+    "nutrition_notes": "Nutritious grain clusters that require physical manipulation to harvest.",
+    "preparation": "Position securely in enclosure clutter."
+  },
+  {
+    "name": "Pumpkin Seeds (Pepitas)",
+    "category": "Seeds & Sprays",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all. Excellent bonding treat.",
+    "nutrition_notes": "Rich in zinc, magnesium, and plant phytosterols.",
+    "preparation": "Raw, unsalted, unroasted seed. 1 seed daily as a hand-fed reward."
+  },
+  {
+    "name": "Sunflower Seeds",
+    "category": "Seeds & Sprays",
+    "status": "Safe for all (Feed in moderation)",
+    "species_guidance": "Safe for all species, but high fat means limit quantity.",
+    "nutrition_notes": "High in healthy oils and vitamin E. Excessive amounts cause obesity and liver lipidosis.",
+    "preparation": "Feed 1-2 striped or black sunflower seeds per day maximum."
+  },
+  {
+    "name": "Dandelion (Leaves & Flowers)",
+    "category": "Herbs & Botanicals",
+    "status": "Safe for all",
+    "species_guidance": "Safe and healthy for all species.",
+    "nutrition_notes": "Natural diuretic, liver tonic, rich in vitamins A, C, and potassium.",
+    "preparation": "Pick from pesticide-free, dog-free zones or buy dried forage. Wash thoroughly."
+  },
+  {
+    "name": "Marigold / Calendula Petals",
+    "category": "Herbs & Botanicals",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species.",
+    "nutrition_notes": "Gentle anti-inflammatory botanical, adds color and sensory variety.",
+    "preparation": "Dried petals scattered through bedding and forage areas."
+  },
+  {
+    "name": "Chamomile Flowers",
+    "category": "Herbs & Botanicals",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species.",
+    "nutrition_notes": "Mild calming properties, pleasant aroma.",
+    "preparation": "Dried whole flower heads scattered into enclosure."
+  },
+  {
+    "name": "Apple Tree Wood",
+    "category": "Wood & Chews",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all hamster species.",
+    "nutrition_notes": "Perfect density for wearing down continuously growing rodent incisors.",
+    "preparation": "Dried twigs and branches from unsprayed orchards. Bake at 100°C for 45 mins to sterilize."
+  },
+  {
+    "name": "Hazel Wood",
+    "category": "Wood & Chews",
+    "status": "Safe for all",
+    "species_guidance": "Safe for all species.",
+    "nutrition_notes": "Durable, non-splintering bark.",
+    "preparation": "Pesticide-free branches, cleaned and dried."
+  },
+  {
+    "name": "Pine & Cedar Wood (Fresh/Unkilned)",
+    "category": "Wood & Chews",
+    "status": "Strictly Toxic / Respiratory Hazard",
+    "species_guidance": "Harmful to all hamster species.",
+    "nutrition_notes": "Contain aromatic phenols and plicatic acid which cause severe airway epithelial necrosis and liver enzyme induction.",
+    "preparation": "NEVER USE raw pine or cedar twigs, shavings, or logs."
+  },
+  {
+    "name": "Yew, Oak, Cherry, Peach, Plum Branches",
+    "category": "Wood & Chews",
+    "status": "Strictly Toxic / Fatal Hazard",
+    "species_guidance": "Deadly toxic to all hamster species.",
+    "nutrition_notes": "Yew contains taxines; Oak has high toxic tannins; Stone fruit trees (cherry/peach/plum) contain cyanogenic glycosides in bark.",
+    "preparation": "NEVER USE any branches or leaves from stone fruit, oak, or yew trees."
+  }
+]

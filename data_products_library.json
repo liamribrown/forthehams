@@ -1,0 +1,420 @@
+[
+  {
+    "id": "bucatstate-2-metal-acrylic-100",
+    "name": "BUCATSTATE Hamster Cage 2.0 (100cm)",
+    "category": "Enclosures",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "dimensions": "100 x 50 x 52.5 cm",
+    "floor_space_cm2": 5250,
+    "price_approx": "£139.99",
+    "badge": "Rescue Approved - Top Pick",
+    "retailer": "Amazon UK / Bucatstate Official",
+    "buy_url": "https://www.amazon.co.uk/dp/B0BN7W7F6F",
+    "description": "High-end barless hybrid enclosure with thick acrylic front viewing panel, deep bedding basin holding 20cm+ substrate, front dual magnetic doors, and optimal wire mesh top ventilation.",
+    "key_features": [
+      "Exceeds 5,000 cm² minimum",
+      "Holds 22cm bedding without spills",
+      "Front opening for calm handling"
+    ]
+  },
+  {
+    "id": "bucatstate-2-metal-acrylic-120",
+    "name": "BUCATSTATE Hamster Cage 2.0 (120cm)",
+    "category": "Enclosures",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "dimensions": "120 x 60 x 62 cm",
+    "floor_space_cm2": 7200,
+    "price_approx": "£189.99",
+    "badge": "Gold Standard Welfare",
+    "retailer": "Amazon UK / Bucatstate Official",
+    "buy_url": "https://www.amazon.co.uk/dp/B0D5D8X6R8",
+    "description": "Massive 120x60cm enclosure providing 7,200 cm² of unbroken floor space. Strongly recommended for female Syrian hamsters who need expansive territory to eliminate stress behaviors.",
+    "key_features": [
+      "7,200 cm² unbroken space",
+      "Allows 30cm bedding depth",
+      "Ideal for female Syrians"
+    ]
+  },
+  {
+    "id": "savic-plaza-120",
+    "name": "Savic Plaza Knock Down Hamster Enclosure 120",
+    "category": "Enclosures",
+    "species": [
+      "Syrian",
+      "Chinese"
+    ],
+    "dimensions": "118 x 64 x 52 cm",
+    "floor_space_cm2": 7552,
+    "price_approx": "£119.99",
+    "badge": "Rescue Team Favorite (Barred)",
+    "retailer": "Pets at Home / Amazon UK",
+    "buy_url": "https://www.petsathome.com/product/savic-plaza-120-hamster-and-rat-cage/7144865P",
+    "description": "The UK rescue community's favorite barred cage. Extra large floor space with 9.5mm bar spacing. Features a giant front door for interaction and deep base. Note: Barred cages must have cardboard/perspex liners to reach 20cm bedding depth.",
+    "key_features": [
+      "7,552 cm² floor space",
+      "9.5mm narrow bar spacing",
+      "Massive front access door"
+    ]
+  },
+  {
+    "id": "pawhut-wooden-hamster-cage-115",
+    "name": "PawHut Large Wooden Hamster Enclosure (115cm)",
+    "category": "Enclosures",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "dimensions": "115 x 60 x 58 cm",
+    "floor_space_cm2": 6900,
+    "price_approx": "£74.99",
+    "badge": "Best Budget Large Cage",
+    "retailer": "Aosom UK / Amazon UK",
+    "buy_url": "https://www.aosom.co.uk/item/pawhut-wooden-hamster-cage-small-animal-pet-exercise-play-house-habitat~D2-0041.html",
+    "description": "Budget-friendly solid fir wood enclosure with front acrylic window and hinged mesh roof. Tip: Must seal base and lower internal edges with pet-safe Plastikote or water-based polyurethane sealant before bedding.",
+    "key_features": [
+      "6,900 cm² space for under £80",
+      "Easy viewing front acrylic",
+      "Requires pet-safe sealant"
+    ]
+  },
+  {
+    "id": "ikea-linnmon-diy",
+    "name": "DIY IKEA Linnmon Enclosure Hack",
+    "category": "Enclosures",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "dimensions": "100 x 50 x 50 cm or 120 x 50 x 50 cm",
+    "floor_space_cm2": 6000,
+    "price_approx": "£50 - £70 (Materials)",
+    "badge": "Team Favorite DIY",
+    "retailer": "IKEA UK + Hardware Store",
+    "buy_url": "https://www.ikea.com/gb/en/cat/table-tops-11844/",
+    "description": "The quintessential DIY hamster habitat built using IKEA Linnmon/Lagkapten table tops, glass/acrylic front sheet, and framed wire mesh lid. Provides custom size and ultra deep burrowing capacity.",
+    "key_features": [
+      "Very economical",
+      "Customizable depth for 30cm+ bedding",
+      "High aesthetic integration into home"
+    ]
+  },
+  {
+    "id": "bucatstate-magnetic-silent-wheel-32",
+    "name": "BUCATSTATE 32cm Super-Silent Wheel",
+    "category": "Wheels",
+    "species": [
+      "Syrian"
+    ],
+    "dimensions": "Diameter: 32 cm, Width: 11 cm",
+    "price_approx": "£29.99",
+    "badge": "Top Pick - Syrian",
+    "retailer": "Amazon UK",
+    "buy_url": "https://www.amazon.co.uk/dp/B0B5Z8Z6R4",
+    "description": "32cm diameter ensures completely flat spine posture for large adult Syrian hamsters. Dual magnetic bearing system eliminates operational noise. Comes with heavy stable base and height adjustment.",
+    "key_features": [
+      "32cm large diameter",
+      "Whisper quiet dual bearings",
+      "Solid, smooth running track"
+    ]
+  },
+  {
+    "id": "bucatstate-magnetic-silent-wheel-26",
+    "name": "BUCATSTATE 26cm Super-Silent Wheel",
+    "category": "Wheels",
+    "species": [
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "dimensions": "Diameter: 26 cm, Width: 9 cm",
+    "price_approx": "£24.99",
+    "badge": "Top Pick - Dwarf / Robo",
+    "retailer": "Amazon UK",
+    "buy_url": "https://www.amazon.co.uk/dp/B0B5Z7X2D1",
+    "description": "Ideal 26cm running diameter for dwarf and Roborovski hamsters. Lightweight rotation allows easy momentum build-up while stopping smoothly without flinging the hamster.",
+    "key_features": [
+      "26cm diameter",
+      "Easy to clean acrylic track",
+      "Stable base prevents tipping"
+    ]
+  },
+  {
+    "id": "trixie-plastic-wheel-28",
+    "name": "Trixie 28cm Plastic Exercise Wheel",
+    "category": "Wheels",
+    "species": [
+      "Syrian",
+      "Chinese"
+    ],
+    "dimensions": "Diameter: 28 cm",
+    "price_approx": "£12.99",
+    "badge": "Best Budget Safe Wheel",
+    "retailer": "Pets at Home / Zooplus UK",
+    "buy_url": "https://www.petsathome.com/product/trixie-plastic-small-animal-exercise-wheel-28cm/7112028P",
+    "description": "Affordable entry-level rescue approved wheel. Meets Syrian 28cm baseline with solid running track and closed rear wall. Best placed on a sturdy wooden platform.",
+    "key_features": [
+      "Meets 28cm Syrian minimum",
+      "Solid track with grip ridges",
+      "Budget friendly"
+    ]
+  },
+  {
+    "id": "fitch-paper-bedding-70l",
+    "name": "Fitch First Food Grade Paper Bedding (70L / 10kg)",
+    "category": "Bedding & Substrates",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£24.50 - £28.00",
+    "badge": "UK Rescue #1 Choice",
+    "retailer": "Fitch Pet Store / Amazon UK",
+    "buy_url": "https://www.fitchfirst.co.uk/fitch-pet-bedding/fitch-food-grade-paper-bedding-for-smaller-critters-approx-10kg-10-lump-sum.html",
+    "description": "The gold standard bedding among UK rescues. 100% virgin food-grade perforated paper. Completely dust-free, non-allergenic, absorbs odor effectively, and holds complex burrow tunnels remarkably well.",
+    "key_features": [
+      "Dust extracted",
+      "Superior tunnel holding capability",
+      "No chemical scents or bleach"
+    ]
+  },
+  {
+    "id": "carcroft-teabag-bedding-10kg",
+    "name": "Carcroft Tea Bag Paper Bedding (10kg)",
+    "category": "Bedding & Substrates",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£16.00",
+    "badge": "Best Value Bulk Bedding",
+    "retailer": "Carcroft Pet Supplies",
+    "buy_url": "https://www.carcroftpetsupplies.com/product-page/10kg-shredded-paper-soft-tissue-tea-bag-bedding-puppy-guinea-pig-small-animal",
+    "description": "Super soft shredded virgin tea bag paper. Extremely budget friendly, zero dust, ultra soft for nesting, and highly absorbent.",
+    "key_features": [
+      "High value 10kg sack",
+      "Virgin food-contact paper",
+      "Dust free"
+    ]
+  },
+  {
+    "id": "kaytee-clean-cozy-white",
+    "name": "Kaytee Clean & Cozy Unscented Paper Bedding (49.2L)",
+    "category": "Bedding & Substrates",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£22.99",
+    "badge": "Ultra Soft Texture",
+    "retailer": "Pets at Home / Amazon UK",
+    "buy_url": "https://www.petsathome.com/product/kaytee-clean-and-cozy-small-animal-bedding-white-49-2-litre/7131392P",
+    "description": "Expands 3x from compressed bag. Very soft white paper shreds. Must ensure only UNSCENTED version is purchased.",
+    "key_features": [
+      "Expands to 3x volume",
+      "Ultra soft texture",
+      "Dust controlled"
+    ]
+  },
+  {
+    "id": "prorep-aspen-bedding",
+    "name": "ProRep Aspen Wood Shavings",
+    "category": "Bedding & Substrates",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£8.50 - £19.00",
+    "badge": "Safe Wood Option",
+    "retailer": "Charterhouse Aquatics / Swell Reptiles",
+    "buy_url": "https://charterhouse-aquatics.com/products/prorep-aspen-bedding-standard-10-litre",
+    "description": "100% hardwood Aspen. Free of aromatic phenols and toxic oils found in pine/cedar. Team tip: Mix 50/50 with paper bedding and orchard grass hay for sturdy tunnel architecture.",
+    "key_features": [
+      "Phenol-free hardwood",
+      "Natural texture",
+      "Holds burrows when layered with paper/hay"
+    ]
+  },
+  {
+    "id": "pettex-reptile-desert-sand",
+    "name": "Pettex Reptile Desert Sand (Calcium-Free)",
+    "category": "Sand & Digging",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£8.49",
+    "badge": "Rescue Approved Sand",
+    "retailer": "Amazon UK / Pets at Home",
+    "buy_url": "https://www.amazon.co.uk/dp/B002SQ8RQE",
+    "description": "Smooth, rounded grain desert sand without added calcium, dyes, or dust. Essential for daily oil absorption, coat conditioning, and litter box habits.",
+    "key_features": [
+      "Zero added calcium",
+      "Low dust natural quartz sand",
+      "Essential coat grooming"
+    ]
+  },
+  {
+    "id": "suburban-play-sand-15kg",
+    "name": "Suburban Children's Play Sand (15kg)",
+    "category": "Sand & Digging",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£2.99 - £5.00",
+    "badge": "Best Budget Sand (Requires Baking)",
+    "retailer": "Smyths Toys / Argos",
+    "buy_url": "https://www.smythstoys.com/uk/en-gb/outdoor/sand-and-water-tables/sand-and-water-tables/suburban-play-sand-15kg-bag/p/201024",
+    "description": "Non-toxic children's play sand. Super budget friendly 15kg sack. Preparation required: Must bake in oven at 180°C for 30 minutes to sterilize and sift to remove any large pebbles before enclosure use.",
+    "key_features": [
+      "Incredible value 15kg for £3-£5",
+      "Non-toxic rounded grain",
+      "Must bake before use"
+    ]
+  },
+  {
+    "id": "prorep-desert-yellow",
+    "name": "ProRep Desert Sand (Yellow)",
+    "category": "Sand & Digging",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£7.95",
+    "badge": "Natural Texture",
+    "retailer": "Charterhouse Aquatics",
+    "buy_url": "https://charterhouse-aquatics.com/products/prorep-desert-yellow-sand-5kg",
+    "description": "Fine, silica-safe reptile sand without binders or calcium carbonate.",
+    "key_features": [
+      "Uniform grain size",
+      "Clean desert appearance"
+    ]
+  },
+  {
+    "id": "coco-coir-dig-brick",
+    "name": "Unfertilized Coco Coir Dig Brick (650g)",
+    "category": "Sand & Digging",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£3.99",
+    "badge": "Sensory Dig Texture",
+    "retailer": "Amazon UK / Hope's Healthy Treats",
+    "buy_url": "https://www.amazon.co.uk/dp/B0798QG135",
+    "description": "100% natural organic coconut coir fiber without fertilizers. Hydrate with boiling water, allow to completely dry out until fluffy, then place in dig box for earthy foraging.",
+    "key_features": [
+      "Earthy sensory enrichment",
+      "Safe if ingested in tiny amounts",
+      "Must dry completely before use"
+    ]
+  },
+  {
+    "id": "niteangel-multi-chamber-hide",
+    "name": "Niteangel Multi-Chamber Maze Wooden Hide",
+    "category": "Hides & Enrichment",
+    "species": [
+      "Syrian",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£24.99 - £28.99",
+    "badge": "Essential Habitat Requirement",
+    "retailer": "Amazon UK",
+    "buy_url": "https://www.amazon.co.uk/dp/B0833V6W78",
+    "description": "Mimics underground burrows with 3-6 distinct rooms for sleeping, hoarding food, and toilet use. Features removable roof lid for peaceful nest inspections without dismantling burrows.",
+    "key_features": [
+      "Removable roof lid",
+      "Bottomless design connects into bedding",
+      "Species-specific entrance sizes (7cm+ Syrian, 5cm+ Dwarf)"
+    ]
+  },
+  {
+    "id": "indias-rescue-spray-bouquet",
+    "name": "India's Hamster Rescue Spray Bouquet",
+    "category": "Forage & Sprays",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£8.50 - £14.00",
+    "badge": "100% Charity Proceeds",
+    "retailer": "India's Hamster Rescue eBay / Store",
+    "buy_url": "https://www.indiashamsterrescue.co.uk/store",
+    "description": "Hand-bundled natural spray selection containing red/yellow millet, flax, oat sprays, and dari. 100% of proceeds directly fund veterinary surgeries and rescue hamster food.",
+    "key_features": [
+      "Direct charity donation",
+      "Hand-assembled in UK",
+      "Premium varied sprays"
+    ]
+  },
+  {
+    "id": "hopes-healthy-treats-forage",
+    "name": "Hope's Healthy Treats Natural Forage & Herb Mix",
+    "category": "Forage & Sprays",
+    "species": [
+      "Syrian",
+      "Roborovski",
+      "Campbell's Dwarf",
+      "Winter White Dwarf",
+      "Chinese"
+    ],
+    "price_approx": "£4.50 - £12.00",
+    "badge": "UK Small Artisan Business",
+    "retailer": "Hope's Healthy Treats Official",
+    "buy_url": "https://hopeshealthytreats.com/",
+    "description": "UK artisan pet treat maker dedicated to 100% natural, unadulterated forage, dandelion flowers, calendula, and species-safe seed crunchies without syrups or added sugars.",
+    "key_features": [
+      "UK handmade",
+      "Zero honey/sugar binders",
+      "Highest quality botanical forage"
+    ]
+  }
+]

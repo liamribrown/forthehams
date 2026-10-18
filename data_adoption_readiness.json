@@ -1,0 +1,142 @@
+{
+  "title": "Let's Get You Adoption Ready!",
+  "subtitle": "Interactive Adoption Readiness Checklist aligned with UK Rescue Standards",
+  "description": "Complete this checklist to verify that your habitat meets the adoption criteria of India's Hamster Rescue, Bright Horizon, Fable's, and other ethical UK hamster rescues.",
+  "categories": [
+    {
+      "category_name": "1. Enclosure Standards",
+      "items": [
+        {
+          "id": "cage_size",
+          "label": "Continuous Floor Space",
+          "requirement": "Minimum 100 x 50 cm (5,000 cm² unbroken floor space).",
+          "explanation": "Levels, platforms, and connected tubes DO NOT count toward the 5,000 cm² minimum.",
+          "rescue_verified": true
+        },
+        {
+          "id": "cage_style",
+          "label": "Barless or Safe Bar Spacing",
+          "requirement": "Barless enclosure (glass/acrylic/DIY wood) preferred, or barred with <=1cm spacing for Syrians and <=0.5cm for dwarfs.",
+          "explanation": "Prevents dangerous bar chewing, bar climbing fall injuries, and escapes.",
+          "rescue_verified": true
+        }
+      ]
+    },
+    {
+      "category_name": "2. Bedding & Burrowing",
+      "items": [
+        {
+          "id": "bedding_depth",
+          "label": "Bedding Depth",
+          "requirement": "At least 20cm (8+ inches) of safe bedding throughout the main burrow area (25-30cm+ for Syrians).",
+          "explanation": "Hamsters are natural burrowers who create multi-chamber underground tunnels for sleeping and foraging.",
+          "rescue_verified": true
+        },
+        {
+          "id": "bedding_safety",
+          "label": "Safe Substrate Material",
+          "requirement": "Food-grade paper bedding (e.g. Fitch, Carcroft, Kaytee unscented) or kiln-dried dust-extracted Aspen.",
+          "explanation": "STRICTLY NO fluffy bedding, cotton wool, kapok fiber, or pine/cedar sawdust (causes fatal blockages and respiratory damage).",
+          "rescue_verified": true
+        }
+      ]
+    },
+    {
+      "category_name": "3. Exercise Wheel",
+      "items": [
+        {
+          "id": "wheel_size",
+          "label": "Species-Appropriate Wheel Diameter",
+          "requirement": "Syrian: 28cm+, Dwarf: 26cm+, Roborovski: 21cm+.",
+          "explanation": "The hamster's back must remain completely flat while running to prevent spinal curvature and nerve damage.",
+          "rescue_verified": true
+        },
+        {
+          "id": "wheel_construction",
+          "label": "Solid Running Track",
+          "requirement": "Solid continuous running surface with closed rear backplate. Mounted securely on a platform.",
+          "explanation": "STRICTLY NO wire mesh wheels, flying saucers, or hanging wheels.",
+          "rescue_verified": true
+        }
+      ]
+    },
+    {
+      "category_name": "4. Sand Bath & Dig Textures",
+      "items": [
+        {
+          "id": "sand_bath",
+          "label": "A4-Sized Sand Bath",
+          "requirement": "Large container (approx. A4 paper size, 5cm+ deep) filled with safe calcium-free sand.",
+          "explanation": "Hamsters clean their coats with sand, never water. Roborovskis need up to 1/3 of cage floor.",
+          "rescue_verified": true
+        },
+        {
+          "id": "safe_sand_type",
+          "label": "Certified Safe Sand",
+          "requirement": "Calcium-free reptile desert sand or baked and sifted children's play sand.",
+          "explanation": "STRICTLY NO chinchilla dust, mineral dust, or calcium sand.",
+          "rescue_verified": true
+        },
+        {
+          "id": "dig_box_textures",
+          "label": "Multi-Texture Dig Box",
+          "requirement": "Dedicated dig box with at least 3 distinct safe textures (e.g., coco coir, beech chips, cork granules, sphagnum moss).",
+          "explanation": "Provides sensory enrichment and mimics natural soil layers.",
+          "rescue_verified": true
+        }
+      ]
+    },
+    {
+      "category_name": "5. Hides & Structural Support",
+      "items": [
+        {
+          "id": "multi_chamber_hide",
+          "label": "Multi-Chamber Wooden Hide",
+          "requirement": "Bottomless multi-chamber hide with removable roof lid placed directly over deep bedding.",
+          "explanation": "Entrance holes must be >=7cm for Syrians and >=5cm for dwarfs.",
+          "rescue_verified": true
+        },
+        {
+          "id": "extra_hides",
+          "label": "At Least 3 Additional Individual Hides",
+          "requirement": "Ceramic, terracotta, or wooden hides distributed throughout the habitat.",
+          "explanation": "Ceramic mugs, teapots, and salt pigs provide cool shelter during warmer months.",
+          "rescue_verified": true
+        },
+        {
+          "id": "platforms",
+          "label": "Platforms for Heavy Items",
+          "requirement": "All heavy objects (wheel, sand bath, ceramic dishes) supported on stilts or wooden platforms.",
+          "explanation": "Prevents heavy items from sinking and crushing a hamster digging underneath.",
+          "rescue_verified": true
+        }
+      ]
+    },
+    {
+      "category_name": "6. Enrichment, Diet & Transport",
+      "items": [
+        {
+          "id": "sprays_clutter",
+          "label": "Forage Sprays & Tunnels",
+          "requirement": "Variety of sprays (flax, millet, dari, oats), reptile cork bark logs, and clutter.",
+          "explanation": "Hamsters are prey animals who feel anxious in open spaces. Clutter provides natural security.",
+          "rescue_verified": true
+        },
+        {
+          "id": "species_food",
+          "label": "Species-Specific Nutrition",
+          "requirement": "High quality species seed mix (low sugar for dwarfs) and access to fresh water bottle/bowl.",
+          "explanation": "Pellet-free varied mix supporting natural foraging behavior.",
+          "rescue_verified": true
+        },
+        {
+          "id": "transport_carrier",
+          "label": "Safe Hard-Plastic Travel Carrier",
+          "requirement": "Sturdy pet transport carrier bedded with substrate and forage for collection day.",
+          "explanation": "Cardboard boxes are easily chewed through during car rides.",
+          "rescue_verified": true
+        }
+      ]
+    }
+  ]
+}

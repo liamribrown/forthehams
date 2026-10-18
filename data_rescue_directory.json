@@ -1,0 +1,188 @@
+[
+  {
+    "id": "indias-hamster-rescue",
+    "name": "India's Hamster Rescue",
+    "charity_number": "1213919",
+    "charity_type": "UK Registered Charity",
+    "coverage": "England & Wales (Foster Network)",
+    "regions": [
+      "London",
+      "Kent",
+      "Cambridgeshire",
+      "Bedfordshire",
+      "Buckinghamshire",
+      "Oxfordshire",
+      "Surrey",
+      "Dorset",
+      "Yorkshire",
+      "Wales"
+    ],
+    "website": "https://www.indiashamsterrescue.co.uk",
+    "store_url": "https://www.indiashamsterrescue.co.uk/store",
+    "socials": {
+      "instagram": "https://www.instagram.com/indiashamsterrescue",
+      "facebook": "https://www.facebook.com/indiashamsterrescue",
+      "tiktok": "https://www.tiktok.com/@indiashamsterrescue"
+    },
+    "description": "Registered small animal charity rescuing, rehabilitating, and rehoming neglected hamsters across England and Wales via a dedicated volunteer foster network. Advocates for modern ethical welfare and provides verified care infographics.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 x 50 cm (5,000 cm² unbroken floor space)",
+      "bedding_minimum": "20 cm / 8+ inches safe burrowing substrate",
+      "wheel_minimums": "Syrian: 28cm+, Dwarf: 26cm+, Robo: 21cm+",
+      "sand_bath": "A4-sized sand bath minimum",
+      "dig_box": "Dedicated dig box with at least 3 safe textures",
+      "hides": "Enclosed multi-chamber hide + at least 3 individual hides"
+    }
+  },
+  {
+    "id": "bright-horizon",
+    "name": "Bright Horizon Hamster Rescue",
+    "charity_number": "1210796",
+    "charity_type": "UK Registered Charity",
+    "coverage": "North East England & Yorkshire (Foster Network)",
+    "regions": [
+      "North East England",
+      "Yorkshire",
+      "Tyne and Wear",
+      "County Durham",
+      "Northumberland"
+    ],
+    "website": "https://www.brighthorizonhamster.co.uk",
+    "socials": {
+      "facebook": "https://www.facebook.com/brighthorizonhamsterrescue",
+      "instagram": "https://www.instagram.com/brighthorizonhamsterrescue"
+    },
+    "description": "UK registered charity committed to ethical rescue, veterinary rehabilitation, rehoming, and high-quality educational guides and infographics promoting modern welfare standards.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 cm (5,000 cm² floor space)",
+      "bedding_minimum": "20 cm+ deep burrowing substrate",
+      "wheel_minimums": "28cm Syrian, 25cm+ Dwarf/Robo",
+      "playpen_safe": "Secure out-of-cage enrichment space"
+    }
+  },
+  {
+    "id": "fables-hamster-rescue",
+    "name": "Fable's Hamster Rescue",
+    "charity_number": "Non-Profit Rescue",
+    "charity_type": "Rescue & Welfare Organisation",
+    "coverage": "UK Nationwide Foster Network",
+    "regions": [
+      "Nationwide England"
+    ],
+    "website": "https://www.fableshamsters.co.uk",
+    "product_library": "https://www.fableshamsters.co.uk/productlibrary",
+    "socials": {
+      "facebook": "https://www.facebook.com/fableshamsterrescue",
+      "instagram": "https://www.instagram.com/fableshamsterrescue"
+    },
+    "description": "Rescue founded on scientific welfare research and real foster network experience. Creator of Professor Stash's Product Library, an unbiased directory of verified hamster products.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 cm continuous floor space",
+      "bedding_minimum": "20 cm+ bedding depth",
+      "diet": "Species-specific balanced nutrition with low-sugar dwarf diets"
+    }
+  },
+  {
+    "id": "hamster-welfare",
+    "name": "Hamster Welfare UK",
+    "charity_number": "Welfare & Advocacy Initiative",
+    "charity_type": "Welfare Campaign & Education",
+    "coverage": "UK-Wide Educational Resource",
+    "regions": [
+      "UK Nationwide"
+    ],
+    "website": "https://www.hamsterwelfare.com",
+    "socials": {
+      "facebook": "https://www.facebook.com/hamsterwelfare",
+      "instagram": "https://www.instagram.com/hamsterwelfare"
+    },
+    "description": "Leading UK advocacy group campaigning to ban unsuitable pet shop cages, cotton fluff bedding, and hamster exercise balls while establishing the 100x50cm welfare standard across UK pet retail.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 cm unbroken base",
+      "solitary": "All species solitary in domestic captivity",
+      "no_balls": "Hamster exercise balls dangerous and inhumane"
+    }
+  },
+  {
+    "id": "happy-hamsters-uk",
+    "name": "Happy Hamsters UK",
+    "charity_number": "Independent Rescue",
+    "charity_type": "Foster-Based Rescue",
+    "coverage": "South West England & Hampshire",
+    "regions": [
+      "Hampshire",
+      "Dorset",
+      "Wiltshire",
+      "Surrey"
+    ],
+    "website": "https://www.happyhamstersuk.com",
+    "socials": {
+      "facebook": "https://www.facebook.com/happyhamstersuk"
+    },
+    "description": "Dedicated small animal rescue and surrender service in Southern England, matching hamsters into vetted ethical homes with proper enclosure sizes.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 cm minimum floor space",
+      "bedding_minimum": "Deep paper or safe wood bedding"
+    }
+  },
+  {
+    "id": "thames-valley",
+    "name": "Thames Valley Hamster Rescue (TVHR)",
+    "charity_number": "Independent Rescue",
+    "charity_type": "Foster-Based Rescue",
+    "coverage": "Thames Valley & Home Counties",
+    "regions": [
+      "Berkshire",
+      "Oxfordshire",
+      "Buckinghamshire"
+    ],
+    "website": "https://www.facebook.com/thamesvalleyhamsterrescue",
+    "socials": {
+      "facebook": "https://www.facebook.com/thamesvalleyhamsterrescue"
+    },
+    "description": "Volunteer foster network rescuing stray, surrendered, and abandoned hamsters throughout the Thames Valley region.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 cm minimum"
+    }
+  },
+  {
+    "id": "woodgreen",
+    "name": "Woodgreen Pets Charity",
+    "charity_number": "298348",
+    "charity_type": "UK Registered Charity",
+    "coverage": "Cambridgeshire & National",
+    "regions": [
+      "Cambridgeshire",
+      "East of England",
+      "Nationwide"
+    ],
+    "website": "https://woodgreen.org.uk",
+    "socials": {
+      "facebook": "https://www.facebook.com/woodgreenpetscharity"
+    },
+    "description": "Major UK animal charity with a modern small mammal rehoming centre adhering to progressive rodent welfare guidelines.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 cm minimum"
+    }
+  },
+  {
+    "id": "blue-cross",
+    "name": "Blue Cross UK",
+    "charity_number": "224642",
+    "charity_type": "UK Registered Charity",
+    "coverage": "UK Nationwide Centres",
+    "regions": [
+      "England",
+      "Scotland",
+      "Wales"
+    ],
+    "website": "https://www.bluecross.org.uk",
+    "socials": {
+      "facebook": "https://www.facebook.com/thebluecrossUK"
+    },
+    "description": "Historic UK veterinary and animal welfare charity advocating for humane housing and proper care standards for companion rodents.",
+    "key_standards": {
+      "cage_minimum": "100 x 50 cm minimum"
+    }
+  }
+]
