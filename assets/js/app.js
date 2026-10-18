@@ -1,6 +1,6 @@
 // For the Hams! Mobile Web App Logic
 // www.forthehams.co.uk | UK Ethical Hamster Care & Rescue Standards
-// Punchy, Quirky, Colourful & Fun! 🐹✨
+// Authentic 2000s / Noughties Glossy Web 2.0 Theme 🐹✨
 
 import { speciesList } from './data/species.js';
 import { careGuides } from './data/guides.js';
@@ -24,23 +24,23 @@ const state = {
   checkedItems: JSON.parse(localStorage.getItem('fth_checklist') || '{}')
 };
 
-// Tab Colour Matrix (Punchy & Pop!)
-const tabColours = {
-  guides: { activeBg: 'bg-[#FDE047]', text: 'text-stone-950' },   // Sunny Yellow
-  food: { activeBg: 'bg-[#34D399]', text: 'text-stone-950' },     // Electric Mint
-  shop: { activeBg: 'bg-[#FF5C00]', text: 'text-white' },         // Tangy Orange
-  checklist: { activeBg: 'bg-[#F472B6]', text: 'text-white' },    // Bubblegum Pink
-  rescues: { activeBg: 'bg-[#38BDF8]', text: 'text-stone-950' }    // Electric Sky
+// 2000s Tab Gel Highlighting Matrix
+const tabGelClasses = {
+  guides: 'gel-orange',
+  food: 'gel-green',
+  shop: 'gel-blue',
+  checklist: 'gel-pink',
+  rescues: 'gel-purple'
 };
 
-// Species Colour Palette
-const speciesColours = {
-  all: 'bg-[#FF5C00] text-white',
-  syrian: 'bg-[#FFB800] text-stone-950',
-  roborovski: 'bg-[#38BDF8] text-stone-950',
-  winter_white: 'bg-[#34D399] text-stone-950',
-  campbells: 'bg-[#F472B6] text-white',
-  chinese: 'bg-[#A78BFA] text-white'
+// 2000s Species Gel Color Mapping
+const speciesGelClasses = {
+  all: 'gel-orange',
+  syrian: 'gel-yellow',
+  roborovski: 'gel-blue',
+  winter_white: 'gel-green',
+  campbells: 'gel-pink',
+  chinese: 'gel-purple'
 };
 
 // Bootstrap
@@ -67,24 +67,26 @@ function updateNavState() {
     const tab = btn.getAttribute('data-nav-tab');
     const iconBg = btn.querySelector('.tab-icon-bg');
     const label = btn.querySelector('.tab-label');
-    const cfg = tabColours[tab] || { activeBg: 'bg-amber-400', text: 'text-stone-950' };
+    const gelClass = tabGelClasses[tab] || 'gel-orange';
 
-    // Reset base classes
     if (iconBg) {
-      iconBg.className = 'w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg';
+      // Remove any previously set gel classes
+      iconBg.classList.remove('gel-btn', 'gel-orange', 'gel-green', 'gel-blue', 'gel-pink', 'gel-purple', 'gel-silver', 'text-slate-400');
+      
       if (tab === state.activeTab) {
-        iconBg.classList.add(...cfg.activeBg.split(' '), ...cfg.text.split(' '), 'border-2', 'border-stone-900', 'shadow-[2px_2px_0px_#18181b]', '-translate-y-0.5');
+        iconBg.classList.add('gel-btn', gelClass, 'shadow-md', '-translate-y-0.5');
       } else {
-        iconBg.classList.add('text-stone-400', 'hover:bg-stone-100');
+        iconBg.classList.add('text-slate-400', 'hover:bg-sky-50');
       }
     }
 
     if (label) {
-      label.className = 'text-[10px] font-black mt-0.5 tracking-tight tab-label';
       if (tab === state.activeTab) {
-        label.classList.add('text-stone-950', 'font-black');
+        label.classList.add('text-sky-950', 'font-black');
+        label.classList.remove('text-slate-400');
       } else {
-        label.classList.add('text-stone-400');
+        label.classList.remove('text-sky-950', 'font-black');
+        label.classList.add('text-slate-400');
       }
     }
   });
@@ -144,7 +146,7 @@ function setupBottomSheetListeners() {
   });
 }
 
-// Species Filter Carousel
+// 2000s Species Filter Carousel (Glossy Candy Pills)
 function renderSpeciesBar() {
   const container = document.getElementById('species-filter-container');
   if (!container) return;
@@ -160,18 +162,14 @@ function renderSpeciesBar() {
 
   container.innerHTML = `
     <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 max-w-3xl mx-auto">
-      <span class="text-[10px] font-black text-stone-900 uppercase tracking-wider shrink-0 pl-1 mr-1">Species:</span>
+      <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider shrink-0 pl-1 mr-1">Species:</span>
       ${speciesOptions.map(opt => {
         const isActive = state.currentSpecies === opt.id;
-        const activeClass = speciesColours[opt.id] || 'bg-amber-400 text-stone-950';
+        const activeGel = speciesGelClasses[opt.id] || 'gel-orange';
         return `
           <button 
             data-species-btn="${opt.id}"
-            class="px-3 py-1 rounded-full text-xs font-black whitespace-nowrap transition-all duration-150 shrink-0 flex items-center gap-1 border-2 border-stone-900 ${
-              isActive
-                ? `${activeClass} shadow-[2px_2px_0px_#18181b] -translate-y-0.5`
-                : 'bg-white text-stone-700 hover:bg-yellow-100 shadow-[1px_1px_0px_#18181b]'
-            }">
+            class="gel-btn ${isActive ? activeGel : 'gel-silver'} px-3 py-1 text-xs font-black whitespace-nowrap transition-all duration-150 shrink-0 flex items-center gap-1">
             <span>${opt.emoji}</span>
             <span>${opt.name}</span>
           </button>
@@ -194,7 +192,7 @@ function renderSpeciesBar() {
   renderSpeciesDetailBanner();
 }
 
-// Species Metric Quick Card (Vibrant & Playful)
+// 2000s Species Metric Quick Card (Glossy Web 2.0 Panel)
 function renderSpeciesDetailBanner() {
   const banner = document.getElementById('species-banner-area');
   if (!banner) return;
@@ -208,45 +206,46 @@ function renderSpeciesDetailBanner() {
   if (!spec) return;
 
   banner.innerHTML = `
-    <div class="bg-[#FEF08A] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 my-2.5 relative overflow-hidden">
-      <div class="flex items-start justify-between gap-2">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="text-base font-black text-stone-950 font-heading">${spec.name}</span>
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border border-stone-900 text-stone-800 -rotate-1">${spec.badge}</span>
+    <div class="web2-card my-2.5">
+      <div class="web2-header-bar px-4 py-2.5 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-base font-black text-slate-900 font-heading">${spec.name}</span>
+          <span class="gel-badge gel-yellow text-[10px] font-black">${spec.badge}</span>
+        </div>
+        <button id="close-species-banner" class="w-6 h-6 rounded-full gel-btn gel-silver text-xs font-black">✕</button>
+      </div>
+
+      <div class="p-3.5 bg-white">
+        <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-3">${spec.summary}</p>
+
+        <!-- Quick Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl border border-sky-100 bg-sky-50/50 shadow-xs">
+            <div class="text-[9px] font-black text-sky-800 uppercase">Min Wheel</div>
+            <div class="font-black text-sm text-slate-900">${spec.careMatrix.minWheelDiameter}</div>
           </div>
-          <p class="text-xs font-medium text-stone-800 mt-1 line-clamp-2 leading-relaxed">${spec.summary}</p>
-        </div>
-        <button id="close-species-banner" class="w-6 h-6 rounded-full bg-white border-2 border-stone-900 flex items-center justify-center text-xs font-black shadow-[1.5px_1.5px_0px_#18181b] active:translate-x-0.5 active:translate-y-0.5">✕</button>
-      </div>
 
-      <!-- Quick Metrics Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 pt-2.5 border-t-2 border-stone-900/20 text-xs">
-        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
-          <div class="text-[9px] font-black text-stone-500 uppercase">Min Wheel</div>
-          <div class="font-black text-sm text-stone-900">${spec.careMatrix.minWheelDiameter}</div>
-        </div>
+          <div class="p-2.5 rounded-xl border border-sky-100 bg-sky-50/50 shadow-xs">
+            <div class="text-[9px] font-black text-sky-800 uppercase">Min Cage</div>
+            <div class="font-black text-sm text-slate-900">${spec.careMatrix.minCageFloorSpace}</div>
+          </div>
 
-        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
-          <div class="text-[9px] font-black text-stone-500 uppercase">Min Cage</div>
-          <div class="font-black text-sm text-stone-900">${spec.careMatrix.minCageFloorSpace}</div>
-        </div>
+          <div class="p-2.5 rounded-xl border border-rose-100 bg-rose-50/50 shadow-xs">
+            <div class="text-[9px] font-black text-rose-700 uppercase">Housing</div>
+            <div class="font-black text-sm text-rose-700">${spec.careMatrix.socialStatus}</div>
+          </div>
 
-        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
-          <div class="text-[9px] font-black text-rose-600 uppercase">Housing</div>
-          <div class="font-black text-sm text-rose-600">${spec.careMatrix.socialStatus}</div>
+          <div class="p-2.5 rounded-xl border border-sky-100 bg-sky-50/50 shadow-xs">
+            <div class="text-[9px] font-black text-sky-800 uppercase">Sand Area</div>
+            <div class="font-black text-sm text-slate-900">${spec.careMatrix.sandBathNeeds}</div>
+          </div>
         </div>
 
-        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
-          <div class="text-[9px] font-black text-stone-500 uppercase">Sand Area</div>
-          <div class="font-black text-sm text-stone-900">${spec.careMatrix.sandBathNeeds}</div>
+        <!-- Diabetes & Diet Warning Pill -->
+        <div class="mt-2.5 p-2 rounded-xl border border-amber-200 bg-amber-50 text-[11px] font-bold text-amber-950 flex items-center gap-1.5">
+          <span class="text-sm">⚠️</span>
+          <span><strong>Diet Advisory:</strong> ${spec.careMatrix.diabetesRisk}</span>
         </div>
-      </div>
-
-      <!-- Diabetes & Diet Warning Pill -->
-      <div class="mt-2.5 p-2 bg-white/90 rounded-xl border border-stone-900 text-[11px] font-bold text-stone-900 flex items-center gap-1.5">
-        <span class="text-sm">⚠️</span>
-        <span><strong>Diet Rule:</strong> ${spec.careMatrix.diabetesRisk}</span>
       </div>
     </div>
   `;
@@ -285,28 +284,28 @@ function renderCurrentTab() {
 }
 
 // ==========================================
-// 1. CARE GUIDES (Punchy & Fun)
+// 1. CARE GUIDES (2000s Web 2.0 Style)
 // ==========================================
 function renderCareGuides() {
   const main = document.getElementById('main-tab-content');
 
   main.innerHTML = `
     <div>
-      <!-- Sub-Tab Switcher (Quirky Pill Buttons) -->
+      <!-- Sub-Tab Switcher (Noughties Glossy Pills) -->
       <div class="flex items-center gap-2 mb-4 max-w-sm mx-auto justify-center">
-        <button data-guide-sub="core" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
-          state.guidesSubTab === 'core' ? 'bg-[#FDE047] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-yellow-50'
-        }">
+        <button data-guide-sub="core" class="gel-btn ${
+          state.guidesSubTab === 'core' ? 'gel-orange' : 'gel-silver'
+        } px-4 py-1.5 text-xs font-black">
           📖 Core Care
         </button>
-        <button data-guide-sub="unsafe" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
-          state.guidesSubTab === 'unsafe' ? 'bg-[#F43F5E] text-white shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-rose-700 hover:bg-rose-50'
-        }">
+        <button data-guide-sub="unsafe" class="gel-btn ${
+          state.guidesSubTab === 'unsafe' ? 'gel-red' : 'gel-silver'
+        } px-4 py-1.5 text-xs font-black">
           🛑 Unsafe Items
         </button>
-        <button data-guide-sub="inspiration" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
-          state.guidesSubTab === 'inspiration' ? 'bg-[#38BDF8] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-sky-50'
-        }">
+        <button data-guide-sub="inspiration" class="gel-btn ${
+          state.guidesSubTab === 'inspiration' ? 'gel-blue' : 'gel-silver'
+        } px-4 py-1.5 text-xs font-black">
           📸 Inspo Setups
         </button>
       </div>
@@ -334,7 +333,7 @@ function renderCareGuides() {
           guide.title,
           `
             <div class="guide-content">
-              <span class="inline-block px-3 py-1 rounded-full text-xs font-black bg-[#FDE047] border border-stone-900 text-stone-950 mb-3 -rotate-1">${guide.badge}</span>
+              <span class="gel-badge gel-yellow px-3 py-1 text-xs font-black mb-3 inline-block">${guide.badge}</span>
               ${guide.content}
             </div>
           `
@@ -345,24 +344,17 @@ function renderCareGuides() {
 }
 
 function renderCoreGuidesView() {
-  const badgeColors = [
-    'bg-[#FDE047]', // yellow
-    'bg-[#86EFAC]', // mint
-    'bg-[#FBCFE8]', // pink
-    'bg-[#BAE6FD]', // sky
-    'bg-[#DDD6FE]', // lavender
-    'bg-[#FED7AA]'  // peach
-  ];
+  const badgeGels = ['gel-yellow', 'gel-green', 'gel-blue', 'gel-pink', 'gel-purple', 'gel-orange'];
 
   return `
     <div class="space-y-3">
-      <!-- Friendly Volunteer Banner -->
-      <div class="bg-[#CCFBF1] border-2 border-stone-900 shadow-[3px_3px_0px_#18181b] rounded-2xl p-3.5 flex items-center justify-between text-xs">
+      <!-- Volunteer Banner -->
+      <div class="web2-card p-3.5 bg-gradient-to-r from-sky-50 via-white to-sky-50 flex items-center justify-between text-xs">
         <div class="flex items-center gap-2.5">
-          <span class="text-2xl animate-spin-slow">🌻</span>
+          <span class="text-2xl">🌿</span>
           <div>
-            <div class="font-black text-stone-950 font-heading text-sm">Real Rescue Knowledge ✨</div>
-            <p class="text-[11px] font-medium text-stone-700">Synthesized from India's Hamster Rescue (#1213919) foster standards.</p>
+            <div class="font-black text-slate-900 font-heading text-sm">UK Rescue Standards ✨</div>
+            <p class="text-[11px] font-medium text-slate-600">Synthesized from India's Hamster Rescue (#1213919) and UK rescue networks.</p>
           </div>
         </div>
       </div>
@@ -370,21 +362,21 @@ function renderCoreGuidesView() {
       <!-- Guides List Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         ${careGuides.map((guide, idx) => {
-          const badgeBg = badgeColors[idx % badgeColors.length];
+          const badgeClass = badgeGels[idx % badgeGels.length];
           return `
-            <div data-open-guide="${guide.id}" class="bg-white pop-card p-4 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 cursor-pointer flex flex-col justify-between">
+            <div data-open-guide="${guide.id}" class="web2-card p-4 hover:shadow-lg active:scale-[0.99] cursor-pointer flex flex-col justify-between">
               <div>
                 <div class="flex items-center justify-between mb-2">
-                  <span class="px-2.5 py-0.5 rounded-lg text-[10px] font-black border border-stone-900 ${badgeBg} text-stone-950">${guide.badge}</span>
-                  <div class="w-6 h-6 rounded-full bg-stone-100 border border-stone-900 flex items-center justify-center text-stone-900">
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  <span class="gel-badge ${badgeClass}">${guide.badge}</span>
+                  <div class="w-6 h-6 rounded-full gel-btn gel-silver flex items-center justify-center text-slate-700">
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                   </div>
                 </div>
-                <h3 class="font-black text-base text-stone-950 font-heading leading-tight mb-1.5">${guide.title}</h3>
-                <p class="text-xs font-medium text-stone-600 line-clamp-2 leading-relaxed">${guide.summary}</p>
+                <h3 class="font-black text-base text-slate-900 font-heading leading-tight mb-1.5">${guide.title}</h3>
+                <p class="text-xs font-medium text-slate-600 line-clamp-2 leading-relaxed">${guide.summary}</p>
               </div>
-              <div class="mt-3 pt-2.5 border-t-2 border-stone-100 flex items-center justify-between text-[11px] font-black text-[#FF5C00]">
-                <span>Tap to read guide</span>
+              <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] font-black text-amber-700">
+                <span>Tap to read full guide</span>
                 <span>✨</span>
               </div>
             </div>
@@ -398,27 +390,27 @@ function renderCoreGuidesView() {
 function renderUnsafeView() {
   return `
     <div class="space-y-3">
-      <div class="bg-[#FFE4E6] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 text-xs text-stone-950">
-        <h3 class="font-black text-base text-stone-950 font-heading mb-1 flex items-center gap-1.5">
+      <div class="web2-card p-4 bg-rose-50/60 border-rose-200 text-xs">
+        <h3 class="font-black text-base text-rose-950 font-heading mb-1 flex items-center gap-1.5">
           <span>🛑</span>
           <span>Unsafe Items Hall of Shame!</span>
         </h3>
-        <p class="text-[11px] font-medium leading-relaxed">
-          Pet shops regularly sell these products despite veterinary warnings. Here is exactly why rescues ban them!
+        <p class="text-[11px] text-slate-600 font-medium leading-relaxed">
+          Common pet shop items banned by ethical UK rescues due to risk of fatal bowel blockages, amputation, and spinal damage.
         </p>
       </div>
 
       <div class="space-y-3">
         ${unsafeItems.map(item => `
-          <div class="bg-white pop-card p-4 border-rose-600">
+          <div class="web2-card p-4 border-rose-200">
             <div class="flex items-center justify-between mb-1.5">
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#F43F5E] text-white border border-stone-900 uppercase tracking-wider">${item.badge}</span>
-              <span class="text-[10px] font-black text-rose-800 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-md">🚫 Rescues Ban This</span>
+              <span class="gel-badge gel-red text-[10px] font-black">${item.badge}</span>
+              <span class="text-[10px] font-bold text-rose-800 bg-rose-100 border border-rose-200 px-2 py-0.5 rounded-full">Banned by Rescues</span>
             </div>
-            <h4 class="font-black text-stone-950 text-base font-heading mb-1">${item.name}</h4>
-            <p class="text-xs font-medium text-stone-700 leading-relaxed mb-2.5">${item.danger}</p>
-            <div class="bg-rose-50 border border-rose-200 rounded-xl p-2.5 text-xs text-rose-950 font-medium">
-              <strong class="font-black text-rose-900">⚠️ Vet Danger:</strong> ${item.vetExplanation}
+            <h4 class="font-black text-slate-900 text-base font-heading mb-1">${item.name}</h4>
+            <p class="text-xs font-medium text-slate-600 leading-relaxed mb-2.5">${item.danger}</p>
+            <div class="bg-rose-50 border border-rose-100 rounded-xl p-2.5 text-xs text-rose-900 font-medium">
+              <strong class="font-black text-rose-950">⚠️ Veterinary Risk:</strong> ${item.vetExplanation}
             </div>
           </div>
         `).join('')}
@@ -469,21 +461,21 @@ function renderInspirationView() {
 
   return `
     <div class="space-y-4">
-      <div class="bg-[#DDD6FE] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 text-xs">
-        <h3 class="font-black text-stone-950 text-base font-heading">Real UK Foster Setups 📸</h3>
-        <p class="text-[11px] font-medium text-stone-800 mt-0.5">Real enclosure setups from India's Hamster Rescue fosterers showcasing deep burrowing, stilts, and enrichment!</p>
+      <div class="web2-card p-4 bg-sky-50/70 border-sky-200 text-xs">
+        <h3 class="font-black text-slate-900 text-base font-heading">Real UK Foster Setups 📸</h3>
+        <p class="text-[11px] font-medium text-slate-600 mt-0.5">Real enclosure setups from India's Hamster Rescue fosterers showcasing deep burrowing, stilts, and enrichment!</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         ${photos.map(p => `
-          <div class="bg-white pop-card overflow-hidden">
-            <div class="relative h-48 bg-stone-100 overflow-hidden border-b-2 border-stone-900">
+          <div class="web2-card overflow-hidden">
+            <div class="relative h-48 bg-slate-100 overflow-hidden border-b border-sky-100">
               <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
             </div>
-            <div class="p-4">
-              <h4 class="font-black text-sm text-stone-950 font-heading">${p.title}</h4>
-              <div class="text-[11px] font-black text-[#FF5C00] mb-1">${p.subtitle}</div>
-              <p class="text-xs font-medium text-stone-600 leading-relaxed">${p.details}</p>
+            <div class="p-3.5">
+              <h4 class="font-black text-sm text-slate-900 font-heading">${p.title}</h4>
+              <div class="text-[11px] font-black text-amber-700 mb-1">${p.subtitle}</div>
+              <p class="text-xs font-medium text-slate-600 leading-relaxed">${p.details}</p>
             </div>
           </div>
         `).join('')}
@@ -493,7 +485,7 @@ function renderInspirationView() {
 }
 
 // ==========================================
-// 2. FOOD HUB (Vibrant, Clear & Verified)
+// 2. FOOD HUB (2000s Web 2.0 Style)
 // ==========================================
 function renderFoodHub() {
   const main = document.getElementById('main-tab-content');
@@ -502,19 +494,19 @@ function renderFoodHub() {
     <div>
       <!-- Food Hub Switcher -->
       <div class="flex items-center gap-2 mb-4 max-w-sm mx-auto justify-center">
-        <button data-food-sub="mixes" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
-          state.foodSubTab === 'mixes' ? 'bg-[#FFB800] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-yellow-50'
-        }">
+        <button data-food-sub="mixes" class="gel-btn ${
+          state.foodSubTab === 'mixes' ? 'gel-yellow' : 'gel-silver'
+        } px-4 py-1.5 text-xs font-black">
           🥣 Seed Mixes
         </button>
-        <button data-food-sub="fresh" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
-          state.foodSubTab === 'fresh' ? 'bg-[#34D399] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-green-50'
-        }">
+        <button data-food-sub="fresh" class="gel-btn ${
+          state.foodSubTab === 'fresh' ? 'gel-green' : 'gel-silver'
+        } px-4 py-1.5 text-xs font-black">
           🥗 Fresh Foods
         </button>
-        <button data-food-sub="toxic" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
-          state.foodSubTab === 'toxic' ? 'bg-[#F43F5E] text-white shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-rose-700 hover:bg-rose-50'
-        }">
+        <button data-food-sub="toxic" class="gel-btn ${
+          state.foodSubTab === 'toxic' ? 'gel-red' : 'gel-silver'
+        } px-4 py-1.5 text-xs font-black">
           🛑 Toxic List
         </button>
       </div>
@@ -543,26 +535,26 @@ function renderCommercialMixesView() {
 
   return `
     <div class="space-y-4">
-      <!-- 48-Hour Freezer Protocol Card (Icy Pop Style) -->
-      <div class="bg-[#E0F2FE] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4">
+      <!-- 48-Hour Freezer Protocol Card -->
+      <div class="web2-card p-4 border-sky-300 bg-gradient-to-br from-sky-50 via-white to-sky-100/50">
         <div class="flex items-start gap-3">
           <span class="text-3xl animate-bounce">❄️</span>
           <div>
-            <h3 class="font-black text-base text-stone-950 font-heading">The 48-Hour Freezer Rule!</h3>
-            <p class="text-xs font-medium text-stone-800 leading-relaxed mt-0.5">
+            <h3 class="font-black text-base text-slate-900 font-heading">The 48-Hour Freezer Protocol!</h3>
+            <p class="text-xs font-medium text-slate-700 leading-relaxed mt-0.5">
               High-welfare seed mixes and sprays are 100% pesticide-free, meaning harmless grain mite eggs can hatch in warm rooms. <strong>Always freeze new food bags for 48 hours</strong> upon delivery to safely neutralise any eggs. Thaw to room temperature before feeding!
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Pellet-Free Warning Pill -->
-      <div class="bg-white pop-card p-4">
-        <div class="font-black text-sm text-stone-950 font-heading mb-1 flex items-center gap-1.5">
+      <!-- Pellet-Free Warning Panel -->
+      <div class="web2-card p-4">
+        <div class="font-black text-sm text-slate-900 font-heading mb-1 flex items-center gap-1.5">
           <span>🌾</span>
           <span>Why Pellet-Free Mueslis are Best</span>
         </div>
-        <p class="text-xs font-medium text-stone-600 leading-relaxed">
+        <p class="text-xs font-medium text-slate-600 leading-relaxed">
           Standard pet shop mueslis (like Harry Hamster) contain dyed sugary biscuits and hard pellets that hamsters hate. Rescue-approved seed diets provide 25+ whole seeds, grains, and mealworms with <strong>15–18% protein</strong> and <strong>zero fruit/sugars for dwarfs</strong>.
         </p>
       </div>
@@ -570,42 +562,42 @@ function renderCommercialMixesView() {
       <!-- Mix Cards List -->
       <div class="space-y-3">
         ${mixes.map(p => `
-          <div class="bg-white pop-card p-4 flex flex-col justify-between">
+          <div class="web2-card p-4 flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap gap-1 mb-2">
                 ${p.badges.map(b => `
-                  <span class="px-2.5 py-0.5 rounded-lg text-[10px] font-black border border-stone-900 ${
+                  <span class="gel-badge ${
                     b.includes('Favourite') || b.includes('Hope')
-                      ? 'bg-[#FEF08A] text-stone-950'
-                      : 'bg-[#A7F3D0] text-stone-950'
+                      ? 'gel-yellow'
+                      : 'gel-green'
                   }">${b}</span>
                 `).join('')}
               </div>
-              <div class="text-[10px] font-black text-stone-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
-              <h4 class="font-black text-base text-stone-950 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
-              <p class="text-xs font-medium text-stone-600 leading-relaxed mb-3">${p.summary}</p>
+              <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
+              <h4 class="font-black text-base text-slate-900 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
+              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary}</p>
 
               <div class="flex flex-wrap items-center gap-1 mb-3">
-                <span class="text-[10px] font-bold text-stone-400">Suitable For:</span>
+                <span class="text-[10px] font-bold text-slate-400">Suitable For:</span>
                 ${p.species.map(sp => `
-                  <span class="text-[10px] px-2 py-0.5 rounded-md border border-stone-900 bg-stone-100 text-stone-800 font-extrabold capitalize">
+                  <span class="text-[10px] px-2 py-0.5 rounded-full border border-sky-200 bg-sky-50 text-sky-900 font-bold capitalize">
                     ${sp.replace('_', ' ')}
                   </span>
                 `).join('')}
               </div>
             </div>
 
-            <div class="pt-3 border-t-2 border-stone-100 flex items-center justify-between">
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
               <div>
-                <div class="text-[9px] font-black text-stone-400 uppercase">Price Guide</div>
-                <div class="text-base font-black text-stone-950 font-heading">${p.priceGuide}</div>
+                <div class="text-[9px] font-black text-slate-400 uppercase">Price Guide</div>
+                <div class="text-base font-black text-slate-900 font-heading">${p.priceGuide}</div>
               </div>
 
               <a 
                 href="${p.url}" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="pop-btn px-4 py-2 bg-[#FF5C00] text-white text-xs hover:bg-[#e05200] flex items-center gap-1.5">
+                class="gel-btn gel-orange px-4 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
                 <span>Buy Mix ↗</span>
               </a>
             </div>
@@ -614,8 +606,8 @@ function renderCommercialMixesView() {
       </div>
 
       <!-- Scatter Feed Pill -->
-      <div class="bg-[#FEF9C3] border-2 border-stone-900 shadow-[2px_2px_0px_#18181b] rounded-2xl p-3.5 text-xs text-stone-800 font-medium">
-        <strong class="font-black text-stone-950">💡 Scatter Feed Tip:</strong> Ditch the food bowl! Scatter 1–2 tablespoons of seeds across deep bedding every 1–2 days. It burns energy, eliminates boredom, and lets hamsters pouch like they do in the wild.
+      <div class="web2-card p-3.5 bg-amber-50/60 border-amber-200 text-xs text-slate-700 font-medium">
+        <strong class="font-black text-slate-900">💡 Scatter Feed Tip:</strong> Ditch the food bowl! Scatter 1–2 tablespoons of seeds across deep bedding every 1–2 days. It burns energy, eliminates boredom, and lets hamsters pouch like they do in the wild.
       </div>
     </div>
   `;
@@ -636,15 +628,15 @@ function renderFreshFoodsView() {
     <div class="space-y-3">
       <!-- Search Bar -->
       <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
         <input 
           type="text" 
           id="food-search-input" 
           value="${state.foodSearch}"
           placeholder="Search fresh vegetables, proteins, treats..."
-          class="w-full bg-white border-2 border-stone-900 shadow-[2.5px_2.5px_0px_#18181b] rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-400">
+          class="w-full bg-white border border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-xs">
         ${state.foodSearch ? `
-          <button id="clear-food-search" class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-900 font-black text-xs">✕</button>
+          <button id="clear-food-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
         ` : ''}
       </div>
 
@@ -652,19 +644,17 @@ function renderFreshFoodsView() {
         ${filtered.map(food => {
           const isSafe = food.status === 'SAFE';
           return `
-            <div class="bg-white pop-card p-4">
+            <div class="web2-card p-4">
               <div class="flex items-center justify-between mb-1">
-                <h4 class="font-black text-base text-stone-950 font-heading">${food.name}</h4>
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black border border-stone-900 ${
-                  isSafe ? 'bg-[#86EFAC] text-stone-950' : 'bg-[#FEF08A] text-stone-950'
-                }">
-                  ${isSafe ? '🟢 Safe Staple' : '🟡 Caution / Diabetes'}
+                <h4 class="font-black text-base text-slate-900 font-heading">${food.name}</h4>
+                <span class="gel-badge ${isSafe ? 'gel-green' : 'gel-yellow'}">
+                  ${isSafe ? '🟢 Safe' : '🟡 Caution'}
                 </span>
               </div>
-              <p class="text-xs font-medium text-stone-700 leading-relaxed mb-2.5">${food.details}</p>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] pt-2 border-t border-stone-100 font-medium">
-                <div class="text-stone-800"><strong>Portion:</strong> ${food.portionGuide}</div>
-                <div class="text-stone-800"><strong>Prep:</strong> ${food.prepInstructions}</div>
+              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-2.5">${food.details}</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] pt-2 border-t border-slate-100 font-medium">
+                <div class="text-slate-700"><strong>Portion:</strong> ${food.portionGuide}</div>
+                <div class="text-slate-700"><strong>Prep:</strong> ${food.prepInstructions}</div>
               </div>
             </div>
           `;
@@ -679,24 +669,24 @@ function renderToxicFoodsView() {
 
   return `
     <div class="space-y-3">
-      <div class="bg-[#FFE4E6] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 text-xs text-stone-950">
-        <h3 class="font-black text-base text-stone-950 font-heading mb-1">⚠️ Strictly Forbidden Toxic Foods!</h3>
-        <p class="text-[11px] font-medium leading-relaxed">
+      <div class="web2-card p-4 border-rose-300 bg-rose-50/60 text-xs">
+        <h3 class="font-black text-base text-rose-950 font-heading mb-1">⚠️ Strictly Forbidden Toxic Foods!</h3>
+        <p class="text-[11px] text-slate-600 font-medium leading-relaxed">
           These items contain toxic compounds (cyanide, allium, solanine, theobromine) or pose fatal gastrointestinal blockages. Never feed these!
         </p>
       </div>
 
       <div class="space-y-2.5">
         ${toxicFoods.map(food => `
-          <div class="bg-white pop-card p-4 border-rose-600">
+          <div class="web2-card p-4 border-rose-200">
             <div class="flex items-center justify-between mb-1">
-              <h4 class="font-black text-base text-stone-950 font-heading">${food.name}</h4>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#F43F5E] text-white border border-stone-900 uppercase">
-                🔴 Strictly Forbidden
+              <h4 class="font-black text-base text-slate-900 font-heading">${food.name}</h4>
+              <span class="gel-badge gel-red">
+                🔴 Forbidden
               </span>
             </div>
             <p class="text-xs font-medium text-rose-950 leading-relaxed mb-1.5">${food.details}</p>
-            <div class="text-[11px] text-stone-700 pt-1.5 border-t border-stone-100 font-medium">
+            <div class="text-[11px] text-slate-600 pt-1.5 border-t border-slate-100 font-medium">
               <strong>Why Dangerous:</strong> ${food.prepInstructions}
             </div>
           </div>
@@ -726,7 +716,7 @@ document.addEventListener('click', (e) => {
 });
 
 // ==========================================
-// 3. ETHICAL SHOP (Punchy Neo-Pop Cards)
+// 3. ETHICAL SHOP (2000s Web 2.0 Style)
 // ==========================================
 function renderShop() {
   const main = document.getElementById('main-tab-content');
@@ -758,28 +748,26 @@ function renderShop() {
     <div class="space-y-3">
       <!-- Search Input -->
       <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
         <input 
           type="text" 
           id="shop-search-input" 
           value="${state.shopSearch}"
           placeholder="Search verified cages, wheels, mixes..."
-          class="w-full bg-white border-2 border-stone-900 shadow-[2.5px_2.5px_0px_#18181b] rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-400">
+          class="w-full bg-white border border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-xs">
         ${state.shopSearch ? `
-          <button id="clear-shop-search" class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-900 font-black text-xs">✕</button>
+          <button id="clear-shop-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
         ` : ''}
       </div>
 
-      <!-- Horizontal Scroll Category Chips -->
+      <!-- Horizontal Scroll Category Chips (Noughties Gloss Pills) -->
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
         ${categories.map(c => `
           <button 
             data-cat-btn="${c.id}"
-            class="px-3.5 py-1 rounded-full text-xs font-black whitespace-nowrap transition-all border-2 border-stone-900 ${
-              state.shopCategory === c.id
-                ? 'bg-[#FF5C00] text-white shadow-[2px_2px_0px_#18181b] -translate-y-0.5'
-                : 'bg-white text-stone-700 hover:bg-yellow-50'
-            }">
+            class="gel-btn ${
+              state.shopCategory === c.id ? 'gel-orange' : 'gel-silver'
+            } px-3.5 py-1 text-xs font-black whitespace-nowrap">
             ${c.label}
           </button>
         `).join('')}
@@ -787,45 +775,45 @@ function renderShop() {
 
       <!-- Products Grid -->
       ${filtered.length === 0 ? `
-        <div class="bg-white pop-card p-8 text-center my-6">
-          <p class="text-xs font-medium text-stone-500">No matching items found. Try clearing your search.</p>
-          <button id="reset-shop-filters" class="mt-3 pop-btn px-4 py-2 bg-[#FDE047] text-stone-950 text-xs">Clear Filters</button>
+        <div class="web2-card p-8 text-center my-6">
+          <p class="text-xs font-medium text-slate-500">No matching items found. Try clearing your search.</p>
+          <button id="reset-shop-filters" class="mt-3 gel-btn gel-yellow px-4 py-1.5 text-xs font-black">Clear Filters</button>
         </div>
       ` : `
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           ${filtered.map(p => `
-            <div class="bg-white pop-card p-4 flex flex-col justify-between">
+            <div class="web2-card p-4 flex flex-col justify-between">
               <div>
                 <div class="flex flex-wrap gap-1 mb-2">
                   ${p.badges.map(b => `
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-black border border-stone-900 ${
+                    <span class="gel-badge ${
                       b.includes('India') || b.includes('Profits')
-                        ? 'bg-[#FDA4AF] text-stone-950'
+                        ? 'gel-pink'
                         : b.includes('Hope')
-                        ? 'bg-[#A7F3D0] text-stone-950'
+                        ? 'gel-green'
                         : b.includes('Favourite')
-                        ? 'bg-[#FEF08A] text-stone-950'
-                        : 'bg-stone-100 text-stone-800'
+                        ? 'gel-yellow'
+                        : 'gel-blue'
                     }">${b}</span>
                   `).join('')}
                 </div>
 
-                <div class="text-[10px] font-black text-stone-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
-                <h4 class="font-black text-base text-stone-950 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
-                <p class="text-xs font-medium text-stone-600 leading-relaxed mb-3">${p.summary}</p>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
+                <h4 class="font-black text-base text-slate-900 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
+                <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary}</p>
               </div>
 
-              <div class="pt-3 border-t-2 border-stone-100 flex items-center justify-between">
+              <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
                 <div>
-                  <div class="text-[9px] font-black text-stone-400 uppercase">Price Guide</div>
-                  <div class="text-sm font-black text-stone-950 font-heading">${p.priceGuide}</div>
+                  <div class="text-[9px] font-black text-slate-400 uppercase">Price Guide</div>
+                  <div class="text-sm font-black text-slate-900 font-heading">${p.priceGuide}</div>
                 </div>
 
                 <a 
                   href="${p.url}" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  class="pop-btn px-3.5 py-1.5 bg-stone-950 hover:bg-[#FF5C00] text-white text-xs flex items-center gap-1 transition-colors">
+                  class="gel-btn gel-orange px-3.5 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
                   <span>Buy From Seller ↗</span>
                 </a>
               </div>
@@ -834,7 +822,7 @@ function renderShop() {
         </div>
       `}
 
-      <div class="text-center text-[10px] font-bold text-stone-400 pt-3">
+      <div class="text-center text-[10px] font-bold text-slate-400 pt-3">
         UK ASA Disclosure: Vetted against rescue standards. Some links directly fund independent rescues.
       </div>
     </div>
@@ -884,23 +872,24 @@ function renderChecklist() {
 
   main.innerHTML = `
     <div class="space-y-4">
-      <!-- Punchy Progress Score Card -->
-      <div class="bg-[#FBCFE8] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4.5">
+      <!-- 2000s Progress Score Panel -->
+      <div class="web2-card p-4.5 bg-gradient-to-br from-pink-50 via-white to-sky-50 border-pink-200">
         <div class="flex items-center justify-between mb-2">
           <div>
-            <h3 class="font-black text-base text-stone-950 font-heading">Adoption Readiness Score ✨</h3>
-            <p class="text-[11px] font-bold text-stone-700">Official UK Rescue Vetting Criteria</p>
+            <h3 class="font-black text-base text-slate-900 font-heading">Adoption Readiness Score ✨</h3>
+            <p class="text-[11px] font-bold text-slate-500">Official UK Rescue Vetting Criteria</p>
           </div>
-          <span class="text-2xl font-black text-stone-950 font-heading">${percent}%</span>
+          <span class="text-2xl font-black text-pink-700 font-heading">${percent}%</span>
         </div>
 
-        <div class="w-full bg-white border-2 border-stone-900 rounded-full h-3.5 p-0.5 overflow-hidden">
-          <div class="bg-[#FF5C00] h-full rounded-full transition-all duration-300" style="width: ${percent}%"></div>
+        <!-- 2000s Glossy Progress Bar -->
+        <div class="w-full bg-slate-100 border border-slate-300 rounded-full h-4 p-0.5 overflow-hidden shadow-inner">
+          <div class="h-full rounded-full transition-all duration-300 gel-orange" style="width: ${percent}%"></div>
         </div>
 
-        <div class="text-[11px] font-black text-stone-800 mt-2 flex items-center justify-between">
+        <div class="text-[11px] font-bold text-slate-600 mt-2 flex items-center justify-between">
           <span>${checkedCount} of ${total} requirements satisfied</span>
-          ${percent === 100 ? '<span class="text-emerald-900 font-black bg-white px-2 py-0.5 rounded-full border border-stone-900">🎉 100% Rescue Ready!</span>' : ''}
+          ${percent === 100 ? '<span class="gel-badge gel-green">🎉 100% Rescue Ready!</span>' : ''}
         </div>
       </div>
 
@@ -909,20 +898,20 @@ function renderChecklist() {
         ${adoptionChecklist.map(item => {
           const isChecked = !!state.checkedItems[item.id];
           return `
-            <label class="bg-white pop-card p-3.5 flex items-start gap-3 cursor-pointer select-none transition-all ${
-              isChecked ? 'bg-[#FEFCE8] border-amber-500' : ''
+            <label class="web2-card p-3.5 flex items-start gap-3 cursor-pointer select-none transition-all ${
+              isChecked ? 'bg-sky-50/40 border-sky-300' : ''
             }">
               <input 
                 type="checkbox" 
                 data-check-id="${item.id}"
                 ${isChecked ? 'checked' : ''}
-                class="mt-1 w-5 h-5 rounded-md text-[#FF5C00] focus:ring-yellow-400 border-2 border-stone-900 accent-[#FF5C00]">
+                class="mt-1 w-5 h-5 rounded-md text-amber-500 focus:ring-amber-400 border-slate-300 accent-amber-500">
               <div class="flex-grow">
                 <div class="flex items-center justify-between">
-                  <h4 class="font-black text-xs text-stone-950 font-heading">${item.title}</h4>
-                  <span class="text-[10px] font-black text-stone-950 bg-[#FDE047] border border-stone-900 px-2 py-0.5 rounded-md">${item.badge}</span>
+                  <h4 class="font-black text-xs text-slate-900 font-heading">${item.title}</h4>
+                  <span class="gel-badge gel-yellow">${item.badge}</span>
                 </div>
-                <p class="text-xs font-medium text-stone-600 mt-0.5 leading-relaxed">${item.description}</p>
+                <p class="text-xs font-medium text-slate-600 mt-0.5 leading-relaxed">${item.description}</p>
               </div>
             </label>
           `;
@@ -931,11 +920,11 @@ function renderChecklist() {
 
       <!-- Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-2 pt-2">
-        <button id="copy-summary-btn" class="flex-1 py-3 pop-btn bg-[#FF5C00] text-white text-xs hover:bg-[#e05200] flex items-center justify-center gap-1.5">
+        <button id="copy-summary-btn" class="flex-1 py-2.5 gel-btn gel-orange text-white text-xs font-black shadow-md flex items-center justify-center gap-1.5">
           <i data-lucide="copy" class="w-4 h-4"></i>
           <span>Copy Adoption Summary</span>
         </button>
-        <button id="reset-checklist-btn" class="py-3 px-5 pop-btn bg-white text-stone-800 text-xs hover:bg-stone-100">
+        <button id="reset-checklist-btn" class="py-2.5 px-5 gel-btn gel-silver text-slate-700 text-xs font-black">
           Reset
         </button>
       </div>
@@ -981,7 +970,7 @@ function renderChecklist() {
 }
 
 // ==========================================
-// 5. RESCUE DIRECTORY
+// 5. RESCUE DIRECTORY (2000s Web 2.0 Style)
 // ==========================================
 function renderRescues() {
   const main = document.getElementById('main-tab-content');
@@ -1007,11 +996,9 @@ function renderRescues() {
         ${regions.map(reg => `
           <button 
             data-region-btn="${reg.id}"
-            class="px-3.5 py-1 rounded-full text-xs font-black whitespace-nowrap transition-all border-2 border-stone-900 ${
-              state.rescueRegion === reg.id
-                ? 'bg-[#38BDF8] text-stone-950 shadow-[2px_2px_0px_#18181b] -translate-y-0.5'
-                : 'bg-white text-stone-700 hover:bg-sky-50'
-            }">
+            class="gel-btn ${
+              state.rescueRegion === reg.id ? 'gel-blue' : 'gel-silver'
+            } px-3.5 py-1 text-xs font-black whitespace-nowrap">
             ${reg.label}
           </button>
         `).join('')}
@@ -1020,32 +1007,32 @@ function renderRescues() {
       <!-- Rescues Grid -->
       <div class="space-y-3">
         ${filtered.map(r => `
-          <div class="bg-white pop-card p-4">
+          <div class="web2-card p-4">
             <div class="flex items-start justify-between gap-2 mb-1.5">
               <div>
-                <h4 class="font-black text-base text-stone-950 font-heading">${r.name}</h4>
-                <div class="text-[11px] font-bold text-[#FF5C00]">${r.charityNumber} • ${r.coverage}</div>
+                <h4 class="font-black text-base text-slate-900 font-heading">${r.name}</h4>
+                <div class="text-[11px] font-bold text-sky-800">${r.charityNumber} • ${r.coverage}</div>
               </div>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#FED7AA] text-stone-950 border border-stone-900 shrink-0">
+              <span class="gel-badge gel-yellow">
                 ${r.region}
               </span>
             </div>
 
-            <p class="text-xs font-medium text-stone-600 leading-relaxed mb-3">${r.summary}</p>
+            <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${r.summary}</p>
 
-            <div class="flex items-center gap-2 pt-2.5 border-t-2 border-stone-100">
+            <div class="flex items-center gap-2 pt-2.5 border-t border-slate-100">
               <a 
                 href="${r.url}" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="flex-1 py-2 bg-[#FF5C00] hover:bg-[#e05200] text-white text-xs pop-btn text-center">
-                Adopt From Rescue ✨
+                class="flex-1 py-1.5 gel-btn gel-orange text-white text-xs font-black shadow-md text-center">
+                Apply to Adopt ✨
               </a>
               <a 
                 href="${r.donateUrl}" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="px-4 py-2 bg-white hover:bg-stone-100 text-stone-900 text-xs pop-btn">
+                class="px-4 py-1.5 gel-btn gel-pink text-white text-xs font-black shadow-md">
                 Donate 💖
               </a>
             </div>

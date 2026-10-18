@@ -3,75 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>For the Hams! 🐹✨ | Punchy, Ethical UK Hamster Care</title>
-  <meta name="description" content="The quirky, colourful UK hamster welfare web app. Species-specific care, rescue-approved commercial food mixes, safe vs toxic food database, and ethical product library. Working in conjunction with India's Hamster Rescue.">
+  <title>For the Hams! 🐹✨ | UK Ethical Hamster Care Hub</title>
+  <meta name="description" content="Authentic early 2000s web app for UK hamster welfare. Species-specific care, rescue-approved commercial food mixes, safe vs toxic food database, and ethical product directory. Working in conjunction with India's Hamster Rescue.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐹</text></svg>">
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              yellow: '#FDE047',
-              orange: '#FF5C00',
-              pink: '#F472B6',
-              mint: '#34D399',
-              sky: '#38BDF8',
-              purple: '#A78BFA',
-            }
-          }
-        }
-      }
-    }
-  </script>
 
   <!-- Lucide Icons & Confetti -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <!-- Custom Punchy Stylesheet -->
+  <!-- Noughties / 2000s Stylesheet -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="bg-[#fefce8] text-stone-900 antialiased min-h-screen flex flex-col justify-between selection:bg-pink-300 selection:text-stone-950">
+<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-sky-200 selection:text-sky-950">
 
-  <!-- Punchy Top App Bar -->
-  <header class="sticky top-0 z-40 bg-[#fffdf0]/95 backdrop-blur-md border-b-2 border-stone-900 shadow-xs">
+  <!-- 2000s Glossy Top App Bar -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-sky-200 shadow-xs">
     
-    <!-- Top Partner Banner (Playful Pill) -->
-    <div class="bg-[#ff5c00] text-white text-[11px] font-black py-1 px-3 text-center flex items-center justify-center gap-1.5 border-b-2 border-stone-900 tracking-tight">
-      <span class="animate-bounce">🐹</span>
-      <span>In partnership with <u>India's Hamster Rescue</u> (Registered Charity #1213919) ✨</span>
+    <!-- Top Partner Gloss Ribbon -->
+    <div class="relative py-1 px-3 text-center text-white text-[11px] font-bold overflow-hidden shadow-xs" style="background: linear-gradient(180deg, #ff8c26 0%, #eb5500 50%, #d64700 51%, #eb5500 100%); border-bottom: 1px solid #b33900; text-shadow: 0 -1px 1px rgba(100,20,0,0.6);">
+      <div class="absolute inset-x-0 top-0 h-[45%] bg-gradient-to-b from-white/40 to-transparent pointer-events-none"></div>
+      <div class="relative flex items-center justify-center gap-1.5 tracking-tight">
+        <span>🐾</span>
+        <span>Working in conjunction with <strong>India's Hamster Rescue</strong> (Charity #1213919) ✨</span>
+      </div>
     </div>
 
-    <!-- App Brand & Partner Header -->
-    <div class="max-w-3xl mx-auto px-3.5 py-2.5 flex items-center justify-between">
+    <!-- App Navigation Header -->
+    <div class="max-w-3xl mx-auto px-3.5 py-2 flex items-center justify-between">
       <a href="#" class="flex items-center gap-2.5 group">
-        <div class="w-10 h-10 rounded-2xl bg-[#fde047] border-2 border-stone-900 shadow-[2px_2px_0px_#18181b] flex items-center justify-center text-2xl group-active:translate-x-0.5 group-active:translate-y-0.5 group-active:shadow-none transition-all">
+        <!-- Glossy Hamster Gel Bubble Icon -->
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center text-2xl gel-orange shadow-md">
           🐹
         </div>
         <div>
-          <div class="text-lg font-black text-stone-900 tracking-tight leading-none font-heading flex items-center gap-1">
+          <div class="text-lg font-black text-slate-900 tracking-tight leading-none font-heading flex items-center gap-1.5">
             <span>For the Hams!</span>
-            <span class="text-xs px-1.5 py-0.5 rounded-full bg-[#f472b6] text-white border border-stone-900 font-extrabold -rotate-2">UK</span>
+            <span class="text-[10px] font-black px-2 py-0.5 rounded-full gel-pink uppercase tracking-wider">UK</span>
           </div>
-          <div class="text-[10px] font-extrabold text-stone-600 tracking-wide mt-0.5">
+          <div class="text-[10px] font-bold text-sky-800 tracking-wide mt-0.5">
             100% Rescue Vetted • Zero Pet Shop Myths
           </div>
         </div>
       </a>
 
-      <!-- Quick Action / India's Rescue Badge -->
-      <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="pop-pill px-3 py-1 bg-[#34d399] text-stone-950 text-[11px] font-black flex items-center gap-1.5 hover:bg-[#10b981] hover:text-white transition-colors">
-        <span class="text-xs">🌿</span>
-        <span>India's Rescue</span>
+      <!-- Quick Action / India's Rescue Badge (Aqua Green Gel Pill) -->
+      <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="gel-btn gel-green px-3 py-1 text-xs font-black shadow-xs flex items-center gap-1">
+        <span>🌿</span>
+        <span>India's Rescue ↗</span>
       </a>
     </div>
 
     <!-- Sticky Horizontal-Scroll Species Carousel -->
-    <div class="border-t-2 border-stone-900 bg-[#fffdf0] px-3 py-2" id="species-filter-container">
+    <div class="border-t border-sky-100 bg-white/80 px-3 py-1.5" id="species-filter-container">
       <!-- Injected by app.js -->
     </div>
   </header>
@@ -88,17 +74,17 @@
     </div>
   </main>
 
-  <!-- Mobile Bottom Sheet Modal -->
-  <div id="bottom-sheet-backdrop" class="fixed inset-0 bg-stone-950/50 backdrop-blur-xs z-50 hidden transition-opacity">
-    <div id="bottom-sheet-container" class="fixed inset-x-0 bottom-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-lg w-full max-h-[88vh] bg-white border-t-3 sm:border-3 border-stone-900 rounded-t-3xl sm:rounded-3xl shadow-[0_-6px_25px_rgba(0,0,0,0.25)] flex flex-col overflow-hidden animate-slide-up">
+  <!-- 2000s Web 2.0 Bottom Sheet Modal -->
+  <div id="bottom-sheet-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden transition-opacity">
+    <div id="bottom-sheet-container" class="fixed inset-x-0 bottom-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:max-w-lg w-full max-h-[88vh] bg-white border border-sky-300 rounded-t-3xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
       <!-- Mobile Drag Handle -->
-      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0"></div>
+      <div class="w-12 h-1.5 bg-slate-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0"></div>
       
-      <!-- Sheet Header -->
-      <div class="px-5 py-3 border-b-2 border-stone-900 bg-[#fefce8] flex items-center justify-between shrink-0">
-        <h3 id="bottom-sheet-title" class="font-black text-base text-stone-900 font-heading">Details</h3>
-        <button id="bottom-sheet-close" class="w-8 h-8 rounded-full border-2 border-stone-900 bg-white hover:bg-stone-100 flex items-center justify-center text-stone-900 font-black shadow-[1.5px_1.5px_0px_#18181b] active:translate-x-0.5 active:translate-y-0.5">
-          <i data-lucide="x" class="w-4 h-4"></i>
+      <!-- Sheet Header (Metallic Gloss Bar) -->
+      <div class="px-5 py-3 web2-header-bar flex items-center justify-between shrink-0">
+        <h3 id="bottom-sheet-title" class="font-black text-base text-slate-900 font-heading">Details</h3>
+        <button id="bottom-sheet-close" class="w-7 h-7 rounded-full gel-btn gel-silver flex items-center justify-center text-slate-700 font-black text-xs">
+          ✕
         </button>
       </div>
 
@@ -109,48 +95,48 @@
     </div>
   </div>
 
-  <!-- Fixed Mobile Bottom Navigation Bar (Punchy Neo-Pop Style) -->
-  <nav class="fixed bottom-0 inset-x-0 z-40 bg-[#fffdf0]/95 backdrop-blur-md border-t-2.5 border-stone-900 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-1 pt-1.5 pb-safe">
+  <!-- Fixed Mobile Aqua Dock Navigation Bar -->
+  <nav class="fixed bottom-0 inset-x-0 z-40 aqua-dock px-1 pt-1.5 pb-safe">
     <div class="max-w-md mx-auto flex items-center justify-around">
       
       <!-- 1. Care Guides -->
-      <button data-nav-tab="guides" class="flex flex-col items-center justify-center flex-1 py-1 text-center transition-all select-none">
+      <button data-nav-tab="guides" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
         <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
           <i data-lucide="book-open" class="w-4 h-4"></i>
         </div>
-        <span class="text-[10px] font-black mt-0.5 tracking-tight tab-label">Guides</span>
+        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Guides</span>
       </button>
 
       <!-- 2. Food Hub -->
-      <button data-nav-tab="food" class="flex flex-col items-center justify-center flex-1 py-1 text-center transition-all select-none">
+      <button data-nav-tab="food" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
         <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
           <i data-lucide="apple" class="w-4 h-4"></i>
         </div>
-        <span class="text-[10px] font-black mt-0.5 tracking-tight tab-label">Food Hub</span>
+        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Food Hub</span>
       </button>
 
       <!-- 3. Ethical Shop -->
-      <button data-nav-tab="shop" class="flex flex-col items-center justify-center flex-1 py-1 text-center transition-all select-none">
+      <button data-nav-tab="shop" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
         <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
           <i data-lucide="shopping-bag" class="w-4 h-4"></i>
         </div>
-        <span class="text-[10px] font-black mt-0.5 tracking-tight tab-label">Shop</span>
+        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Shop</span>
       </button>
 
       <!-- 4. Adoption Ready Checklist -->
-      <button data-nav-tab="checklist" class="flex flex-col items-center justify-center flex-1 py-1 text-center transition-all select-none">
+      <button data-nav-tab="checklist" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
         <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
           <i data-lucide="check-circle-2" class="w-4 h-4"></i>
         </div>
-        <span class="text-[10px] font-black mt-0.5 tracking-tight tab-label">Checklist</span>
+        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Checklist</span>
       </button>
 
       <!-- 5. Rescue Directory -->
-      <button data-nav-tab="rescues" class="flex flex-col items-center justify-center flex-1 py-1 text-center transition-all select-none">
+      <button data-nav-tab="rescues" class="flex flex-col items-center justify-center flex-1 py-1 text-center select-none group">
         <div class="w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg">
           <i data-lucide="heart" class="w-4 h-4"></i>
         </div>
-        <span class="text-[10px] font-black mt-0.5 tracking-tight tab-label">Rescues</span>
+        <span class="text-[10px] font-bold mt-0.5 tracking-tight tab-label">Rescues</span>
       </button>
 
     </div>
