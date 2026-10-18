@@ -137,31 +137,58 @@ function setupNavigationListeners() {
   });
 }
 
-// Mobile Bottom Sheet Utility
+// Mobile Bottom Sheet Utility (with Swipe-Down-to-Close Gesture)
 function openBottomSheet(title, htmlContent) {
   const backdrop = document.getElementById('bottom-sheet-backdrop');
+  const container = document.getElementById('bottom-sheet-container');
   const titleEl = document.getElementById('bottom-sheet-title');
   const bodyEl = document.getElementById('bottom-sheet-body');
 
   if (!backdrop || !titleEl || !bodyEl) return;
 
   titleEl.textContent = title || 'Care Guide';
-  bodyEl.innerHTML = htmlContent || '';
+  bodyEl.innerHTML = `
+    ${htmlContent || ''}
+    <div class="mt-6 pt-4 border-t border-sky-100 flex justify-center">
+      <button type="button" data-close-sheet-bottom class="w-full py-2.5 gel-btn gel-silver text-xs font-black text-slate-700 flex items-center justify-center gap-1.5">
+        <span>✕ Close Guide</span>
+      </button>
+    </div>
+  `;
+
+  bodyEl.querySelector('[data-close-sheet-bottom]')?.addEventListener('click', closeBottomSheet);
+
+  if (container) {
+    container.style.transition = '';
+    container.style.transform = '';
+    container.classList.add('animate-slide-up');
+  }
+  backdrop.style.opacity = '';
   backdrop.classList.remove('hidden');
+  bodyEl.scrollTop = 0;
   document.body.classList.add('overflow-hidden');
   updateIcons();
 }
 
 function closeBottomSheet() {
   const backdrop = document.getElementById('bottom-sheet-backdrop');
+  const container = document.getElementById('bottom-sheet-container');
   if (backdrop) {
     backdrop.classList.add('hidden');
+    backdrop.style.opacity = '';
     document.body.classList.remove('overflow-hidden');
+  }
+  if (container) {
+    container.style.transition = '';
+    container.style.transform = '';
   }
 }
 
 function setupBottomSheetListeners() {
   const backdrop = document.getElementById('bottom-sheet-backdrop');
+  const container = document.getElementById('bottom-sheet-container');
+  const headerEl = document.getElementById('bottom-sheet-header');
+  const bodyEl = document.getElementById('bottom-sheet-body');
   const closeBtn = document.getElementById('bottom-sheet-close');
 
   if (closeBtn) closeBtn.addEventListener('click', closeBottomSheet);
@@ -173,6 +200,92 @@ function setupBottomSheetListeners() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeBottomSheet();
   });
+
+  if (!container || !bodyEl) return;
+
+  // Touch Swipe-Down-to-Close State
+  let touchStartY = 0;
+  let touchStartX = 0;
+  let touchStartTime = 0;
+  let currentDeltaY = 0;
+  let isDraggingSheet = false;
+  let canDragFromBody = false;
+  let startedOnHeader = false;
+
+  container.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    // Ignore if tapping the close button directly
+    if (e.target.closest('#bottom-sheet-close')) return;
+
+    const touch = e.touches[0];
+    touchStartY = touch.clientY;
+    touchStartX = touch.clientX;
+    touchStartTime = Date.now();
+    currentDeltaY = 0;
+    isDraggingSheet = false;
+
+    startedOnHeader = !!(headerEl && headerEl.contains(e.target));
+    // Allow swipe-to-close from the content area ONLY if the scroll position is already at the very top
+    canDragFromBody = bodyEl.scrollTop <= 1;
+  }, { passive: true });
+
+  container.addEventListener('touchmove', (e) => {
+    if (e.touches.length !== 1) return;
+    const touch = e.touches[0];
+    const deltaY = touch.clientY - touchStartY;
+    const deltaX = touch.clientX - touchStartX;
+
+    if (!isDraggingSheet) {
+      // Only initiate sheet drag on a downward vertical movement
+      if (deltaY <= 6 || Math.abs(deltaX) > Math.abs(deltaY)) return;
+
+      // Must either start on the header bar, or start at the top of the scrollable body while pulling down
+      if (startedOnHeader || (canDragFromBody && bodyEl.scrollTop <= 0)) {
+        isDraggingSheet = true;
+        container.classList.remove('animate-slide-up');
+        container.style.transition = 'none';
+      } else {
+        return;
+      }
+    }
+
+    if (isDraggingSheet) {
+      currentDeltaY = Math.max(0, deltaY);
+      if (e.cancelable) e.preventDefault();
+      container.style.transform = `translateY(${currentDeltaY}px)`;
+      if (backdrop) {
+        const progress = Math.min(1, currentDeltaY / 320);
+        backdrop.style.opacity = String(1 - progress * 0.65);
+      }
+    }
+  }, { passive: false });
+
+  const handleTouchEnd = () => {
+    if (!isDraggingSheet) return;
+    isDraggingSheet = false;
+
+    const elapsed = Math.max(1, Date.now() - touchStartTime);
+    const velocity = currentDeltaY / elapsed; // px per ms
+
+    // Close if dragged down past 85px or flicked down quickly
+    if (currentDeltaY > 85 || (currentDeltaY > 35 && velocity > 0.45)) {
+      container.style.transition = 'transform 0.2s ease-out';
+      container.style.transform = 'translateY(100%)';
+      if (backdrop) backdrop.style.opacity = '0';
+      setTimeout(() => {
+        closeBottomSheet();
+      }, 190);
+    } else {
+      // Snap back into open position
+      container.style.transition = 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)';
+      container.style.transform = 'translateY(0)';
+      if (backdrop) backdrop.style.opacity = '';
+    }
+    currentDeltaY = 0;
+  };
+
+  container.addEventListener('touchend', handleTouchEnd, { passive: true });
+  container.addEventListener('touchcancel', handleTouchEnd, { passive: true });
 }
 
 // 2000s Species Filter Carousel (Glossy Candy Pills)
