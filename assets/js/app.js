@@ -1,5 +1,6 @@
 // For the Hams! Mobile Web App Logic
 // www.forthehams.co.uk | UK Ethical Hamster Care & Rescue Standards
+// Punchy, Quirky, Colourful & Fun! 🐹✨
 
 import { speciesList } from './data/species.js';
 import { careGuides } from './data/guides.js';
@@ -23,7 +24,26 @@ const state = {
   checkedItems: JSON.parse(localStorage.getItem('fth_checklist') || '{}')
 };
 
-// Application Bootstrap
+// Tab Colour Matrix (Punchy & Pop!)
+const tabColours = {
+  guides: { activeBg: 'bg-[#FDE047]', text: 'text-stone-950' },   // Sunny Yellow
+  food: { activeBg: 'bg-[#34D399]', text: 'text-stone-950' },     // Electric Mint
+  shop: { activeBg: 'bg-[#FF5C00]', text: 'text-white' },         // Tangy Orange
+  checklist: { activeBg: 'bg-[#F472B6]', text: 'text-white' },    // Bubblegum Pink
+  rescues: { activeBg: 'bg-[#38BDF8]', text: 'text-stone-950' }    // Electric Sky
+};
+
+// Species Colour Palette
+const speciesColours = {
+  all: 'bg-[#FF5C00] text-white',
+  syrian: 'bg-[#FFB800] text-stone-950',
+  roborovski: 'bg-[#38BDF8] text-stone-950',
+  winter_white: 'bg-[#34D399] text-stone-950',
+  campbells: 'bg-[#F472B6] text-white',
+  chinese: 'bg-[#A78BFA] text-white'
+};
+
+// Bootstrap
 document.addEventListener('DOMContentLoaded', () => {
   initRouting();
   setupBottomSheetListeners();
@@ -47,23 +67,23 @@ function updateNavState() {
     const tab = btn.getAttribute('data-nav-tab');
     const iconBg = btn.querySelector('.tab-icon-bg');
     const label = btn.querySelector('.tab-label');
+    const cfg = tabColours[tab] || { activeBg: 'bg-amber-400', text: 'text-stone-950' };
 
-    if (tab === state.activeTab) {
-      if (iconBg) {
-        iconBg.classList.add('bg-amber-100', 'text-amber-800');
-        iconBg.classList.remove('text-stone-400');
+    // Reset base classes
+    if (iconBg) {
+      iconBg.className = 'w-9 h-9 rounded-2xl flex items-center justify-center transition-all tab-icon-bg';
+      if (tab === state.activeTab) {
+        iconBg.classList.add(...cfg.activeBg.split(' '), ...cfg.text.split(' '), 'border-2', 'border-stone-900', 'shadow-[2px_2px_0px_#18181b]', '-translate-y-0.5');
+      } else {
+        iconBg.classList.add('text-stone-400', 'hover:bg-stone-100');
       }
-      if (label) {
-        label.classList.add('text-amber-900', 'font-bold');
-        label.classList.remove('text-stone-400');
-      }
-    } else {
-      if (iconBg) {
-        iconBg.classList.remove('bg-amber-100', 'text-amber-800');
-        iconBg.classList.add('text-stone-400');
-      }
-      if (label) {
-        label.classList.remove('text-amber-900', 'font-bold');
+    }
+
+    if (label) {
+      label.className = 'text-[10px] font-black mt-0.5 tracking-tight tab-label';
+      if (tab === state.activeTab) {
+        label.classList.add('text-stone-950', 'font-black');
+      } else {
         label.classList.add('text-stone-400');
       }
     }
@@ -113,19 +133,12 @@ function setupBottomSheetListeners() {
   const backdrop = document.getElementById('bottom-sheet-backdrop');
   const closeBtn = document.getElementById('bottom-sheet-close');
 
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeBottomSheet);
-  }
-
+  if (closeBtn) closeBtn.addEventListener('click', closeBottomSheet);
   if (backdrop) {
     backdrop.addEventListener('click', (e) => {
-      if (e.target === backdrop) {
-        closeBottomSheet();
-      }
+      if (e.target === backdrop) closeBottomSheet();
     });
   }
-
-  // Escape key to dismiss
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeBottomSheet();
   });
@@ -137,29 +150,33 @@ function renderSpeciesBar() {
   if (!container) return;
 
   const speciesOptions = [
-    { id: 'all', emoji: '🐾', name: 'All Species' },
+    { id: 'all', emoji: '🐾', name: 'All' },
     { id: 'syrian', emoji: '🐹', name: 'Syrian' },
-    { id: 'roborovski', emoji: '⚡', name: 'Roborovski' },
+    { id: 'roborovski', emoji: '⚡', name: 'Robo' },
     { id: 'winter_white', emoji: '❄️', name: 'Winter White' },
     { id: 'campbells', emoji: '🌾', name: "Campbell's" },
     { id: 'chinese', emoji: '🌿', name: 'Chinese' }
   ];
 
   container.innerHTML = `
-    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 max-w-3xl mx-auto">
-      <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider shrink-0 pl-1 mr-1">Filter:</span>
-      ${speciesOptions.map(opt => `
-        <button 
-          data-species-btn="${opt.id}"
-          class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 shrink-0 flex items-center gap-1 ${
-            state.currentSpecies === opt.id
-              ? 'bg-amber-600 text-white shadow-xs font-bold ring-2 ring-amber-300 ring-offset-1'
-              : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-          }">
-          <span>${opt.emoji}</span>
-          <span>${opt.name}</span>
-        </button>
-      `).join('')}
+    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 max-w-3xl mx-auto">
+      <span class="text-[10px] font-black text-stone-900 uppercase tracking-wider shrink-0 pl-1 mr-1">Species:</span>
+      ${speciesOptions.map(opt => {
+        const isActive = state.currentSpecies === opt.id;
+        const activeClass = speciesColours[opt.id] || 'bg-amber-400 text-stone-950';
+        return `
+          <button 
+            data-species-btn="${opt.id}"
+            class="px-3 py-1 rounded-full text-xs font-black whitespace-nowrap transition-all duration-150 shrink-0 flex items-center gap-1 border-2 border-stone-900 ${
+              isActive
+                ? `${activeClass} shadow-[2px_2px_0px_#18181b] -translate-y-0.5`
+                : 'bg-white text-stone-700 hover:bg-yellow-100 shadow-[1px_1px_0px_#18181b]'
+            }">
+            <span>${opt.emoji}</span>
+            <span>${opt.name}</span>
+          </button>
+        `;
+      }).join('')}
     </div>
   `;
 
@@ -168,7 +185,6 @@ function renderSpeciesBar() {
       state.currentSpecies = btn.getAttribute('data-species-btn');
       renderSpeciesBar();
       renderSpeciesDetailBanner();
-      // Re-render views affected by species
       if (state.activeTab === 'shop') renderShop();
       if (state.activeTab === 'food') renderFoodHub();
       if (state.activeTab === 'guides') renderCareGuides();
@@ -178,7 +194,7 @@ function renderSpeciesBar() {
   renderSpeciesDetailBanner();
 }
 
-// Species Metric Quick Card (Mobile-friendly summary)
+// Species Metric Quick Card (Vibrant & Playful)
 function renderSpeciesDetailBanner() {
   const banner = document.getElementById('species-banner-area');
   if (!banner) return;
@@ -192,45 +208,45 @@ function renderSpeciesDetailBanner() {
   if (!spec) return;
 
   banner.innerHTML = `
-    <div class="bg-amber-50/90 border border-amber-200/90 rounded-2xl p-3.5 my-2 shadow-xs">
+    <div class="bg-[#FEF08A] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 my-2.5 relative overflow-hidden">
       <div class="flex items-start justify-between gap-2">
         <div>
-          <div class="flex items-center gap-1.5">
-            <span class="text-sm font-black text-amber-950">${spec.name}</span>
-            <span class="text-[11px] font-mono italic text-stone-500">(${spec.scientificName})</span>
+          <div class="flex items-center gap-2">
+            <span class="text-base font-black text-stone-950 font-heading">${spec.name}</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border border-stone-900 text-stone-800 -rotate-1">${spec.badge}</span>
           </div>
-          <p class="text-xs text-stone-700 mt-0.5 line-clamp-2">${spec.summary}</p>
+          <p class="text-xs font-medium text-stone-800 mt-1 line-clamp-2 leading-relaxed">${spec.summary}</p>
         </div>
-        <button id="close-species-banner" class="text-stone-400 hover:text-stone-700 p-1 text-xs font-bold">✕</button>
+        <button id="close-species-banner" class="w-6 h-6 rounded-full bg-white border-2 border-stone-900 flex items-center justify-center text-xs font-black shadow-[1.5px_1.5px_0px_#18181b] active:translate-x-0.5 active:translate-y-0.5">✕</button>
       </div>
 
       <!-- Quick Metrics Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 pt-2.5 border-t border-amber-200/60 text-xs">
-        <div class="bg-white/80 rounded-xl p-2 border border-amber-100">
-          <div class="text-[10px] font-bold text-amber-800 uppercase">Min Wheel</div>
-          <div class="font-extrabold text-stone-900">${spec.careMatrix.minWheelDiameter}</div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 pt-2.5 border-t-2 border-stone-900/20 text-xs">
+        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
+          <div class="text-[9px] font-black text-stone-500 uppercase">Min Wheel</div>
+          <div class="font-black text-sm text-stone-900">${spec.careMatrix.minWheelDiameter}</div>
         </div>
 
-        <div class="bg-white/80 rounded-xl p-2 border border-amber-100">
-          <div class="text-[10px] font-bold text-amber-800 uppercase">Min Cage</div>
-          <div class="font-extrabold text-stone-900">${spec.careMatrix.minCageFloorSpace}</div>
+        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
+          <div class="text-[9px] font-black text-stone-500 uppercase">Min Cage</div>
+          <div class="font-black text-sm text-stone-900">${spec.careMatrix.minCageFloorSpace}</div>
         </div>
 
-        <div class="bg-white/80 rounded-xl p-2 border border-amber-100">
-          <div class="text-[10px] font-bold text-amber-800 uppercase">Social Housing</div>
-          <div class="font-extrabold text-rose-700">${spec.careMatrix.socialStatus}</div>
+        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
+          <div class="text-[9px] font-black text-rose-600 uppercase">Housing</div>
+          <div class="font-black text-sm text-rose-600">${spec.careMatrix.socialStatus}</div>
         </div>
 
-        <div class="bg-white/80 rounded-xl p-2 border border-amber-100">
-          <div class="text-[10px] font-bold text-amber-800 uppercase">Sand Bath Area</div>
-          <div class="font-extrabold text-stone-900">${spec.careMatrix.sandBathNeeds}</div>
+        <div class="bg-white rounded-xl p-2.5 border-2 border-stone-900 shadow-[1.5px_1.5px_0px_#18181b]">
+          <div class="text-[9px] font-black text-stone-500 uppercase">Sand Area</div>
+          <div class="font-black text-sm text-stone-900">${spec.careMatrix.sandBathNeeds}</div>
         </div>
       </div>
 
-      <!-- Diabetes & Diet Warning -->
-      <div class="mt-2 text-[11px] text-amber-900 flex items-center gap-1">
-        <span class="font-bold">⚠️ Diet Advisory:</span>
-        <span>${spec.careMatrix.diabetesRisk}</span>
+      <!-- Diabetes & Diet Warning Pill -->
+      <div class="mt-2.5 p-2 bg-white/90 rounded-xl border border-stone-900 text-[11px] font-bold text-stone-900 flex items-center gap-1.5">
+        <span class="text-sm">⚠️</span>
+        <span><strong>Diet Rule:</strong> ${spec.careMatrix.diabetesRisk}</span>
       </div>
     </div>
   `;
@@ -269,29 +285,29 @@ function renderCurrentTab() {
 }
 
 // ==========================================
-// 1. CARE GUIDES (with Unsafe & Inspo sub-views)
+// 1. CARE GUIDES (Punchy & Fun)
 // ==========================================
 function renderCareGuides() {
   const main = document.getElementById('main-tab-content');
 
   main.innerHTML = `
     <div>
-      <!-- Sub-Tab Switcher -->
-      <div class="flex items-center gap-1 bg-stone-100 p-1 rounded-2xl mb-4 max-w-sm mx-auto">
-        <button data-guide-sub="core" class="flex-1 py-1.5 rounded-xl text-xs font-bold transition-all ${
-          state.guidesSubTab === 'core' ? 'bg-white text-stone-900 shadow-xs' : 'text-stone-500 hover:text-stone-900'
+      <!-- Sub-Tab Switcher (Quirky Pill Buttons) -->
+      <div class="flex items-center gap-2 mb-4 max-w-sm mx-auto justify-center">
+        <button data-guide-sub="core" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
+          state.guidesSubTab === 'core' ? 'bg-[#FDE047] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-yellow-50'
         }">
           📖 Core Care
         </button>
-        <button data-guide-sub="unsafe" class="flex-1 py-1.5 rounded-xl text-xs font-bold transition-all ${
-          state.guidesSubTab === 'unsafe' ? 'bg-rose-600 text-white shadow-xs' : 'text-rose-700 hover:text-rose-900'
+        <button data-guide-sub="unsafe" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
+          state.guidesSubTab === 'unsafe' ? 'bg-[#F43F5E] text-white shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-rose-700 hover:bg-rose-50'
         }">
           🛑 Unsafe Items
         </button>
-        <button data-guide-sub="inspiration" class="flex-1 py-1.5 rounded-xl text-xs font-bold transition-all ${
-          state.guidesSubTab === 'inspiration' ? 'bg-white text-stone-900 shadow-xs' : 'text-stone-500 hover:text-stone-900'
+        <button data-guide-sub="inspiration" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
+          state.guidesSubTab === 'inspiration' ? 'bg-[#38BDF8] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-sky-50'
         }">
-          📸 Inspo Gallery
+          📸 Inspo Setups
         </button>
       </div>
 
@@ -302,7 +318,6 @@ function renderCareGuides() {
     </div>
   `;
 
-  // Attach sub-tab handlers
   document.querySelectorAll('[data-guide-sub]').forEach(btn => {
     btn.addEventListener('click', () => {
       state.guidesSubTab = btn.getAttribute('data-guide-sub');
@@ -310,7 +325,6 @@ function renderCareGuides() {
     });
   });
 
-  // Attach guide bottom-sheet openers
   document.querySelectorAll('[data-open-guide]').forEach(card => {
     card.addEventListener('click', () => {
       const guideId = card.getAttribute('data-open-guide');
@@ -320,7 +334,7 @@ function renderCareGuides() {
           guide.title,
           `
             <div class="guide-content">
-              <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-900 mb-3">${guide.badge}</span>
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-black bg-[#FDE047] border border-stone-900 text-stone-950 mb-3 -rotate-1">${guide.badge}</span>
               ${guide.content}
             </div>
           `
@@ -331,36 +345,51 @@ function renderCareGuides() {
 }
 
 function renderCoreGuidesView() {
+  const badgeColors = [
+    'bg-[#FDE047]', // yellow
+    'bg-[#86EFAC]', // mint
+    'bg-[#FBCFE8]', // pink
+    'bg-[#BAE6FD]', // sky
+    'bg-[#DDD6FE]', // lavender
+    'bg-[#FED7AA]'  // peach
+  ];
+
   return `
     <div class="space-y-3">
-      <!-- Rescue Partnership Note -->
-      <div class="bg-amber-50/80 border border-amber-200/60 rounded-2xl p-3.5 flex items-center justify-between text-xs">
-        <div class="flex items-center gap-2">
-          <span class="text-lg">🌿</span>
+      <!-- Friendly Volunteer Banner -->
+      <div class="bg-[#CCFBF1] border-2 border-stone-900 shadow-[3px_3px_0px_#18181b] rounded-2xl p-3.5 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl animate-spin-slow">🌻</span>
           <div>
-            <span class="font-bold text-amber-950">UK Rescue Vetted Care</span>
-            <p class="text-[11px] text-stone-600">Synthesized from India's Hamster Rescue (#1213919) and UK rescue networks.</p>
+            <div class="font-black text-stone-950 font-heading text-sm">Real Rescue Knowledge ✨</div>
+            <p class="text-[11px] font-medium text-stone-700">Synthesized from India's Hamster Rescue (#1213919) foster standards.</p>
           </div>
         </div>
       </div>
 
       <!-- Guides List Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        ${careGuides.map(guide => `
-          <div data-open-guide="${guide.id}" class="bg-white rounded-2xl border border-stone-200/80 p-4 shadow-xs hover:border-amber-400 active:scale-[0.99] transition-all cursor-pointer flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-800">${guide.badge}</span>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400"></i>
+        ${careGuides.map((guide, idx) => {
+          const badgeBg = badgeColors[idx % badgeColors.length];
+          return `
+            <div data-open-guide="${guide.id}" class="bg-white pop-card p-4 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 cursor-pointer flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="px-2.5 py-0.5 rounded-lg text-[10px] font-black border border-stone-900 ${badgeBg} text-stone-950">${guide.badge}</span>
+                  <div class="w-6 h-6 rounded-full bg-stone-100 border border-stone-900 flex items-center justify-center text-stone-900">
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </div>
+                </div>
+                <h3 class="font-black text-base text-stone-950 font-heading leading-tight mb-1.5">${guide.title}</h3>
+                <p class="text-xs font-medium text-stone-600 line-clamp-2 leading-relaxed">${guide.summary}</p>
               </div>
-              <h3 class="font-extrabold text-sm text-stone-900 leading-snug mb-1">${guide.title}</h3>
-              <p class="text-xs text-stone-600 line-clamp-2 leading-relaxed">${guide.summary}</p>
+              <div class="mt-3 pt-2.5 border-t-2 border-stone-100 flex items-center justify-between text-[11px] font-black text-[#FF5C00]">
+                <span>Tap to read guide</span>
+                <span>✨</span>
+              </div>
             </div>
-            <div class="mt-3 pt-2.5 border-t border-stone-100 flex items-center text-[11px] font-bold text-amber-700">
-              <span>Read Full Rescue Guide</span>
-            </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     </div>
   `;
@@ -369,27 +398,27 @@ function renderCoreGuidesView() {
 function renderUnsafeView() {
   return `
     <div class="space-y-3">
-      <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3.5 text-xs text-rose-900 mb-2">
-        <h3 class="font-black text-sm text-rose-950 mb-0.5 flex items-center gap-1.5">
+      <div class="bg-[#FFE4E6] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 text-xs text-stone-950">
+        <h3 class="font-black text-base text-stone-950 font-heading mb-1 flex items-center gap-1.5">
           <span>🛑</span>
-          <span>Unsafe Items Hall of Shame</span>
+          <span>Unsafe Items Hall of Shame!</span>
         </h3>
-        <p class="text-[11px] leading-relaxed">
-          Common items marketed to hamsters in UK pet shops that cause fatal injuries, respiratory disease, or severe chronic stress.
+        <p class="text-[11px] font-medium leading-relaxed">
+          Pet shops regularly sell these products despite veterinary warnings. Here is exactly why rescues ban them!
         </p>
       </div>
 
       <div class="space-y-3">
         ${unsafeItems.map(item => `
-          <div class="bg-white rounded-2xl border border-rose-200 p-4 shadow-xs">
+          <div class="bg-white pop-card p-4 border-rose-600">
             <div class="flex items-center justify-between mb-1.5">
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-600 text-white tracking-wider uppercase">${item.badge}</span>
-              <span class="text-[10px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md">Banned by Rescues</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#F43F5E] text-white border border-stone-900 uppercase tracking-wider">${item.badge}</span>
+              <span class="text-[10px] font-black text-rose-800 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-md">🚫 Rescues Ban This</span>
             </div>
-            <h4 class="font-black text-stone-900 text-sm mb-1">${item.name}</h4>
-            <p class="text-xs text-stone-600 leading-relaxed mb-2">${item.danger}</p>
-            <div class="bg-rose-50/70 rounded-xl p-2.5 text-xs text-rose-900">
-              <span class="font-bold">⚠️ Veterinary Risk:</span> ${item.vetExplanation}
+            <h4 class="font-black text-stone-950 text-base font-heading mb-1">${item.name}</h4>
+            <p class="text-xs font-medium text-stone-700 leading-relaxed mb-2.5">${item.danger}</p>
+            <div class="bg-rose-50 border border-rose-200 rounded-xl p-2.5 text-xs text-rose-950 font-medium">
+              <strong class="font-black text-rose-900">⚠️ Vet Danger:</strong> ${item.vetExplanation}
             </div>
           </div>
         `).join('')}
@@ -440,21 +469,21 @@ function renderInspirationView() {
 
   return `
     <div class="space-y-4">
-      <div class="bg-amber-50/80 border border-amber-200/60 rounded-2xl p-3.5 text-xs">
-        <h3 class="font-bold text-amber-950 text-sm">Real UK Rescue Foster Setups</h3>
-        <p class="text-[11px] text-stone-600 mt-0.5">Real foster home enclosures from India's Hamster Rescue showcasing safe bedding depth, clutter, and stilts.</p>
+      <div class="bg-[#DDD6FE] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 text-xs">
+        <h3 class="font-black text-stone-950 text-base font-heading">Real UK Foster Setups 📸</h3>
+        <p class="text-[11px] font-medium text-stone-800 mt-0.5">Real enclosure setups from India's Hamster Rescue fosterers showcasing deep burrowing, stilts, and enrichment!</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         ${photos.map(p => `
-          <div class="bg-white rounded-2xl border border-stone-200/80 overflow-hidden shadow-xs">
-            <div class="relative h-48 bg-stone-100 overflow-hidden">
+          <div class="bg-white pop-card overflow-hidden">
+            <div class="relative h-48 bg-stone-100 overflow-hidden border-b-2 border-stone-900">
               <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
             </div>
-            <div class="p-3.5">
-              <h4 class="font-extrabold text-sm text-stone-900">${p.title}</h4>
-              <div class="text-[11px] font-bold text-amber-700 mb-1">${p.subtitle}</div>
-              <p class="text-xs text-stone-600 leading-relaxed">${p.details}</p>
+            <div class="p-4">
+              <h4 class="font-black text-sm text-stone-950 font-heading">${p.title}</h4>
+              <div class="text-[11px] font-black text-[#FF5C00] mb-1">${p.subtitle}</div>
+              <p class="text-xs font-medium text-stone-600 leading-relaxed">${p.details}</p>
             </div>
           </div>
         `).join('')}
@@ -464,27 +493,27 @@ function renderInspirationView() {
 }
 
 // ==========================================
-// 2. FOOD HUB (Mixes, Fresh Foods, Toxic Lookup)
+// 2. FOOD HUB (Vibrant, Clear & Verified)
 // ==========================================
 function renderFoodHub() {
   const main = document.getElementById('main-tab-content');
 
   main.innerHTML = `
     <div>
-      <!-- Food Hub Segmented Switcher -->
-      <div class="flex items-center gap-1 bg-stone-100 p-1 rounded-2xl mb-4 max-w-sm mx-auto">
-        <button data-food-sub="mixes" class="flex-1 py-1.5 rounded-xl text-xs font-bold transition-all ${
-          state.foodSubTab === 'mixes' ? 'bg-amber-600 text-white shadow-xs' : 'text-stone-600 hover:text-stone-900'
+      <!-- Food Hub Switcher -->
+      <div class="flex items-center gap-2 mb-4 max-w-sm mx-auto justify-center">
+        <button data-food-sub="mixes" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
+          state.foodSubTab === 'mixes' ? 'bg-[#FFB800] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-yellow-50'
         }">
-          🥣 Approved Mixes
+          🥣 Seed Mixes
         </button>
-        <button data-food-sub="fresh" class="flex-1 py-1.5 rounded-xl text-xs font-bold transition-all ${
-          state.foodSubTab === 'fresh' ? 'bg-white text-stone-900 shadow-xs' : 'text-stone-600 hover:text-stone-900'
+        <button data-food-sub="fresh" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
+          state.foodSubTab === 'fresh' ? 'bg-[#34D399] text-stone-950 shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-stone-700 hover:bg-green-50'
         }">
-          🥗 Fresh Staples
+          🥗 Fresh Foods
         </button>
-        <button data-food-sub="toxic" class="flex-1 py-1.5 rounded-xl text-xs font-bold transition-all ${
-          state.foodSubTab === 'toxic' ? 'bg-rose-600 text-white shadow-xs' : 'text-rose-700 hover:text-rose-900'
+        <button data-food-sub="toxic" class="px-3.5 py-1.5 rounded-full text-xs font-black transition-all border-2 border-stone-900 ${
+          state.foodSubTab === 'toxic' ? 'bg-[#F43F5E] text-white shadow-[2.5px_2.5px_0px_#18181b] -translate-y-0.5' : 'bg-white text-rose-700 hover:bg-rose-50'
         }">
           🛑 Toxic List
         </button>
@@ -506,7 +535,6 @@ function renderFoodHub() {
 }
 
 function renderCommercialMixesView() {
-  // Filter mixes by active species
   const mixes = products.filter(p => {
     if (p.category !== 'food_mixes') return false;
     if (state.currentSpecies !== 'all' && !p.species.includes(state.currentSpecies)) return false;
@@ -515,69 +543,69 @@ function renderCommercialMixesView() {
 
   return `
     <div class="space-y-4">
-      <!-- 48-Hour Freezer Protocol Alert -->
-      <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 shadow-xs">
-        <div class="flex items-start gap-2.5">
-          <span class="text-2xl">❄️</span>
+      <!-- 48-Hour Freezer Protocol Card (Icy Pop Style) -->
+      <div class="bg-[#E0F2FE] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4">
+        <div class="flex items-start gap-3">
+          <span class="text-3xl animate-bounce">❄️</span>
           <div>
-            <h3 class="font-extrabold text-sm text-amber-950">The 48-Hour Freezer Protocol</h3>
-            <p class="text-xs text-amber-900/90 leading-relaxed mt-0.5">
-              High-welfare seed mixes and natural sprays are 100% pesticide-free, meaning harmless grain mite eggs can hatch in warm houses. <strong>Always freeze new bags of food for 48 hours</strong> upon delivery to safely terminate any eggs. Let food return to room temperature before feeding.
+            <h3 class="font-black text-base text-stone-950 font-heading">The 48-Hour Freezer Rule!</h3>
+            <p class="text-xs font-medium text-stone-800 leading-relaxed mt-0.5">
+              High-welfare seed mixes and sprays are 100% pesticide-free, meaning harmless grain mite eggs can hatch in warm rooms. <strong>Always freeze new food bags for 48 hours</strong> upon delivery to safely neutralise any eggs. Thaw to room temperature before feeding!
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Species Nutrition Standards -->
-      <div class="bg-white rounded-2xl border border-stone-200 p-3.5 text-xs text-stone-700">
-        <div class="font-bold text-stone-900 mb-1 flex items-center gap-1.5">
+      <!-- Pellet-Free Warning Pill -->
+      <div class="bg-white pop-card p-4">
+        <div class="font-black text-sm text-stone-950 font-heading mb-1 flex items-center gap-1.5">
           <span>🌾</span>
-          <span>Why Pellet-Free Mueslis Matter</span>
+          <span>Why Pellet-Free Mueslis are Best</span>
         </div>
-        <p class="text-stone-600 text-[11px] leading-relaxed">
-          Standard pet store mixes (like Harry Hamster) contain dyed sugary biscuits and hard pellets that hamsters leave behind. High-welfare seed mixes use 25+ real whole grains, grass seeds, and dried mealworms with <strong>15–18% protein</strong> (18–22% for young hams) and <strong>zero fruit/sugar for dwarfs</strong>.
+        <p class="text-xs font-medium text-stone-600 leading-relaxed">
+          Standard pet shop mueslis (like Harry Hamster) contain dyed sugary biscuits and hard pellets that hamsters hate. Rescue-approved seed diets provide 25+ whole seeds, grains, and mealworms with <strong>15–18% protein</strong> and <strong>zero fruit/sugars for dwarfs</strong>.
         </p>
       </div>
 
-      <!-- Mix Cards Grid -->
+      <!-- Mix Cards List -->
       <div class="space-y-3">
         ${mixes.map(p => `
-          <div class="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-xs flex flex-col justify-between">
+          <div class="bg-white pop-card p-4 flex flex-col justify-between">
             <div>
-              <div class="flex flex-wrap gap-1 mb-1.5">
+              <div class="flex flex-wrap gap-1 mb-2">
                 ${p.badges.map(b => `
-                  <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                  <span class="px-2.5 py-0.5 rounded-lg text-[10px] font-black border border-stone-900 ${
                     b.includes('Favourite') || b.includes('Hope')
-                      ? 'bg-amber-100 text-amber-800'
-                      : 'bg-emerald-100 text-emerald-800'
+                      ? 'bg-[#FEF08A] text-stone-950'
+                      : 'bg-[#A7F3D0] text-stone-950'
                   }">${b}</span>
                 `).join('')}
               </div>
-              <div class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
-              <h4 class="font-black text-sm text-stone-900 mt-0.5 mb-1 leading-snug">${p.name}</h4>
-              <p class="text-xs text-stone-600 leading-relaxed mb-3">${p.summary}</p>
+              <div class="text-[10px] font-black text-stone-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
+              <h4 class="font-black text-base text-stone-950 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
+              <p class="text-xs font-medium text-stone-600 leading-relaxed mb-3">${p.summary}</p>
 
               <div class="flex flex-wrap items-center gap-1 mb-3">
-                <span class="text-[10px] text-stone-400">Suitable For:</span>
+                <span class="text-[10px] font-bold text-stone-400">Suitable For:</span>
                 ${p.species.map(sp => `
-                  <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700 font-medium capitalize">
+                  <span class="text-[10px] px-2 py-0.5 rounded-md border border-stone-900 bg-stone-100 text-stone-800 font-extrabold capitalize">
                     ${sp.replace('_', ' ')}
                   </span>
                 `).join('')}
               </div>
             </div>
 
-            <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between">
+            <div class="pt-3 border-t-2 border-stone-100 flex items-center justify-between">
               <div>
-                <div class="text-[10px] text-stone-400">Price Guide</div>
-                <div class="text-sm font-black text-stone-900">${p.priceGuide}</div>
+                <div class="text-[9px] font-black text-stone-400 uppercase">Price Guide</div>
+                <div class="text-base font-black text-stone-950 font-heading">${p.priceGuide}</div>
               </div>
 
               <a 
                 href="${p.url}" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-xs flex items-center gap-1">
+                class="pop-btn px-4 py-2 bg-[#FF5C00] text-white text-xs hover:bg-[#e05200] flex items-center gap-1.5">
                 <span>Buy Mix ↗</span>
               </a>
             </div>
@@ -585,9 +613,9 @@ function renderCommercialMixesView() {
         `).join('')}
       </div>
 
-      <!-- Scatter Feeding Tip -->
-      <div class="bg-stone-50 border border-stone-200 rounded-2xl p-3.5 text-xs text-stone-600">
-        <span class="font-bold text-stone-800">💡 Feeding Advice:</span> Never use a food bowl! Scatter 1–2 level tablespoons of seed mix directly around the cage bedding every 1–2 days. This provides essential foraging enrichment and satisfies pouching instincts.
+      <!-- Scatter Feed Pill -->
+      <div class="bg-[#FEF9C3] border-2 border-stone-900 shadow-[2px_2px_0px_#18181b] rounded-2xl p-3.5 text-xs text-stone-800 font-medium">
+        <strong class="font-black text-stone-950">💡 Scatter Feed Tip:</strong> Ditch the food bowl! Scatter 1–2 tablespoons of seeds across deep bedding every 1–2 days. It burns energy, eliminates boredom, and lets hamsters pouch like they do in the wild.
       </div>
     </div>
   `;
@@ -596,7 +624,6 @@ function renderCommercialMixesView() {
 function renderFreshFoodsView() {
   const safeFoods = foodDatabase.filter(f => f.status === 'SAFE' || f.status === 'CAUTION_DIABETES');
 
-  // Search filter
   const filtered = safeFoods.filter(food => {
     if (state.foodSearch.trim()) {
       const q = state.foodSearch.toLowerCase();
@@ -609,38 +636,39 @@ function renderFreshFoodsView() {
     <div class="space-y-3">
       <!-- Search Bar -->
       <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3 top-2.5"></i>
+        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
         <input 
           type="text" 
           id="food-search-input" 
           value="${state.foodSearch}"
           placeholder="Search fresh vegetables, proteins, treats..."
-          class="w-full bg-white border border-stone-200 rounded-xl pl-9 pr-8 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+          class="w-full bg-white border-2 border-stone-900 shadow-[2.5px_2.5px_0px_#18181b] rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-400">
         ${state.foodSearch ? `
-          <button id="clear-food-search" class="absolute right-2.5 top-2.5 text-stone-400 hover:text-stone-700 text-xs font-bold">✕</button>
+          <button id="clear-food-search" class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-900 font-black text-xs">✕</button>
         ` : ''}
       </div>
 
       <div class="space-y-2.5">
-        ${filtered.map(food => `
-          <div class="bg-white rounded-2xl border ${
-            food.status === 'SAFE' ? 'border-emerald-200/80' : 'border-amber-200/80'
-          } p-3.5 shadow-xs">
-            <div class="flex items-center justify-between mb-1">
-              <h4 class="font-extrabold text-sm text-stone-900">${food.name}</h4>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                food.status === 'SAFE' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'
-              }">
-                ${food.status === 'SAFE' ? '🟢 Safe Staple' : '🟡 Caution / Diabetes'}
-              </span>
+        ${filtered.map(food => {
+          const isSafe = food.status === 'SAFE';
+          return `
+            <div class="bg-white pop-card p-4">
+              <div class="flex items-center justify-between mb-1">
+                <h4 class="font-black text-base text-stone-950 font-heading">${food.name}</h4>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black border border-stone-900 ${
+                  isSafe ? 'bg-[#86EFAC] text-stone-950' : 'bg-[#FEF08A] text-stone-950'
+                }">
+                  ${isSafe ? '🟢 Safe Staple' : '🟡 Caution / Diabetes'}
+                </span>
+              </div>
+              <p class="text-xs font-medium text-stone-700 leading-relaxed mb-2.5">${food.details}</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] pt-2 border-t border-stone-100 font-medium">
+                <div class="text-stone-800"><strong>Portion:</strong> ${food.portionGuide}</div>
+                <div class="text-stone-800"><strong>Prep:</strong> ${food.prepInstructions}</div>
+              </div>
             </div>
-            <p class="text-xs text-stone-600 leading-relaxed mb-2">${food.details}</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] pt-2 border-t border-stone-100">
-              <div class="text-stone-700"><strong>Portion:</strong> ${food.portionGuide}</div>
-              <div class="text-stone-700"><strong>Prep:</strong> ${food.prepInstructions}</div>
-            </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     </div>
   `;
@@ -651,24 +679,24 @@ function renderToxicFoodsView() {
 
   return `
     <div class="space-y-3">
-      <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3.5 text-xs text-rose-900">
-        <h3 class="font-black text-sm text-rose-950 mb-0.5">⚠️ Strictly Forbidden & Toxic Foods</h3>
-        <p class="text-[11px] leading-relaxed">
-          These items are dangerous or fatal to hamsters due to toxic chemical compounds (allium, cyanide, solanine, persin, theobromine) or severe choking hazards.
+      <div class="bg-[#FFE4E6] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4 text-xs text-stone-950">
+        <h3 class="font-black text-base text-stone-950 font-heading mb-1">⚠️ Strictly Forbidden Toxic Foods!</h3>
+        <p class="text-[11px] font-medium leading-relaxed">
+          These items contain toxic compounds (cyanide, allium, solanine, theobromine) or pose fatal gastrointestinal blockages. Never feed these!
         </p>
       </div>
 
       <div class="space-y-2.5">
         ${toxicFoods.map(food => `
-          <div class="bg-white rounded-2xl border border-rose-200 p-3.5 shadow-xs">
+          <div class="bg-white pop-card p-4 border-rose-600">
             <div class="flex items-center justify-between mb-1">
-              <h4 class="font-extrabold text-sm text-stone-900">${food.name}</h4>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-600 text-white uppercase tracking-wider">
+              <h4 class="font-black text-base text-stone-950 font-heading">${food.name}</h4>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#F43F5E] text-white border border-stone-900 uppercase">
                 🔴 Strictly Forbidden
               </span>
             </div>
-            <p class="text-xs text-rose-900/90 leading-relaxed mb-1.5">${food.details}</p>
-            <div class="text-[11px] text-stone-600 pt-1.5 border-t border-stone-100">
+            <p class="text-xs font-medium text-rose-950 leading-relaxed mb-1.5">${food.details}</p>
+            <div class="text-[11px] text-stone-700 pt-1.5 border-t border-stone-100 font-medium">
               <strong>Why Dangerous:</strong> ${food.prepInstructions}
             </div>
           </div>
@@ -678,7 +706,7 @@ function renderToxicFoodsView() {
   `;
 }
 
-// Attach food input listener
+// Food input event delegator
 document.addEventListener('input', (e) => {
   if (e.target.id === 'food-search-input') {
     state.foodSearch = e.target.value;
@@ -698,20 +726,15 @@ document.addEventListener('click', (e) => {
 });
 
 // ==========================================
-// 3. ETHICAL SHOP & PRODUCT DIRECTORY
+// 3. ETHICAL SHOP (Punchy Neo-Pop Cards)
 // ==========================================
 function renderShop() {
   const main = document.getElementById('main-tab-content');
 
-  // Filter products
   const filtered = products.filter(p => {
-    // Species filter
     if (state.currentSpecies !== 'all' && !p.species.includes(state.currentSpecies)) return false;
-    // Category filter
     if (state.shopCategory !== 'all' && p.category !== state.shopCategory) return false;
-    // Retailer filter
     if (state.shopRetailer !== 'all' && !p.retailer.toLowerCase().includes(state.shopRetailer.toLowerCase())) return false;
-    // Search query
     if (state.shopSearch.trim()) {
       const q = state.shopSearch.toLowerCase();
       return p.name.toLowerCase().includes(q) || p.summary.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q);
@@ -720,7 +743,7 @@ function renderShop() {
   });
 
   const categories = [
-    { id: 'all', label: 'All Items' },
+    { id: 'all', label: '🌟 All Items' },
     { id: 'food_mixes', label: '🥣 Seed Mixes' },
     { id: 'enclosures', label: '🏠 Enclosures' },
     { id: 'wheels', label: '🎡 Wheels' },
@@ -728,81 +751,81 @@ function renderShop() {
     { id: 'substrates', label: '🪵 Substrates' },
     { id: 'sand', label: '🏖️ Sand Baths' },
     { id: 'hides', label: '🏡 Hides' },
-    { id: 'forage', label: '🌾 Forage & Sprays' }
+    { id: 'forage', label: '🌾 Forage' }
   ];
 
   main.innerHTML = `
     <div class="space-y-3">
       <!-- Search Input -->
       <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3 top-2.5"></i>
+        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
         <input 
           type="text" 
           id="shop-search-input" 
           value="${state.shopSearch}"
-          placeholder="Search verified products, brands, or retailers..."
-          class="w-full bg-white border border-stone-200 rounded-xl pl-9 pr-8 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+          placeholder="Search verified cages, wheels, mixes..."
+          class="w-full bg-white border-2 border-stone-900 shadow-[2.5px_2.5px_0px_#18181b] rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-400">
         ${state.shopSearch ? `
-          <button id="clear-shop-search" class="absolute right-2.5 top-2.5 text-stone-400 hover:text-stone-700 text-xs font-bold">✕</button>
+          <button id="clear-shop-search" class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-900 font-black text-xs">✕</button>
         ` : ''}
       </div>
 
       <!-- Horizontal Scroll Category Chips -->
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
         ${categories.map(c => `
           <button 
             data-cat-btn="${c.id}"
-            class="px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
+            class="px-3.5 py-1 rounded-full text-xs font-black whitespace-nowrap transition-all border-2 border-stone-900 ${
               state.shopCategory === c.id
-                ? 'bg-amber-600 text-white font-bold shadow-xs'
-                : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50'
+                ? 'bg-[#FF5C00] text-white shadow-[2px_2px_0px_#18181b] -translate-y-0.5'
+                : 'bg-white text-stone-700 hover:bg-yellow-50'
             }">
             ${c.label}
           </button>
         `).join('')}
       </div>
 
-      <!-- Product Cards List -->
+      <!-- Products Grid -->
       ${filtered.length === 0 ? `
-        <div class="bg-white rounded-2xl border border-stone-200 p-8 text-center my-6">
-          <p class="text-xs text-stone-500">No matching products found. Try clearing your filters.</p>
-          <button id="reset-shop-filters" class="mt-3 px-3 py-1.5 bg-amber-600 text-white text-xs font-bold rounded-xl">Clear Filters</button>
+        <div class="bg-white pop-card p-8 text-center my-6">
+          <p class="text-xs font-medium text-stone-500">No matching items found. Try clearing your search.</p>
+          <button id="reset-shop-filters" class="mt-3 pop-btn px-4 py-2 bg-[#FDE047] text-stone-950 text-xs">Clear Filters</button>
         </div>
       ` : `
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           ${filtered.map(p => `
-            <div class="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-xs flex flex-col justify-between">
+            <div class="bg-white pop-card p-4 flex flex-col justify-between">
               <div>
-                <div class="flex flex-wrap gap-1 mb-1.5">
+                <div class="flex flex-wrap gap-1 mb-2">
                   ${p.badges.map(b => `
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-black border border-stone-900 ${
                       b.includes('India') || b.includes('Profits')
-                        ? 'bg-rose-100 text-rose-800'
+                        ? 'bg-[#FDA4AF] text-stone-950'
                         : b.includes('Hope')
-                        ? 'bg-emerald-100 text-emerald-800'
+                        ? 'bg-[#A7F3D0] text-stone-950'
                         : b.includes('Favourite')
-                        ? 'bg-amber-100 text-amber-800'
-                        : 'bg-stone-100 text-stone-700'
+                        ? 'bg-[#FEF08A] text-stone-950'
+                        : 'bg-stone-100 text-stone-800'
                     }">${b}</span>
                   `).join('')}
                 </div>
 
-                <div class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
-                <h4 class="font-black text-sm text-stone-900 mt-0.5 mb-1 leading-snug">${p.name}</h4>
-                <p class="text-xs text-stone-600 leading-relaxed mb-3">${p.summary}</p>
+                <div class="text-[10px] font-black text-stone-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
+                <h4 class="font-black text-base text-stone-950 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
+                <p class="text-xs font-medium text-stone-600 leading-relaxed mb-3">${p.summary}</p>
               </div>
 
-              <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between">
+              <div class="pt-3 border-t-2 border-stone-100 flex items-center justify-between">
                 <div>
-                  <div class="text-[10px] text-stone-400">Price Guide</div>
-                  <div class="text-sm font-black text-stone-900">${p.priceGuide}</div>
+                  <div class="text-[9px] font-black text-stone-400 uppercase">Price Guide</div>
+                  <div class="text-sm font-black text-stone-950 font-heading">${p.priceGuide}</div>
                 </div>
 
                 <a 
                   href="${p.url}" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  class="px-3.5 py-1.5 rounded-xl bg-stone-900 hover:bg-amber-600 text-white text-xs font-bold shadow-xs flex items-center gap-1 transition-colors">
+                  class="pop-btn px-3.5 py-1.5 bg-stone-950 hover:bg-[#FF5C00] text-white text-xs flex items-center gap-1 transition-colors">
                   <span>Buy From Seller ↗</span>
                 </a>
               </div>
@@ -811,13 +834,12 @@ function renderShop() {
         </div>
       `}
 
-      <div class="text-center text-[10px] text-stone-400 pt-3">
-        UK ASA Disclosure: Vetted against rescue standards. Some merchant links may support charity operations.
+      <div class="text-center text-[10px] font-bold text-stone-400 pt-3">
+        UK ASA Disclosure: Vetted against rescue standards. Some links directly fund independent rescues.
       </div>
     </div>
   `;
 
-  // Attach shop category listeners
   document.querySelectorAll('[data-cat-btn]').forEach(btn => {
     btn.addEventListener('click', () => {
       state.shopCategory = btn.getAttribute('data-cat-btn');
@@ -862,23 +884,23 @@ function renderChecklist() {
 
   main.innerHTML = `
     <div class="space-y-4">
-      <!-- Progress Bar Card -->
-      <div class="bg-white rounded-2xl border border-stone-200 p-4 shadow-xs">
+      <!-- Punchy Progress Score Card -->
+      <div class="bg-[#FBCFE8] border-2.5 border-stone-900 shadow-[3.5px_3.5px_0px_#18181b] rounded-2xl p-4.5">
         <div class="flex items-center justify-between mb-2">
           <div>
-            <h3 class="font-black text-sm text-stone-900">Adoption Readiness Score</h3>
-            <p class="text-[11px] text-stone-500">Meets UK Hamster Rescue vetting criteria</p>
+            <h3 class="font-black text-base text-stone-950 font-heading">Adoption Readiness Score ✨</h3>
+            <p class="text-[11px] font-bold text-stone-700">Official UK Rescue Vetting Criteria</p>
           </div>
-          <span class="text-lg font-black text-amber-700">${percent}%</span>
+          <span class="text-2xl font-black text-stone-950 font-heading">${percent}%</span>
         </div>
 
-        <div class="w-full bg-stone-100 rounded-full h-2.5 overflow-hidden">
-          <div class="bg-gradient-to-r from-amber-500 to-amber-600 h-2.5 rounded-full transition-all duration-300" style="width: ${percent}%"></div>
+        <div class="w-full bg-white border-2 border-stone-900 rounded-full h-3.5 p-0.5 overflow-hidden">
+          <div class="bg-[#FF5C00] h-full rounded-full transition-all duration-300" style="width: ${percent}%"></div>
         </div>
 
-        <div class="text-[11px] text-stone-600 mt-2 flex items-center justify-between">
+        <div class="text-[11px] font-black text-stone-800 mt-2 flex items-center justify-between">
           <span>${checkedCount} of ${total} requirements satisfied</span>
-          ${percent === 100 ? '<span class="text-emerald-700 font-bold">🎉 Rescue Vetting Ready!</span>' : ''}
+          ${percent === 100 ? '<span class="text-emerald-900 font-black bg-white px-2 py-0.5 rounded-full border border-stone-900">🎉 100% Rescue Ready!</span>' : ''}
         </div>
       </div>
 
@@ -887,20 +909,20 @@ function renderChecklist() {
         ${adoptionChecklist.map(item => {
           const isChecked = !!state.checkedItems[item.id];
           return `
-            <label class="bg-white rounded-2xl border ${
-              isChecked ? 'border-amber-300 bg-amber-50/30' : 'border-stone-200'
-            } p-3.5 shadow-xs flex items-start gap-3 cursor-pointer select-none transition-all">
+            <label class="bg-white pop-card p-3.5 flex items-start gap-3 cursor-pointer select-none transition-all ${
+              isChecked ? 'bg-[#FEFCE8] border-amber-500' : ''
+            }">
               <input 
                 type="checkbox" 
                 data-check-id="${item.id}"
                 ${isChecked ? 'checked' : ''}
-                class="mt-1 w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-stone-300">
+                class="mt-1 w-5 h-5 rounded-md text-[#FF5C00] focus:ring-yellow-400 border-2 border-stone-900 accent-[#FF5C00]">
               <div class="flex-grow">
                 <div class="flex items-center justify-between">
-                  <h4 class="font-bold text-xs text-stone-900">${item.title}</h4>
-                  <span class="text-[10px] font-bold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded">${item.badge}</span>
+                  <h4 class="font-black text-xs text-stone-950 font-heading">${item.title}</h4>
+                  <span class="text-[10px] font-black text-stone-950 bg-[#FDE047] border border-stone-900 px-2 py-0.5 rounded-md">${item.badge}</span>
                 </div>
-                <p class="text-xs text-stone-600 mt-0.5 leading-relaxed">${item.description}</p>
+                <p class="text-xs font-medium text-stone-600 mt-0.5 leading-relaxed">${item.description}</p>
               </div>
             </label>
           `;
@@ -909,35 +931,32 @@ function renderChecklist() {
 
       <!-- Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-2 pt-2">
-        <button id="copy-summary-btn" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5">
+        <button id="copy-summary-btn" class="flex-1 py-3 pop-btn bg-[#FF5C00] text-white text-xs hover:bg-[#e05200] flex items-center justify-center gap-1.5">
           <i data-lucide="copy" class="w-4 h-4"></i>
           <span>Copy Adoption Summary</span>
         </button>
-        <button id="reset-checklist-btn" class="py-2.5 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs rounded-xl transition-colors">
+        <button id="reset-checklist-btn" class="py-3 px-5 pop-btn bg-white text-stone-800 text-xs hover:bg-stone-100">
           Reset
         </button>
       </div>
     </div>
   `;
 
-  // Checklist item toggle listeners
   document.querySelectorAll('[data-check-id]').forEach(input => {
     input.addEventListener('change', () => {
       const id = input.getAttribute('data-check-id');
       state.checkedItems[id] = input.checked;
       localStorage.setItem('fth_checklist', JSON.stringify(state.checkedItems));
 
-      // Trigger confetti if hit 100%
       const newCheckedCount = Object.values(state.checkedItems).filter(Boolean).length;
       if (newCheckedCount === total && typeof confetti === 'function') {
-        confetti({ particleCount: 75, spread: 60, origin: { y: 0.7 } });
+        confetti({ particleCount: 90, spread: 70, origin: { y: 0.7 } });
       }
 
       renderChecklist();
     });
   });
 
-  // Copy summary handler
   document.getElementById('copy-summary-btn')?.addEventListener('click', () => {
     let summaryText = `🐹 For the Hams! Adoption Readiness Summary\n`;
     summaryText += `Score: ${checkedCount}/${total} Requirements Met (${percent}%)\n\n`;
@@ -949,7 +968,7 @@ function renderChecklist() {
 
     navigator.clipboard.writeText(summaryText).then(() => {
       const btn = document.getElementById('copy-summary-btn');
-      if (btn) btn.innerHTML = `<span>✓ Copied to Clipboard!</span>`;
+      if (btn) btn.innerHTML = `<span>✓ Copied to Clipboard! ✨</span>`;
       setTimeout(() => renderChecklist(), 2000);
     });
   });
@@ -984,14 +1003,14 @@ function renderRescues() {
   main.innerHTML = `
     <div class="space-y-3">
       <!-- Region Filter -->
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
         ${regions.map(reg => `
           <button 
             data-region-btn="${reg.id}"
-            class="px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
+            class="px-3.5 py-1 rounded-full text-xs font-black whitespace-nowrap transition-all border-2 border-stone-900 ${
               state.rescueRegion === reg.id
-                ? 'bg-amber-600 text-white font-bold shadow-xs'
-                : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50'
+                ? 'bg-[#38BDF8] text-stone-950 shadow-[2px_2px_0px_#18181b] -translate-y-0.5'
+                : 'bg-white text-stone-700 hover:bg-sky-50'
             }">
             ${reg.label}
           </button>
@@ -1001,33 +1020,33 @@ function renderRescues() {
       <!-- Rescues Grid -->
       <div class="space-y-3">
         ${filtered.map(r => `
-          <div class="bg-white rounded-2xl border border-stone-200/90 p-4 shadow-xs">
+          <div class="bg-white pop-card p-4">
             <div class="flex items-start justify-between gap-2 mb-1.5">
               <div>
-                <h4 class="font-black text-sm text-stone-900">${r.name}</h4>
-                <div class="text-[11px] font-semibold text-amber-800">${r.charityNumber} • ${r.coverage}</div>
+                <h4 class="font-black text-base text-stone-950 font-heading">${r.name}</h4>
+                <div class="text-[11px] font-bold text-[#FF5C00]">${r.charityNumber} • ${r.coverage}</div>
               </div>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/60 shrink-0">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-[#FED7AA] text-stone-950 border border-stone-900 shrink-0">
                 ${r.region}
               </span>
             </div>
 
-            <p class="text-xs text-stone-600 leading-relaxed mb-3">${r.summary}</p>
+            <p class="text-xs font-medium text-stone-600 leading-relaxed mb-3">${r.summary}</p>
 
-            <div class="flex items-center gap-2 pt-2.5 border-t border-stone-100">
+            <div class="flex items-center gap-2 pt-2.5 border-t-2 border-stone-100">
               <a 
                 href="${r.url}" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="flex-1 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl text-center shadow-xs transition-colors">
-                Apply to Adopt ↗
+                class="flex-1 py-2 bg-[#FF5C00] hover:bg-[#e05200] text-white text-xs pop-btn text-center">
+                Adopt From Rescue ✨
               </a>
               <a 
                 href="${r.donateUrl}" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="px-3.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold rounded-xl transition-colors">
-                Donate
+                class="px-4 py-2 bg-white hover:bg-stone-100 text-stone-900 text-xs pop-btn">
+                Donate 💖
               </a>
             </div>
           </div>
