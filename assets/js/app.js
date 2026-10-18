@@ -43,6 +43,30 @@ const speciesGelClasses = {
   chinese: 'gel-purple'
 };
 
+// Emoji icons for guides
+const guideEmojis = {
+  enclosures: '🏰',
+  bedding: '☁️',
+  wheels: '🎡',
+  sand_baths: '🏖️',
+  multi_chamber: '🏡',
+  substrates_textures: '🪵',
+  forage_sprays: '🌾',
+  food_mixes_nutrition: '🥣',
+  solitary_rule: '🛡️'
+};
+
+// Category badge color mapping for checklist
+const checklistCategoryGels = {
+  Habitat: 'gel-blue',
+  Exercise: 'gel-orange',
+  Nesting: 'gel-purple',
+  Hygiene: 'gel-yellow',
+  Enrichment: 'gel-green',
+  Safety: 'gel-pink',
+  Welfare: 'gel-red'
+};
+
 // Bootstrap
 document.addEventListener('DOMContentLoaded', () => {
   initRouting();
@@ -62,6 +86,17 @@ function initRouting() {
   updateNavState();
 }
 
+function switchTab(tab, subTab = null) {
+  state.activeTab = tab;
+  if (tab === 'guides' && subTab) state.guidesSubTab = subTab;
+  if (tab === 'food' && subTab) state.foodSubTab = subTab;
+  if (tab === 'shop' && subTab) state.shopCategory = subTab;
+  window.location.hash = tab;
+  updateNavState();
+  renderCurrentTab();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function updateNavState() {
   document.querySelectorAll('[data-nav-tab]').forEach(btn => {
     const tab = btn.getAttribute('data-nav-tab');
@@ -70,7 +105,6 @@ function updateNavState() {
     const gelClass = tabGelClasses[tab] || 'gel-orange';
 
     if (iconBg) {
-      // Remove any previously set gel classes
       iconBg.classList.remove('gel-btn', 'gel-orange', 'gel-green', 'gel-blue', 'gel-pink', 'gel-purple', 'gel-silver', 'text-slate-400');
       
       if (tab === state.activeTab) {
@@ -98,12 +132,7 @@ function setupNavigationListeners() {
       e.preventDefault();
       const tab = btn.getAttribute('data-nav-tab');
       if (state.activeTab === tab) return;
-
-      state.activeTab = tab;
-      window.location.hash = tab;
-      updateNavState();
-      renderCurrentTab();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      switchTab(tab);
     });
   });
 }
@@ -116,8 +145,8 @@ function openBottomSheet(title, htmlContent) {
 
   if (!backdrop || !titleEl || !bodyEl) return;
 
-  titleEl.textContent = title;
-  bodyEl.innerHTML = htmlContent;
+  titleEl.textContent = title || 'Care Guide';
+  bodyEl.innerHTML = htmlContent || '';
   backdrop.classList.remove('hidden');
   document.body.classList.add('overflow-hidden');
   updateIcons();
@@ -152,9 +181,9 @@ function renderSpeciesBar() {
   if (!container) return;
 
   const speciesOptions = [
-    { id: 'all', emoji: '🐾', name: 'All' },
+    { id: 'all', emoji: '🐾', name: 'All Species' },
     { id: 'syrian', emoji: '🐹', name: 'Syrian' },
-    { id: 'roborovski', emoji: '⚡', name: 'Robo' },
+    { id: 'roborovski', emoji: '⚡', name: 'Roborovski' },
     { id: 'winter_white', emoji: '❄️', name: 'Winter White' },
     { id: 'campbells', emoji: '🌾', name: "Campbell's" },
     { id: 'chinese', emoji: '🌿', name: 'Chinese' }
@@ -162,7 +191,7 @@ function renderSpeciesBar() {
 
   container.innerHTML = `
     <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 max-w-3xl mx-auto">
-      <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider shrink-0 pl-1 mr-1">Species:</span>
+      <span class="text-[10px] font-black text-sky-900 uppercase tracking-wider shrink-0 pl-1 mr-1">Filter Pet:</span>
       ${speciesOptions.map(opt => {
         const isActive = state.currentSpecies === opt.id;
         const activeGel = speciesGelClasses[opt.id] || 'gel-orange';
@@ -192,7 +221,7 @@ function renderSpeciesBar() {
   renderSpeciesDetailBanner();
 }
 
-// 2000s Species Metric Quick Card (Glossy Web 2.0 Panel)
+// 2000s Species Metric Quick Card (Glossy Web 2.0 Pet Profile Panel)
 function renderSpeciesDetailBanner() {
   const banner = document.getElementById('species-banner-area');
   if (!banner) return;
@@ -205,46 +234,73 @@ function renderSpeciesDetailBanner() {
   const spec = speciesList.find(s => s.id === state.currentSpecies);
   if (!spec) return;
 
+  const activeGel = speciesGelClasses[spec.id] || 'gel-yellow';
+
   banner.innerHTML = `
-    <div class="web2-card my-2.5">
+    <div class="web2-card my-3 border-sky-300 shadow-md">
       <div class="web2-header-bar px-4 py-2.5 flex items-center justify-between">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-wrap">
+          <div class="flex items-center gap-1 mr-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-400 border border-rose-600 inline-block"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-600 inline-block"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-600 inline-block"></span>
+          </div>
           <span class="text-base font-black text-slate-900 font-heading">${spec.name}</span>
-          <span class="gel-badge gel-yellow text-[10px] font-black">${spec.badge}</span>
+          <span class="text-[11px] italic font-bold text-slate-500">(${spec.scientificName || ''})</span>
+          <span class="gel-badge ${activeGel} text-[10px] font-black">${spec.badge || 'UK Standard'}</span>
         </div>
-        <button id="close-species-banner" class="w-6 h-6 rounded-full gel-btn gel-silver text-xs font-black">✕</button>
+        <button id="close-species-banner" class="w-6 h-6 rounded-full gel-btn gel-silver text-xs font-black" title="Reset species filter">✕</button>
       </div>
 
-      <div class="p-3.5 bg-white">
-        <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-3">${spec.summary}</p>
+      <div class="p-3.5 bg-gradient-to-b from-white to-sky-50/40">
+        <p class="text-xs font-medium text-slate-700 leading-relaxed mb-3">${spec.description || ''}</p>
 
         <!-- Quick Metrics Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-          <div class="p-2.5 rounded-xl border border-sky-100 bg-sky-50/50 shadow-xs">
-            <div class="text-[9px] font-black text-sky-800 uppercase">Min Wheel</div>
-            <div class="font-black text-sm text-slate-900">${spec.careMatrix.minWheelDiameter}</div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+          <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
+            <div class="text-[9px] font-black text-sky-800 uppercase">🎡 Min Upright Wheel</div>
+            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minWheelSize || '28cm+'}</div>
+            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.wheelNote || ''}</div>
           </div>
 
-          <div class="p-2.5 rounded-xl border border-sky-100 bg-sky-50/50 shadow-xs">
-            <div class="text-[9px] font-black text-sky-800 uppercase">Min Cage</div>
-            <div class="font-black text-sm text-slate-900">${spec.careMatrix.minCageFloorSpace}</div>
+          <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
+            <div class="text-[9px] font-black text-sky-800 uppercase">🏠 Min Unbroken Cage</div>
+            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minCageSize || '100 x 50 x 50 cm'}</div>
+            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.cageNote || ''}</div>
           </div>
 
-          <div class="p-2.5 rounded-xl border border-rose-100 bg-rose-50/50 shadow-xs">
-            <div class="text-[9px] font-black text-rose-700 uppercase">Housing</div>
-            <div class="font-black text-sm text-rose-700">${spec.careMatrix.socialStatus}</div>
+          <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50/60 shadow-xs">
+            <div class="text-[9px] font-black text-rose-800 uppercase">🛡️ Social Housing</div>
+            <div class="font-black text-sm text-rose-700 mt-0.5">${spec.solitaryStatus || 'Strictly Solitary'}</div>
+            <div class="text-[10px] text-rose-900/80 font-medium leading-tight mt-0.5">${spec.solitaryNote || ''}</div>
           </div>
 
-          <div class="p-2.5 rounded-xl border border-sky-100 bg-sky-50/50 shadow-xs">
-            <div class="text-[9px] font-black text-sky-800 uppercase">Sand Area</div>
-            <div class="font-black text-sm text-slate-900">${spec.careMatrix.sandBathNeeds}</div>
+          <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
+            <div class="text-[9px] font-black text-sky-800 uppercase">☁️ Bedding Depth</div>
+            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.beddingDepth || '20cm+'}</div>
+            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Compacted paper or safe aspen</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl border border-amber-200 bg-amber-50/50 shadow-xs">
+            <div class="text-[9px] font-black text-amber-900 uppercase">🏖️ Sand Bath Size</div>
+            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.sandBathSize || 'A4 Size+'}</div>
+            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.sandNote || ''}</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl border border-purple-200 bg-purple-50/40 shadow-xs">
+            <div class="text-[9px] font-black text-purple-900 uppercase">📏 Vital Stats & Holes</div>
+            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.entranceHoleMin || '5cm+'} Hide Entrances</div>
+            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Lifespan: ${spec.lifespan || '2-3 yrs'} • Size: ${spec.avgSize || ''}</div>
           </div>
         </div>
 
         <!-- Diabetes & Diet Warning Pill -->
-        <div class="mt-2.5 p-2 rounded-xl border border-amber-200 bg-amber-50 text-[11px] font-bold text-amber-950 flex items-center gap-1.5">
-          <span class="text-sm">⚠️</span>
-          <span><strong>Diet Advisory:</strong> ${spec.careMatrix.diabetesRisk}</span>
+        <div class="mt-2.5 p-2.5 rounded-xl border border-amber-300 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 text-[11px] font-bold text-amber-950 flex items-start gap-2 shadow-xs">
+          <span class="text-base leading-none mt-0.5">🥗</span>
+          <div>
+            <strong class="font-black uppercase tracking-wide text-amber-900">Species Diet & Diabetes Profile:</strong>
+            <span class="font-medium text-slate-800 ml-1">${spec.dietSpecial || ''}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -292,21 +348,21 @@ function renderCareGuides() {
   main.innerHTML = `
     <div>
       <!-- Sub-Tab Switcher (Noughties Glossy Pills) -->
-      <div class="flex items-center gap-2 mb-4 max-w-sm mx-auto justify-center">
+      <div class="flex items-center gap-2 mb-4 max-w-md mx-auto justify-center flex-wrap">
         <button data-guide-sub="core" class="gel-btn ${
           state.guidesSubTab === 'core' ? 'gel-orange' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
-          📖 Core Care
+          📖 Core Care Guides
         </button>
         <button data-guide-sub="unsafe" class="gel-btn ${
           state.guidesSubTab === 'unsafe' ? 'gel-red' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
-          🛑 Unsafe Items
+          🛑 Unsafe Hall of Shame
         </button>
         <button data-guide-sub="inspiration" class="gel-btn ${
           state.guidesSubTab === 'inspiration' ? 'gel-blue' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
-          📸 Inspo Setups
+          📸 Real Foster Setups
         </button>
       </div>
 
@@ -324,17 +380,26 @@ function renderCareGuides() {
     });
   });
 
+  document.querySelectorAll('[data-quick-jump]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-quick-jump');
+      const sub = btn.getAttribute('data-quick-sub') || null;
+      switchTab(target, sub);
+    });
+  });
+
   document.querySelectorAll('[data-open-guide]').forEach(card => {
     card.addEventListener('click', () => {
       const guideId = card.getAttribute('data-open-guide');
       const guide = careGuides.find(g => g.id === guideId);
       if (guide) {
+        const emoji = guideEmojis[guide.id] || '🐹';
         openBottomSheet(
-          guide.title,
+          `${emoji} ${guide.title}`,
           `
             <div class="guide-content">
-              <span class="gel-badge gel-yellow px-3 py-1 text-xs font-black mb-3 inline-block">${guide.badge}</span>
-              ${guide.content}
+              <span class="gel-badge gel-yellow px-3 py-1 text-xs font-black mb-3 inline-block">${guide.badge || 'Rescue Standard'}</span>
+              ${guide.content || ''}
             </div>
           `
         );
@@ -347,37 +412,76 @@ function renderCoreGuidesView() {
   const badgeGels = ['gel-yellow', 'gel-green', 'gel-blue', 'gel-pink', 'gel-purple', 'gel-orange'];
 
   return `
-    <div class="space-y-3">
-      <!-- Volunteer Banner -->
-      <div class="web2-card p-3.5 bg-gradient-to-r from-sky-50 via-white to-sky-50 flex items-center justify-between text-xs">
-        <div class="flex items-center gap-2.5">
-          <span class="text-2xl">🌿</span>
-          <div>
-            <div class="font-black text-slate-900 font-heading text-sm">UK Rescue Standards ✨</div>
-            <p class="text-[11px] font-medium text-slate-600">Synthesized from India's Hamster Rescue (#1213919) and UK rescue networks.</p>
+    <div class="space-y-3.5">
+      <!-- 2000s Web 2.0 Glossy Welcome Hero Card -->
+      <div class="web2-card overflow-hidden border-sky-300">
+        <div class="web2-header-bar px-4 py-2 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-400 border border-rose-600 inline-block"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-600 inline-block"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-600 inline-block"></span>
+            <span class="text-[11px] font-black text-sky-950 uppercase tracking-wide ml-1 font-heading">Welcome to For the Hams! v2.0 ✨</span>
+          </div>
+          <span class="gel-badge gel-green text-[9px]">UK Welfare Hub</span>
+        </div>
+        <div class="p-4 bg-gradient-to-br from-sky-50 via-white to-amber-50/50">
+          <div class="flex items-start gap-3">
+            <div class="w-12 h-12 rounded-2xl gel-yellow flex items-center justify-center text-2xl shrink-0 shadow-sm">
+              🏆
+            </div>
+            <div>
+              <h2 class="font-black text-base sm:text-lg text-slate-900 font-heading leading-snug">
+                The UK's Ethical Hamster Care & Rescue Bible
+              </h2>
+              <p class="text-xs font-medium text-slate-600 leading-relaxed mt-1">
+                Built alongside <strong>India's Hamster Rescue (#1213919)</strong>, <strong>Bright Horizon</strong>, and <strong>Fable's Product Library</strong>. 100x50cm unbroken cages, 20cm+ hay-free burrowing bedding, and zero pet shop myths!
+              </p>
+            </div>
+          </div>
+
+          <!-- Quick Action Candy Buttons -->
+          <div class="flex flex-wrap items-center gap-2 mt-3.5 pt-3 border-t border-sky-200/70">
+            <button data-quick-jump="shop" data-quick-sub="enclosures" class="gel-btn gel-blue px-3 py-1 text-[11px] font-black">
+              🏠 100x50cm Cages
+            </button>
+            <button data-quick-jump="food" data-quick-sub="fresh" class="gel-btn gel-green px-3 py-1 text-[11px] font-black">
+              🥗 Safe / Toxic Food Lookup
+            </button>
+            <button data-quick-jump="checklist" class="gel-btn gel-pink px-3 py-1 text-[11px] font-black">
+              ✅ Adoption Readiness Quiz
+            </button>
+            <button data-quick-jump="rescues" class="gel-btn gel-purple px-3 py-1 text-[11px] font-black">
+              💖 16+ UK Rescues
+            </button>
           </div>
         </div>
       </div>
 
       <!-- Guides List Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         ${careGuides.map((guide, idx) => {
           const badgeClass = badgeGels[idx % badgeGels.length];
+          const emoji = guideEmojis[guide.id] || '🐹';
           return `
-            <div data-open-guide="${guide.id}" class="web2-card p-4 hover:shadow-lg active:scale-[0.99] cursor-pointer flex flex-col justify-between">
+            <div data-open-guide="${guide.id}" class="web2-card hover:shadow-lg active:scale-[0.99] cursor-pointer flex flex-col justify-between group">
               <div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="gel-badge ${badgeClass}">${guide.badge}</span>
-                  <div class="w-6 h-6 rounded-full gel-btn gel-silver flex items-center justify-center text-slate-700">
+                <div class="web2-header-bar px-3.5 py-2 flex items-center justify-between">
+                  <span class="gel-badge ${badgeClass}">${guide.badge || 'Essential'}</span>
+                  <div class="w-6 h-6 rounded-full gel-btn gel-silver flex items-center justify-center text-slate-700 group-hover:scale-110 transition-transform">
                     <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                   </div>
                 </div>
-                <h3 class="font-black text-base text-slate-900 font-heading leading-tight mb-1.5">${guide.title}</h3>
-                <p class="text-xs font-medium text-slate-600 line-clamp-2 leading-relaxed">${guide.summary}</p>
+                <div class="p-4 pb-3">
+                  <div class="flex items-start gap-2.5 mb-1.5">
+                    <span class="text-2xl leading-none select-none">${emoji}</span>
+                    <h3 class="font-black text-base text-slate-900 font-heading leading-snug group-hover:text-sky-800 transition-colors">${guide.title}</h3>
+                  </div>
+                  <p class="text-xs font-medium text-slate-600 leading-relaxed">${guide.summary || ''}</p>
+                </div>
               </div>
-              <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] font-black text-amber-700">
-                <span>Tap to read full guide</span>
-                <span>✨</span>
+              <div class="px-4 py-2.5 bg-sky-50/50 border-t border-sky-100 flex items-center justify-between text-[11px] font-black text-amber-700">
+                <span>Tap to open full guide</span>
+                <span class="group-hover:translate-x-1 transition-transform">Read Now ➔</span>
               </div>
             </div>
           `;
@@ -389,31 +493,57 @@ function renderCoreGuidesView() {
 
 function renderUnsafeView() {
   return `
-    <div class="space-y-3">
-      <div class="web2-card p-4 bg-rose-50/60 border-rose-200 text-xs">
-        <h3 class="font-black text-base text-rose-950 font-heading mb-1 flex items-center gap-1.5">
-          <span>🛑</span>
-          <span>Unsafe Items Hall of Shame!</span>
-        </h3>
-        <p class="text-[11px] text-slate-600 font-medium leading-relaxed">
-          Common pet shop items banned by ethical UK rescues due to risk of fatal bowel blockages, amputation, and spinal damage.
-        </p>
+    <div class="space-y-3.5">
+      <div class="web2-card overflow-hidden border-rose-300">
+        <div class="px-4 py-2 bg-gradient-to-r from-rose-600 via-red-500 to-rose-600 text-white flex items-center justify-between">
+          <span class="text-xs font-black uppercase tracking-wider font-heading flex items-center gap-1.5">
+            <span>🚨</span>
+            <span>Rescue Blacklist • Do Not Buy</span>
+          </span>
+          <span class="gel-badge gel-yellow text-[9px]">Veterinary Alert</span>
+        </div>
+        <div class="p-4 bg-rose-50/70 text-xs">
+          <h3 class="font-black text-base text-rose-950 font-heading mb-1">
+            Unsafe Pet Shop Items Hall of Shame!
+          </h3>
+          <p class="text-xs text-slate-700 font-medium leading-relaxed">
+            These items are still legally sold in major UK pet shops despite causing fatal bowel obstructions, limb amputations, corneal eye punctures, and severe spinal warping.
+          </p>
+        </div>
       </div>
 
-      <div class="space-y-3">
-        ${unsafeItems.map(item => `
-          <div class="web2-card p-4 border-rose-200">
-            <div class="flex items-center justify-between mb-1.5">
-              <span class="gel-badge gel-red text-[10px] font-black">${item.badge}</span>
-              <span class="text-[10px] font-bold text-rose-800 bg-rose-100 border border-rose-200 px-2 py-0.5 rounded-full">Banned by Rescues</span>
+      <div class="space-y-3.5">
+        ${unsafeItems.map(item => {
+          const examples = Array.isArray(item.examples) ? item.examples : [];
+          return `
+            <div class="web2-card border-rose-200 overflow-hidden">
+              <div class="web2-header-bar px-4 py-2 flex items-center justify-between bg-rose-50">
+                <span class="gel-badge gel-red text-[10px] font-black">${item.badge || 'Severe Hazard'}</span>
+                <span class="text-[10px] font-black text-rose-800 bg-rose-100 border border-rose-300 px-2.5 py-0.5 rounded-full">🚫 Banned by UK Rescues</span>
+              </div>
+              <div class="p-4">
+                <h4 class="font-black text-slate-900 text-base font-heading mb-1">${item.name || ''}</h4>
+                <p class="text-xs font-bold text-rose-900 leading-relaxed mb-2.5">${item.danger || ''}</p>
+                <div class="bg-rose-50/90 border border-rose-200 rounded-xl p-3 text-xs text-slate-800 font-medium mb-3 leading-relaxed">
+                  <strong class="font-black text-rose-950 block mb-0.5">🔬 Veterinary Pathology & Risk:</strong>
+                  ${item.vetExplanation || ''}
+                </div>
+                ${examples.length > 0 ? `
+                  <div>
+                    <div class="text-[10px] font-black text-slate-500 uppercase tracking-wider mb-1.5">Common Offending Products to Avoid:</div>
+                    <div class="flex flex-wrap gap-1.5">
+                      ${examples.map(ex => `
+                        <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-red-50 border border-red-200 text-red-900">
+                          ❌ ${ex}
+                        </span>
+                      `).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
             </div>
-            <h4 class="font-black text-slate-900 text-base font-heading mb-1">${item.name}</h4>
-            <p class="text-xs font-medium text-slate-600 leading-relaxed mb-2.5">${item.danger}</p>
-            <div class="bg-rose-50 border border-rose-100 rounded-xl p-2.5 text-xs text-rose-900 font-medium">
-              <strong class="font-black text-rose-950">⚠️ Veterinary Risk:</strong> ${item.vetExplanation}
-            </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     </div>
   `;
@@ -423,7 +553,7 @@ function renderInspirationView() {
   const photos = [
     {
       title: "Natural Syrian Enclosure (120x60cm)",
-      subtitle: "Bucatstate 3.0 / DIY Wood Setup",
+      subtitle: "Bucatstate 3.0 / Bandaby / DIY Setup",
       image: "assets/images/enclosures/setup_inspiration_1.jpg",
       details: "30cm compacted paper bedding, 32cm upright wheel on heavy stilts, deep A4 sand bath, multi-chamber hide, and rich flax spray clutter."
     },
@@ -455,25 +585,28 @@ function renderInspirationView() {
       title: "Multi-Substrate Digging Haven",
       subtitle: "Full Tactile Enrichment",
       image: "assets/images/enclosures/setup_inspiration_6.jpg",
-      details: "Features coco coir, terrarium moss, beech chips, and kiln-dried softwood shaving layers holding stable tunnels."
+      details: "Features coco coir, terrarium moss, beech chips, and kiln-dried aspen shaving layers holding stable tunnels."
     }
   ];
 
   return `
     <div class="space-y-4">
-      <div class="web2-card p-4 bg-sky-50/70 border-sky-200 text-xs">
+      <div class="web2-card p-4 bg-gradient-to-r from-sky-50 via-white to-amber-50 border-sky-300 text-xs">
         <h3 class="font-black text-slate-900 text-base font-heading">Real UK Foster Setups 📸</h3>
-        <p class="text-[11px] font-medium text-slate-600 mt-0.5">Real enclosure setups from India's Hamster Rescue fosterers showcasing deep burrowing, stilts, and enrichment!</p>
+        <p class="text-xs font-medium text-slate-600 mt-0.5">Real enclosure setups from India's Hamster Rescue fosterers showcasing deep hay-free burrowing, stilts, and enrichment!</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         ${photos.map(p => `
           <div class="web2-card overflow-hidden">
-            <div class="relative h-48 bg-slate-100 overflow-hidden border-b border-sky-100">
+            <div class="web2-header-bar px-3.5 py-2 flex items-center justify-between">
+              <span class="font-black text-xs text-slate-900 font-heading truncate">${p.title}</span>
+              <span class="gel-badge gel-blue text-[9px]">Verified Setup</span>
+            </div>
+            <div class="relative h-52 bg-slate-100 overflow-hidden border-b border-sky-100">
               <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
             </div>
             <div class="p-3.5">
-              <h4 class="font-black text-sm text-slate-900 font-heading">${p.title}</h4>
               <div class="text-[11px] font-black text-amber-700 mb-1">${p.subtitle}</div>
               <p class="text-xs font-medium text-slate-600 leading-relaxed">${p.details}</p>
             </div>
@@ -493,21 +626,21 @@ function renderFoodHub() {
   main.innerHTML = `
     <div>
       <!-- Food Hub Switcher -->
-      <div class="flex items-center gap-2 mb-4 max-w-sm mx-auto justify-center">
+      <div class="flex items-center gap-2 mb-4 max-w-md mx-auto justify-center flex-wrap">
         <button data-food-sub="mixes" class="gel-btn ${
           state.foodSubTab === 'mixes' ? 'gel-yellow' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
-          🥣 Seed Mixes
+          🥣 Approved Seed Mixes
         </button>
         <button data-food-sub="fresh" class="gel-btn ${
           state.foodSubTab === 'fresh' ? 'gel-green' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
-          🥗 Fresh Foods
+          🥗 Safe Fresh Foods
         </button>
         <button data-food-sub="toxic" class="gel-btn ${
           state.foodSubTab === 'toxic' ? 'gel-red' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
-          🛑 Toxic List
+          🛑 Toxic Forbidden List
         </button>
       </div>
 
@@ -562,10 +695,11 @@ function renderCommercialMixesView() {
       <!-- Mix Cards List -->
       <div class="space-y-3">
         ${mixes.map(p => `
-          <div class="web2-card p-4 flex flex-col justify-between">
-            <div>
-              <div class="flex flex-wrap gap-1 mb-2">
-                ${p.badges.map(b => `
+          <div class="web2-card overflow-hidden flex flex-col justify-between">
+            <div class="web2-header-bar px-4 py-2 flex flex-wrap items-center justify-between gap-1">
+              <span class="text-[10px] font-black text-sky-900 uppercase tracking-wider">${p.brand || ''} • ${p.retailer || ''}</span>
+              <div class="flex flex-wrap gap-1">
+                ${(p.badges || []).map(b => `
                   <span class="gel-badge ${
                     b.includes('Favourite') || b.includes('Hope')
                       ? 'gel-yellow'
@@ -573,40 +707,41 @@ function renderCommercialMixesView() {
                   }">${b}</span>
                 `).join('')}
               </div>
-              <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
-              <h4 class="font-black text-base text-slate-900 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
-              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary}</p>
+            </div>
+            <div class="p-4">
+              <h4 class="font-black text-base text-slate-900 font-heading mb-1 leading-snug">${p.name || ''}</h4>
+              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary || ''}</p>
 
               <div class="flex flex-wrap items-center gap-1 mb-3">
-                <span class="text-[10px] font-bold text-slate-400">Suitable For:</span>
-                ${p.species.map(sp => `
-                  <span class="text-[10px] px-2 py-0.5 rounded-full border border-sky-200 bg-sky-50 text-sky-900 font-bold capitalize">
-                    ${sp.replace('_', ' ')}
+                <span class="text-[10px] font-black text-slate-500 uppercase mr-1">Species:</span>
+                ${(p.species || []).map(sp => `
+                  <span class="text-[10px] px-2.5 py-0.5 rounded-full border border-sky-200 bg-sky-50 text-sky-900 font-bold capitalize">
+                    🐹 ${sp.replace('_', ' ')}
                   </span>
                 `).join('')}
               </div>
-            </div>
 
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-              <div>
-                <div class="text-[9px] font-black text-slate-400 uppercase">Price Guide</div>
-                <div class="text-base font-black text-slate-900 font-heading">${p.priceGuide}</div>
+              <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div>
+                  <div class="text-[9px] font-black text-slate-400 uppercase">Price Guide</div>
+                  <div class="text-base font-black text-slate-900 font-heading">${p.priceGuide || ''}</div>
+                </div>
+
+                <a 
+                  href="${p.url || '#'}" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="gel-btn gel-orange px-4 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
+                  <span>Buy Mix ↗</span>
+                </a>
               </div>
-
-              <a 
-                href="${p.url}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="gel-btn gel-orange px-4 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
-                <span>Buy Mix ↗</span>
-              </a>
             </div>
           </div>
         `).join('')}
       </div>
 
       <!-- Scatter Feed Pill -->
-      <div class="web2-card p-3.5 bg-amber-50/60 border-amber-200 text-xs text-slate-700 font-medium">
+      <div class="web2-card p-3.5 bg-amber-50/70 border-amber-300 text-xs text-slate-700 font-medium">
         <strong class="font-black text-slate-900">💡 Scatter Feed Tip:</strong> Ditch the food bowl! Scatter 1–2 tablespoons of seeds across deep bedding every 1–2 days. It burns energy, eliminates boredom, and lets hamsters pouch like they do in the wild.
       </div>
     </div>
@@ -619,7 +754,9 @@ function renderFreshFoodsView() {
   const filtered = safeFoods.filter(food => {
     if (state.foodSearch.trim()) {
       const q = state.foodSearch.toLowerCase();
-      return food.name.toLowerCase().includes(q) || food.details.toLowerCase().includes(q);
+      return (food.name || '').toLowerCase().includes(q) || 
+             (food.details || '').toLowerCase().includes(q) ||
+             (food.speciesNotes || '').toLowerCase().includes(q);
     }
     return true;
   });
@@ -628,33 +765,44 @@ function renderFreshFoodsView() {
     <div class="space-y-3">
       <!-- Search Bar -->
       <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+        <i data-lucide="search" class="w-4 h-4 text-sky-600 absolute left-3.5 top-3"></i>
         <input 
           type="text" 
           id="food-search-input" 
           value="${state.foodSearch}"
-          placeholder="Search fresh vegetables, proteins, treats..."
-          class="w-full bg-white border border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-xs">
+          placeholder="Search broccoli, apple, egg, mealworms, cucumber..."
+          class="w-full bg-white border-2 border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-sm">
         ${state.foodSearch ? `
           <button id="clear-food-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
         ` : ''}
       </div>
 
-      <div class="space-y-2.5">
+      <div class="space-y-3">
         ${filtered.map(food => {
           const isSafe = food.status === 'SAFE';
+          const speciesInfo = food.speciesNotes || food.portionGuide || 'All Species';
+          const prepInfo = food.prep || food.prepInstructions || 'Wash thoroughly and serve a pea-sized portion.';
+
           return `
-            <div class="web2-card p-4">
-              <div class="flex items-center justify-between mb-1">
-                <h4 class="font-black text-base text-slate-900 font-heading">${food.name}</h4>
+            <div class="web2-card overflow-hidden">
+              <div class="web2-header-bar px-4 py-2 flex items-center justify-between">
+                <h4 class="font-black text-sm sm:text-base text-slate-900 font-heading">${food.name || ''}</h4>
                 <span class="gel-badge ${isSafe ? 'gel-green' : 'gel-yellow'}">
-                  ${isSafe ? '🟢 Safe' : '🟡 Caution'}
+                  ${isSafe ? '🟢 Safe Staple' : '🟡 Diabetes Caution'}
                 </span>
               </div>
-              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-2.5">${food.details}</p>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] pt-2 border-t border-slate-100 font-medium">
-                <div class="text-slate-700"><strong>Portion:</strong> ${food.portionGuide}</div>
-                <div class="text-slate-700"><strong>Prep:</strong> ${food.prepInstructions}</div>
+              <div class="p-4">
+                <p class="text-xs font-medium text-slate-700 leading-relaxed mb-3">${food.details || ''}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2.5 border-t border-sky-100">
+                  <div class="p-2 rounded-xl bg-sky-50/70 border border-sky-200 text-slate-800">
+                    <span class="font-black text-sky-900 block text-[10px] uppercase">🐾 Species Suitability</span>
+                    <span class="font-bold">${speciesInfo}</span>
+                  </div>
+                  <div class="p-2 rounded-xl bg-emerald-50/70 border border-emerald-200 text-slate-800">
+                    <span class="font-black text-emerald-900 block text-[10px] uppercase">🍽️ Portion & Prep Guide</span>
+                    <span class="font-bold">${prepInfo}</span>
+                  </div>
+                </div>
               </div>
             </div>
           `;
@@ -667,30 +815,60 @@ function renderFreshFoodsView() {
 function renderToxicFoodsView() {
   const toxicFoods = foodDatabase.filter(f => f.status === 'TOXIC');
 
+  const filtered = toxicFoods.filter(food => {
+    if (state.foodSearch.trim()) {
+      const q = state.foodSearch.toLowerCase();
+      return (food.name || '').toLowerCase().includes(q) || (food.details || '').toLowerCase().includes(q);
+    }
+    return true;
+  });
+
   return `
     <div class="space-y-3">
-      <div class="web2-card p-4 border-rose-300 bg-rose-50/60 text-xs">
+      <!-- Search Bar -->
+      <div class="relative">
+        <i data-lucide="search" class="w-4 h-4 text-rose-600 absolute left-3.5 top-3"></i>
+        <input 
+          type="text" 
+          id="food-search-input" 
+          value="${state.foodSearch}"
+          placeholder="Search toxic foods (onion, garlic, citrus, chocolate, potato)..."
+          class="w-full bg-white border-2 border-rose-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-rose-400 shadow-sm">
+        ${state.foodSearch ? `
+          <button id="clear-food-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
+        ` : ''}
+      </div>
+
+      <div class="web2-card p-4 border-rose-300 bg-rose-50/70 text-xs">
         <h3 class="font-black text-base text-rose-950 font-heading mb-1">⚠️ Strictly Forbidden Toxic Foods!</h3>
-        <p class="text-[11px] text-slate-600 font-medium leading-relaxed">
-          These items contain toxic compounds (cyanide, allium, solanine, theobromine) or pose fatal gastrointestinal blockages. Never feed these!
+        <p class="text-xs text-slate-700 font-medium leading-relaxed">
+          These items contain toxic compounds (cyanide, allium disulfides, solanine, oxalic acid, theobromine) or pose fatal gastrointestinal blockages. Never feed these!
         </p>
       </div>
 
-      <div class="space-y-2.5">
-        ${toxicFoods.map(food => `
-          <div class="web2-card p-4 border-rose-200">
-            <div class="flex items-center justify-between mb-1">
-              <h4 class="font-black text-base text-slate-900 font-heading">${food.name}</h4>
-              <span class="gel-badge gel-red">
-                🔴 Forbidden
-              </span>
+      <div class="space-y-3">
+        ${filtered.map(food => {
+          const speciesInfo = food.speciesNotes || 'All Hamster Species';
+          const ruleInfo = food.prep || food.prepInstructions || 'Strictly forbidden.';
+
+          return `
+            <div class="web2-card border-rose-200 overflow-hidden">
+              <div class="web2-header-bar px-4 py-2 flex items-center justify-between bg-rose-50">
+                <h4 class="font-black text-sm sm:text-base text-slate-900 font-heading">${food.name || ''}</h4>
+                <span class="gel-badge gel-red">
+                  🔴 Toxic / Lethal
+                </span>
+              </div>
+              <div class="p-4">
+                <p class="text-xs font-medium text-rose-950 leading-relaxed mb-2.5">${food.details || ''}</p>
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] pt-2 border-t border-rose-100 font-bold text-rose-900">
+                  <span>🚫 Applies To: ${speciesInfo}</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-rose-100 border border-rose-300 text-rose-950">⚠️ Action: ${ruleInfo}</span>
+                </div>
+              </div>
             </div>
-            <p class="text-xs font-medium text-rose-950 leading-relaxed mb-1.5">${food.details}</p>
-            <div class="text-[11px] text-slate-600 pt-1.5 border-t border-slate-100 font-medium">
-              <strong>Why Dangerous:</strong> ${food.prepInstructions}
-            </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     </div>
   `;
@@ -722,39 +900,42 @@ function renderShop() {
   const main = document.getElementById('main-tab-content');
 
   const filtered = products.filter(p => {
-    if (state.currentSpecies !== 'all' && !p.species.includes(state.currentSpecies)) return false;
+    if (state.currentSpecies !== 'all' && !(p.species || []).includes(state.currentSpecies)) return false;
     if (state.shopCategory !== 'all' && p.category !== state.shopCategory) return false;
-    if (state.shopRetailer !== 'all' && !p.retailer.toLowerCase().includes(state.shopRetailer.toLowerCase())) return false;
+    if (state.shopRetailer !== 'all' && !(p.retailer || '').toLowerCase().includes(state.shopRetailer.toLowerCase())) return false;
     if (state.shopSearch.trim()) {
       const q = state.shopSearch.toLowerCase();
-      return p.name.toLowerCase().includes(q) || p.summary.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q);
+      return (p.name || '').toLowerCase().includes(q) || 
+             (p.summary || '').toLowerCase().includes(q) || 
+             (p.brand || '').toLowerCase().includes(q) ||
+             (p.retailer || '').toLowerCase().includes(q);
     }
     return true;
   });
 
   const categories = [
-    { id: 'all', label: '🌟 All Items' },
-    { id: 'food_mixes', label: '🥣 Seed Mixes' },
+    { id: 'all', label: '🌟 All Vetted' },
     { id: 'enclosures', label: '🏠 Enclosures' },
     { id: 'wheels', label: '🎡 Wheels' },
     { id: 'bedding', label: '🛏️ Bedding' },
+    { id: 'food_mixes', label: '🥣 Seed Mixes' },
     { id: 'substrates', label: '🪵 Substrates' },
     { id: 'sand', label: '🏖️ Sand Baths' },
-    { id: 'hides', label: '🏡 Hides' },
-    { id: 'forage', label: '🌾 Forage' }
+    { id: 'hides', label: '🏡 Multi-Hides' },
+    { id: 'forage', label: '🌾 Sprays & Forage' }
   ];
 
   main.innerHTML = `
-    <div class="space-y-3">
+    <div class="space-y-3.5">
       <!-- Search Input -->
       <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+        <i data-lucide="search" class="w-4 h-4 text-sky-600 absolute left-3.5 top-3"></i>
         <input 
           type="text" 
           id="shop-search-input" 
           value="${state.shopSearch}"
-          placeholder="Search verified cages, wheels, mixes..."
-          class="w-full bg-white border border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-xs">
+          placeholder="Search Bandaby, Bucatstate, Fitch, IKEA DIY, Hope's..."
+          class="w-full bg-white border-2 border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-sm">
         ${state.shopSearch ? `
           <button id="clear-shop-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
         ` : ''}
@@ -776,54 +957,76 @@ function renderShop() {
       <!-- Products Grid -->
       ${filtered.length === 0 ? `
         <div class="web2-card p-8 text-center my-6">
-          <p class="text-xs font-medium text-slate-500">No matching items found. Try clearing your search.</p>
-          <button id="reset-shop-filters" class="mt-3 gel-btn gel-yellow px-4 py-1.5 text-xs font-black">Clear Filters</button>
+          <p class="text-xs font-bold text-slate-600">No matching items found. Try clearing your search filter!</p>
+          <button id="reset-shop-filters" class="mt-3 gel-btn gel-yellow px-4 py-1.5 text-xs font-black">Reset Filters ✨</button>
         </div>
       ` : `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          ${filtered.map(p => `
-            <div class="web2-card p-4 flex flex-col justify-between">
-              <div>
-                <div class="flex flex-wrap gap-1 mb-2">
-                  ${p.badges.map(b => `
-                    <span class="gel-badge ${
-                      b.includes('India') || b.includes('Profits')
-                        ? 'gel-pink'
-                        : b.includes('Hope')
-                        ? 'gel-green'
-                        : b.includes('Favourite')
-                        ? 'gel-yellow'
-                        : 'gel-blue'
-                    }">${b}</span>
-                  `).join('')}
-                </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          ${filtered.map(p => {
+            const isVideo = (p.url || '').includes('youtube.com') || (p.url || '').includes('youtu.be');
+            const ctaLabel = isVideo ? '🎬 Watch DIY Video ↗' : 'Buy From Seller ↗';
+            const ctaGel = isVideo ? 'gel-purple' : 'gel-orange';
+            const priceLabel = isVideo ? 'Est. DIY Cost' : 'Price Guide';
 
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider">${p.brand} • ${p.retailer}</div>
-                <h4 class="font-black text-base text-slate-900 font-heading mt-0.5 mb-1 leading-snug">${p.name}</h4>
-                <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary}</p>
-              </div>
-
-              <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            return `
+              <div class="web2-card flex flex-col justify-between overflow-hidden">
                 <div>
-                  <div class="text-[9px] font-black text-slate-400 uppercase">Price Guide</div>
-                  <div class="text-sm font-black text-slate-900 font-heading">${p.priceGuide}</div>
+                  <div class="web2-header-bar px-3.5 py-2 flex flex-wrap gap-1 items-center justify-between">
+                    <span class="text-[10px] font-black text-sky-950 uppercase tracking-wider truncate max-w-[180px]">${p.brand || ''}</span>
+                    <div class="flex flex-wrap gap-1">
+                      ${(p.badges || []).slice(0, 2).map(b => `
+                        <span class="gel-badge ${
+                          b.includes('India') || b.includes('Profits')
+                            ? 'gel-pink'
+                            : b.includes('Hope')
+                            ? 'gel-green'
+                            : b.includes('Video')
+                            ? 'gel-purple'
+                            : b.includes('Favourite')
+                            ? 'gel-yellow'
+                            : 'gel-blue'
+                        }">${b}</span>
+                      `).join('')}
+                    </div>
+                  </div>
+
+                  <div class="p-4 pb-3">
+                    <div class="text-[10px] font-bold text-slate-500 mb-0.5">📍 ${p.retailer || 'UK Stockist'}</div>
+                    <h4 class="font-black text-base text-slate-900 font-heading mb-1.5 leading-snug">${p.name || ''}</h4>
+                    <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary || ''}</p>
+                    
+                    <div class="flex flex-wrap items-center gap-1">
+                      ${(p.species || []).map(sp => `
+                        <span class="text-[9px] px-2 py-0.5 rounded-full border border-sky-200 bg-sky-50 text-sky-900 font-bold capitalize">
+                          ${sp.replace('_', ' ')}
+                        </span>
+                      `).join('')}
+                    </div>
+                  </div>
                 </div>
 
-                <a 
-                  href="${p.url}" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="gel-btn gel-orange px-3.5 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
-                  <span>Buy From Seller ↗</span>
-                </a>
+                <div class="px-4 py-3 bg-sky-50/40 border-t border-sky-100 flex items-center justify-between">
+                  <div>
+                    <div class="text-[9px] font-black text-slate-400 uppercase">${priceLabel}</div>
+                    <div class="text-sm font-black text-slate-900 font-heading">${p.priceGuide || ''}</div>
+                  </div>
+
+                  <a 
+                    href="${p.url || '#'}" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="gel-btn ${ctaGel} px-3.5 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
+                    <span>${ctaLabel}</span>
+                  </a>
+                </div>
               </div>
-            </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       `}
 
-      <div class="text-center text-[10px] font-bold text-slate-400 pt-3">
-        UK ASA Disclosure: Vetted against rescue standards. Some links directly fund independent rescues.
+      <div class="text-center text-[10px] font-bold text-slate-500 pt-2">
+        UK Welfare Disclosure: Every product is independently vetted against 100x50cm & hay-free rescue criteria.
       </div>
     </div>
   `;
@@ -873,45 +1076,74 @@ function renderChecklist() {
   main.innerHTML = `
     <div class="space-y-4">
       <!-- 2000s Progress Score Panel -->
-      <div class="web2-card p-4.5 bg-gradient-to-br from-pink-50 via-white to-sky-50 border-pink-200">
-        <div class="flex items-center justify-between mb-2">
-          <div>
-            <h3 class="font-black text-base text-slate-900 font-heading">Adoption Readiness Score ✨</h3>
-            <p class="text-[11px] font-bold text-slate-500">Official UK Rescue Vetting Criteria</p>
+      <div class="web2-card overflow-hidden border-pink-300">
+        <div class="web2-header-bar px-4 py-2 flex items-center justify-between">
+          <span class="text-xs font-black text-slate-900 font-heading">✨ Let's Get You Adoption Ready!</span>
+          <span class="gel-badge gel-pink">${checkedCount}/${total} Complete</span>
+        </div>
+        <div class="p-4 bg-gradient-to-br from-pink-50 via-white to-sky-50">
+          <div class="flex items-center justify-between mb-2">
+            <div>
+              <h3 class="font-black text-base text-slate-900 font-heading">UK Rescue Home-Check Score</h3>
+              <p class="text-[11px] font-bold text-slate-600">Tick each requirement to verify your setup meets UK adoption criteria!</p>
+            </div>
+            <span class="text-2xl font-black text-pink-700 font-heading">${percent}%</span>
           </div>
-          <span class="text-2xl font-black text-pink-700 font-heading">${percent}%</span>
-        </div>
 
-        <!-- 2000s Glossy Progress Bar -->
-        <div class="w-full bg-slate-100 border border-slate-300 rounded-full h-4 p-0.5 overflow-hidden shadow-inner">
-          <div class="h-full rounded-full transition-all duration-300 gel-orange" style="width: ${percent}%"></div>
-        </div>
+          <!-- 2000s Glossy Progress Bar -->
+          <div class="w-full bg-slate-100 border-2 border-slate-300 rounded-full h-4 p-0.5 overflow-hidden shadow-inner">
+            <div class="h-full rounded-full transition-all duration-300 ${percent === 100 ? 'gel-green' : 'gel-orange'}" style="width: ${percent}%"></div>
+          </div>
 
-        <div class="text-[11px] font-bold text-slate-600 mt-2 flex items-center justify-between">
-          <span>${checkedCount} of ${total} requirements satisfied</span>
-          ${percent === 100 ? '<span class="gel-badge gel-green">🎉 100% Rescue Ready!</span>' : ''}
+          <div class="text-[11px] font-bold text-slate-600 mt-2 flex items-center justify-between">
+            <span>${checkedCount} of ${total} rescue requirements satisfied</span>
+            ${percent === 100 ? '<span class="gel-badge gel-green">🎉 100% Rescue Ready!</span>' : ''}
+          </div>
         </div>
       </div>
 
       <!-- Checklist Items -->
-      <div class="space-y-2.5">
+      <div class="space-y-3">
         ${adoptionChecklist.map(item => {
           const isChecked = !!state.checkedItems[item.id];
+          const catBadge = item.category || item.badge || 'Standard';
+          const badgeGel = checklistCategoryGels[catBadge] || 'gel-yellow';
+          const stepNum = item.step ? `Step ${item.step}: ` : '';
+
           return `
-            <label class="web2-card p-3.5 flex items-start gap-3 cursor-pointer select-none transition-all ${
-              isChecked ? 'bg-sky-50/40 border-sky-300' : ''
+            <label class="web2-card block cursor-pointer select-none transition-all overflow-hidden ${
+              isChecked ? 'border-emerald-400 bg-emerald-50/20' : ''
             }">
-              <input 
-                type="checkbox" 
-                data-check-id="${item.id}"
-                ${isChecked ? 'checked' : ''}
-                class="mt-1 w-5 h-5 rounded-md text-amber-500 focus:ring-amber-400 border-slate-300 accent-amber-500">
-              <div class="flex-grow">
-                <div class="flex items-center justify-between">
-                  <h4 class="font-black text-xs text-slate-900 font-heading">${item.title}</h4>
-                  <span class="gel-badge gel-yellow">${item.badge}</span>
+              <div class="web2-header-bar px-4 py-2 flex items-center justify-between ${isChecked ? 'bg-emerald-50' : ''}">
+                <div class="flex items-center gap-2">
+                  <input 
+                    type="checkbox" 
+                    data-check-id="${item.id}"
+                    ${isChecked ? 'checked' : ''}
+                    class="w-4 h-4 rounded text-amber-500 focus:ring-amber-400 border-slate-300 accent-emerald-600">
+                  <h4 class="font-black text-xs sm:text-sm text-slate-900 font-heading ${isChecked ? 'line-through text-emerald-900' : ''}">
+                    ${stepNum}${item.title || ''}
+                  </h4>
                 </div>
-                <p class="text-xs font-medium text-slate-600 mt-0.5 leading-relaxed">${item.description}</p>
+                <span class="gel-badge ${isChecked ? 'gel-green' : badgeGel}">
+                  ${isChecked ? '✓ Verified' : catBadge}
+                </span>
+              </div>
+
+              <div class="p-3.5 space-y-1.5">
+                <p class="text-xs font-bold text-slate-800 leading-relaxed">
+                  📌 ${item.requirement || item.description || ''}
+                </p>
+                ${item.whyImportant ? `
+                  <p class="text-xs font-medium text-slate-600 leading-relaxed">
+                    ${item.whyImportant}
+                  </p>
+                ` : ''}
+                ${item.rescueTip ? `
+                  <div class="mt-2 p-2 rounded-xl bg-amber-50/80 border border-amber-200 text-[11px] font-medium text-amber-950">
+                    <strong class="font-black">💡 Rescue Tip:</strong> ${item.rescueTip}
+                  </div>
+                ` : ''}
               </div>
             </label>
           `;
@@ -922,7 +1154,7 @@ function renderChecklist() {
       <div class="flex flex-col sm:flex-row gap-2 pt-2">
         <button id="copy-summary-btn" class="flex-1 py-2.5 gel-btn gel-orange text-white text-xs font-black shadow-md flex items-center justify-center gap-1.5">
           <i data-lucide="copy" class="w-4 h-4"></i>
-          <span>Copy Adoption Summary</span>
+          <span>Copy Adoption Summary for Rescue Application</span>
         </button>
         <button id="reset-checklist-btn" class="py-2.5 px-5 gel-btn gel-silver text-slate-700 text-xs font-black">
           Reset
@@ -951,7 +1183,8 @@ function renderChecklist() {
     summaryText += `Score: ${checkedCount}/${total} Requirements Met (${percent}%)\n\n`;
     adoptionChecklist.forEach(item => {
       const status = state.checkedItems[item.id] ? '✅' : '❌';
-      summaryText += `${status} ${item.title} (${item.badge})\n`;
+      const cat = item.category || item.badge || 'Requirement';
+      summaryText += `${status} ${item.title} [${cat}] — ${item.requirement || ''}\n`;
     });
     summaryText += `\nVerified against India's Hamster Rescue criteria via www.forthehams.co.uk`;
 
@@ -994,22 +1227,22 @@ function renderRescues() {
   });
 
   const regions = [
-    { id: 'all', label: 'All Rescues (16+)' },
-    { id: 'England', label: 'England' },
-    { id: 'Wales', label: 'Wales' },
-    { id: 'Scotland', label: 'Scotland' }
+    { id: 'all', label: `All Rescues (${rescuesList.length})` },
+    { id: 'England', label: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 England' },
+    { id: 'Wales', label: '🏴󠁧󠁢󠁷󠁬󠁳󠁿 Wales' },
+    { id: 'Scotland', label: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland' }
   ];
 
   main.innerHTML = `
-    <div class="space-y-3">
+    <div class="space-y-3.5">
       <!-- Rescue Header Banner -->
-      <div class="web2-card p-3.5 bg-gradient-to-r from-purple-50 via-pink-50 to-amber-50 border-purple-200">
+      <div class="web2-card p-4 bg-gradient-to-r from-purple-50 via-pink-50 to-amber-50 border-purple-300">
         <div class="flex items-center gap-2 mb-1">
           <span class="text-xl">🏡</span>
-          <h3 class="font-black text-sm text-purple-950 font-heading">Verified Ethical UK Rescue Network</h3>
+          <h3 class="font-black text-base text-purple-950 font-heading">Verified Ethical UK Rescue Network</h3>
         </div>
         <p class="text-xs font-medium text-slate-700 leading-relaxed">
-          Adopt, don't shop! Every foster rescue listed here upholds ethical 100x50cm habitats, veterinary care, and species-appropriate setups.
+          Adopt, don't shop! Every foster rescue and registered charity listed here upholds ethical 100x50cm habitats, veterinary care, and solitary welfare setups.
         </p>
       </div>
 
@@ -1027,46 +1260,50 @@ function renderRescues() {
       </div>
 
       <!-- Rescues Grid -->
-      <div class="space-y-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         ${filtered.map(r => {
-          const charityText = r.charityNumber.startsWith('1') || r.charityNumber.startsWith('2') || r.charityNumber.startsWith('SC') 
-            ? `Charity #${r.charityNumber}` 
-            : r.charityNumber;
+          const cNum = r.charityNumber || 'Community Rescue';
+          const charityText = cNum.startsWith('1') || cNum.startsWith('2') || cNum.startsWith('SC') 
+            ? `Registered Charity #${cNum}` 
+            : cNum;
           const targetUrl = r.adoptUrl || r.website || r.url || '#';
           const donationUrl = r.donateUrl || r.website || '#';
           const details = r.speciality || r.summary || '';
-          const locationText = r.locations || r.coverage || r.region;
-          const badges = r.badges || [];
+          const locationText = r.locations || r.coverage || r.region || 'UK';
+          const badges = Array.isArray(r.badges) ? r.badges : [];
 
           return `
-            <div class="web2-card p-4">
-              <div class="flex flex-wrap items-center gap-1 mb-2">
-                ${badges.map(b => `
-                  <span class="gel-badge ${
-                    b.includes('Partner') || b.includes('1213919') 
-                      ? 'gel-yellow' 
-                      : b.includes('Charity') || b.includes('Standard')
-                      ? 'gel-purple'
-                      : 'gel-blue'
-                  }">${b}</span>
-                `).join('')}
-              </div>
+            <div class="web2-card flex flex-col justify-between overflow-hidden">
+              <div>
+                <div class="web2-header-bar px-3.5 py-2 flex flex-wrap items-center justify-between gap-1">
+                  <span class="text-[10px] font-black text-purple-900 uppercase tracking-wider">${charityText}</span>
+                  <div class="flex flex-wrap gap-1">
+                    ${badges.slice(0, 2).map(b => `
+                      <span class="gel-badge ${
+                        b.includes('Partner') || b.includes('1213919') 
+                          ? 'gel-yellow' 
+                          : b.includes('Charity') || b.includes('Standard')
+                          ? 'gel-purple'
+                          : 'gel-blue'
+                      }">${b}</span>
+                    `).join('')}
+                  </div>
+                </div>
 
-              <div class="flex items-start justify-between gap-2 mb-1">
-                <div>
-                  <h4 class="font-black text-base text-slate-900 font-heading">${r.name}</h4>
-                  <div class="text-[11px] font-bold text-purple-800">${charityText} • ${r.region}</div>
+                <div class="p-4 pb-3">
+                  <h4 class="font-black text-base text-slate-900 font-heading mb-0.5">${r.name || ''}</h4>
+                  <div class="text-[11px] font-bold text-purple-800 mb-1.5">${r.region || 'UK'}</div>
+
+                  <div class="text-[11px] font-bold text-slate-600 mb-2.5 flex items-start gap-1 bg-sky-50/60 border border-sky-100 p-2 rounded-xl">
+                    <span class="shrink-0">📍</span>
+                    <span>${locationText}</span>
+                  </div>
+
+                  <p class="text-xs font-medium text-slate-600 leading-relaxed">${details}</p>
                 </div>
               </div>
 
-              <div class="text-[11px] font-bold text-slate-500 mb-2 flex items-center gap-1">
-                <span>📍</span>
-                <span>${locationText}</span>
-              </div>
-
-              <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${details}</p>
-
-              <div class="flex items-center gap-2 pt-2.5 border-t border-slate-100">
+              <div class="px-4 py-3 bg-purple-50/30 border-t border-purple-100 flex items-center gap-2">
                 <a 
                   href="${targetUrl}" 
                   target="_blank" 

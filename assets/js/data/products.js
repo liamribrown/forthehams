@@ -140,14 +140,14 @@ export const products = [
   {
     id: "enc-ikea-platsa",
     name: "IKEA PLATSA 120x60 / 100x60 DIY Conversion",
-    brand: "IKEA DIY",
+    brand: "IKEA DIY / YouTube Guide",
     category: "enclosures",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "From £60.00",
-    retailer: "IKEA UK",
-    url: "https://www.ikea.com/gb/en/cat/platsa-system-40348/",
-    badges: ["⭐ Team Favourite", "DIY Alternative", "Huge Floor Space"],
-    summary: "A favourite among UK fosterers. Lay a Platsa frame on its back, fit an acrylic front glass and DIY mesh lid for an enormous, modern enclosure."
+    retailer: "YouTube Step-by-Step Tutorial",
+    url: "https://www.youtube.com/watch?v=n1qz6b_kr3c",
+    badges: ["⭐ Team Favourite", "DIY Alternative", "Video Guide"],
+    summary: "A favourite among UK fosterers. Convert an IKEA Platsa frame with a glass/acrylic front door, aquarium-safe silicone, and mesh ventilation for a huge 120x60cm enclosure. Watch the step-by-step build tutorial!"
   },
   {
     id: "enc-bandaby-home",

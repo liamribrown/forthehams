@@ -28,10 +28,10 @@ export const careGuides = [
       <h4>Barless Enclosures (Strongly Recommended)</h4>
       <p>India's Hamster Rescue strongly recommends <strong>barless enclosures</strong> (acrylic, glass tanks, or wooden/aluminium DIYs). They prevent escape, eliminate bar climbing falls, and easily hold 25–30cm of bedding without spillage:</p>
       <ul>
-        <li><strong>Bandaby Hamster Home (120x60x70cm)</strong>: Premium UK welfare standard built with chew-proof powder-coated aluminium and high-grade acrylic with massive 30cm+ bedding capacity.</li>
+        <li><strong><a href="https://bandaby.com" target="_blank" rel="noopener noreferrer" class="text-sky-700 underline font-bold">Bandaby Hamster Home (120x60x70cm) ↗</a></strong>: Premium UK/EU welfare standard built with chew-proof powder-coated aluminium and high-grade acrylic with massive 30cm+ bedding capacity.</li>
         <li><strong>BUCATSTATE 2.0 / 3.0 (100cm & 120cm)</strong>: High quality acrylic and metal build with full top airflow.</li>
-        <li><strong>IKEA DIY Linnmon Conversion</strong>: Renowned budget build using IKEA tabletops and glass/acrylic front creating over 120cm of unbroken floor space for under £60.</li>
-        <li><strong>IKEA DIY Platsa (120x60cm)</strong>: Affordable, deep modular conversion.</li>
+        <li><strong>IKEA DIY Linnmon Conversion</strong>: Renowned budget build using IKEA tabletops and glass/acrylic front creating over 100–120cm of unbroken floor space for under £60. <a href="https://www.youtube.com/watch?v=Ocdcl-82ybE" target="_blank" rel="noopener noreferrer" class="text-amber-700 underline font-bold">Watch Step-by-Step YouTube Tutorial 🎬↗</a></li>
+        <li><strong>IKEA DIY Platsa (120x60cm)</strong>: Deep modular wardrobe conversion with glass/acrylic front panel and aquarium-safe silicone. <a href="https://www.youtube.com/watch?v=n1qz6b_kr3c" target="_blank" rel="noopener noreferrer" class="text-amber-700 underline font-bold">Watch Step-by-Step YouTube Tutorial 🎬↗</a></li>
         <li><strong>PawHut 115cm Wooden Habitat</strong>: Large glass-fronted setup (levels removed for unbroken deep bedding).</li>
         <li><strong>Aquarium Tanks (250L+)</strong>: 100cm to 120cm glass terrariums with DIY wire mesh lids.</li>
       </ul>
