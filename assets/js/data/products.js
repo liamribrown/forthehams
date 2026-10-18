@@ -338,24 +338,24 @@ export const products = [
     name: "Aubiose 100% Natural Hemp Bedding (20kg)",
     brand: "Aubiose",
     category: "bedding",
-    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    species: ["syrian", "winter_white", "campbells", "chinese"],
     priceGuide: "£14.50 - £18.00",
     retailer: "Equine / Farm Stores & Online",
     url: "https://www.aubiose.co.uk",
-    badges: ["Incredible Value", "Eco Friendly"],
-    summary: "Massive 20kg bale of pure dust-extracted hemp. Great for base layering or mixing with soft paper."
+    badges: ["Incredible Value", "Eco Friendly", "Deep Base Layer"],
+    summary: "Massive 20kg bale of pure dust-extracted hemp. Ideal for deep 25–30cm+ base layering mixed with soft paper (slightly coarse for tiny Roborovski feet on its own)."
   },
   {
     id: "bed-megazorb",
     name: "Megazorb Virgin Wood Pulp Bedding (85L)",
     brand: "Northern Crop Driers",
     category: "bedding",
-    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    species: ["syrian", "winter_white", "campbells"],
     priceGuide: "£18.45",
     retailer: "Equine Stores / Farm Direct",
     url: "https://www.northerncropdriers.co.uk",
-    badges: ["Budget Friendly", "High Absorbency"],
-    summary: "Sterilized virgin wood pulp dried at 500°C. Very absorbent base bedding."
+    badges: ["Budget Friendly", "High Absorbency", "Syrian Bulk Base"],
+    summary: "Sterilized virgin wood pulp dried at 500°C. Very absorbent bulk base bedding for deep 100x50cm+ enclosures when mixed 50/50 with soft paper."
   },
 
   // --- TEXTURED SUBSTRATES & DIG BOXES ---

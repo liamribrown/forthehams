@@ -2,13 +2,13 @@
 // www.forthehams.co.uk | UK Ethical Hamster Care & Rescue Standards
 // Authentic 2000s / Noughties Glossy Web 2.0 Theme 🐹✨
 
-import { speciesList } from './data/species.js';
-import { careGuides } from './data/guides.js';
-import { unsafeItems } from './data/unsafe.js';
-import { products } from './data/products.js';
-import { foodDatabase } from './data/foods.js';
-import { rescuesList } from './data/rescues.js';
-import { adoptionChecklist } from './data/checklist.js';
+import { speciesList } from './data/species.js?v=2.4';
+import { careGuides } from './data/guides.js?v=2.4';
+import { unsafeItems } from './data/unsafe.js?v=2.4';
+import { products } from './data/products.js?v=2.4';
+import { foodDatabase } from './data/foods.js?v=2.4';
+import { rescuesList } from './data/rescues.js?v=2.4';
+import { adoptionChecklist } from './data/checklist.js?v=2.4';
 
 // Application State
 const state = {
@@ -288,7 +288,7 @@ function setupBottomSheetListeners() {
   container.addEventListener('touchcancel', handleTouchEnd, { passive: true });
 }
 
-// 2000s Species Filter Carousel (Glossy Candy Pills)
+// 2000s Species Filter Bar (Wrap-Friendly Glossy Candy Pills — All Names Always Visible)
 function renderSpeciesBar() {
   const container = document.getElementById('species-filter-container');
   if (!container) return;
@@ -303,15 +303,16 @@ function renderSpeciesBar() {
   ];
 
   container.innerHTML = `
-    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 max-w-3xl mx-auto">
-      <span class="text-[10px] font-black text-sky-900 uppercase tracking-wider shrink-0 pl-1 mr-1">Filter Pet:</span>
+    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 py-1 max-w-3xl mx-auto">
+      <span class="text-[10px] font-black text-sky-950 uppercase tracking-wider shrink-0 px-1">Filter by Hamster:</span>
       ${speciesOptions.map(opt => {
         const isActive = state.currentSpecies === opt.id;
         const activeGel = speciesGelClasses[opt.id] || 'gel-orange';
         return `
           <button 
+            type="button"
             data-species-btn="${opt.id}"
-            class="gel-btn ${isActive ? activeGel : 'gel-silver'} px-3 py-1 text-xs font-black whitespace-nowrap transition-all duration-150 shrink-0 flex items-center gap-1">
+            class="gel-btn ${isActive ? activeGel : 'gel-silver'} px-3 py-1.5 text-xs font-black transition-all duration-150 shrink-0 flex items-center gap-1">
             <span>${opt.emoji}</span>
             <span>${opt.name}</span>
           </button>
@@ -321,13 +322,12 @@ function renderSpeciesBar() {
   `;
 
   container.querySelectorAll('[data-species-btn]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      state.currentSpecies = btn.getAttribute('data-species-btn');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const selected = btn.getAttribute('data-species-btn') || 'all';
+      state.currentSpecies = selected;
       renderSpeciesBar();
-      renderSpeciesDetailBanner();
-      if (state.activeTab === 'shop') renderShop();
-      if (state.activeTab === 'food') renderFoodHub();
-      if (state.activeTab === 'guides') renderCareGuides();
+      renderCurrentTab();
     });
   });
 
@@ -345,91 +345,115 @@ function renderSpeciesDetailBanner() {
   }
 
   const spec = speciesList.find(s => s.id === state.currentSpecies);
-  if (!spec) return;
+  if (!spec) {
+    banner.innerHTML = '';
+    return;
+  }
 
   const activeGel = speciesGelClasses[spec.id] || 'gel-yellow';
+  // Keep compact by default when browsing Safe Picks or Food Hub so filtered items stay right in view
+  const showFullByDefault = state.activeTab === 'guides';
+  const isExpanded = state.speciesBannerExpanded !== undefined ? state.speciesBannerExpanded : showFullByDefault;
 
   banner.innerHTML = `
-    <div class="web2-card my-3 border-sky-300 shadow-md">
-      <div class="web2-header-bar px-4 py-2.5 flex items-center justify-between">
-        <div class="flex items-center gap-2 flex-wrap">
-          <div class="flex items-center gap-1 mr-1">
+    <div class="web2-card my-2.5 border-sky-300 shadow-md">
+      <div class="web2-header-bar px-3.5 py-2 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <div class="hidden sm:flex items-center gap-1 mr-1">
             <span class="w-2.5 h-2.5 rounded-full bg-rose-400 border border-rose-600 inline-block"></span>
             <span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-600 inline-block"></span>
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 border border-emerald-600 inline-block"></span>
           </div>
-          <span class="text-base font-black text-slate-900 font-heading">${spec.name}</span>
-          <span class="text-[11px] italic font-bold text-slate-500">(${spec.scientificName || ''})</span>
+          <span class="text-sm sm:text-base font-black text-slate-900 font-heading">${spec.name}</span>
           <span class="gel-badge ${activeGel} text-[10px] font-black">${spec.badge || 'UK Standard'}</span>
         </div>
-        <button id="close-species-banner" class="w-6 h-6 rounded-full gel-btn gel-silver text-xs font-black" title="Reset species filter">✕</button>
-      </div>
-
-      <div class="p-3.5 bg-gradient-to-b from-white to-sky-50/40">
-        <p class="text-xs font-medium text-slate-700 leading-relaxed mb-3">${spec.description || ''}</p>
-
-        <!-- Quick Metrics Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-          <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
-            <div class="text-[9px] font-black text-sky-800 uppercase">🎡 Min Upright Wheel</div>
-            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minWheelSize || '28cm+'}</div>
-            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.wheelNote || ''}</div>
-          </div>
-
-          <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
-            <div class="text-[9px] font-black text-sky-800 uppercase">🏠 Min Unbroken Cage</div>
-            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minCageSize || '100 x 50 x 50 cm'}</div>
-            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.cageNote || ''}</div>
-          </div>
-
-          <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50/60 shadow-xs">
-            <div class="text-[9px] font-black text-rose-800 uppercase">🛡️ Social Housing</div>
-            <div class="font-black text-sm text-rose-700 mt-0.5">${spec.solitaryStatus || 'Strictly Solitary'}</div>
-            <div class="text-[10px] text-rose-900/80 font-medium leading-tight mt-0.5">${spec.solitaryNote || ''}</div>
-          </div>
-
-          <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
-            <div class="text-[9px] font-black text-sky-800 uppercase">☁️ Bedding Depth</div>
-            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.beddingDepth || '20cm+'}</div>
-            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Compacted paper or safe aspen</div>
-          </div>
-
-          <div class="p-2.5 rounded-xl border border-amber-200 bg-amber-50/50 shadow-xs">
-            <div class="text-[9px] font-black text-amber-900 uppercase">🏖️ Sand Bath Size</div>
-            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.sandBathSize || 'A4 Size+'}</div>
-            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.sandNote || ''}</div>
-          </div>
-
-          <div class="p-2.5 rounded-xl border border-purple-200 bg-purple-50/40 shadow-xs">
-            <div class="text-[9px] font-black text-purple-900 uppercase">📏 Vital Stats & Holes</div>
-            <div class="font-black text-sm text-slate-900 mt-0.5">${spec.entranceHoleMin || '5cm+'} Hide Entrances</div>
-            <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Lifespan: ${spec.lifespan || '2-3 yrs'} • Size: ${spec.avgSize || ''}</div>
-          </div>
-        </div>
-
-        <!-- Diabetes & Diet Warning Pill -->
-        <div class="mt-2.5 p-2.5 rounded-xl border border-amber-300 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 text-[11px] font-bold text-amber-950 flex items-start gap-2 shadow-xs">
-          <span class="text-base leading-none mt-0.5">🥗</span>
-          <div>
-            <strong class="font-black uppercase tracking-wide text-amber-900">Species Diet & Diabetes Profile:</strong>
-            <span class="font-medium text-slate-800 ml-1">${spec.dietSpecial || ''}</span>
-          </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button type="button" id="toggle-species-details" class="gel-btn gel-silver px-2.5 py-1 text-[10px] font-black">
+            ${isExpanded ? 'Hide Stats ▴' : 'Full Stats ▾'}
+          </button>
+          <button type="button" id="close-species-banner" class="w-6 h-6 rounded-full gel-btn gel-silver text-xs font-black" title="Reset species filter">✕</button>
         </div>
       </div>
+
+      <!-- Compact Summary Strip (Always Visible) -->
+      <div class="px-3.5 py-2 bg-sky-50/70 border-b border-sky-100 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold text-slate-700">
+        <span>🎡 <strong>Wheel:</strong> ${spec.minWheelSize || '28cm+'}</span>
+        <span>🏠 <strong>Cage:</strong> 100x50cm+</span>
+        <span>☁️ <strong>Bedding:</strong> ${spec.beddingDepth || '20cm+'}</span>
+        <span class="text-rose-700">🛡️ ${spec.solitaryStatus || 'Strictly Solitary'}</span>
+      </div>
+
+      ${isExpanded ? `
+        <div class="p-3.5 bg-gradient-to-b from-white to-sky-50/40">
+          <p class="text-xs font-medium text-slate-700 leading-relaxed mb-3">${spec.description || ''}</p>
+
+          <!-- Quick Metrics Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
+              <div class="text-[9px] font-black text-sky-800 uppercase">🎡 Min Upright Wheel</div>
+              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minWheelSize || '28cm+'}</div>
+              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.wheelNote || ''}</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
+              <div class="text-[9px] font-black text-sky-800 uppercase">🏠 Min Unbroken Cage</div>
+              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.minCageSize || '100 x 50 x 50 cm'}</div>
+              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.cageNote || ''}</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border border-rose-200 bg-rose-50/60 shadow-xs">
+              <div class="text-[9px] font-black text-rose-800 uppercase">🛡️ Social Housing</div>
+              <div class="font-black text-sm text-rose-700 mt-0.5">${spec.solitaryStatus || 'Strictly Solitary'}</div>
+              <div class="text-[10px] text-rose-900/80 font-medium leading-tight mt-0.5">${spec.solitaryNote || ''}</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border border-sky-200 bg-white shadow-xs">
+              <div class="text-[9px] font-black text-sky-800 uppercase">☁️ Bedding Depth</div>
+              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.beddingDepth || '20cm+'}</div>
+              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Compacted paper or safe aspen</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border border-amber-200 bg-amber-50/50 shadow-xs">
+              <div class="text-[9px] font-black text-amber-900 uppercase">🏖️ Sand Bath Size</div>
+              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.sandBathSize || 'A4 Size+'}</div>
+              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">${spec.sandNote || ''}</div>
+            </div>
+
+            <div class="p-2.5 rounded-xl border border-purple-200 bg-purple-50/40 shadow-xs">
+              <div class="text-[9px] font-black text-purple-900 uppercase">📏 Vital Stats & Holes</div>
+              <div class="font-black text-sm text-slate-900 mt-0.5">${spec.entranceHoleMin || '5cm+'} Hide Entrances</div>
+              <div class="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">Lifespan: ${spec.lifespan || '2-3 yrs'} • Size: ${spec.avgSize || ''}</div>
+            </div>
+          </div>
+
+          <!-- Diabetes & Diet Warning Pill -->
+          <div class="mt-2.5 p-2.5 rounded-xl border border-amber-300 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 text-[11px] font-bold text-amber-950 flex items-start gap-2 shadow-xs">
+            <span class="text-base leading-none mt-0.5">🥗</span>
+            <div>
+              <strong class="font-black uppercase tracking-wide text-amber-900">Species Diet & Diabetes Profile:</strong>
+              <span class="font-medium text-slate-800 ml-1">${spec.dietSpecial || ''}</span>
+            </div>
+          </div>
+        </div>
+      ` : ''}
     </div>
   `;
+
+  document.getElementById('toggle-species-details')?.addEventListener('click', () => {
+    state.speciesBannerExpanded = !isExpanded;
+    renderSpeciesDetailBanner();
+  });
 
   document.getElementById('close-species-banner')?.addEventListener('click', () => {
     state.currentSpecies = 'all';
     renderSpeciesBar();
-    renderSpeciesDetailBanner();
-    if (state.activeTab === 'shop') renderShop();
-    if (state.activeTab === 'food') renderFoodHub();
+    renderCurrentTab();
   });
 }
 
 // Router View Renderer
 function renderCurrentTab() {
+  renderSpeciesDetailBanner();
   switch (state.activeTab) {
     case 'guides':
       renderCareGuides();
@@ -740,17 +764,17 @@ function renderFoodHub() {
     <div>
       <!-- Food Hub Switcher -->
       <div class="flex items-center gap-2 mb-4 max-w-md mx-auto justify-center flex-wrap">
-        <button data-food-sub="mixes" class="gel-btn ${
+        <button type="button" data-food-sub="mixes" class="gel-btn ${
           state.foodSubTab === 'mixes' ? 'gel-yellow' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
           🥣 Approved Seed Mixes
         </button>
-        <button data-food-sub="fresh" class="gel-btn ${
+        <button type="button" data-food-sub="fresh" class="gel-btn ${
           state.foodSubTab === 'fresh' ? 'gel-green' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
           🥗 Safe Fresh Foods
         </button>
-        <button data-food-sub="toxic" class="gel-btn ${
+        <button type="button" data-food-sub="toxic" class="gel-btn ${
           state.foodSubTab === 'toxic' ? 'gel-red' : 'gel-silver'
         } px-4 py-1.5 text-xs font-black">
           🛑 Toxic Forbidden List
@@ -770,17 +794,37 @@ function renderFoodHub() {
       renderFoodHub();
     });
   });
+
+  document.getElementById('reset-food-species')?.addEventListener('click', () => {
+    state.currentSpecies = 'all';
+    renderSpeciesBar();
+    renderCurrentTab();
+  });
+
+  updateIcons();
 }
 
 function renderCommercialMixesView() {
   const mixes = products.filter(p => {
     if (p.category !== 'food_mixes') return false;
-    if (state.currentSpecies !== 'all' && !p.species.includes(state.currentSpecies)) return false;
+    if (state.currentSpecies !== 'all' && !(p.species || []).includes(state.currentSpecies)) return false;
     return true;
   });
 
+  const activeSpecObj = speciesList.find(s => s.id === state.currentSpecies);
+
   return `
     <div class="space-y-4">
+      ${activeSpecObj ? `
+        <div class="web2-card p-3.5 bg-gradient-to-r from-amber-50 via-yellow-50 to-sky-50 border-amber-300 flex items-center justify-between gap-2 flex-wrap">
+          <div class="text-xs font-bold text-slate-800">
+            <span class="font-black text-amber-950">🐹 Filtered for ${activeSpecObj.name}:</span>
+            Showing <strong>${mixes.length}</strong> species-appropriate seed mixes (${activeSpecObj.dietSpecial})
+          </div>
+          <button type="button" id="reset-food-species" class="gel-btn gel-silver px-3 py-1 text-[11px] font-black">Show All Species</button>
+        </div>
+      ` : ''}
+
       <!-- 48-Hour Freezer Protocol Card -->
       <div class="web2-card p-4 border-sky-300 bg-gradient-to-br from-sky-50 via-white to-sky-100/50">
         <div class="flex items-start gap-3">
@@ -825,13 +869,20 @@ function renderCommercialMixesView() {
               <h4 class="font-black text-base text-slate-900 font-heading mb-1 leading-snug">${p.name || ''}</h4>
               <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary || ''}</p>
 
-              <div class="flex flex-wrap items-center gap-1 mb-3">
-                <span class="text-[10px] font-black text-slate-500 uppercase mr-1">Species:</span>
-                ${(p.species || []).map(sp => `
-                  <span class="text-[10px] px-2.5 py-0.5 rounded-full border border-sky-200 bg-sky-50 text-sky-900 font-bold capitalize">
-                    🐹 ${sp.replace('_', ' ')}
-                  </span>
-                `).join('')}
+              <div class="flex flex-wrap items-center gap-1.5 mb-3">
+                <span class="text-[10px] font-black text-slate-500 uppercase mr-1">Suitable For:</span>
+                ${(p.species || []).map(sp => {
+                  const isSelected = state.currentSpecies === sp;
+                  return `
+                    <span class="text-[10px] px-2.5 py-0.5 rounded-full border ${
+                      isSelected
+                        ? 'border-emerald-500 bg-emerald-100 text-emerald-950 font-black ring-2 ring-emerald-300'
+                        : 'border-sky-200 bg-sky-50 text-sky-900 font-bold'
+                    } capitalize">
+                      ${isSelected ? '✓ ' : '🐹 '}${sp.replace('_', ' ')}
+                    </span>
+                  `;
+                }).join('')}
               </div>
 
               <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
@@ -845,7 +896,7 @@ function renderCommercialMixesView() {
                   target="_blank" 
                   rel="noopener noreferrer"
                   class="gel-btn gel-orange px-4 py-1.5 text-xs font-black shadow-md flex items-center gap-1">
-                  <span>Buy Mix ↗</span>
+                  <span>Where to Buy ↗</span>
                 </a>
               </div>
             </div>
@@ -862,7 +913,17 @@ function renderCommercialMixesView() {
 }
 
 function renderFreshFoodsView() {
-  const safeFoods = foodDatabase.filter(f => f.status === 'SAFE' || f.status === 'CAUTION_DIABETES');
+  const isDwarfSelected = ['winter_white', 'campbells', 'chinese', 'roborovski'].includes(state.currentSpecies);
+  const activeSpecObj = speciesList.find(s => s.id === state.currentSpecies);
+
+  const safeFoods = foodDatabase.filter(f => {
+    if (f.status !== 'SAFE' && f.status !== 'CAUTION_DIABETES') return false;
+    // If a diabetes-prone dwarf species is selected, hide sugary Syrian-only fruits (or filter to safe items)
+    if (isDwarfSelected && f.status === 'CAUTION_DIABETES' && (f.speciesNotes || '').toLowerCase().includes('syrian')) {
+      return false;
+    }
+    return true;
+  });
 
   const filtered = safeFoods.filter(food => {
     if (state.foodSearch.trim()) {
@@ -876,6 +937,18 @@ function renderFreshFoodsView() {
 
   return `
     <div class="space-y-3">
+      ${activeSpecObj ? `
+        <div class="web2-card p-3.5 bg-gradient-to-r from-emerald-50 via-white to-amber-50 border-emerald-300 flex items-center justify-between gap-2 flex-wrap">
+          <div class="text-xs font-bold text-slate-800">
+            <span class="font-black text-emerald-950">🥗 Filtered for ${activeSpecObj.name}:</span>
+            ${isDwarfSelected 
+              ? 'Sugary fruits (Apples, Bananas, Carrots/Corn) have been automatically hidden to protect against Dwarf Diabetes!' 
+              : 'Showing all safe vegetables, proteins, and occasional Syrian fruit treats.'}
+          </div>
+          <button type="button" id="reset-food-species" class="gel-btn gel-silver px-3 py-1 text-[11px] font-black">Show All Species</button>
+        </div>
+      ` : ''}
+
       <!-- Search Bar -->
       <div class="relative">
         <i data-lucide="search" class="w-4 h-4 text-sky-600 absolute left-3.5 top-3"></i>
@@ -1006,11 +1079,50 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Species-specific guidance per category so filtering any category by species gives immediate tailored advice
+function getCategorySpeciesGuidance(category, speciesId) {
+  const spec = speciesList.find(s => s.id === speciesId);
+  if (!spec) return '';
+  switch (category) {
+    case 'bedding':
+      return `<strong>${spec.name} Bedding Rule:</strong> Provide at least <strong>${spec.beddingDepth}</strong> of tightly compacted paper or kiln-dried aspen bedding (strictly no hay or fluffy cotton wool).`;
+    case 'enclosures':
+      return `<strong>${spec.name} Enclosure Rule:</strong> Minimum <strong>${spec.minCageSize}</strong>. ${spec.cageNote}`;
+    case 'wheels':
+      return `<strong>${spec.name} Wheel Rule:</strong> Requires an upright solid wheel of <strong>${spec.minWheelSize}</strong>. ${spec.wheelNote}`;
+    case 'sand':
+      return `<strong>${spec.name} Sand Bath Rule:</strong> ${spec.sandBathSize}. ${spec.sandNote}`;
+    case 'hides':
+      return `<strong>${spec.name} Multi-Chamber Rule:</strong> Entrance holes must be at least <strong>${spec.entranceHoleMin}</strong> wide so stuffed cheek pouches never get scraped or trapped.`;
+    case 'food_mixes':
+      return `<strong>${spec.name} Diet Rule:</strong> ${spec.dietSpecial}`;
+    default:
+      return `<strong>${spec.name} Welfare Standard:</strong> All ${filteredCountText(speciesId)} items below are verified safe for ${spec.name}s (${spec.entranceHoleMin} entrances, ${spec.minWheelSize} wheel, ${spec.beddingDepth} bedding).`;
+  }
+}
+
+function filteredCountText(speciesId) {
+  const s = speciesList.find(x => x.id === speciesId);
+  return s ? s.name : 'all';
+}
+
 // ==========================================
-// 3. ETHICAL SHOP (2000s Web 2.0 Style)
+// 3. SAFE PICKS — RESCUE-APPROVED PRODUCT DIRECTORY
 // ==========================================
 function renderShop() {
   const main = document.getElementById('main-tab-content');
+
+  const categories = [
+    { id: 'all', label: '🌟 All Safe Picks' },
+    { id: 'enclosures', label: '🏠 Enclosures & Cages' },
+    { id: 'wheels', label: '🎡 Upright Wheels' },
+    { id: 'bedding', label: '🛏️ Safe Bedding' },
+    { id: 'food_mixes', label: '🥣 Seed Mixes' },
+    { id: 'substrates', label: '🪵 Dig Substrates' },
+    { id: 'sand', label: '🏖️ Sand & Baths' },
+    { id: 'hides', label: '🏡 Multi-Chamber Hides' },
+    { id: 'forage', label: '🌾 Sprays & Forage' }
+  ];
 
   const filtered = products.filter(p => {
     if (state.currentSpecies !== 'all' && !(p.species || []).includes(state.currentSpecies)) return false;
@@ -1026,20 +1138,31 @@ function renderShop() {
     return true;
   });
 
-  const categories = [
-    { id: 'all', label: '🌟 All Vetted' },
-    { id: 'enclosures', label: '🏠 Enclosures' },
-    { id: 'wheels', label: '🎡 Wheels' },
-    { id: 'bedding', label: '🛏️ Bedding' },
-    { id: 'food_mixes', label: '🥣 Seed Mixes' },
-    { id: 'substrates', label: '🪵 Substrates' },
-    { id: 'sand', label: '🏖️ Sand Baths' },
-    { id: 'hides', label: '🏡 Multi-Hides' },
-    { id: 'forage', label: '🌾 Sprays & Forage' }
-  ];
+  // Sort species-specific items (fewer total species = more specifically tailored to the selected hamster) first when a species is chosen
+  if (state.currentSpecies !== 'all') {
+    filtered.sort((a, b) => (a.species?.length || 5) - (b.species?.length || 5));
+  }
+
+  const activeCategoryObj = categories.find(c => c.id === state.shopCategory) || categories[0];
+  const activeSpecObj = speciesList.find(s => s.id === state.currentSpecies);
+  const speciesGuidance = activeSpecObj ? getCategorySpeciesGuidance(state.shopCategory, state.currentSpecies) : '';
 
   main.innerHTML = `
     <div class="space-y-3.5">
+      <!-- Directory Header Card (Clarifies this is a Vetted Reference Library, NOT a Store) -->
+      <div class="web2-card p-3.5 bg-gradient-to-r from-sky-50 via-white to-amber-50/60 border-sky-300">
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🏆</span>
+            <h3 class="font-black text-sm sm:text-base text-slate-900 font-heading">Rescue-Approved Safe Picks Directory</h3>
+          </div>
+          <span class="gel-badge gel-blue text-[9px]">Independent Guide</span>
+        </div>
+        <p class="text-xs font-medium text-slate-600 leading-relaxed">
+          We don't run a shop! This is a curated directory of ethical cages, wheels, beddings, and mixes vetted by UK rescues, with direct links to where you can find them or build them yourself.
+        </p>
+      </div>
+
       <!-- Search Input -->
       <div class="relative">
         <i data-lucide="search" class="w-4 h-4 text-sky-600 absolute left-3.5 top-3"></i>
@@ -1050,34 +1173,61 @@ function renderShop() {
           placeholder="Search Bandaby, Bucatstate, Fitch, IKEA DIY, Hope's..."
           class="w-full bg-white border-2 border-sky-300 rounded-2xl pl-10 pr-8 py-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-sm">
         ${state.shopSearch ? `
-          <button id="clear-shop-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
+          <button type="button" id="clear-shop-search" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-900 font-black text-xs">✕</button>
         ` : ''}
       </div>
 
-      <!-- Horizontal Scroll Category Chips (Noughties Gloss Pills) -->
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-        ${categories.map(c => `
-          <button 
-            data-cat-btn="${c.id}"
-            class="gel-btn ${
-              state.shopCategory === c.id ? 'gel-orange' : 'gel-silver'
-            } px-3.5 py-1 text-xs font-black whitespace-nowrap">
-            ${c.label}
-          </button>
-        `).join('')}
+      <!-- Full-Visibility Wrap Category Picker (All Full Names Always Visible!) -->
+      <div class="web2-card p-3 bg-white/90 border-sky-200">
+        <div class="text-[10px] font-black text-sky-900 uppercase tracking-wider mb-2 px-0.5 flex items-center justify-between">
+          <span>📂 Choose Category:</span>
+          <span class="text-slate-500 font-bold">${filtered.length} Safe Picks Shown</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          ${categories.map(c => `
+            <button 
+              type="button"
+              data-cat-btn="${c.id}"
+              class="gel-btn ${
+                state.shopCategory === c.id ? 'gel-orange' : 'gel-silver'
+              } px-3.5 py-1.5 text-xs font-black">
+              ${c.label}
+            </button>
+          `).join('')}
+        </div>
       </div>
+
+      <!-- Active Filter & Species-Specific Category Rule Banner -->
+      ${activeSpecObj ? `
+        <div class="web2-card p-3.5 bg-gradient-to-r from-emerald-50 via-amber-50/60 to-sky-50 border-emerald-300 shadow-xs">
+          <div class="flex items-center justify-between gap-2 flex-wrap mb-1">
+            <div class="flex items-center gap-1.5">
+              <span class="gel-badge gel-green">✓ Species Filter Active</span>
+              <span class="text-xs font-black text-slate-900 font-heading">
+                ${activeCategoryObj.label} for ${activeSpecObj.name} (${filtered.length} Items)
+              </span>
+            </div>
+            <button type="button" id="clear-species-in-shop" class="gel-btn gel-silver px-2.5 py-0.5 text-[10px] font-black">
+              Show All Species ✕
+            </button>
+          </div>
+          <p class="text-xs font-medium text-slate-700 leading-relaxed">
+            ${speciesGuidance}
+          </p>
+        </div>
+      ` : ''}
 
       <!-- Products Grid -->
       ${filtered.length === 0 ? `
         <div class="web2-card p-8 text-center my-6">
-          <p class="text-xs font-bold text-slate-600">No matching items found. Try clearing your search filter!</p>
-          <button id="reset-shop-filters" class="mt-3 gel-btn gel-yellow px-4 py-1.5 text-xs font-black">Reset Filters ✨</button>
+          <p class="text-xs font-bold text-slate-600">No matching items found. Try clearing your search or category filter!</p>
+          <button type="button" id="reset-shop-filters" class="mt-3 gel-btn gel-yellow px-4 py-1.5 text-xs font-black">Reset All Filters ✨</button>
         </div>
       ` : `
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           ${filtered.map(p => {
             const isVideo = (p.url || '').includes('youtube.com') || (p.url || '').includes('youtu.be');
-            const ctaLabel = isVideo ? '🎬 Watch DIY Video ↗' : 'Buy From Seller ↗';
+            const ctaLabel = isVideo ? '🎬 Watch DIY Video ↗' : 'Where to Buy ↗';
             const ctaGel = isVideo ? 'gel-purple' : 'gel-orange';
             const priceLabel = isVideo ? 'Est. DIY Cost' : 'Price Guide';
 
@@ -1085,7 +1235,7 @@ function renderShop() {
               <div class="web2-card flex flex-col justify-between overflow-hidden">
                 <div>
                   <div class="web2-header-bar px-3.5 py-2 flex flex-wrap gap-1 items-center justify-between">
-                    <span class="text-[10px] font-black text-sky-950 uppercase tracking-wider truncate max-w-[180px]">${p.brand || ''}</span>
+                    <span class="text-[10px] font-black text-sky-950 uppercase tracking-wider">${p.brand || ''}</span>
                     <div class="flex flex-wrap gap-1">
                       ${(p.badges || []).slice(0, 2).map(b => `
                         <span class="gel-badge ${
@@ -1109,11 +1259,19 @@ function renderShop() {
                     <p class="text-xs font-medium text-slate-600 leading-relaxed mb-3">${p.summary || ''}</p>
                     
                     <div class="flex flex-wrap items-center gap-1">
-                      ${(p.species || []).map(sp => `
-                        <span class="text-[9px] px-2 py-0.5 rounded-full border border-sky-200 bg-sky-50 text-sky-900 font-bold capitalize">
-                          ${sp.replace('_', ' ')}
-                        </span>
-                      `).join('')}
+                      <span class="text-[9px] font-black text-slate-400 uppercase mr-0.5">Fits:</span>
+                      ${(p.species || []).map(sp => {
+                        const isSelected = state.currentSpecies === sp;
+                        return `
+                          <span class="text-[10px] px-2 py-0.5 rounded-full border ${
+                            isSelected
+                              ? 'border-emerald-500 bg-emerald-100 text-emerald-950 font-black ring-2 ring-emerald-300'
+                              : 'border-sky-200 bg-sky-50 text-sky-900 font-bold'
+                          } capitalize">
+                            ${isSelected ? '✓ ' : ''}${sp.replace('_', ' ')}
+                          </span>
+                        `;
+                      }).join('')}
                     </div>
                   </div>
                 </div>
@@ -1139,7 +1297,7 @@ function renderShop() {
       `}
 
       <div class="text-center text-[10px] font-bold text-slate-500 pt-2">
-        UK Welfare Disclosure: Every product is independently vetted against 100x50cm & hay-free rescue criteria.
+        Independent UK Welfare Directory • Every item is vetted against 100x50cm & hay-free rescue criteria.
       </div>
     </div>
   `;
@@ -1149,6 +1307,12 @@ function renderShop() {
       state.shopCategory = btn.getAttribute('data-cat-btn');
       renderShop();
     });
+  });
+
+  document.getElementById('clear-species-in-shop')?.addEventListener('click', () => {
+    state.currentSpecies = 'all';
+    renderSpeciesBar();
+    renderCurrentTab();
   });
 
   const shopSearchInput = document.getElementById('shop-search-input');
@@ -1172,8 +1336,12 @@ function renderShop() {
   document.getElementById('reset-shop-filters')?.addEventListener('click', () => {
     state.shopCategory = 'all';
     state.shopSearch = '';
+    state.currentSpecies = 'all';
+    renderSpeciesBar();
     renderShop();
   });
+
+  updateIcons();
 }
 
 // ==========================================
