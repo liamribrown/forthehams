@@ -169,21 +169,38 @@ export const products = [
   // --- FORAGE, SPRAYS & TREATS ---
   {
     id: "forage-indias-bouquet",
-    name: "Seed Spray Bouquet & Variety Harvest Bundles",
-    brand: "India's Rescue / Bell's Tiny Tails / Hope's",
+    name: "India's Rescue Seed Spray Bouquet & Variety Bundle",
+    brand: "India's Hamster Rescue Store",
     category: "forage",
+    slotOnly: "sprays",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£10.00 - £19.50",
-    retailer: "India's Rescue Store / Bell's Tiny Tails / Hope's",
+    retailer: "India's Hamster Rescue Store (Charity #1213919)",
     url: "https://www.indiashamsterrescue.co.uk/product-page/hamster-seed-spray-bouquet-bundle",
     links: [
-      { label: "India's Rescue (Bouquet Bundle)", url: "https://www.indiashamsterrescue.co.uk/product-page/hamster-seed-spray-bouquet-bundle" },
-      { label: "Bell's Tiny Tails (125g Bundle)", url: "https://bellstinytails.com/products/variety-seeded-spray-bundle-125g" },
-      { label: "Bell's Tiny Tails (250g Bundle)", url: "https://bellstinytails.com/products/variety-spray-bundle-250g" },
-      { label: "Hope's Healthy Treats (Spray Box)", url: "https://hopeshealthytreats.com/products/spray-box" }
+      { label: "India's Rescue Store (Bouquet Bundle)", url: "https://www.indiashamsterrescue.co.uk/product-page/hamster-seed-spray-bouquet-bundle" },
+      { label: "India's Rescue Store (All Sprays)", url: "https://www.indiashamsterrescue.co.uk/store" }
     ],
-    badges: ["⭐ 100% Profits Support Rescue", "Charity Store", "Essential Enrichment"],
-    summary: "Hand-assembled spray bouquets containing flax, sorghum, red millet, wheat, and oat sprays. Buying from India's Hamster Rescue Store sends 100% of profits to veterinary care!"
+    badges: ["⭐ 100% Profits Support Rescue", "Adoption Recommended", "Full Coverage Variety"],
+    summary: "Hand-assembled variety spray bouquet from India's Hamster Rescue Store containing flax, sorghum, red millet, wheat, delicha, and oat sprays for proper overhead canopy coverage. 100% of profits fund rescue vet care!"
+  },
+  {
+    id: "forage-variety-spray-box",
+    name: "Variety Coverage Spray Bundle (125g / 250g Box)",
+    brand: "Bell's Tiny Tails / Hope's Healthy Treats",
+    category: "forage",
+    slotOnly: "sprays",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£11.99 - £18.99",
+    retailer: "Bell's Tiny Tails / Hope's Healthy Treats",
+    url: "https://bellstinytails.com/products/variety-seeded-spray-bundle-125g",
+    links: [
+      { label: "Bell's Tiny Tails (125g Variety Bundle)", url: "https://bellstinytails.com/products/variety-seeded-spray-bundle-125g" },
+      { label: "Bell's Tiny Tails (250g Variety Bundle)", url: "https://bellstinytails.com/products/variety-spray-bundle-250g" },
+      { label: "Hope's Healthy Treats (Full Spray Box)", url: "https://hopeshealthytreats.com/products/spray-box" }
+    ],
+    badges: ["Full Coverage Variety", "UK Small Business"],
+    summary: "Complete multi-species harvest spray bundle combining tall coverage sprays (delicha, broom millet, wheat, oat) with dense foraging heads (sorghum, flax, canary grass)."
   },
   {
     id: "forage-hopes-forage-box",
@@ -206,9 +223,10 @@ export const products = [
   },
   {
     id: "forage-flax-sprays",
-    name: "Natural Golden Flax Sprays (25g - 250g)",
+    name: "Natural Golden Flax Sprays — Top-Up Pack (25g - 250g)",
     brand: "Bell's Tiny Tails / Hope's / Bonny Burrows",
     category: "forage",
+    isOptionalTopUp: true,
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£2.45 - £5.99",
     retailer: "Bell's Tiny Tails / Hope's / Bonny Burrows",
@@ -218,14 +236,15 @@ export const products = [
       { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/flax-sprays" },
       { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/flax-sprays-forage-for-hamsters-birds-gerbils" }
     ],
-    badges: ["⭐ Hamster Favourite", "Silky Fur"],
-    summary: "Every hamster's absolute obsession. Packed with essential omega-3 fatty acids for a glossy coat and active foraging fun."
+    badges: ["Optional Top-Up", "⭐ Hamster Favourite"],
+    summary: "Optional extra top-up bunch of golden flax (must be paired with a full variety spray bundle for enclosure coverage). Packed with omega-3 fatty acids for active foraging."
   },
   {
     id: "forage-sorghum-dari",
-    name: "Natural White & Red Sorghum / Dari Sprays",
+    name: "Natural White & Red Sorghum / Dari Sprays — Top-Up Pack",
     brand: "Bell's Tiny Tails / Hope's",
     category: "forage",
+    isOptionalTopUp: true,
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£2.99 - £4.50",
     retailer: "Bell's Tiny Tails / Hope's Healthy Treats",
@@ -234,8 +253,8 @@ export const products = [
       { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/100g-natural-white-sorghum-sprays" },
       { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/sorghum-spray" }
     ],
-    badges: ["Boredom Breaker", "UK Small Business"],
-    summary: "Sturdy seed stems that provide great physical resistance, encouraging natural harvest work and climbing effort."
+    badges: ["Optional Top-Up", "Boredom Breaker"],
+    summary: "Optional extra sturdy seed stems that provide great physical harvesting resistance alongside your main variety spray bouquet."
   },
   {
     id: "forage-millet-oat-grass",

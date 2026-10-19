@@ -2,7 +2,7 @@
 // www.forthehams.co.uk | UK hamster care, checked against India's Hamster Rescue standards
 // Theme: "Zine × 2005" (see assets/css/style.css)
 
-import { products } from './data/products.js?v=3.7';
+import { products } from './data/products.js?v=3.9';
 import { speciesList } from './data/species.js?v=3.6';
 import { icon, clean } from './icons.js?v=3.6';
 
@@ -78,8 +78,8 @@ export const BUILDER_SLOTS = [
     icon: 'sprout',
     category: 'forage',
     section: 'Digging & Foraging',
-    tagline: 'Golden flax, millets, sorghum & oat sprays',
-    tip: 'Diverse botanical seed sprays simulate wild steppe meadows, provide natural overhead shelter, and stimulate natural foraging behaviors. Freeze 48 hours before use!'
+    tagline: 'Full coverage spray bundle (India’s Rescue Store recommended)',
+    tip: 'A single-type spray pack (such as flax alone) is only an optional extra and is not sufficient for overhead coverage. You need a proper multi-variety spray bundle (flax, sorghum, red millet, wheat, delicha & oat)—preferably from India’s Hamster Rescue Store!'
   },
   {
     id: 'tunnels',
@@ -185,8 +185,8 @@ export const SETUP_PRESETS = [
     badge: '🪙 Maximum Thrift & Ingenuity',
     tone: 'mint',
     tagline: 'Complete 16-point adoption setup on a sensible budget',
-    desc: 'Meets every single one of India’s 16 adoption requirements. Uses smart thrifted hides, bulk substrates, Argos play sand, and DIY stilts without sacrificing an ounce of ethical care.',
-    targetBudget: 195,
+    desc: 'Meets every single one of India’s 16 adoption requirements. Uses smart thrifted hides, bulk substrates, Argos play sand, DIY stilts, and India’s full variety spray bouquet.',
+    targetBudget: 230,
     items: {
       syrian: {
         enclosure: 'enc-pawhut-115',
@@ -195,7 +195,7 @@ export const SETUP_PRESETS = [
         sand: 'sand-suburban-play',
         platforms: 'plat-wooden-stilts',
         dig_box: 'sub-3-pack-bundle',
-        sprays: 'forage-flax-sprays',
+        sprays: 'forage-indias-bouquet',
         tunnels: 'tunnel-birch-wood',
         branch: 'branch-grapevine-wood',
         water: 'water-shallow-ceramic',
@@ -213,7 +213,7 @@ export const SETUP_PRESETS = [
         sand: 'sand-suburban-play',
         platforms: 'plat-wooden-stilts',
         dig_box: 'sub-3-pack-bundle',
-        sprays: 'forage-flax-sprays',
+        sprays: 'forage-indias-bouquet',
         tunnels: 'tunnel-birch-wood',
         branch: 'branch-grapevine-wood',
         water: 'water-shallow-ceramic',
@@ -231,7 +231,7 @@ export const SETUP_PRESETS = [
         sand: 'sand-suburban-play',
         platforms: 'plat-wooden-stilts',
         dig_box: 'sub-3-pack-bundle',
-        sprays: 'forage-flax-sprays',
+        sprays: 'forage-indias-bouquet',
         tunnels: 'tunnel-birch-wood',
         branch: 'branch-grapevine-wood',
         water: 'water-shallow-ceramic',
@@ -250,8 +250,8 @@ export const SETUP_PRESETS = [
     badge: '⚖️ UK Rescue Community Favorite',
     tone: 'mustard',
     tagline: 'Trusted barred enclosures & handcrafted enrichment',
-    desc: 'The gold-standard turnkey kit used across UK rescue foster homes. Roomy Savic Plaza cage, silent bearing wheel, Fitch paper bedding, handcrafted wooden multi-chamber, and modular Songmics playpen.',
-    targetBudget: 310,
+    desc: 'The turnkey kit used across UK rescue foster homes. Roomy Savic Plaza cage, silent bearing wheel, Fitch paper bedding, handcrafted wooden multi-chamber, India’s spray bouquet, and Songmics playpen.',
+    targetBudget: 315,
     items: {
       syrian: {
         enclosure: 'enc-savic-plaza-120',
@@ -260,7 +260,7 @@ export const SETUP_PRESETS = [
         sand: 'sand-pets-desert',
         platforms: 'plat-niteangel-corner',
         dig_box: 'sub-3-pack-bundle',
-        sprays: 'forage-sorghum-dari',
+        sprays: 'forage-indias-bouquet',
         tunnels: 'tunnel-birch-wood',
         branch: 'branch-grapevine-wood',
         water: 'water-trixie-standing',
@@ -278,7 +278,7 @@ export const SETUP_PRESETS = [
         sand: 'sand-pets-desert',
         platforms: 'plat-niteangel-corner',
         dig_box: 'sub-3-pack-bundle',
-        sprays: 'forage-sorghum-dari',
+        sprays: 'forage-indias-bouquet',
         tunnels: 'tunnel-birch-wood',
         branch: 'branch-grapevine-wood',
         water: 'water-trixie-standing',
@@ -296,7 +296,7 @@ export const SETUP_PRESETS = [
         sand: 'sand-pets-desert',
         platforms: 'plat-niteangel-corner',
         dig_box: 'sub-3-pack-bundle',
-        sprays: 'forage-sorghum-dari',
+        sprays: 'forage-indias-bouquet',
         tunnels: 'tunnel-birch-wood',
         branch: 'branch-grapevine-wood',
         water: 'water-trixie-standing',
@@ -459,6 +459,12 @@ export function evaluateWelfare(selectedSlots, speciesId = 'all') {
     } else if (slot.id === 'food') {
       if ((speciesId === 'winter_white' || speciesId === 'campbells' || speciesId === 'chinese') && (prod.species && !prod.species.includes(speciesId) && prod.species.includes('syrian'))) {
         issues.push({ text: 'Dwarfs are prone to diabetes! Pick a fruit-free dwarf mix.', severity: 'warning', slotId: slot.id });
+      } else {
+        passes.push({ text: `Criteria #${slot.criteriaNo}: ${slot.name}`, type: slot.id });
+      }
+    } else if (slot.id === 'sprays') {
+      if (prod.isOptionalTopUp) {
+        issues.push({ text: 'Single-type spray packs (like flax alone) are optional extras—choose a full variety spray bundle for proper coverage!', severity: 'warning', slotId: slot.id });
       } else {
         passes.push({ text: `Criteria #${slot.criteriaNo}: ${slot.name}`, type: slot.id });
       }
@@ -852,9 +858,11 @@ function openSlotPicker(slotId, currentSpecies, container, options) {
 
   title.innerHTML = `Choose Criteria #${slot.criteriaNo}: ${slot.name}`;
 
-  // Filter products by category and species
+  // Filter products by category, slot specificity, and species
   const eligible = products.filter(p => {
     if (p.category !== slot.category) return false;
+    if (slot.id === 'sprays' && p.slotOnly !== 'sprays') return false;
+    if (p.slotOnly && p.slotOnly !== slot.id) return false;
     if (currentSpecies !== 'all' && p.species && !p.species.includes(currentSpecies)) {
       return false;
     }
