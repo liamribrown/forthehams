@@ -632,6 +632,46 @@ h1, h2, h3, h4, .font-display {
   }
 }
 
+/* ---------- Home Builder Styles ---------- */
+.portal-box {
+  background: var(--white);
+  border: var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.portal-box.border-mint { border-color: #2b9e5d; }
+.portal-box.border-tomato { border-color: var(--tomato); }
+
+.blueprint-card {
+  background-color: var(--white);
+  background-image: 
+    linear-gradient(rgba(34, 24, 15, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 24, 15, 0.05) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border: var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-lg);
+}
+
+.shop-receipt {
+  position: relative;
+  border: 3px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+}
+
+.receipt-cutout-top {
+  position: absolute;
+  top: -6px;
+  left: 20px;
+  right: 20px;
+  height: 6px;
+  background-image: radial-gradient(circle at 6px 0, transparent 6px, var(--white) 6.5px);
+  background-size: 12px 6px;
+}
+
 /* ---------- Print ---------- */
 @media print {
   body * { visibility: hidden; }
@@ -639,4 +679,5 @@ h1, h2, h3, h4, .font-display {
   #adoption-summary-modal { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; background: white; }
   .no-print { display: none !important; }
 }
+
 

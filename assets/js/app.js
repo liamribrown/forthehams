@@ -13,14 +13,16 @@ import { icon, clean, cleanHtml } from './icons.js?v=3.6';
 import { openCardModal } from './infographics.js?v=3.2';
 import { renderBinderView, updateHeaderBadge } from './cards/binder.js?v=3.2';
 import { initPostbag, openPostbag } from './feedback.js?v=3.6';
+import { renderHomeBuilder } from './home_builder.js';
 
 // Application State
 const state = {
   currentSpecies: 'all', // 'all' | species id
-  activeTab: 'guides',   // 'guides' | 'food' | 'shop' | 'checklist' | 'rescues'
+  activeTab: 'guides',   // 'guides' | 'food' | 'shop' | 'checklist' | 'rescues' | 'builder'
   guidesSubTab: 'core',  // 'core' | 'unsafe' | 'inspiration'
   foodSubTab: 'mixes',   // 'mixes' | 'fresh' | 'toxic'
   foodSearch: '',
+  shopMode: 'catalog',   // 'catalog' | 'builder'
   shopCategory: 'all',
   shopRetailer: 'all',
   shopSearch: '',
@@ -100,8 +102,14 @@ function injectStaticIcons() {
 // Routing
 function initRouting() {
   const hash = window.location.hash.replace('#', '');
-  if (['guides', 'food', 'shop', 'checklist', 'rescues', 'binder'].includes(hash)) {
-    state.activeTab = hash;
+  if (['guides', 'food', 'shop', 'checklist', 'rescues', 'binder', 'builder', 'home-builder'].includes(hash)) {
+    if (hash === 'builder' || hash === 'home-builder') {
+      state.activeTab = 'builder';
+      state.shopMode = 'builder';
+    } else {
+      state.activeTab = hash;
+      if (hash === 'shop') state.shopMode = 'catalog';
+    }
   } else if (['write-us', 'feedback', 'postbag'].includes(hash)) {
     setTimeout(() => openPostbag('general'), 100);
   }
@@ -110,11 +118,20 @@ function initRouting() {
 }
 
 function switchTab(tab, subTab = null) {
-  state.activeTab = tab;
-  if (tab === 'guides' && subTab) state.guidesSubTab = subTab;
-  if (tab === 'food' && subTab) state.foodSubTab = subTab;
-  if (tab === 'shop' && subTab) state.shopCategory = subTab;
-  window.location.hash = tab;
+  if (tab === 'builder' || tab === 'home-builder') {
+    state.activeTab = 'builder';
+    state.shopMode = 'builder';
+    window.location.hash = 'builder';
+  } else {
+    state.activeTab = tab;
+    if (tab === 'shop') {
+      state.shopMode = 'catalog';
+      if (subTab) state.shopCategory = subTab;
+    }
+    if (tab === 'guides' && subTab) state.guidesSubTab = subTab;
+    if (tab === 'food' && subTab) state.foodSubTab = subTab;
+    window.location.hash = tab;
+  }
   updateNavState();
   renderCurrentTab();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -122,10 +139,15 @@ function switchTab(tab, subTab = null) {
 
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash.replace('#', '');
-  if (['guides', 'food', 'shop', 'checklist', 'rescues', 'binder'].includes(hash) && hash !== state.activeTab) {
-    state.activeTab = hash;
-    updateNavState();
-    renderCurrentTab();
+  if (['guides', 'food', 'shop', 'checklist', 'rescues', 'binder', 'builder', 'home-builder'].includes(hash)) {
+    const targetTab = (hash === 'builder' || hash === 'home-builder') ? 'builder' : hash;
+    if (targetTab !== state.activeTab || (targetTab === 'builder' && state.shopMode !== 'builder')) {
+      state.activeTab = targetTab;
+      if (targetTab === 'builder') state.shopMode = 'builder';
+      else if (targetTab === 'shop') state.shopMode = 'catalog';
+      updateNavState();
+      renderCurrentTab();
+    }
   } else if (['write-us', 'feedback', 'postbag'].includes(hash)) {
     openPostbag('general');
   }
@@ -133,7 +155,8 @@ window.addEventListener('hashchange', () => {
 
 function updateNavState() {
   document.querySelectorAll('[data-nav-tab]').forEach(btn => {
-    const isActive = btn.getAttribute('data-nav-tab') === state.activeTab;
+    const tabName = btn.getAttribute('data-nav-tab');
+    const isActive = tabName === state.activeTab || (tabName === 'shop' && state.activeTab === 'builder');
     btn.classList.toggle('is-active', isActive);
     if (isActive) btn.setAttribute('aria-current', 'page');
     else btn.removeAttribute('aria-current');
@@ -464,11 +487,21 @@ function renderCurrentTab() {
     case 'guides': renderCareGuides(); break;
     case 'food': renderFoodHub(); break;
     case 'shop': renderShop(); break;
+    case 'builder': renderBuilderTab(); break;
     case 'checklist': renderChecklist(); break;
     case 'rescues': renderRescues(); break;
     case 'binder': renderBinderPage(); break;
     default: renderCareGuides();
   }
+}
+
+function renderBuilderTab() {
+  const main = document.getElementById('main-tab-content');
+  if (!main) return;
+  renderHomeBuilder(main, {
+    currentSpecies: state.currentSpecies,
+    onNavigate: (tab, subTab) => switchTab(tab, subTab)
+  });
 }
 
 function renderBinderPage() {
@@ -717,11 +750,24 @@ function renderCoreGuidesView() {
       </div>
     </div>
 
+    <!-- Home Builder callout banner -->
+    <div data-quick-jump="builder" role="button" tabindex="0" class="portal-box bg-mint-soft hover:bg-mint p-3 mb-4 rounded-xl flex items-center justify-between gap-3 border-2 border-ink tappable">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <span class="text-2xl shrink-0">🔨</span>
+        <div>
+          <span class="sticker bg-mustard text-[10px] py-0 px-1.5 font-bold uppercase font-display">Interactive Tool</span>
+          <h3 class="font-display text-base font-bold text-ink leading-tight mt-0.5">Hamster Home Builder</h3>
+          <p class="text-[12px] text-ink-soft leading-tight">Plan an ethical setup tailored to your budget with direct UK stockist links.</p>
+        </div>
+      </div>
+      <span class="btn btn-xs btn-tomato shrink-0 font-bold">Try Builder →</span>
+    </div>
+
     <!-- Quick jumps -->
     <div class="grid grid-cols-2 gap-2 mb-6">
+      <button data-quick-jump="builder" class="btn btn-sm btn-tomato justify-start">🔨 Build by budget</button>
       <button data-quick-jump="food" data-quick-sub="fresh" class="btn btn-sm btn-mint justify-start">${icon('apple', 18)} Can they eat this?</button>
       <button data-quick-jump="checklist" class="btn btn-sm btn-pink justify-start">${icon('check', 18)} Am I ready?</button>
-      <button data-quick-jump="shop" data-quick-sub="enclosures" class="btn btn-sm btn-sky justify-start">${icon('cage', 18)} Big enough cages</button>
       <button data-quick-jump="rescues" class="btn btn-sm btn-lilac justify-start">${icon('heart', 18)} Find a rescue</button>
     </div>
 
@@ -1114,6 +1160,15 @@ function renderProductLedgerSection(catId, items) {
 // ==========================================
 function renderShop() {
   const main = document.getElementById('main-tab-content');
+  if (!main) return;
+
+  if (state.shopMode === 'builder') {
+    renderHomeBuilder(main, {
+      currentSpecies: state.currentSpecies,
+      onNavigate: (tab, subTab) => switchTab(tab, subTab)
+    });
+    return;
+  }
 
   const categories = [
     { id: 'all', label: 'Everything' },
@@ -1172,11 +1227,37 @@ function renderShop() {
   }
 
   main.innerHTML = `
+    <!-- Top Section Switcher (Catalog vs Builder) -->
+    <div class="flex items-center gap-2 mb-3">
+      <div class="folder-tabs" role="tablist">
+        <button type="button" id="shop-subtab-catalog" class="folder-tab is-active" aria-selected="true">
+          <span>📦 Safe Picks Catalog</span>
+        </button>
+        <button type="button" id="shop-subtab-builder" class="folder-tab">
+          <span>🔨 Home Builder (By Budget)</span>
+        </button>
+      </div>
+    </div>
+
     <section class="mb-4 relative">
       <span class="sticker tilt-r absolute right-0 -top-1">we don't sell<br>anything!</span>
       <h1 class="text-[32px]">Safe picks</h1>
       <p class="mt-2 text-[14.5px] leading-relaxed pr-2">Kit we'd happily put in our own enclosures, all checked against rescue standards. Links go straight to each independent UK shop, stockist or DIY video.</p>
     </section>
+
+    <!-- Home Builder Callout Card -->
+    <div class="portal-box bg-mint-soft p-3.5 mb-4 rounded-xl flex items-center justify-between gap-3 border-2 border-ink">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <span class="text-2xl shrink-0">🔨</span>
+        <div class="text-xs sm:text-sm">
+          <strong class="font-display font-bold">Building a habitat on a budget?</strong>
+          <p class="text-ink-soft text-[12px] leading-tight mt-0.5">Use our Home Builder to assemble an ethical 100x50cm setup with live budget calculations.</p>
+        </div>
+      </div>
+      <button type="button" id="catalog-launch-builder-btn" class="btn btn-xs btn-tomato shrink-0 font-bold">
+        Launch Builder →
+      </button>
+    </div>
 
     <div class="mb-3">${searchField('shop-search-input', state.shopSearch, "Search RoseLark, Bell's Tiny Tails, Körnerbude, Fitch, IKEA...", 'clear-shop-search')}</div>
 
@@ -1204,6 +1285,14 @@ function renderShop() {
       </div>
     ` : listContentHtml}
   `;
+
+  document.getElementById('shop-subtab-builder')?.addEventListener('click', () => {
+    switchTab('builder');
+  });
+
+  document.getElementById('catalog-launch-builder-btn')?.addEventListener('click', () => {
+    switchTab('builder');
+  });
 
   document.querySelectorAll('[data-cat-btn]').forEach(btn => {
     btn.addEventListener('click', () => {

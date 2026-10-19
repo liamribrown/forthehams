@@ -10,9 +10,10 @@ export const products = [
     category: "food_mixes",
     species: ["syrian"],
     priceGuide: "£11.49 - £12.95",
-    retailer: "Bonny Burrows UK / Körnerbude DE",
-    url: "https://bonnyburrows.co.uk/products/syrian-food-seed-mix-500g-by-koernerbude",
+    retailer: "Bell's Tiny Tails / Bonny Burrows UK / Körnerbude DE",
+    url: "https://bellstinytails.com/products/kornerbude-syrian-hamster-seed-mix-500g",
     links: [
+      { label: "Bell's Tiny Tails (UK Stockist)", url: "https://bellstinytails.com/products/kornerbude-syrian-hamster-seed-mix-500g" },
       { label: "Bonny Burrows (UK Stockist)", url: "https://bonnyburrows.co.uk/products/syrian-food-seed-mix-500g-by-koernerbude" },
       { label: "Körnerbude (DE Maker)", url: "https://www.koernerbude.de/goldhamster-natur-spezial-sw11996.m" }
     ],
@@ -26,9 +27,10 @@ export const products = [
     category: "food_mixes",
     species: ["roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£11.49 - £12.95",
-    retailer: "Bonny Burrows UK / Körnerbude DE",
-    url: "https://bonnyburrows.co.uk/products/dwarf-hamster-food-seed-mix-500g-by-koernerbude",
+    retailer: "Bell's Tiny Tails / Bonny Burrows UK / Körnerbude DE",
+    url: "https://bellstinytails.com/products/kornerbude-dwarf-hamster-seed-mix-500g",
     links: [
+      { label: "Bell's Tiny Tails (UK Stockist)", url: "https://bellstinytails.com/products/kornerbude-dwarf-hamster-seed-mix-500g" },
       { label: "Bonny Burrows (UK Stockist)", url: "https://bonnyburrows.co.uk/products/dwarf-hamster-food-seed-mix-500g-by-koernerbude" },
       { label: "Körnerbude (DE Maker)", url: "https://www.koernerbude.de/zwerghamster-spezial-sw12004.m" }
     ],
@@ -195,6 +197,8 @@ export const products = [
     links: [
       { label: "Hope's (Flower & Leaf)", url: "https://hopeshealthytreats.com/products/flower-and-leaf-forage" },
       { label: "Hope's (Dandelion Leaf)", url: "https://hopeshealthytreats.com/products/dandelion-leaf-forage" },
+      { label: "Bell's Tiny Tails (Strawberry Leaves)", url: "https://bellstinytails.com/products/strawberry-leaves-stalks-forage-mix-50g" },
+      { label: "Bell's Tiny Tails (Marigold Forage)", url: "https://bellstinytails.com/products/25g-marigold-flower-forage-for-hamsters-gerbils-mice-guinea-pigs-rabbits" },
       { label: "India's Rescue (Flower Forage)", url: "https://www.indiashamsterrescue.co.uk/product-page/large-flower-forage-for-hamsters-mice-gerbils-rabbits-and-guinea-pigs-200g" }
     ],
     badges: ["⭐ Team Favourite", "Pesticide Free", "UK Small Business"],
@@ -239,11 +243,13 @@ export const products = [
     brand: "Bell's Tiny Tails / Hope's",
     category: "forage",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
-    priceGuide: "£2.25 - £4.50",
+    priceGuide: "£2.25 - £5.99",
     retailer: "Bell's Tiny Tails / Hope's Healthy Treats",
     url: "https://bellstinytails.com/products/delicha-coverage-sprays-25g",
     links: [
       { label: "Bell's Tiny Tails (Delicha)", url: "https://bellstinytails.com/products/delicha-coverage-sprays-25g" },
+      { label: "Bell's Tiny Tails (Wheat & Oat Bundle)", url: "https://bellstinytails.com/products/wheat-oat-spray-bundle-50g" },
+      { label: "Bell's Tiny Tails (Broom Millet)", url: "https://bellstinytails.com/products/broom-millet-sprays-90-100g" },
       { label: "Hope's (Red Millet)", url: "https://hopeshealthytreats.com/products/3-red-millet" },
       { label: "Hope's (Oat Sprays)", url: "https://hopeshealthytreats.com/products/oat-sprays" }
     ],
@@ -280,6 +286,23 @@ export const products = [
     ],
     badges: ["⭐ UK Small Business", "Forage Display", "Pet-Safe PLA"],
     summary: "Handy stand crafted from pet-safe PLA that holds flax, sorghum, and millet sprays upright to create a natural foraging forest canopy."
+  },
+  {
+    id: "forage-bells-chews-branch",
+    name: "Natural Grapevine Branches & Boredom Breaker Chews",
+    brand: "Bell's Tiny Tails",
+    category: "forage",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£1.20 - £10.00",
+    retailer: "Bell's Tiny Tails UK",
+    url: "https://bellstinytails.com/products/grapevine-wood-branch",
+    links: [
+      { label: "Bell's Tiny Tails (Grapevine Branch)", url: "https://bellstinytails.com/products/grapevine-wood-branch" },
+      { label: "Bell's Tiny Tails (Whimzees Enrichment Chews)", url: "https://bellstinytails.com/products/hand-cut-enrichment-chews-3-pack" },
+      { label: "Bell's Tiny Tails (Seagrass Mat)", url: "https://bellstinytails.com/products/seagrass-mat" }
+    ],
+    badges: ["⭐ Rescue Favourite", "Dental Health", "Natural Climbing"],
+    summary: "Sandblasted natural grapevine branches for enclosure climbing, paired with genuine potato-starch Whimzees chews and woven seagrass mats for safe dental gnawing."
   },
 
   // --- ENCLOSURES & CAGES ---
@@ -406,16 +429,17 @@ export const products = [
   },
   {
     id: "enc-roselark-water-bottle-holder",
-    name: "RoseLark Magnetic & Stand Water Bottle Holders",
-    brand: "RoseLark Pet Products",
+    name: "Magnetic & Stand Small Pet Drinks Bottle Holders",
+    brand: "RoseLark / Bell's Tiny Tails",
     category: "enclosures",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
-    priceGuide: "£10.50 - £11.99",
-    retailer: "RoseLark Pet Products UK",
+    priceGuide: "£7.60 - £11.99",
+    retailer: "RoseLark UK / Bell's Tiny Tails UK",
     url: "https://roselarkpetproducts.co.uk/products/magnetic-hamster-water-bottle-holder",
     links: [
       { label: "RoseLark (Magnetic Bottle Holder)", url: "https://roselarkpetproducts.co.uk/products/magnetic-hamster-water-bottle-holder" },
-      { label: "RoseLark (Adjustable Free-Standing)", url: "https://roselarkpetproducts.co.uk/products/adjustable-height-pet-water-bottle-holder-free-standing" }
+      { label: "RoseLark (Adjustable Free-Standing)", url: "https://roselarkpetproducts.co.uk/products/adjustable-height-pet-water-bottle-holder-free-standing" },
+      { label: "Bell's Tiny Tails (Magnetic Drinks Holder)", url: "https://bellstinytails.com/products/small-animal-magnetic-drinks-bottle-holder" }
     ],
     badges: ["⭐ UK Small Business", "Bucatstate Tested", "Pet-Safe PLA"],
     summary: "Clever water bottle mounting solution tested on acrylic and glass enclosures like Bucatstate. Fits Classic 75ml and 150ml bottles securely without floor stands tipping."
@@ -903,19 +927,20 @@ export const products = [
   },
   {
     id: "hide-ceramic-mushroom",
-    name: "Ceramic & Terracotta Cooling Hides",
-    brand: "BUCATSTATE / Niteangel",
+    name: "Ceramic & Slate Cooling Hides & Mats",
+    brand: "BUCATSTATE / Niteangel / Bell's Tiny Tails",
     category: "hides",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
-    priceGuide: "£9.99 - £21.99",
-    retailer: "BUCATSTATE / Niteangel",
+    priceGuide: "£2.49 - £21.99",
+    retailer: "BUCATSTATE / Niteangel / Bell's Tiny Tails",
     url: "https://bucapet.myshopify.com/products/bucatstate-mushroom-series-ceramic-hamster-supplies",
     links: [
       { label: "BUCATSTATE Mushroom Ceramic Supplies", url: "https://bucapet.myshopify.com/products/bucatstate-mushroom-series-ceramic-hamster-supplies" },
-      { label: "Niteangel Ceramic Mushroom Hide", url: "https://www.niteangelpet.com/products/niteangel-ceramic-hamster-habitat-hideout-mushroom-shaped" }
+      { label: "Niteangel Ceramic Mushroom Hide", url: "https://www.niteangelpet.com/products/niteangel-ceramic-hamster-habitat-hideout-mushroom-shaped" },
+      { label: "Bell's Tiny Tails (Slate Cooling Mat)", url: "https://bellstinytails.com/products/slate-mat" }
     ],
-    badges: ["Summer Cooling", "Chew Proof"],
-    summary: "Ceramic and terracotta hides remain cool in summer heat, help wear down nails, and are 100% chew-proof and easy to sterilize."
+    badges: ["Summer Cooling", "Chew Proof", "Nail Care"],
+    summary: "Ceramic hides and natural slate mats remain cool in summer heat, help wear down nails safely, and are 100% chew-proof and easy to wash."
   },
   {
     id: "hide-roselark-4-chamber",
