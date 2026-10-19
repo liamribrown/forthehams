@@ -2,7 +2,7 @@
 // www.forthehams.co.uk | UK hamster care, checked against India's Hamster Rescue standards
 // Theme: "Zine × 2005" (see assets/css/style.css)
 
-import { products } from './data/products.js?v=4.0';
+import { products } from './data/products.js?v=4.2';
 import { speciesList } from './data/species.js?v=3.6';
 import { icon, clean } from './icons.js?v=3.6';
 
@@ -26,8 +26,8 @@ export const BUILDER_SLOTS = [
     icon: 'cloud',
     category: 'bedding',
     section: 'Habitat & Exercise',
-    tagline: '8+ inches (20cm+) deep burrow support',
-    tip: 'Must hold tunnels without collapsing. Compressed paper (Fitch/Kaytee), dust-free aspen, or hemp (Aubiose). Strictly NO hay (causes corneal scratches & pouch punctures) and NO fluffy wool.'
+    tagline: '8+ inches (20cm+) deep burrow support (100% paper or 50/50 Aubiose + Megazorb)',
+    tip: 'Must hold tunnels without collapsing! Use 100% compacted paper (Fitch/Kaytee), 50/50 paper + aspen/Chipsi, or 50%–60% Aubiose hemp mixed with 40%–50% Megazorb (Aubiose cannot hold burrows alone!). Strictly NO hay and NO fluffy wool.'
   },
   {
     id: 'wheel',
@@ -185,8 +185,8 @@ export const SETUP_PRESETS = [
     badge: '🪙 Maximum Thrift & Ingenuity',
     tone: 'mint',
     tagline: 'Complete 16-point adoption setup on a sensible budget',
-    desc: 'Meets every single one of India’s 16 adoption requirements. Uses smart thrifted hides, bulk substrates, Argos play sand, DIY stilts, and India’s full variety spray bouquet.',
-    targetBudget: 230,
+    desc: 'Meets every single one of India’s 16 adoption requirements. Uses smart thrifted hides, a 50/50 Aubiose hemp + Megazorb bulk burrow blend, Argos play sand, DIY stilts, and India’s full variety spray bouquet.',
+    targetBudget: 245,
     items: {
       syrian: {
         enclosure: 'enc-pawhut-115',
@@ -558,36 +558,19 @@ export function renderHomeBuilder(container, options = {}) {
       </div>
 
       <!-- Blueprint Header Banner -->
-      <header class="blueprint-card mb-5 relative overflow-hidden">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-          <span class="tag tag-pink">${icon('heart', 12)} India's Hamster Rescue Standards</span>
-        </div>
-
-        <h1 class="text-2xl sm:text-3xl font-display leading-tight mb-1.5">
+      <header class="mb-4">
+        <h1 class="text-2xl sm:text-3xl font-display leading-tight mb-1">
           Hamster Home Builder
         </h1>
-        <p class="text-[14.5px] leading-relaxed text-ink-soft mb-3">
-          Build an ethical setup that fulfills <strong>all 16 official adoption criteria</strong> from <a href="https://www.indiashamsterrescue.co.uk/hamstercareinfo" target="_blank" rel="noopener noreferrer" class="underline font-bold text-ink hover:text-tomato">India's Hamster Rescue (Charity #1213919)</a>, tailored to your budget with direct links to UK stockists.
+        <p class="text-[14px] leading-relaxed text-ink-soft">
+          Build a setup fulfilling all 16 adoption criteria from <a href="https://www.indiashamsterrescue.co.uk/hamstercareinfo" target="_blank" rel="noopener noreferrer" class="underline font-bold text-ink hover:text-tomato">India's Hamster Rescue</a>, tailored to your budget.
         </p>
 
-        <!-- Equality Notice: Budget does not equal Welfare -->
-        <div class="portal-box bg-mint-soft border-mint p-3 text-xs sm:text-[13px] leading-relaxed flex items-start gap-2.5 rounded-lg mb-2">
-          <span class="text-base shrink-0">🌻</span>
-          <div>
-            <strong class="font-bold">A thrifty home is every bit as ethical as an expensive home!</strong>
-            <span class="text-ink-soft">
-              Hamsters only care about deep burrowing space, safe sand, a large upright wheel, and plenty of forage—price differences only reflect materials and pre-assembly.
-            </span>
-          </div>
-        </div>
-
-        <!-- Mode Segmented Switcher (Fixed & Anchored) -->
-        <div class="mt-3.5 pt-3 border-t-2 border-dashed border-ink/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-          <span class="text-xs uppercase font-extrabold tracking-wider text-ink">Planning Mode:</span>
-
+        <!-- Mode Segmented Switcher -->
+        <div class="mt-3 flex items-center justify-between gap-2.5">
           <div class="mode-toggle" role="tablist" aria-label="Planning Mode">
             <button type="button" id="builder-mode-presets" class="mode-toggle-btn ${builderState.mode === 'presets' ? 'is-active' : ''}" aria-selected="${builderState.mode === 'presets'}">
-              <span>🪙 1-Click Curated Presets</span>
+              <span>🪙 1-Click Presets</span>
             </button>
             <button type="button" id="builder-mode-custom" class="mode-toggle-btn ${builderState.mode === 'custom' ? 'is-active' : ''}" aria-selected="${builderState.mode === 'custom'}">
               <span>🛠️ Custom Builder</span>
@@ -596,71 +579,56 @@ export function renderHomeBuilder(container, options = {}) {
         </div>
       </header>
 
-      <!-- PRESET MODE: 3 Curated Setup Styles -->
+      <!-- PRESET MODE: Curated Setup Chips -->
       ${builderState.mode === 'presets' ? renderPresetsSection(currentSpecies) : ''}
 
-      <!-- LIVE BUDGET GAUGE & PROGRESS BAR -->
-      <div class="portal-box bg-white p-4 mb-4 shadow-sm rounded-xl border-2 border-ink">
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
-          <div>
-            <span class="text-xs uppercase font-bold text-ink-soft tracking-wider block">Estimated Total</span>
-            <div class="flex items-baseline gap-2">
-              <span class="font-display text-3xl font-extrabold text-ink">£${total.toFixed(2)}</span>
-              <span class="text-xs text-ink-soft">target: £${builderState.targetBudget}</span>
-            </div>
+      <!-- ONE loud block: sticky mustard total & welfare bar -->
+      <div class="sticky top-[52px] z-30 bg-mustard p-3 sm:p-3.5 mb-5 rounded-xl border-2 border-ink shadow-md flex items-center justify-between gap-3">
+        <div class="min-w-0">
+          <div class="v2005 text-[10px] uppercase font-bold tracking-wider text-ink/80">Estimated Total</div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-display text-2xl sm:text-3xl font-extrabold text-ink leading-none">£${total.toFixed(2)}</span>
+            <span class="text-xs text-ink/80 hidden sm:inline">target: £${builderState.targetBudget}</span>
           </div>
+        </div>
 
+        <div class="flex items-center gap-2 shrink-0">
           <div class="text-right">
-            ${isUnder ? `
-              <span class="tag tag-mint text-xs font-bold py-1 px-2.5 inline-flex items-center gap-1">
-                ${icon('tick', 13)} £${absDiff} under target
-              </span>
-            ` : `
-              <span class="tag tag-tomato text-xs font-bold py-1 px-2.5 inline-flex items-center gap-1">
-                £${absDiff} over target
-              </span>
-            `}
-          </div>
-        </div>
-
-        <!-- Interactive Budget Target Slider (In Custom Mode) -->
-        ${builderState.mode === 'custom' ? `
-          <div class="mt-3 pt-3 border-t border-ink/10 flex flex-wrap items-center justify-between gap-2">
-            <label for="budget-slider" class="text-xs font-bold text-ink-soft">Adjust Target Budget:</label>
-            <div class="flex items-center gap-2">
-              <input type="range" id="budget-slider" min="150" max="600" step="10" value="${builderState.targetBudget}" class="accent-tomato cursor-pointer">
-              <span class="font-display font-bold text-sm bg-paper-2 px-2 py-0.5 border border-ink rounded">£${builderState.targetBudget}</span>
+            <div class="font-display font-bold text-xs sm:text-sm text-ink leading-tight">
+              ${welfare.isComplete && welfare.issues.length === 0 ? '🎖️ Adoption Ready' : `${welfare.passes.length}/16 Criteria Met`}
+            </div>
+            <div class="text-[11px] text-ink/80">
+              ${isUnder ? `£${absDiff} under target` : `£${absDiff} over target`}
             </div>
           </div>
-        ` : ''}
-
-        <!-- Progress meter -->
-        <div class="w-full bg-paper-2 border border-ink h-3 rounded-full overflow-hidden mt-2.5 relative">
-          <div class="h-full transition-all duration-300 ${percentSpent > 100 ? 'bg-tomato' : (percentSpent > 85 ? 'bg-mustard' : 'bg-mint')}" style="width: ${percentSpent}%"></div>
+          <span class="tag ${welfare.isComplete && welfare.issues.length === 0 ? 'tag-mint' : 'tag-ink'} font-bold text-xs px-2 py-1">
+            ${welfare.passes.length}/16
+          </span>
         </div>
       </div>
 
-      <!-- WELFARE CHECKMETER (AGAINST ALL 16 ADOPTION CRITERIA) -->
-      <div class="portal-box ${welfare.isComplete && welfare.issues.length === 0 ? 'bg-mint-soft border-mint' : 'bg-tomato-soft border-tomato'} px-4 py-3 mb-5 rounded-xl text-xs sm:text-sm">
-        <div class="flex items-center justify-between gap-2">
+      <!-- Compact welfare notice if issues exist -->
+      ${welfare.issues.length > 0 ? `
+        <div class="card-quiet p-3 mb-4 flex flex-wrap items-center gap-1.5 text-xs">
+          <span class="font-bold text-tomato mr-1">Checklist notes:</span>
+          ${welfare.issues.map(iss => `
+            <span class="tag ${iss.severity === 'error' ? 'tag-tomato' : 'tag-mustard'} text-[11px]">
+              ${icon('nope', 11)} ${iss.text}
+            </span>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <!-- Interactive Budget Target Slider (In Custom Mode) -->
+      ${builderState.mode === 'custom' ? `
+        <div class="card-quiet p-3 mb-4 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <label for="budget-slider" class="font-bold text-ink-soft">Adjust Target Budget:</label>
           <div class="flex items-center gap-2">
-            <span class="text-base">${welfare.isComplete && welfare.issues.length === 0 ? '🎖️' : '⚠️'}</span>
-            <h3 class="font-display text-sm sm:text-base font-bold">
-              ${welfare.isComplete && welfare.issues.length === 0 ? 'All 16 Adoption Criteria Met (Adoption Ready)' : `${welfare.passes.length} of 16 Criteria Met — Check Notices Below`}
-            </h3>
+            <input type="range" id="budget-slider" min="150" max="600" step="10" value="${builderState.targetBudget}" class="accent-tomato cursor-pointer">
+            <span class="font-display font-bold text-sm bg-paper-2 px-2 py-0.5 border border-ink rounded">£${builderState.targetBudget}</span>
           </div>
-          <span class="pixel text-[11px] font-bold shrink-0">${welfare.passes.length} / 16</span>
         </div>
-        ${welfare.issues.length > 0 ? `
-          <div class="flex flex-wrap gap-1.5 mt-2.5 pt-2 border-t border-ink/15">
-            ${welfare.issues.map(iss => `
-              <span class="tag ${iss.severity === 'error' ? 'tag-tomato' : 'tag-mustard'} text-[11px]">
-                ${icon('nope', 11)} ${iss.text}
-              </span>
-            `).join('')}
-          </div>
-        ` : ''}
-      </div>
+      ` : ''}
 
       <!-- 16 SETUP SLOTS GROUPED BY 4 SECTIONS -->
       <section class="mb-6">
@@ -758,16 +726,16 @@ export function renderHomeBuilder(container, options = {}) {
   setupBuilderListeners(container, currentSpecies, options);
 }
 
-// Render Presets Section (Mode A)
+// Render Presets Section (Mode A: single horizontal scroll row of outline chips)
 function renderPresetsSection(currentSpecies) {
   return `
-    <div class="presets-section mb-5">
-      <div class="flex items-baseline justify-between gap-2 mb-2">
-        <h2 class="text-xl sm:text-2xl font-display">1-Click Curated Setups</h2>
-        <span class="text-xs text-ink-soft">Includes all 16 criteria</span>
+    <div class="presets-section mb-4">
+      <div class="flex items-center justify-between gap-2 mb-2">
+        <span class="text-xs font-bold uppercase tracking-wider text-ink-soft">1-Click Budget Presets:</span>
+        <span class="v2005 text-[11px] muted">All 16 criteria included</span>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div class="flex gap-2 overflow-x-auto pb-1.5 scrollbar-none">
         ${SETUP_PRESETS.map(preset => {
           const isActive = builderState.activePresetId === preset.id;
           const specKey = getPresetSpeciesKey(currentSpecies);
@@ -775,22 +743,11 @@ function renderPresetsSection(currentSpecies) {
           const presetTotal = calculateSetupTotal(mapping);
 
           return `
-            <div data-preset-card="${preset.id}" class="portal-box p-4 rounded-xl cursor-pointer transition-all border-2 ${isActive ? 'bg-white border-ink shadow-md ring-2 ring-tomato' : 'bg-paper-2 hover:bg-white border-ink/40'}">
-              <div class="flex items-center justify-between gap-1 mb-1.5">
-                <span class="tag tag-${preset.tone} text-ink text-[10.5px] font-bold">${preset.badge}</span>
-                <span class="font-display font-bold text-sm text-ink">~£${presetTotal.toFixed(0)}</span>
-              </div>
-              <h3 class="font-display text-base font-bold text-ink leading-snug">${preset.name}</h3>
-              <p class="text-xs text-ink-soft mt-1 leading-relaxed">${preset.desc}</p>
-              <div class="mt-3 pt-2 border-t border-ink/10 flex items-center justify-between">
-                <span class="text-[11px] font-bold ${isActive ? 'text-tomato' : 'text-ink-soft'}">
-                  ${isActive ? '● Active Setup' : '○ Tap to Load'}
-                </span>
-                <button type="button" class="btn btn-xs ${isActive ? 'btn-tomato' : 'btn-mustard-soft'}">
-                  ${isActive ? 'Active' : 'Apply'}
-                </button>
-              </div>
-            </div>
+            <button type="button" data-preset-card="${preset.id}" class="card-quiet py-2 px-3 flex items-center gap-2 shrink-0 cursor-pointer text-left transition-all ${isActive ? 'ring-2 ring-tomato bg-white' : 'hover:bg-paper-2'}">
+              <span class="font-display font-bold text-sm text-ink">${preset.name}</span>
+              <span class="font-display font-bold text-xs text-ink-soft">~£${presetTotal.toFixed(0)}</span>
+              ${isActive ? `<span class="tag tag-tomato text-[10px] py-0 px-1.5">Active</span>` : ''}
+            </button>
           `;
         }).join('')}
       </div>
@@ -798,49 +755,51 @@ function renderPresetsSection(currentSpecies) {
   `;
 }
 
-// Render individual slot row / card
+// Render individual slot row / card (quiet white card; empty slot dashed)
 function renderSlotCard(slot, selectedProdId) {
   const prod = products.find(p => p.id === selectedProdId);
   const price = getProductPrice(prod);
 
-  return `
-    <article class="portal-box bg-white p-3.5 rounded-xl border-2 border-ink flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-      <div class="min-w-0 flex-1">
-        <div class="flex items-center gap-2 mb-1">
-          <span class="inline-flex p-1.5 bg-paper-2 border border-ink/30 rounded-md shrink-0">
-            ${icon(slot.icon, 18)}
-          </span>
+  if (!prod) {
+    return `
+      <article class="p-3 rounded-xl border-2 border-dashed border-ink/40 bg-white/50 flex items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-ink-soft shrink-0">${icon(slot.icon, 16)}</span>
           <div>
-            <h3 class="font-display text-sm sm:text-base font-bold leading-tight">${slot.name}</h3>
-            <span class="text-[11px] text-ink-soft leading-tight block">${slot.tagline}</span>
+            <h3 class="font-display font-bold text-sm text-ink-soft">${slot.name}</h3>
+            <span class="text-[11px] text-ink-soft">${slot.tagline}</span>
           </div>
         </div>
+        <button type="button" data-pick-slot="${slot.id}" class="btn btn-xs btn-tomato shrink-0">
+          <span>+ Choose Item</span>
+        </button>
+      </article>
+    `;
+  }
 
-        ${prod ? `
-          <div class="mt-1.5 pl-2 border-l-2 border-mint">
-            <div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-              <h4 class="font-bold text-sm text-ink">${clean(prod.name)}</h4>
-              <span class="font-display font-bold text-ink text-xs">£${price.toFixed(2)}</span>
-              <span class="text-xs text-ink-soft">· ${clean(prod.retailer || 'UK Stockist')}</span>
-            </div>
-          </div>
-        ` : `
-          <div class="mt-2 p-2 bg-tomato-soft border border-tomato rounded text-xs text-tomato font-bold">
-            ⚠️ No product selected for this slot yet.
-          </div>
-        `}
+  return `
+    <article class="card-quiet p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2">
+          <span class="text-ink-soft shrink-0">${icon(slot.icon, 16)}</span>
+          <h3 class="font-display font-bold text-sm leading-tight text-ink truncate">${slot.name}</h3>
+        </div>
+        <div class="mt-1 pl-6 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+          <span class="font-medium text-sm text-ink">${clean(prod.name)}</span>
+          <span class="font-display font-bold text-sm text-ink">£${price.toFixed(2)}</span>
+          <span class="text-xs text-ink-soft">· ${clean(prod.retailer || 'UK Stockist')}</span>
+        </div>
       </div>
 
-      <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-1.5 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-ink/10">
-        <button type="button" data-pick-slot="${slot.id}" class="btn btn-xs btn-mustard-soft flex items-center gap-1">
-          <span>${prod ? 'Swap / Change' : 'Select Item'}</span>
-        </button>
-        ${prod && prod.url ? `
-          <a href="${prod.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] text-ink-soft underline hover:text-tomato flex items-center gap-0.5">
-            <span>View link</span>
-            ${icon('ext', 10)}
+      <div class="flex items-center justify-end gap-2 shrink-0 pt-1.5 sm:pt-0 border-t sm:border-t-0 border-ink/10 pl-6 sm:pl-0">
+        ${prod.url ? `
+          <a href="${prod.url}" target="_blank" rel="noopener noreferrer" class="text-xs text-ink-soft underline hover:text-tomato flex items-center gap-0.5">
+            <span>Link</span> ${icon('ext', 10)}
           </a>
         ` : ''}
+        <button type="button" data-pick-slot="${slot.id}" class="btn btn-xs btn-white">
+          <span>Change</span>
+        </button>
       </div>
     </article>
   `;

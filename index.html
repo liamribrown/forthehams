@@ -123,8 +123,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=3.9">
-  <link rel="stylesheet" href="assets/css/cards.css?v=3.9">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+  <link rel="stylesheet" href="assets/css/cards.css?v=4.0">
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -136,12 +136,10 @@
         <span class="wordmark">For the<br>Hams<span class="bang">!</span></span>
       </a>
       <div class="flex items-center gap-2 shrink-0">
-        <a href="#binder" id="header-binder-btn" class="sticker bg-mustard flex items-center gap-1.5 py-1 px-2.5" title="View your collected trading cards">
+        <a href="#binder" id="header-binder-btn" class="btn btn-sm btn-white flex items-center gap-1.5 py-1 px-2.5" title="View your collected trading cards">
+          <span class="text-xs">🗂️</span>
           <span class="font-display text-[13px] leading-tight">My Binder</span>
           <span id="binder-count-badge" class="badge-tag bg-tomato text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full" style="display:none">0</span>
-        </a>
-        <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="sticker hidden sm:inline-block" title="Visit India's Hamster Rescue">
-          with India's<br>Hamster Rescue
         </a>
       </div>
     </div>
@@ -154,23 +152,16 @@
   <main class="flex-grow max-w-3xl mx-auto px-3.5 sm:px-4 pt-3 w-full pb-32">
     <div id="main-tab-content"></div>
 
-    <!-- 2005 footer: 88x31 buttons -->
-    <footer class="mt-10 text-center">
-      <div class="flex flex-wrap justify-center gap-1.5">
-        <span class="badge-88 bg-lime">NO HAY<br>EVER!</span>
-        <span class="badge-88 bg-mustard">100x50<br>OR BUST</span>
-        <span class="badge-88 bg-pink">ADOPT<br>DON'T SHOP</span>
-        <span class="badge-88 bg-sky">ONE HAM<br>PER HOME</span>
-      </div>
-      <p class="hand text-xl mt-4">made with love for the hams</p>
-      <div class="mt-3 flex justify-center">
-        <button type="button" id="footer-write-us-btn" class="sticker bg-mustard-soft hover:bg-mustard tappable cursor-pointer inline-flex items-center gap-1.5 py-1 px-3 shadow-sm" title="Letters to the editor, suggestions & tip-offs">
+    <!-- Quiet Footer -->
+    <footer class="mt-12 text-center pt-6 border-t-2 border-dashed border-ink/20">
+      <div class="flex justify-center">
+        <button type="button" id="footer-write-us-btn" class="btn btn-sm btn-white tappable cursor-pointer inline-flex items-center gap-1.5 py-1 px-3 shadow-sm" title="Letters to the editor, suggestions & tip-offs">
           <span class="text-sm leading-none">📮</span>
           <span class="font-display text-[13px] text-ink">Write to us!</span>
         </button>
       </div>
       <p class="v2005 text-[11px] muted mt-3">
-        Advice checked against India's Hamster Rescue (Charity #1213919) standards.<br>
+        Advice checked against <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="underline font-bold text-ink hover:text-tomato">India's Hamster Rescue</a> (Charity #1213919) standards.<br>
         We don't sell anything. Links go straight to makers, shops and rescues.
       </p>
     </footer>
@@ -216,6 +207,6 @@
     <!-- Injected dynamically by infographics.js -->
   </div>
 
-  <script type="module" src="assets/js/app.js?v=4.1"></script>
+  <script type="module" src="assets/js/app.js?v=4.2"></script>
 </body>
 </html>

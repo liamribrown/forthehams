@@ -620,8 +620,8 @@ export const products = [
     links: [
       { label: "Zooplus UK", url: "https://www.zooplus.co.uk/shop/small_pets/care_grooming/litter_bedding/wood_litter/14003" }
     ],
-    badges: ["⭐ Team Favourite", "Budget Friendly", "Kiln Dried"],
-    summary: "Debarked, kiln-dried soft spruce and fir shavings. Dust-extracted. Mix with paper bedding (such as Fitch or Kaytee) and press down firmly to hold sturdy burrow tunnels."
+    badges: ["⭐ Team Favourite", "Mix 50/50 with Paper", "Kiln Dried"],
+    summary: "Debarked, kiln-dried soft spruce and fir shavings (dust-extracted). Mix 50% Chipsi with 50% soft paper bedding (Fitch, Kaytee, or Megazorb) and press down firmly in layers to hold sturdy burrow tunnels."
   },
   {
     id: "bed-bandaby-aspen",
@@ -635,8 +635,8 @@ export const products = [
     links: [
       { label: "Bandaby Official", url: "https://bandaby.com/products/dig-dream-aspen-bedding" }
     ],
-    badges: ["⭐ Team Favourite", "Dust Extracted", "Phenol Free"],
-    summary: "Specialist European hardwood aspen bedding crafted for maximum burrow structural stability without dust. 100% natural and free of aromatic oils or phenols."
+    badges: ["⭐ Team Favourite", "Dust Extracted", "Mix 50/50 with Paper"],
+    summary: "Specialist European hardwood aspen bedding free of aromatic oils or phenols. Best blended 50/50 with soft paper bedding (Fitch or Kaytee) and compacted in layers for rock-solid burrows."
   },
   {
     id: "bed-sps-aspen",
@@ -650,39 +650,42 @@ export const products = [
     links: [
       { label: "Small Pet Select UK", url: "https://smallpetselect.co.uk/products/aspen-shavings-bedding" }
     ],
-    badges: ["⭐ Team Favourite", "Hardwood Safe"],
-    summary: "100% natural aspen hardwood shavings. Scent-free, phenol-free, and dust-extracted."
+    badges: ["⭐ Team Favourite", "Hardwood Safe", "Mix 50/50 with Paper"],
+    summary: "100% natural aspen hardwood shavings—scent-free, phenol-free, and dust-extracted. Blend 50% aspen with 50% paper bedding and hand-compress for non-collapsing tunnels."
   },
   {
     id: "bed-aubiose-hemp",
-    name: "Aubiose 100% Natural Hemp Bedding (20kg)",
-    brand: "Aubiose",
+    name: "Aubiose Hemp (20kg) + Megazorb (85L) — 50/50 Burrow Blend",
+    brand: "Aubiose + Megazorb",
     category: "bedding",
-    species: ["syrian", "winter_white", "campbells", "chinese"],
-    priceGuide: "£14.50 - £18.00",
-    retailer: "Little Peckers UK",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£32.95 (£14.50 + £18.45)",
+    retailer: "Little Peckers UK (Aubiose) & Millbry Hill / Fitch (Megazorb)",
     url: "https://www.littlepeckers.co.uk/products/aubiose-hemp-bedding-20kg",
     links: [
-      { label: "Little Peckers UK (Free P&P)", url: "https://www.littlepeckers.co.uk/products/aubiose-hemp-bedding-20kg" }
+      { label: "1. Buy Aubiose 20kg (£14.50 - Little Peckers)", url: "https://www.littlepeckers.co.uk/products/aubiose-hemp-bedding-20kg" },
+      { label: "2. Buy Megazorb 85L (£18.45 - Millbry Hill)", url: "https://millbryhill.co.uk/products/megazorb" },
+      { label: "2. Buy Megazorb 85L (Fitch First)", url: "https://www.fitchfirst.com/products/megazorb" }
     ],
-    badges: ["Incredible Value", "Eco Friendly", "Deep Base Layer"],
-    summary: "Massive 20kg bale of pure dust-extracted hemp. Ideal for deep 25–30cm+ base layering mixed with soft paper (slightly coarse for tiny Roborovski feet on its own)."
+    badges: ["⚠️ Must Mix 50/50", "Huge Bulk Value", "Deep Burrow Blend"],
+    summary: "Important: Aubiose hemp cannot hold burrows on its own! You must mix 50%–60% Aubiose (chopped hemp stalks) with 40%–50% Megazorb (soft virgin wood pulp) and press down firmly in layers so the wood pulp binds the hemp together and prevents tunnel collapse."
   },
   {
     id: "bed-megazorb",
-    name: "Megazorb Virgin Wood Pulp Bedding (85L)",
+    name: "Megazorb Virgin Wood Pulp Bedding (85L) — Mix with Aubiose",
     brand: "Northern Crop Driers",
     category: "bedding",
-    species: ["syrian", "winter_white", "campbells"],
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£18.45",
     retailer: "Millbry Hill / Fitch First",
     url: "https://millbryhill.co.uk/products/megazorb",
     links: [
-      { label: "Millbry Hill (85L)", url: "https://millbryhill.co.uk/products/megazorb" },
-      { label: "Fitch First (Megazorb)", url: "https://www.fitchfirst.com/products/megazorb" }
+      { label: "Millbry Hill (Megazorb 85L)", url: "https://millbryhill.co.uk/products/megazorb" },
+      { label: "Fitch First (Megazorb 85L)", url: "https://www.fitchfirst.com/products/megazorb" },
+      { label: "Pair With: Aubiose 20kg (Little Peckers)", url: "https://www.littlepeckers.co.uk/products/aubiose-hemp-bedding-20kg" }
     ],
-    badges: ["Budget Friendly", "High Absorbency", "Syrian Bulk Base"],
-    summary: "Sterilized virgin wood pulp dried at 500°C. Very absorbent bulk base bedding for deep 100x50cm+ enclosures when mixed 50/50 with soft paper."
+    badges: ["Mix 40–50% with Aubiose", "High Absorbency", "Bulk Base"],
+    summary: "Sterilised virgin wood pulp dried at 500°C. Too loose to hold deep tunnels completely solo—blend 40%–50% Megazorb with 50%–60% Aubiose hemp (or kiln-dried shavings) and hand-compress in layers for sturdy, non-collapsing burrows."
   },
 
   // --- TEXTURED SUBSTRATES & DIG BOXES ---

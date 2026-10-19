@@ -62,17 +62,19 @@ export const careGuides = [
 
       <h4>Approved Safe Beddings</h4>
       <ul>
-        <li><strong>Paper-Based Bedding:</strong> Fitch First (recycled food-grade paper), Kaytee Clean & Cozy (unscented white), Small Pet Select Unbleached Paper, Carefresh. Paper beddings hold burrows well when gently compacted.</li>
-        <li><strong>Aspen Hardwood Shavings:</strong> Bandaby "Dig & Dream" Aspen Bedding, Small Pet Select Aspen, ProRep Aspen. Aspen is a safe, low-dust hardwood free from aromatic phenols.</li>
-        <li><strong>Kiln-Dried Softwood Shavings:</strong> Chipsi Classic. Kiln-drying debarks and bakes the wood at high heat, destroying harmful volatile oils.</li>
-        <li><strong>Hemp Bedding:</strong> Aubiose (100% natural, dust-extracted hemp, highly absorbent).</li>
+        <li><strong>Paper-Based Bedding (Can be used 100% solo):</strong> Fitch First (recycled food-grade paper), Kaytee Clean & Cozy (unscented white), Small Pet Select Unbleached Paper, Carefresh. Paper beddings hold burrows well on their own when firmly compacted in layers.</li>
+        <li><strong>Virgin Wood-Pulp Bedding (Megazorb):</strong> Sterilised virgin wood pulp dried at 500°C. Extremely absorbent and soft, best blended <strong>40%–50% Megazorb with 50%–60% Aubiose hemp</strong> (or kiln-dried shavings) so tunnels hold their shape without shifting.</li>
+        <li><strong>Hemp Bedding (Aubiose — Must Be Mixed!):</strong> 100% natural, dust-extracted chopped hemp stalks. <strong>Never use Aubiose on its own for burrowing</strong>—pure hemp stalks are too springy and lack interlocking fibres, causing tunnels to collapse on your hamster. Always mix <strong>50%–60% Aubiose with 40%–50% Megazorb</strong> (or soft paper bedding).</li>
+        <li><strong>Aspen Hardwood & Kiln-Dried Shavings:</strong> Bandaby "Dig & Dream" Aspen, Small Pet Select Aspen, or Chipsi Classic (kiln-dried debarked softwood). Best mixed <strong>50/50 with soft paper bedding or Megazorb</strong> for structural tunnel stability.</li>
       </ul>
 
-      <h4>How to Create Sturdy, Non-Collapsing Burrows</h4>
-      <p>Hamsters need tunnels that hold their shape. You do not need unsafe hay to achieve sturdy burrows:</p>
+      <h4>Recommended Bedding Mix Percentages for Non-Collapsing Burrows</h4>
+      <p>Hamsters need subterranean tunnels that hold their shape without caving in. You do <strong>not</strong> need unsafe hay to achieve sturdy burrows—follow these rescue-proven mix ratios instead:</p>
       <ul>
-        <li><strong>The Compaction Technique:</strong> When setting up an enclosure, add bedding in 5–8cm increments and press it down firmly with your palms before adding the next layer. Compressed paper and aspen fibers lock together naturally like soil.</li>
-        <li><strong>Substrate Blends:</strong> Mixing 50% soft paper bedding (Fitch or Kaytee) with 50% kiln-dried aspen (Bandaby or Small Pet Select) creates an unbeatable structural burrow density that holds intricate multi-room tunnels effortlessly.</li>
+        <li><strong>50%–60% Aubiose Hemp + 40%–50% Megazorb (The Bulk Saver Blend):</strong> The classic UK bulk combination. Pure Aubiose collapses because chopped hemp stalks don't cling together, while pure Megazorb is loose and powdery. Blending <strong>50%–60% Aubiose with 40%–50% Megazorb</strong> fills the air pockets between the rigid hemp pieces with soft, fibrous wood pulp—locking tunnels firmly in place while cushioning tiny paws.</li>
+        <li><strong>50% Soft Paper (Fitch / Kaytee) + 50% Aspen or Chipsi Shavings:</strong> Combining 50% long-fibre paper bedding with 50% kiln-dried wood shavings creates an interlocking matrix that supports deep multi-chamber burrows effortlessly.</li>
+        <li><strong>100% Pure Paper Bedding (Fitch First / Kaytee Clean & Cozy):</strong> Soft cellulose paper strips interlock naturally on their own at 100% concentration once pressed down.</li>
+        <li><strong>The Layer-by-Layer Compaction Rule:</strong> Whichever approved blend you choose, add bedding in 5–8cm increments and <strong>press it down firmly with your palms</strong> before adding the next layer. Loose, uncompacted bedding will always cave in!</li>
       </ul>
 
       <div class="callout callout-danger">

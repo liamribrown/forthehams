@@ -15,9 +15,9 @@ export const adoptionChecklist = [
     id: "check_bedding",
     step: 2,
     title: "20cm+ Safe Burrowing Bedding",
-    requirement: "A minimum depth of 20cm (8 inches) of safe paper, aspen, or hemp bedding.",
-    whyImportant: "Hamsters are natural burrowers who build underground sleeping and hoard chambers. Soft paper or aspen holds sturdy tunnels when pressed gently.",
-    rescueTip: "Strictly NO fluffy or cotton wool bedding, and NO scented or unextracted pine/cedar sawdust.",
+    requirement: "A minimum depth of 20cm (8 inches) of compacted safe bedding (100% paper, 50/50 paper + aspen/Chipsi, or 50–60% Aubiose hemp mixed with 40–50% Megazorb).",
+    whyImportant: "Hamsters are natural burrowers who build underground sleeping and hoard chambers. Note: Aubiose hemp cannot hold burrows on its own and MUST be blended 50/50 (or 60/40) with Megazorb or soft paper bedding and hand-compressed in layers.",
+    rescueTip: "Strictly NO hay (causes eye & cheek pouch punctures), NO fluffy cotton wool bedding, and NO unextracted pine/cedar sawdust.",
     category: "Habitat"
   },
   {
