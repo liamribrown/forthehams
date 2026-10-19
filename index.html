@@ -123,7 +123,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=3.2">
+  <link rel="stylesheet" href="assets/css/cards.css?v=3.2">
+  <script src="https://cdn.jsdelivr.net/npm/modern-screenshot@4.4.40/dist/index.min.js"></script>
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -151,9 +153,15 @@
         <span id="logo-hamster" class="wiggle" style="display:inline-flex"></span>
         <span class="wordmark">For the<br>Hams<span class="bang">!</span></span>
       </a>
-      <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="sticker shrink-0" title="Visit India's Hamster Rescue">
-        with India's<br>Hamster Rescue
-      </a>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="#binder" id="header-binder-btn" class="sticker bg-mustard flex items-center gap-1.5 py-1 px-2.5" title="View your collected trading cards">
+          <span class="font-display text-[13px] leading-tight">My Binder</span>
+          <span id="binder-count-badge" class="badge-tag bg-tomato text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full" style="display:none">0</span>
+        </a>
+        <a href="https://www.indiashamsterrescue.co.uk" target="_blank" rel="noopener noreferrer" class="sticker hidden sm:inline-block" title="Visit India's Hamster Rescue">
+          with India's<br>Hamster Rescue
+        </a>
+      </div>
     </div>
 
     <!-- Species chips (injected) -->
@@ -222,6 +230,6 @@
     <!-- Injected dynamically by infographics.js -->
   </div>
 
-  <script type="module" src="assets/js/app.js?v=3.1"></script>
+  <script type="module" src="assets/js/app.js?v=3.2"></script>
 </body>
 </html>

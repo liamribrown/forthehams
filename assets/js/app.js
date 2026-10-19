@@ -9,8 +9,9 @@ import { products } from './data/products.js?v=3.0';
 import { foodDatabase } from './data/foods.js?v=3.0';
 import { rescuesList } from './data/rescues.js?v=3.0';
 import { adoptionChecklist } from './data/checklist.js?v=3.0';
-import { icon, clean, cleanHtml } from './icons.js?v=3.0';
-import { openInfographicModal } from './infographics.js?v=3.1';
+import { icon, clean, cleanHtml } from './icons.js?v=3.2';
+import { openCardModal } from './infographics.js?v=3.2';
+import { renderBinderView, updateHeaderBadge } from './cards/binder.js?v=3.2';
 
 // Application State
 const state = {
@@ -96,10 +97,11 @@ function injectStaticIcons() {
 // Routing
 function initRouting() {
   const hash = window.location.hash.replace('#', '');
-  if (['guides', 'food', 'shop', 'checklist', 'rescues'].includes(hash)) {
+  if (['guides', 'food', 'shop', 'checklist', 'rescues', 'binder'].includes(hash)) {
     state.activeTab = hash;
   }
   updateNavState();
+  updateHeaderBadge();
 }
 
 function switchTab(tab, subTab = null) {
@@ -115,7 +117,7 @@ function switchTab(tab, subTab = null) {
 
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash.replace('#', '');
-  if (['guides', 'food', 'shop', 'checklist', 'rescues'].includes(hash) && hash !== state.activeTab) {
+  if (['guides', 'food', 'shop', 'checklist', 'rescues', 'binder'].includes(hash) && hash !== state.activeTab) {
     state.activeTab = hash;
     updateNavState();
     renderCurrentTab();
@@ -161,11 +163,11 @@ function openBottomSheet(title, htmlContent, meta = {}) {
     ${hasInfographic ? `
       <div class="mb-3.5 p-3 rounded-xl bg-mustard-soft flex items-center justify-between gap-2.5" style="border: 2px solid var(--ink)">
         <div class="min-w-0">
-          <div class="v2005 text-[10px] font-bold uppercase tracking-wide muted">Concise summary card</div>
-          <div class="font-display text-[14px] leading-tight text-slate-900">Need concise facts to save or send?</div>
+          <div class="v2005 text-[10px] font-bold uppercase tracking-wide muted">Collectible care card</div>
+          <div class="font-display text-[14px] leading-tight text-slate-900">Get the 2005-style trading card for this guide!</div>
         </div>
-        <button type="button" data-trigger-infographic="${infoId}" data-infographic-type="${infoType}" class="btn btn-xs btn-tomato shrink-0 flex items-center gap-1.5 shadow-xs">
-          ${icon('share', 13)} <span>Share as Infographic</span>
+        <button type="button" data-trigger-card="${infoId}" data-card-type="${infoType}" class="btn btn-xs btn-tomato shrink-0 flex items-center gap-1.5 shadow-xs">
+          ${icon('share', 13)} <span>Share as card</span>
         </button>
       </div>
     ` : ''}
@@ -174,8 +176,8 @@ function openBottomSheet(title, htmlContent, meta = {}) {
 
     <div class="mt-6 pt-4 flex flex-col sm:flex-row gap-2" style="border-top: 2px dashed rgba(34,24,15,.3)">
       ${hasInfographic ? `
-        <button type="button" data-trigger-infographic="${infoId}" data-infographic-type="${infoType}" class="btn btn-tomato flex-1 flex items-center justify-center gap-1.5 py-2.5">
-          ${icon('share', 16)} <span>Share as Infographic</span>
+        <button type="button" data-trigger-card="${infoId}" data-card-type="${infoType}" class="btn btn-tomato flex-1 flex items-center justify-center gap-1.5 py-2.5">
+          ${icon('share', 16)} <span>Share as card</span>
         </button>
       ` : ''}
       <button type="button" data-close-sheet-bottom class="btn ${hasInfographic ? 'sm:w-32' : 'btn-block'} py-2.5 flex items-center justify-center gap-1">
@@ -186,12 +188,12 @@ function openBottomSheet(title, htmlContent, meta = {}) {
 
   bodyEl.querySelector('[data-close-sheet-bottom]')?.addEventListener('click', closeBottomSheet);
 
-  bodyEl.querySelectorAll('[data-trigger-infographic]').forEach(btn => {
+  bodyEl.querySelectorAll('[data-trigger-card]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const id = btn.getAttribute('data-trigger-infographic');
-      const type = btn.getAttribute('data-infographic-type') || 'guide';
-      if (id) openInfographicModal(id, type);
+      const id = btn.getAttribute('data-trigger-card');
+      const type = btn.getAttribute('data-card-type') || 'guide';
+      if (id) openCardModal(id, type);
     });
   });
 
@@ -418,9 +420,9 @@ function renderSpeciesDetailBanner() {
             </div>` : ''}
 
           <div class="mt-3.5 pt-2.5 flex flex-wrap items-center justify-between gap-2" style="border-top: 1.5px dashed var(--ink)">
-            <span class="v2005 text-[11px] font-bold muted">Need concise ${clean(spec.name)} rules to share?</span>
-            <button type="button" data-trigger-species-infographic="${spec.id}" class="btn btn-xs btn-mustard flex items-center gap-1 shrink-0">
-              ${icon('share', 13)} <span>Share as Infographic</span>
+            <span class="v2005 text-[11px] font-bold muted">Get the official collectible ${clean(spec.name)} card:</span>
+            <button type="button" data-trigger-species-card="${spec.id}" class="btn btn-xs btn-mustard flex items-center gap-1 shrink-0">
+              ${icon('share', 13)} <span>Share as card</span>
             </button>
           </div>
         </div>
@@ -428,11 +430,11 @@ function renderSpeciesDetailBanner() {
     </div>
   `;
 
-  document.querySelectorAll('[data-trigger-species-infographic]').forEach(btn => {
+  document.querySelectorAll('[data-trigger-species-card]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const specId = btn.getAttribute('data-trigger-species-infographic');
-      if (specId) openInfographicModal(specId, 'species');
+      const specId = btn.getAttribute('data-trigger-species-card');
+      if (specId) openCardModal(specId, 'species');
     });
   });
 
@@ -457,8 +459,31 @@ function renderCurrentTab() {
     case 'shop': renderShop(); break;
     case 'checklist': renderChecklist(); break;
     case 'rescues': renderRescues(); break;
+    case 'binder': renderBinderPage(); break;
     default: renderCareGuides();
   }
+}
+
+function renderBinderPage() {
+  const main = document.getElementById('main-tab-content');
+  if (!main) return;
+  renderBinderView(main, (card, isOwned) => {
+    if (isOwned) {
+      openCardModal(card.no);
+    } else {
+      if (card.kind === 'guide') {
+        switchTab('guides');
+        setTimeout(() => {
+          const guideBtn = document.querySelector(`[data-guide-id="${card.guideId}"]`);
+          if (guideBtn) guideBtn.click();
+        }, 100);
+      } else if (card.kind === 'species') {
+        state.currentSpecies = card.speciesId;
+        state.speciesBannerExpanded = true;
+        switchTab('guides');
+      }
+    }
+  });
 }
 
 // Shared bits

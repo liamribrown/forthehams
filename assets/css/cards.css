@@ -1,0 +1,483 @@
+/* For the Hams! — 2005 Trading Card & Binder CSS System */
+
+/* Color Variables */
+:root {
+  --tc-ink: #22180f;
+  --tc-paper: #fff4df;
+  --tc-card-bg: #fffdf8;
+  --tc-mustard: #f6bc2f;
+  --tc-mint: #8fd6b1;
+  --tc-tomato: #ef5a3c;
+  --tc-sky: #93cdf4;
+  --tc-lilac: #bfaaf3;
+  --tc-pink: #f8acc8;
+  --tc-lime: #cfe97c;
+}
+
+/* Card Root (5:7 ratio) */
+.tc-card {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  border-radius: 28px;
+  border: 4px solid var(--tc-ink);
+  background: var(--tc-card-bg);
+  box-shadow: 8px 8px 0px var(--tc-ink);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
+  user-select: none;
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  color: var(--tc-ink);
+}
+
+/* Frame Colors */
+.tc-frame-mustard { background-color: var(--tc-mustard); }
+.tc-frame-mint { background-color: var(--tc-mint); }
+.tc-frame-tomato { background-color: var(--tc-tomato); }
+.tc-frame-sky { background-color: var(--tc-sky); }
+.tc-frame-lilac { background-color: var(--tc-lilac); }
+.tc-frame-pink { background-color: var(--tc-pink); }
+.tc-frame-lime { background-color: var(--tc-lime); }
+
+/* Holo Foil Effect on Rare Card Borders */
+.tc-holo {
+  position: relative;
+}
+.tc-holo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(255,100,100,0.38), rgba(255,220,100,0.38), rgba(100,255,150,0.38), rgba(100,200,255,0.38), rgba(200,100,255,0.38));
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: tcHoloShimmer 6s ease infinite;
+}
+
+@keyframes tcHoloShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tc-holo::before {
+    animation: none;
+  }
+}
+
+/* Header Bar: Title + Type & CARE LV Badge */
+.tc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  shrink: 0;
+}
+
+.tc-title-box {
+  flex: 1;
+  min-width: 0;
+  background: #fffdf8;
+  border: 3px solid var(--tc-ink);
+  border-radius: 12px;
+  padding: 6px 14px;
+  box-shadow: 3px 3px 0 var(--tc-ink);
+}
+
+.tc-card-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.5px;
+}
+
+.tc-badge-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fffdf8;
+  border: 3px solid var(--tc-ink);
+  border-radius: 12px;
+  padding: 4px 8px;
+  box-shadow: 3px 3px 0 var(--tc-ink);
+  min-width: 58px;
+}
+
+.tc-care-pips {
+  display: flex;
+  gap: 3px;
+  margin-top: 2px;
+}
+.tc-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tc-ink);
+}
+.tc-pip-empty {
+  opacity: 0.22;
+}
+
+/* Art Window (~42% of card) */
+.tc-art-window {
+  position: relative;
+  width: 100%;
+  flex: 1 1 42%;
+  min-height: 180px;
+  background: #fff9ee;
+  border: 3.5px solid var(--tc-ink);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(34,24,15,0.1);
+}
+
+.tc-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlays inside Art Window */
+.tc-overlay-tag {
+  position: absolute;
+  background: #fffdf8;
+  border: 2px solid var(--tc-ink);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-family: 'Silkscreen', monospace;
+  font-size: 11px;
+  box-shadow: 2px 2px 0 var(--tc-ink);
+  z-index: 2;
+}
+
+/* Rulers & Overlays */
+.tc-overlay-ruler {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  background: rgba(255,253,248,0.92);
+  border-left: 2px solid var(--tc-ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-family: 'Silkscreen', monospace;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+/* Middle Flavour Text */
+.tc-flavour {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  font-style: italic;
+  font-size: 12.5px;
+  line-height: 1.25;
+  color: #4a3b2c;
+  margin: 8px 0 6px 0;
+  text-align: center;
+  shrink: 0;
+}
+
+/* Hero Stat Box */
+.tc-hero-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fffdf8;
+  border: 3px solid var(--tc-ink);
+  border-radius: 12px;
+  padding: 6px 14px;
+  box-shadow: 3px 3px 0 var(--tc-ink);
+  margin-bottom: 8px;
+}
+
+.tc-hero-label {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #554433;
+}
+
+.tc-hero-value {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+}
+
+/* Ability Rows (YES / NOPE) */
+.tc-ability-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.tc-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--tc-ink);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 2px 2px 0 var(--tc-ink);
+}
+
+.tc-row-yes { background: #d7f5e3; }
+.tc-row-nope { background: #ffdcd6; }
+
+.tc-row-badge {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1.5px solid var(--tc-ink);
+  background: #fffdf8;
+}
+
+/* Species 2x2 Stat Tiles */
+.tc-species-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tc-stat-tile {
+  background: #fffdf8;
+  border: 2px solid var(--tc-ink);
+  border-radius: 8px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 2px 2px 0 var(--tc-ink);
+}
+
+.tc-stat-tile-text {
+  display: flex;
+  flex-direction: column;
+}
+.tc-stat-tile-label {
+  font-family: 'Silkscreen', monospace;
+  font-size: 8px;
+  color: #665544;
+}
+.tc-stat-tile-val {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+/* Full Width Strip */
+.tc-banner-strip {
+  background: #fffdf8;
+  border: 2px solid var(--tc-ink);
+  border-radius: 8px;
+  padding: 5px 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 11.5px;
+  box-shadow: 2px 2px 0 var(--tc-ink);
+  margin-bottom: 6px;
+}
+
+.tc-diet-strip {
+  background: #ffdcd6;
+  border: 2px solid var(--tc-ink);
+  border-radius: 8px;
+  padding: 4px 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 10.5px;
+  box-shadow: 2px 2px 0 var(--tc-ink);
+  margin-bottom: 6px;
+}
+
+/* Bottom Strip: Series + Number + Rarity */
+.tc-bottom-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Silkscreen', monospace;
+  font-size: 10px;
+  padding-top: 6px;
+  border-top: 2px dashed rgba(34,24,15,0.3);
+  margin-top: auto;
+  shrink: 0;
+}
+
+.tc-rarity-symbol {
+  font-size: 12px;
+}
+
+/* EXPORT LAYOUTS: IG Feed (1080x1350) & IG Story (1080x1920) */
+.tc-export-feed {
+  width: 1080px;
+  height: 1350px;
+  background-color: var(--tc-paper);
+  background-image: radial-gradient(rgba(34,24,15,0.06) 2px, transparent 2px);
+  background-size: 32px 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 64px;
+  box-sizing: border-box;
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+.tc-export-feed .tc-card {
+  width: 780px;
+  padding: 24px;
+  border-width: 5px;
+  box-shadow: 12px 12px 0px var(--tc-ink);
+  border-radius: 36px;
+}
+.tc-export-feed .tc-card-name { font-size: 34px; }
+.tc-export-feed .tc-hero-value { font-size: 34px; }
+.tc-export-feed .tc-flavour { font-size: 17px; margin: 10px 0; }
+.tc-export-feed .tc-row { font-size: 16px; padding: 6px 14px; }
+.tc-export-feed .tc-bottom-strip { font-size: 13px; }
+
+.tc-export-story {
+  width: 1080px;
+  height: 1920px;
+  background-color: var(--tc-paper);
+  background-image: radial-gradient(rgba(34,24,15,0.06) 2px, transparent 2px);
+  background-size: 36px 36px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 260px 64px 310px 64px; /* safe zones: top 250px, bottom 300px */
+  box-sizing: border-box;
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+.tc-export-story .tc-card {
+  width: 820px;
+  padding: 26px;
+  border-width: 5px;
+  box-shadow: 14px 14px 0px var(--tc-ink);
+  border-radius: 38px;
+}
+.tc-export-story .tc-card-name { font-size: 36px; }
+.tc-export-story .tc-hero-value { font-size: 36px; }
+.tc-export-story .tc-flavour { font-size: 18px; margin: 12px 0; }
+.tc-export-story .tc-row { font-size: 17px; padding: 7px 16px; }
+.tc-export-story .tc-bottom-strip { font-size: 14px; }
+
+/* Small Round "Rescue Checked" Stamp */
+.tc-stamp-round {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: 3px dashed var(--tc-ink);
+  transform: rotate(-7deg);
+  background: rgba(255,253,248,0.7);
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  color: var(--tc-ink);
+}
+
+/* BINDER PAGE STYLES */
+.binder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .binder-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.binder-sleeve {
+  position: relative;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.4);
+  padding: 10px;
+  border: 3px solid rgba(34,24,15,0.4);
+  box-shadow: 5px 5px 0 rgba(34,24,15,0.15);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.binder-sleeve:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+}
+
+.binder-card-back {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  border-radius: 20px;
+  border: 3.5px solid var(--tc-ink);
+  background: #fdecc2;
+  box-shadow: 5px 5px 0 var(--tc-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Flip Reveal Animation */
+.tc-flip-container {
+  perspective: 1000px;
+}
+.tc-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+.tc-flip-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+.tc-flip-front, .tc-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.tc-flip-front {
+  transform: rotateY(180deg);
+}
