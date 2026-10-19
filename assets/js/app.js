@@ -13,7 +13,7 @@ import { icon, clean, cleanHtml } from './icons.js?v=3.6';
 import { openCardModal } from './infographics.js?v=3.2';
 import { renderBinderView, updateHeaderBadge } from './cards/binder.js?v=3.2';
 import { initPostbag, openPostbag } from './feedback.js?v=3.6';
-import { renderHomeBuilder } from './home_builder.js?v=3.7';
+import { renderHomeBuilder } from './home_builder.js?v=3.8';
 
 // Application State
 const state = {
@@ -546,10 +546,9 @@ function sectionTitle(title, aside = '') {
 
 function speciesTags(list) {
   const arr = list || [];
-  if (arr.length >= 5) {
-    const on = state.currentSpecies !== 'all';
-    return `<span class="tag ${on ? 'tag-ink' : 'tag-mint'}">${on ? icon('tick', 11) : ''}All 5 species</span>`;
-  }
+  // If safe for all 5 species, don't clutter the row with a tag
+  if (arr.length >= 5) return '';
+
   if (arr.length === 1 && arr[0] === 'syrian') {
     const on = state.currentSpecies === 'syrian';
     return `<span class="tag ${on ? 'tag-ink' : 'tag-mustard'}">${on ? icon('tick', 11) : ''}Syrian only</span>`;
@@ -560,12 +559,13 @@ function speciesTags(list) {
   }
   if (!arr.includes('syrian') && arr.length === 4) {
     const on = state.currentSpecies !== 'all' && arr.includes(state.currentSpecies);
-    return `<span class="tag ${on ? 'tag-ink' : 'tag-sky'}">${on ? icon('tick', 11) : ''}All dwarf species</span>`;
+    return `<span class="tag ${on ? 'tag-ink' : 'tag-sky'}">${on ? icon('tick', 11) : ''}Dwarfs only</span>`;
   }
-  return arr.map(sp => {
-    const on = state.currentSpecies === sp;
-    return `<span class="tag ${on ? 'tag-ink' : ''}">${on ? icon('tick', 11) : ''}${speciesLabel(sp)}</span>`;
-  }).join('');
+  if (!arr.includes('syrian') && arr.length === 3 && !arr.includes('roborovski')) {
+    const on = state.currentSpecies !== 'all' && arr.includes(state.currentSpecies);
+    return `<span class="tag ${on ? 'tag-ink' : 'tag-lilac'}">${on ? icon('tick', 11) : ''}Russian & Chinese dwarfs</span>`;
+  }
+  return `<span class="v2005 text-[11px] muted">· ${arr.map(speciesLabel).join(', ')}</span>`;
 }
 
 function pickBadge(badges) {
@@ -624,13 +624,14 @@ function viewToggleHtml() {
 function productRow(p) {
   const isVideo = /youtube\.com|youtu\.be/.test(p.url || '');
   const badge = pickBadge(p.badges);
+  const specTag = speciesTags(p.species);
   return `
     <article class="pick-row">
       <div class="min-w-0 flex-1">
         <div class="flex flex-wrap items-center gap-1.5 mb-1">
-          <h3 class="text-[16.5px] leading-snug mr-1">${clean(p.name)}</h3>
+          <h3 class="text-[16.5px] leading-snug mr-0.5">${clean(p.name)}</h3>
           ${badge ? `<span class="tag tag-${badge.tone} shrink-0">${badge.text}</span>` : ''}
-          ${speciesTags(p.species)}
+          ${specTag}
         </div>
         <p class="text-[13.5px] leading-relaxed muted">${clean(p.summary)}</p>
       </div>
@@ -644,22 +645,20 @@ function productRow(p) {
     </article>`;
 }
 
-function productCard(p, idx = 0) {
+function productCard(p) {
   const isVideo = /youtube\.com|youtu\.be/.test(p.url || '');
   const badge = pickBadge(p.badges);
+  const specTag = speciesTags(p.species);
   return `
-    <article class="panel flex flex-col ${idx % 3 === 1 ? 'tilt-r' : ''}">
+    <article class="panel flex flex-col">
       <div class="panel-body flex-grow">
         <div class="flex items-center justify-between gap-2 mb-2">
           <span class="v2005 text-[11px] muted flex items-center gap-1 min-w-0">${icon('pin', 13)}<span class="truncate">${clean(p.retailer || 'UK stockists')}</span></span>
           ${badge ? `<span class="tag tag-${badge.tone} shrink-0">${badge.text}</span>` : ''}
         </div>
         <h3 class="text-[18px] mb-1.5">${clean(p.name)}</h3>
-        <p class="text-[14px] leading-relaxed mb-3">${clean(p.summary)}</p>
-        <div class="flex flex-wrap items-center gap-1">
-          <span class="v2005 text-[10px] font-bold uppercase muted mr-0.5">Good for</span>
-          ${speciesTags(p.species)}
-        </div>
+        <p class="text-[14px] leading-relaxed mb-2.5">${clean(p.summary)}</p>
+        ${specTag ? `<div class="flex flex-wrap items-center gap-1 mt-auto pt-1">${specTag}</div>` : ''}
       </div>
       <div class="panel-foot flex-wrap">
         <div>
@@ -735,58 +734,46 @@ function renderCoreGuidesView() {
 
   return `
     <section class="mb-5 pt-1">
-      <p class="hand text-[22px] leading-none -rotate-2 inline-block" style="color:var(--tomato)">psst, hamster people...</p>
+      <p class="hand text-[22px] leading-none -rotate-1 inline-block" style="color:var(--tomato)">psst, hamster people...</p>
       <h1 class="text-[32px] sm:text-[40px] mt-1.5">Hamsters need <span class="scribble">way more space</span> than you think.</h1>
-      <p class="mt-3 text-[15px] leading-relaxed">Plain-English care guides, checked against India's Hamster Rescue standards. No pet shop myths, no hay, no tiny cages.</p>
+      <p class="mt-2.5 text-[15px] leading-relaxed muted">Plain-English care guides, checked against India's Hamster Rescue standards. No pet shop myths, no hay, no tiny cages.</p>
     </section>
 
     <!-- Featured: enclosure -->
-    <div data-open-guide="enclosures" role="button" tabindex="0" class="panel bg-mustard tappable p-4 mb-4 flex items-center gap-3">
-      <div class="shrink-0" style="color:var(--ink)">${icon('cage', 78)}</div>
+    <div data-open-guide="enclosures" role="button" tabindex="0" class="panel bg-mustard tappable p-4 mb-4 flex items-center gap-3.5">
+      <div class="shrink-0" style="color:var(--ink)">${icon('cage', 72)}</div>
       <div class="min-w-0">
         <div class="stat">100 × 50<span class="text-[24px]">cm</span></div>
         <div class="text-[14px] font-bold mt-1 leading-snug">of unbroken floor. The minimum, for every species.</div>
-        <div class="font-display text-[14px] mt-2 flex items-center gap-1">Read the cage guide ${icon('arrow', 18)}</div>
+        <div class="font-display text-[13.5px] mt-1.5 flex items-center gap-1">Read the cage guide ${icon('arrow', 16)}</div>
       </div>
     </div>
 
-    <!-- Home Builder callout banner -->
-    <div data-quick-jump="builder" role="button" tabindex="0" class="portal-box bg-mint-soft hover:bg-mint p-3 mb-4 rounded-xl flex items-center justify-between gap-3 border-2 border-ink tappable">
-      <div class="flex items-center gap-2.5 min-w-0">
-        <span class="text-2xl shrink-0">🔨</span>
-        <div>
-          <span class="sticker bg-mustard text-[10px] py-0 px-1.5 font-bold uppercase font-display">Interactive Tool</span>
-          <h3 class="font-display text-base font-bold text-ink leading-tight mt-0.5">Hamster Home Builder</h3>
-          <p class="text-[12px] text-ink-soft leading-tight">Plan an ethical setup tailored to your budget with direct UK stockist links.</p>
-        </div>
-      </div>
-      <span class="btn btn-xs btn-tomato shrink-0 font-bold">Try Builder →</span>
+    <!-- Quick jumps (single clean row of tools) -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+      <button data-quick-jump="builder" class="btn btn-sm btn-tomato justify-center">🔨 Home Builder</button>
+      <button data-quick-jump="food" data-quick-sub="fresh" class="btn btn-sm btn-mint justify-center">${icon('apple', 17)} Safe foods</button>
+      <button data-quick-jump="checklist" class="btn btn-sm btn-pink justify-center">${icon('check', 17)} Checklist</button>
+      <button data-quick-jump="rescues" class="btn btn-sm btn-lilac justify-center">${icon('heart', 17)} Rescues</button>
     </div>
 
-    <!-- Quick jumps -->
-    <div class="grid grid-cols-2 gap-2 mb-6">
-      <button data-quick-jump="builder" class="btn btn-sm btn-tomato justify-start">🔨 Build by budget</button>
-      <button data-quick-jump="food" data-quick-sub="fresh" class="btn btn-sm btn-mint justify-start">${icon('apple', 18)} Can they eat this?</button>
-      <button data-quick-jump="checklist" class="btn btn-sm btn-pink justify-start">${icon('check', 18)} Am I ready?</button>
-      <button data-quick-jump="rescues" class="btn btn-sm btn-lilac justify-start">${icon('heart', 18)} Find a rescue</button>
-    </div>
+    ${sectionTitle('The guides', 'tap any card')}
 
-    ${sectionTitle('The guides', 'tap one!')}
-
-    <div class="grid grid-cols-2 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
       ${rest.map((guide, idx) => `
         <div data-open-guide="${guide.id}" role="button" tabindex="0"
-             class="panel tappable bg-${cardColours[idx % cardColours.length]} p-3 flex flex-col ${idx % 2 ? 'tilt-r' : 'tilt-l'}">
-          <div class="mb-2">${icon(guideIcons[guide.id] || 'paw', 36)}</div>
-          <h3 class="text-[16px] leading-tight mb-1.5">${clean(guide.title)}</h3>
-          <p class="text-[12.5px] leading-snug clamp-3 mb-2">${clean(guide.summary)}</p>
-          <span class="tag mt-auto self-start">${clean(guide.badge || 'Essential')}</span>
+             class="panel tappable bg-${cardColours[idx % cardColours.length]} p-3.5 flex items-start gap-3">
+          <div class="shrink-0 mt-0.5">${icon(guideIcons[guide.id] || 'paw', 32)}</div>
+          <div class="min-w-0 flex-1">
+            <h3 class="text-[16.5px] leading-snug mb-1">${clean(guide.title)}</h3>
+            <p class="text-[13px] leading-relaxed clamp-2 opacity-90">${clean(guide.summary)}</p>
+          </div>
         </div>
       `).join('')}
     </div>
 
-    <div class="note mt-6 tilt-l">
-      <div class="note-title flex items-center gap-1.5">${icon('bulb', 22)} Did you know?</div>
+    <div class="note mt-6">
+      <div class="note-title flex items-center gap-1.5">${icon('bulb', 20)} Did you know?</div>
       Wild hamsters cover up to <span class="highlight font-bold">9km a night</span>. That's why a big enclosure, a proper wheel and deep bedding to dig in aren't optional extras.
     </div>
   `;
@@ -796,29 +783,28 @@ function renderUnsafeView() {
   return `
     <section class="mb-4">
       <h2 class="text-[26px]">Still sold in UK pet shops. <span class="scribble">Still not safe.</span></h2>
-      <p class="mt-2 text-[14.5px] leading-relaxed">These are on shelves right now, and rescues see the injuries they cause: blocked guts, lost limbs, eye injuries and bent spines.</p>
+      <p class="mt-2 text-[14.5px] leading-relaxed muted">These are on shelves right now, and rescues see the injuries they cause: blocked guts, lost limbs, eye injuries and bent spines.</p>
     </section>
 
-    <div class="space-y-4">
-      ${unsafeItems.map((item, i) => {
+    <div class="space-y-3.5">
+      ${unsafeItems.map((item) => {
         const examples = Array.isArray(item.examples) ? item.examples : [];
         return `
-          <article class="panel ${i % 2 ? 'tilt-r' : ''}">
+          <article class="panel">
             <div class="panel-bar bg-tomato" style="color:var(--white)">
-              <span class="flex items-center gap-1.5">${icon('nope', 16)} Nope</span>
-              <span class="tag">${clean(item.badge || 'Serious hazard')}</span>
+              <span class="flex items-center gap-1.5">${icon('nope', 15)} Avoid</span>
+              <span class="v2005 text-[10px] font-bold normal-case opacity-95">${clean(item.badge || 'Serious hazard')}</span>
             </div>
             <div class="panel-body">
-              <h3 class="text-[19px] mb-1.5">${clean(item.name)}</h3>
-              <p class="text-[14.5px] font-bold leading-relaxed mb-3">${clean(item.danger)}</p>
-              <div class="rounded-lg p-3 bg-tomato-soft text-[14px] leading-relaxed mb-3" style="border:1.5px solid var(--ink)">
-                <div class="v2005 text-[10px] font-bold uppercase mb-1">What vets see</div>
+              <h3 class="text-[18.5px] mb-1">${clean(item.name)}</h3>
+              <p class="text-[14px] font-bold leading-relaxed mb-2.5">${clean(item.danger)}</p>
+              <div class="rounded-lg p-3 bg-tomato-soft text-[13.5px] leading-relaxed">
+                <strong class="v2005 text-[10px] font-bold uppercase tracking-wide block mb-0.5">What vets see:</strong>
                 ${clean(item.vetExplanation)}
               </div>
               ${examples.length ? `
-                <div class="v2005 text-[10px] font-bold uppercase muted mb-1.5">Look out for</div>
-                <div class="flex flex-wrap gap-1.5">
-                  ${examples.map(ex => `<span class="tag">${icon('close', 11)} ${clean(ex)}</span>`).join('')}
+                <div class="text-[12.5px] muted mt-2.5 pt-2" style="border-top: 1px dashed rgba(34,24,15,0.2)">
+                  <strong class="text-ink">Common examples:</strong> ${examples.map(clean).join(' · ')}
                 </div>` : ''}
             </div>
           </article>`;
@@ -870,11 +856,11 @@ function renderInspirationView() {
   return `
     <section class="mb-5">
       <h2 class="text-[26px]">Real setups from <span class="scribble">real fosterers</span></h2>
-      <p class="mt-2 text-[14.5px] leading-relaxed">Enclosures from India's Hamster Rescue fosterers. Deep bedding, no hay, and plenty to do.</p>
+      <p class="mt-2 text-[14.5px] leading-relaxed muted">Enclosures from India's Hamster Rescue fosterers. Deep bedding, no hay, and plenty to do.</p>
     </section>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-7 pt-2">
       ${photos.map((p, i) => `
-        <figure class="polaroid tape ${['tape-pink', '', 'tape-mustard'][i % 3]} ${i % 2 ? 'tilt-r' : 'tilt-l'}">
+        <figure class="polaroid tape ${['tape-pink', '', 'tape-mustard'][i % 3]}">
           <div class="h-56 overflow-hidden"><img src="${p.image}" alt="${p.title}: ${p.details}" class="w-full h-full object-cover" loading="lazy"></div>
           <figcaption>
             <div class="caption">${p.title}</div>
@@ -946,19 +932,10 @@ function renderCommercialMixesView() {
   const activeSpecObj = speciesList.find(s => s.id === state.currentSpecies);
 
   return `
-    <h2 class="text-[26px] mb-2">What goes in the bowl <span class="hand text-[22px]" style="color:var(--tomato)">(well, the bedding)</span></h2>
+    <h2 class="text-[26px] mb-1.5">What goes in the bowl <span class="hand text-[22px]" style="color:var(--tomato)">(well, the bedding)</span></h2>
+    <p class="text-[14px] leading-relaxed muted mb-4">Rescue-approved mixes use 25+ whole seeds, grains and mealworms (15–18% protein, no dyed pellets, and zero fruit/sugar for dwarfs). <strong>Tip:</strong> Freeze new bags for 48 hours first to stop natural grain mites.</p>
 
     ${activeSpecObj ? speciesFilterNote(activeSpecObj, `${mixes.length} mixes that suit them. ${clean(activeSpecObj.dietSpecial || '')}`, 'reset-food-species') : ''}
-
-    <div class="note mb-4">
-      <div class="note-title flex items-center gap-1.5">${icon('snow', 20)} Freeze it first</div>
-      Good mixes and sprays aren't sprayed with pesticides, so grain mite eggs can hatch in a warm room. <strong>Freeze new bags for 48 hours</strong>, then let them come back to room temperature before feeding.
-    </div>
-
-    <div class="panel p-4 mb-4 bg-lime-soft">
-      <h3 class="text-[17px] mb-1 flex items-center gap-1.5">${icon('sprout', 22)} Why no pellets?</h3>
-      <p class="text-[14px] leading-relaxed">Pet shop muesli (like Harry Hamster) is full of dyed, sugary biscuits and hard pellets that hamsters leave behind. Rescue-approved mixes have 25+ whole seeds, grains and mealworms, with <strong>15–18% protein</strong> and <strong>no fruit or sugar for dwarfs</strong>.</p>
-    </div>
 
     <div class="flex items-center justify-between gap-2 mb-3">
       <div class="v2005 text-[11px] muted">${mixes.length} rescue-approved seed ${mixes.length === 1 ? 'mix' : 'mixes'} · multiple UK stockists</div>
@@ -975,13 +952,13 @@ function renderCommercialMixesView() {
       </div>
     ` : `
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        ${mixes.map((p, i) => productCard(p, i)).join('')}
+        ${mixes.map(p => productCard(p)).join('')}
       </div>
     `}
 
-    <div class="panel p-4 mt-5 bg-sky-soft tilt-l">
-      <h3 class="text-[17px] mb-1">Ditch the bowl</h3>
-      <p class="text-[14px] leading-relaxed">Scatter 1–2 tablespoons of seed across the bedding every day or two. Foraging burns energy, beats boredom, and lets them fill their pouches like they would in the wild.</p>
+    <div class="note mt-5 bg-sky-soft">
+      <div class="note-title">Ditch the bowl!</div>
+      Scatter 1–2 tablespoons of seed across the bedding every day or two. Foraging burns energy, beats boredom, and lets them fill their pouches like they would in the wild.
     </div>
   `;
 }
@@ -1019,7 +996,7 @@ function renderFreshFoodsView() {
 
     <div class="mb-4">${searchField('food-search-input', state.foodSearch, 'Try broccoli, egg, cucumber...', 'clear-food-search')}</div>
 
-    <div class="space-y-3">
+    <div class="space-y-2.5">
       ${filtered.length === 0 ? `<p class="hand text-2xl text-center py-6">nothing found, try another food?</p>` : ''}
       ${filtered.map(food => {
         const isSafe = food.status === 'SAFE';
@@ -1028,21 +1005,15 @@ function renderFreshFoodsView() {
         return `
           <article class="panel">
             <div class="panel-body">
-              <div class="flex items-start justify-between gap-2 mb-1.5">
-                <h3 class="text-[18px]">${clean(food.name)}</h3>
+              <div class="flex items-start justify-between gap-2 mb-1">
+                <h3 class="text-[17px]">${clean(food.name)}</h3>
                 <span class="tag ${isSafe ? 'tag-mint' : 'tag-mustard'} shrink-0">${isSafe ? 'Safe' : 'Sparingly'}</span>
               </div>
-              <p class="text-[14px] leading-relaxed mb-3">${clean(food.details)}</p>
-              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13.5px]">
-                <div class="rounded-lg p-2.5 bg-paper" style="border:1.5px solid var(--ink)">
-                  <dt class="v2005 text-[10px] font-bold uppercase muted">Who</dt>
-                  <dd>${clean(speciesInfo)}</dd>
-                </div>
-                <div class="rounded-lg p-2.5 bg-mint-soft" style="border:1.5px solid var(--ink)">
-                  <dt class="v2005 text-[10px] font-bold uppercase muted">How</dt>
-                  <dd>${clean(prepInfo)}</dd>
-                </div>
-              </dl>
+              <p class="text-[13.5px] leading-relaxed mb-2">${clean(food.details)}</p>
+              <div class="text-[12.5px] muted pt-2 flex flex-wrap gap-x-4 gap-y-1" style="border-top: 1px dashed rgba(34,24,15,0.2)">
+                <span><strong class="text-ink">Who:</strong> ${clean(speciesInfo)}</span>
+                <span><strong class="text-ink">How:</strong> ${clean(prepInfo)}</span>
+              </div>
             </div>
           </article>`;
       }).join('')}
@@ -1063,24 +1034,20 @@ function renderToxicFoodsView() {
 
   return `
     <h2 class="text-[26px] mb-1">Never, <span class="scribble">ever</span> feed these</h2>
-    <p class="text-[14px] mb-3 leading-relaxed">They're either poisonous (onion, garlic, citrus, raw potato, chocolate and more) or can block a hamster's gut.</p>
+    <p class="text-[14px] mb-3 leading-relaxed muted">They're either poisonous (onion, garlic, citrus, raw potato, chocolate and more) or can block a hamster's gut.</p>
 
     <div class="mb-4">${searchField('food-search-input', state.foodSearch, 'Search onion, citrus, chocolate...', 'clear-food-search')}</div>
 
-    <div class="space-y-3">
+    <div class="space-y-2.5">
       ${filtered.length === 0 ? `<p class="hand text-2xl text-center py-6">not on the list, but if in doubt, leave it out</p>` : ''}
       ${filtered.map(food => `
         <article class="panel bg-tomato-soft">
           <div class="panel-body">
-            <div class="flex items-start justify-between gap-2 mb-1.5">
-              <h3 class="text-[18px] flex items-center gap-1.5">${icon('nope', 20)} ${clean(food.name)}</h3>
+            <div class="flex items-start justify-between gap-2 mb-1">
+              <h3 class="text-[17px] flex items-center gap-1.5">${icon('nope', 18)} ${clean(food.name)}</h3>
               <span class="tag tag-ink shrink-0">Never</span>
             </div>
-            <p class="text-[14px] leading-relaxed mb-2">${clean(food.details)}</p>
-            <div class="text-[13px] flex flex-wrap gap-x-4 gap-y-1">
-              <span><strong>Who:</strong> ${clean(food.speciesNotes || 'All hamsters')}</span>
-              <span><strong>Rule:</strong> ${clean(food.prep || food.prepInstructions || 'Do not feed.')}</span>
-            </div>
+            <p class="text-[13.5px] leading-relaxed">${clean(food.details)}</p>
           </div>
         </article>
       `).join('')}
@@ -1222,7 +1189,7 @@ function renderShop() {
   } else {
     listContentHtml = `
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        ${filtered.map((p, i) => productCard(p, i)).join('')}
+        ${filtered.map(p => productCard(p)).join('')}
       </div>`;
   }
 
@@ -1239,25 +1206,10 @@ function renderShop() {
       </div>
     </div>
 
-    <section class="mb-4 relative">
-      <span class="sticker tilt-r absolute right-0 -top-1">we don't sell<br>anything!</span>
+    <section class="mb-4">
       <h1 class="text-[32px]">Safe picks</h1>
-      <p class="mt-2 text-[14.5px] leading-relaxed pr-2">Kit we'd happily put in our own enclosures, all checked against rescue standards. Links go straight to each independent UK shop, stockist or DIY video.</p>
+      <p class="mt-1.5 text-[14.5px] leading-relaxed muted">Kit we'd happily put in our own enclosures, all checked against rescue standards. We don't sell anything—links go straight to each independent UK shop, stockist or DIY video.</p>
     </section>
-
-    <!-- Home Builder Callout Card -->
-    <div class="portal-box bg-mint-soft p-3.5 mb-4 rounded-xl flex items-center justify-between gap-3 border-2 border-ink">
-      <div class="flex items-center gap-2.5 min-w-0">
-        <span class="text-2xl shrink-0">🔨</span>
-        <div class="text-xs sm:text-sm">
-          <strong class="font-display font-bold">Building a habitat on a budget?</strong>
-          <p class="text-ink-soft text-[12px] leading-tight mt-0.5">Use our Home Builder to assemble an ethical 100x50cm setup with live budget calculations.</p>
-        </div>
-      </div>
-      <button type="button" id="catalog-launch-builder-btn" class="btn btn-xs btn-tomato shrink-0 font-bold">
-        Launch Builder →
-      </button>
-    </div>
 
     <div class="mb-3">${searchField('shop-search-input', state.shopSearch, "Search RoseLark, Bell's Tiny Tails, Körnerbude, Fitch, IKEA...", 'clear-shop-search')}</div>
 
@@ -1287,10 +1239,6 @@ function renderShop() {
   `;
 
   document.getElementById('shop-subtab-builder')?.addEventListener('click', () => {
-    switchTab('builder');
-  });
-
-  document.getElementById('catalog-launch-builder-btn')?.addEventListener('click', () => {
     switchTab('builder');
   });
 
@@ -1493,7 +1441,7 @@ function renderRescues() {
         const locationText = r.locations || r.coverage || r.region || 'UK';
         const isPartner = (r.badges || []).some(b => /Partner|1213919/.test(b)) || /India/.test(r.name || '');
         return `
-          <article class="panel flex flex-col ${isPartner ? 'bg-mustard-soft tape tape-pink' : ''} ${i % 3 === 2 ? 'tilt-r' : ''}">
+          <article class="panel flex flex-col ${isPartner ? 'bg-mustard-soft tape tape-pink' : ''}">
             <div class="panel-body flex-grow">
               <div class="flex items-center justify-between gap-2 mb-1.5">
                 <span class="v2005 text-[11px] font-bold muted">${clean(charityText)}</span>

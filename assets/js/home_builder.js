@@ -553,15 +553,11 @@ export function renderHomeBuilder(container, options = {}) {
 
       <!-- Blueprint Header Banner -->
       <header class="blueprint-card mb-5 relative overflow-hidden">
-        <div class="flex flex-wrap items-center justify-between gap-2.5 mb-2">
-          <div class="flex items-center gap-2">
-            <span class="sticker bg-mustard py-0.5 px-2 text-xs font-bold font-display uppercase tracking-wider">Adoption Ready</span>
-            <span class="tag tag-pink">${icon('heart', 12)} India's Rescue Standards</span>
-          </div>
-          <span class="pixel text-[11px] text-ink-soft">INDIA'S_CRITERIA_REV_3.6</span>
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <span class="tag tag-pink">${icon('heart', 12)} India's Hamster Rescue Standards</span>
         </div>
 
-        <h1 class="text-2xl sm:text-3xl font-display leading-tight mb-2">
+        <h1 class="text-2xl sm:text-3xl font-display leading-tight mb-1.5">
           Hamster Home Builder
         </h1>
         <p class="text-[14.5px] leading-relaxed text-ink-soft mb-3">
@@ -573,18 +569,15 @@ export function renderHomeBuilder(container, options = {}) {
           <span class="text-base shrink-0">🌻</span>
           <div>
             <strong class="font-bold">A thrifty home is every bit as ethical as an expensive home!</strong>
-            <p class="mt-0.5 text-ink-soft">
-              Hamsters do not care how much an enclosure costs — they only care about deep burrowing space, safe sand, a large upright wheel, and plenty of forage. Price differences reflect materials (e.g. acrylic vs DIY/wire) and pre-assembly, not animal happiness.
-            </p>
+            <span class="text-ink-soft">
+              Hamsters only care about deep burrowing space, safe sand, a large upright wheel, and plenty of forage—price differences only reflect materials and pre-assembly.
+            </span>
           </div>
         </div>
 
         <!-- Mode Segmented Switcher (Fixed & Anchored) -->
-        <div class="mt-4 pt-3 border-t-2 border-dashed border-ink/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-          <div class="flex items-center gap-1.5">
-            <span class="text-xs uppercase font-extrabold tracking-wider text-ink">Planning Mode:</span>
-            <span class="text-xs text-ink-soft hidden sm:inline">— Choose 1-click curated or custom build</span>
-          </div>
+        <div class="mt-3.5 pt-3 border-t-2 border-dashed border-ink/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <span class="text-xs uppercase font-extrabold tracking-wider text-ink">Planning Mode:</span>
 
           <div class="mode-toggle" role="tablist" aria-label="Planning Mode">
             <button type="button" id="builder-mode-presets" class="mode-toggle-btn ${builderState.mode === 'presets' ? 'is-active' : ''}" aria-selected="${builderState.mode === 'presets'}">
@@ -601,7 +594,7 @@ export function renderHomeBuilder(container, options = {}) {
       ${builderState.mode === 'presets' ? renderPresetsSection(currentSpecies) : ''}
 
       <!-- LIVE BUDGET GAUGE & PROGRESS BAR -->
-      <div class="portal-box bg-white p-4 mb-5 shadow-sm rounded-xl border-2 border-ink">
+      <div class="portal-box bg-white p-4 mb-4 shadow-sm rounded-xl border-2 border-ink">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
           <div>
             <span class="text-xs uppercase font-bold text-ink-soft tracking-wider block">Estimated Total</span>
@@ -613,17 +606,14 @@ export function renderHomeBuilder(container, options = {}) {
 
           <div class="text-right">
             ${isUnder ? `
-              <span class="sticker bg-mint text-ink text-xs font-bold py-1 px-2.5 inline-flex items-center gap-1">
+              <span class="tag tag-mint text-xs font-bold py-1 px-2.5 inline-flex items-center gap-1">
                 ${icon('tick', 13)} £${absDiff} under target
               </span>
             ` : `
-              <span class="sticker bg-tomato text-white text-xs font-bold py-1 px-2.5 inline-flex items-center gap-1">
+              <span class="tag tag-tomato text-xs font-bold py-1 px-2.5 inline-flex items-center gap-1">
                 £${absDiff} over target
               </span>
             `}
-            <p class="text-[11px] text-ink-soft mt-1">
-              ${isUnder ? 'Great job! Surplus can fund fresh veggies & exotic vet fund.' : 'Adjust any slot below to bring down the cost.'}
-            </p>
           </div>
         </div>
 
@@ -639,35 +629,31 @@ export function renderHomeBuilder(container, options = {}) {
         ` : ''}
 
         <!-- Progress meter -->
-        <div class="w-full bg-paper-2 border border-ink h-3.5 rounded-full overflow-hidden mt-3 relative">
+        <div class="w-full bg-paper-2 border border-ink h-3 rounded-full overflow-hidden mt-2.5 relative">
           <div class="h-full transition-all duration-300 ${percentSpent > 100 ? 'bg-tomato' : (percentSpent > 85 ? 'bg-mustard' : 'bg-mint')}" style="width: ${percentSpent}%"></div>
         </div>
       </div>
 
       <!-- WELFARE CHECKMETER (AGAINST ALL 16 ADOPTION CRITERIA) -->
-      <div class="portal-box ${welfare.isComplete ? 'bg-mint-soft border-mint' : 'bg-tomato-soft border-tomato'} p-3.5 mb-5 rounded-xl text-xs sm:text-sm">
-        <div class="flex items-center justify-between gap-2 mb-1.5">
+      <div class="portal-box ${welfare.isComplete && welfare.issues.length === 0 ? 'bg-mint-soft border-mint' : 'bg-tomato-soft border-tomato'} px-4 py-3 mb-5 rounded-xl text-xs sm:text-sm">
+        <div class="flex items-center justify-between gap-2">
           <div class="flex items-center gap-2">
-            <span class="text-base">${welfare.isComplete ? '🎖️' : '⚠️'}</span>
+            <span class="text-base">${welfare.isComplete && welfare.issues.length === 0 ? '🎖️' : '⚠️'}</span>
             <h3 class="font-display text-sm sm:text-base font-bold">
-              ${welfare.isComplete ? 'All 16 Adoption Criteria Fully Met! (Adoption Approved)' : `${welfare.passes.length} of 16 Criteria Met — Action Required`}
+              ${welfare.isComplete && welfare.issues.length === 0 ? 'All 16 Adoption Criteria Met (Adoption Ready)' : `${welfare.passes.length} of 16 Criteria Met — Check Notices Below`}
             </h3>
           </div>
-          <span class="pixel text-[11px] font-bold">${welfare.passes.length} / 16</span>
+          <span class="pixel text-[11px] font-bold shrink-0">${welfare.passes.length} / 16</span>
         </div>
-        <p class="text-xs text-ink-soft mb-2">
-          Checked against India's Hamster Rescue requirements (cage size, bedding, wheel, sand bath, platforms, dig textures, tunnels, branch, hides, food, carrier & playpen).
-        </p>
-        <div class="flex flex-wrap gap-1.5 mt-2">
-          ${welfare.passes.map(p => `
-            <span class="tag tag-mint text-[11px]">${icon('tick', 11)} ${p.text}</span>
-          `).join('')}
-          ${welfare.issues.map(iss => `
-            <span class="tag ${iss.severity === 'error' ? 'tag-tomato' : 'tag-mustard'} text-[11px]">
-              ${icon('nope', 11)} ${iss.text}
-            </span>
-          `).join('')}
-        </div>
+        ${welfare.issues.length > 0 ? `
+          <div class="flex flex-wrap gap-1.5 mt-2.5 pt-2 border-t border-ink/15">
+            ${welfare.issues.map(iss => `
+              <span class="tag ${iss.severity === 'error' ? 'tag-tomato' : 'tag-mustard'} text-[11px]">
+                ${icon('nope', 11)} ${iss.text}
+              </span>
+            `).join('')}
+          </div>
+        ` : ''}
       </div>
 
       <!-- 16 SETUP SLOTS GROUPED BY 4 SECTIONS -->
@@ -683,7 +669,7 @@ export function renderHomeBuilder(container, options = {}) {
               <span class="font-display text-base font-bold text-ink uppercase tracking-wide">${secName}</span>
               <span class="text-xs text-ink-soft">(${secSlots.length} items)</span>
             </div>
-            <div class="grid grid-cols-1 gap-3">
+            <div class="grid grid-cols-1 gap-2.5">
               ${secSlots.map(slot => renderSlotCard(slot, builderState.selectedSlots[slot.id], currentSpecies)).join('')}
             </div>
           </div>
@@ -693,15 +679,14 @@ export function renderHomeBuilder(container, options = {}) {
       <!-- SHOPPING RECEIPT & EXPORT -->
       <section class="shop-receipt bg-white p-5 rounded-xl border-3 border-ink shadow-lg relative mt-8">
         <div class="receipt-cutout-top"></div>
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-dashed border-ink/30 pb-3 mb-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-dashed border-ink/30 pb-3 mb-3">
           <div>
-            <span class="sticker bg-ink text-paper py-0.5 px-2 text-[10px] font-pixel">ADOPTION_RECEIPT_UK_16</span>
-            <h3 class="font-display text-xl font-bold mt-1">India's Rescue Adoption Shopping Basket</h3>
+            <h3 class="font-display text-xl font-bold">Adoption Shopping List</h3>
             <p class="text-xs text-ink-soft">Direct links to verified UK makers, independent stores, and India's shop.</p>
           </div>
           <button type="button" id="copy-receipt-btn" class="btn btn-sm btn-tomato inline-flex items-center gap-1.5">
             ${icon('copy', 14)}
-            <span>Copy Full Shopping List</span>
+            <span>Copy Shopping List</span>
           </button>
         </div>
 
@@ -714,14 +699,11 @@ export function renderHomeBuilder(container, options = {}) {
             const price = getProductPrice(prod);
             const mainLink = (prod.links && prod.links[0]) ? prod.links[0] : { label: prod.retailer || 'Buy', url: prod.url };
             return `
-              <div class="py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+              <div class="py-2 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
                 <div class="min-w-0 flex-1">
-                  <div class="flex items-center gap-1.5">
-                    <span class="tag tag-mustard py-0 px-1 text-[10px] font-bold">#${slot.criteriaNo}</span>
-                    <span class="text-[11px] uppercase font-bold text-ink-soft">${slot.name}</span>
-                  </div>
-                  <strong class="font-bold text-ink block mt-0.5">${clean(prod.name)}</strong>
-                  <span class="text-ink-soft block text-[11px]">${clean(prod.retailer || '')}</span>
+                  <span class="text-[11px] font-bold text-ink-soft block">${slot.name}</span>
+                  <strong class="font-bold text-ink">${clean(prod.name)}</strong>
+                  <span class="text-ink-soft text-[11px]"> · ${clean(prod.retailer || '')}</span>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
                   <span class="font-display font-bold text-sm sm:text-base">£${price.toFixed(2)}</span>
@@ -738,10 +720,10 @@ export function renderHomeBuilder(container, options = {}) {
         <!-- Receipt Total Footer -->
         <div class="pt-3 border-t-2 border-dashed border-ink/40 flex items-center justify-between">
           <div class="text-xs text-ink-soft">
-            <span>Fulfills 100% of India's Hamster Rescue Adoption Criteria</span>
+            <span>Fulfills all 16 of India's Hamster Rescue criteria</span>
           </div>
           <div class="text-right">
-            <span class="text-xs uppercase text-ink-soft block font-bold">Estimated Grand Total (16 Items)</span>
+            <span class="text-xs uppercase text-ink-soft block font-bold">Estimated Total (16 Items)</span>
             <span class="font-display text-2xl font-extrabold text-tomato">£${total.toFixed(2)}</span>
           </div>
         </div>
@@ -773,10 +755,10 @@ export function renderHomeBuilder(container, options = {}) {
 // Render Presets Section (Mode A)
 function renderPresetsSection(currentSpecies) {
   return `
-    <div class="presets-section mb-6">
-      <div class="flex items-baseline justify-between gap-2 mb-2.5">
+    <div class="presets-section mb-5">
+      <div class="flex items-baseline justify-between gap-2 mb-2">
         <h2 class="text-xl sm:text-2xl font-display">1-Click Curated Setups</h2>
-        <span class="text-xs text-ink-soft">Every setup includes all 16 criteria</span>
+        <span class="text-xs text-ink-soft">Includes all 16 criteria</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -789,12 +771,11 @@ function renderPresetsSection(currentSpecies) {
           return `
             <div data-preset-card="${preset.id}" class="portal-box p-4 rounded-xl cursor-pointer transition-all border-2 ${isActive ? 'bg-white border-ink shadow-md ring-2 ring-tomato' : 'bg-paper-2 hover:bg-white border-ink/40'}">
               <div class="flex items-center justify-between gap-1 mb-1.5">
-                <span class="sticker bg-${preset.tone} text-ink text-[11px] font-bold py-0.5 px-2">${preset.badge}</span>
+                <span class="tag tag-${preset.tone} text-ink text-[10.5px] font-bold">${preset.badge}</span>
                 <span class="font-display font-bold text-sm text-ink">~£${presetTotal.toFixed(0)}</span>
               </div>
               <h3 class="font-display text-base font-bold text-ink leading-snug">${preset.name}</h3>
-              <p class="text-xs text-ink-soft mt-1 leading-snug">${preset.tagline}</p>
-              <p class="text-[11.5px] text-ink-soft mt-2 leading-relaxed">${preset.desc}</p>
+              <p class="text-xs text-ink-soft mt-1 leading-relaxed">${preset.desc}</p>
               <div class="mt-3 pt-2 border-t border-ink/10 flex items-center justify-between">
                 <span class="text-[11px] font-bold ${isActive ? 'text-tomato' : 'text-ink-soft'}">
                   ${isActive ? '● Active Setup' : '○ Tap to Load'}
@@ -812,36 +793,30 @@ function renderPresetsSection(currentSpecies) {
 }
 
 // Render individual slot row / card
-function renderSlotCard(slot, selectedProdId, currentSpecies) {
+function renderSlotCard(slot, selectedProdId) {
   const prod = products.find(p => p.id === selectedProdId);
   const price = getProductPrice(prod);
 
   return `
-    <article class="portal-box bg-white p-3.5 sm:p-4 rounded-xl border-2 border-ink flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+    <article class="portal-box bg-white p-3.5 rounded-xl border-2 border-ink flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
       <div class="min-w-0 flex-1">
         <div class="flex items-center gap-2 mb-1">
           <span class="inline-flex p-1.5 bg-paper-2 border border-ink/30 rounded-md shrink-0">
-            ${icon(slot.icon, 20)}
+            ${icon(slot.icon, 18)}
           </span>
           <div>
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="tag tag-mustard py-0 px-1 text-[10px] font-bold">Criteria #${slot.criteriaNo}</span>
-              <h3 class="font-display text-sm sm:text-base font-bold leading-none">${slot.name}</h3>
-            </div>
-            <span class="text-[11px] text-ink-soft leading-tight block mt-0.5">${slot.tagline}</span>
+            <h3 class="font-display text-sm sm:text-base font-bold leading-tight">${slot.name}</h3>
+            <span class="text-[11px] text-ink-soft leading-tight block">${slot.tagline}</span>
           </div>
         </div>
 
         ${prod ? `
-          <div class="mt-2 pl-1 sm:pl-2 border-l-2 border-mint">
-            <h4 class="font-bold text-sm text-ink">${clean(prod.name)}</h4>
-            <div class="flex flex-wrap items-center gap-2 mt-0.5 text-xs text-ink-soft">
-              <span class="font-display font-bold text-ink text-sm">£${price.toFixed(2)}</span>
-              <span>•</span>
-              <span>${clean(prod.retailer || 'UK Stockist')}</span>
-              ${prod.badges ? `<span class="tag tag-mustard py-0 px-1.5 text-[10px]">${clean(prod.badges[0])}</span>` : ''}
+          <div class="mt-1.5 pl-2 border-l-2 border-mint">
+            <div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <h4 class="font-bold text-sm text-ink">${clean(prod.name)}</h4>
+              <span class="font-display font-bold text-ink text-xs">£${price.toFixed(2)}</span>
+              <span class="text-xs text-ink-soft">· ${clean(prod.retailer || 'UK Stockist')}</span>
             </div>
-            <p class="text-[11px] text-ink-soft mt-1 leading-normal line-clamp-1">${clean(prod.summary || '')}</p>
           </div>
         ` : `
           <div class="mt-2 p-2 bg-tomato-soft border border-tomato rounded text-xs text-tomato font-bold">
@@ -850,12 +825,12 @@ function renderSlotCard(slot, selectedProdId, currentSpecies) {
         `}
       </div>
 
-      <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-ink/10">
-        <button type="button" data-pick-slot="${slot.id}" class="btn btn-sm btn-mustard-soft flex items-center gap-1">
+      <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-1.5 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-ink/10">
+        <button type="button" data-pick-slot="${slot.id}" class="btn btn-xs btn-mustard-soft flex items-center gap-1">
           <span>${prod ? 'Swap / Change' : 'Select Item'}</span>
         </button>
         ${prod && prod.url ? `
-          <a href="${prod.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] text-ink underline hover:text-tomato flex items-center gap-0.5">
+          <a href="${prod.url}" target="_blank" rel="noopener noreferrer" class="text-[11px] text-ink-soft underline hover:text-tomato flex items-center gap-0.5">
             <span>View link</span>
             ${icon('ext', 10)}
           </a>
