@@ -973,6 +973,283 @@ export const products = [
     ],
     badges: ["⭐ UK Small Business", "Space Saver", "Removable Lid"],
     summary: "Space-saving 90-degree corner hide with a lift-off roof for gentle spot-cleaning. Open bottom allows the hamster to burrow straight down into deep bedding."
+  },
+  // --- PLATFORMS FOR HEAVY ITEMS (WHEEL, BATH, HIDES) ---
+  {
+    id: "plat-wooden-stilts",
+    name: "DIY Wooden Dowel Stilts & Platform Set",
+    brand: "DIY / Hardware / Amazon UK",
+    category: "platforms",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£5.99 - £7.99",
+    retailer: "Amazon UK / B&Q",
+    url: "https://www.amazon.co.uk/dp/B08CZ8K6ZQ",
+    links: [
+      { label: "Amazon UK (Wooden Dowel Pack)", url: "https://www.amazon.co.uk/dp/B08CZ8K6ZQ" },
+      { label: "IKEA KNUFF / Platform Hack Guide", url: "https://www.youtube.com/watch?v=7X9fN_Lh9qg" }
+    ],
+    badges: ["Adoption Essential", "Safety Baseline", "Crush Prevention"],
+    summary: "Essential platforms or glue-on dowel stilts to elevate heavy items (running wheel, sand bath, heavy hides) so burrows never collapse underneath."
+  },
+  {
+    id: "plat-niteangel-corner",
+    name: "Niteangel Wooden Platform & Adjustable Stilt Set",
+    brand: "Niteangel",
+    category: "platforms",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£14.99 - £18.99",
+    retailer: "Amazon UK / Niteangel",
+    url: "https://www.amazon.co.uk/dp/B088FJD8C6",
+    links: [
+      { label: "Amazon UK (Niteangel Platform)", url: "https://www.amazon.co.uk/dp/B088FJD8C6" }
+    ],
+    badges: ["⭐ Team Favourite", "Adjustable Legs", "Heavy Duty"],
+    summary: "Sturdy wooden platform with screw-in legs adjustable up to 25cm. Keeps heavy wheels and sand baths completely safe above deep burrow systems."
+  },
+
+  // --- REPTILE BRANCHES ---
+  {
+    id: "branch-grapevine-wood",
+    name: "Natural Sandblasted Grapevine Reptile Branch",
+    brand: "Komodo / ProRep",
+    category: "branches",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£8.99 - £11.99",
+    retailer: "Amazon UK / Swell Reptiles",
+    url: "https://www.reptiles.swelluk.com/komodo-sandblasted-grapevine-wood",
+    links: [
+      { label: "Swell Reptiles (Grapevine)", url: "https://www.reptiles.swelluk.com/komodo-sandblasted-grapevine-wood" },
+      { label: "Amazon UK (Grapevine Wood)", url: "https://www.amazon.co.uk/dp/B0032GG89O" }
+    ],
+    badges: ["Adoption Essential", "Naturalistic Cover", "Nail Wear"],
+    summary: "Sandblasted, chemical-free natural grapevine branch. Provides natural climbing, claw maintenance, and overhead cover across open enclosure space."
+  },
+  {
+    id: "branch-java-wood",
+    name: "Natural Java Wood / Bamboo Root Branch",
+    brand: "Exo Terra / Komodo",
+    category: "branches",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£11.50 - £14.99",
+    retailer: "Swell Reptiles / Amazon UK",
+    url: "https://www.reptiles.swelluk.com/exo-terra-forest-branch",
+    links: [
+      { label: "Swell Reptiles (Java Branch)", url: "https://www.reptiles.swelluk.com/exo-terra-forest-branch" }
+    ],
+    badges: ["Hardwood Branch", "3D Enrichment", "Bake Before Use"],
+    summary: "Heavy hardwood branch with twisting forks for tactile enrichment. Bake at 100°C for 30 minutes before placing into enclosure."
+  },
+
+  // --- 2ND TUNNEL (ACCOMPANYING CORK OAK LOG) ---
+  {
+    id: "tunnel-birch-wood",
+    name: "Trixie Natural Birch Wood Bark Tunnel",
+    brand: "Trixie",
+    category: "tunnels",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£4.99 - £6.99",
+    retailer: "Pets at Home / Amazon UK",
+    url: "https://www.amazon.co.uk/dp/B000WFE46W",
+    links: [
+      { label: "Amazon UK (Birch Tunnel)", url: "https://www.amazon.co.uk/dp/B000WFE46W" }
+    ],
+    badges: ["Adoption Essential", "Natural Bark", "Chew Safe"],
+    summary: "Natural hollow tree trunk tunnel. Meets India's requirement for 2+ tunnels inside the habitat alongside the cork oak log."
+  },
+  {
+    id: "tunnel-bamboo-ceramic",
+    name: "Ceramic / Bamboo Cooling Tunnel (10cm Diameter)",
+    brand: "BUCATSTATE / Niteangel",
+    category: "tunnels",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£8.99 - £12.99",
+    retailer: "Amazon UK / Bucatstate",
+    url: "https://www.amazon.co.uk/dp/B0B51Q8K8G",
+    links: [
+      { label: "Amazon UK (Ceramic Tunnel)", url: "https://www.amazon.co.uk/dp/B0B51Q8K8G" }
+    ],
+    badges: ["Summer Cooling", "Wide 10cm Tube", "Syrian Safe"],
+    summary: "Generous 10cm wide diameter tunnel made from glazed ceramic. Stays cool to the touch and safe for large Syrian pouches."
+  },
+
+  // --- WATER BOTTLE / CERAMIC WATER DISH ---
+  {
+    id: "water-shallow-ceramic",
+    name: "Shallow Heavyweight Ceramic Water Dish / Tealight Holder",
+    brand: "Wilko / Pets at Home / IKEA",
+    category: "water",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£1.50 - £2.99",
+    retailer: "Pets at Home / IKEA / Amazon UK",
+    url: "https://www.petsathome.com/product/pets-at-home-small-animal-bowl/7112028P",
+    links: [
+      { label: "Pets at Home (Ceramic Dish)", url: "https://www.petsathome.com/product/pets-at-home-small-animal-bowl/7112028P" },
+      { label: "IKEA GLASIG (Tealight Dish)", url: "https://www.ikea.com/gb/en/p/glasig-tealight-holder-clear-glass-60259302/" }
+    ],
+    badges: ["Natural Posture", "Easy Cleaning", "Tip Proof"],
+    summary: "Shallow, heavyweight ceramic dish allowing hamsters to lap water in their natural ergonomics without stretching neck upward. Does not tip over."
+  },
+  {
+    id: "water-trixie-standing",
+    name: "Trixie Ceramic Stand with Drinking Bottle (100ml)",
+    brand: "Trixie",
+    category: "water",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£5.49 - £6.99",
+    retailer: "Pets at Home / Amazon UK",
+    url: "https://www.amazon.co.uk/dp/B000OLZ6I0",
+    links: [
+      { label: "Amazon UK (Trixie Bottle & Stand)", url: "https://www.amazon.co.uk/dp/B000OLZ6I0" }
+    ],
+    badges: ["Freestanding", "Leak Free", "Enclosure Friendly"],
+    summary: "Freestanding ceramic bottle holder with small animal drip bottle. Ideal for glass/acrylic tanks without bar attachments."
+  },
+
+  // --- TRANSPORT CARRIER (LARGE ONLY) ---
+  {
+    id: "carrier-aladino-large",
+    name: "Ferplast Aladino Large Pet Carrier (36 x 26 x 23cm)",
+    brand: "Ferplast",
+    category: "carriers",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£10.99 - £12.99",
+    retailer: "Amazon UK / Pets at Home",
+    url: "https://www.amazon.co.uk/dp/B001MZUOIE",
+    links: [
+      { label: "Amazon UK (Aladino Large)", url: "https://www.amazon.co.uk/dp/B001MZUOIE" },
+      { label: "Pets at Home (Carrier)", url: "https://www.petsathome.com/product/ferplast-aladino-large-pet-carrier/13359P" }
+    ],
+    badges: ["⭐ Adoption Mandatory", "Large Size Only", "Secure Latches"],
+    summary: "UK rescue required large transport carrier. Never use tiny shoe-box size carriers. Must be lined with 5cm bedding and fresh cucumber for adoption pickup day."
+  },
+  {
+    id: "carrier-savic-elmo",
+    name: "Savic Elmo Large Small Animal Carrier (36 x 28 x 22cm)",
+    brand: "Savic",
+    category: "carriers",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£9.99 - £11.49",
+    retailer: "Pets at Home / Amazon UK",
+    url: "https://www.petsathome.com/product/savic-elmo-medium-and-large-small-animal-carrier/7112078P",
+    links: [
+      { label: "Pets at Home (Savic Elmo Large)", url: "https://www.petsathome.com/product/savic-elmo-medium-and-large-small-animal-carrier/7112078P" }
+    ],
+    badges: ["Adoption Mandatory", "Vented Lid", "Solid Base"],
+    summary: "Spacious hard-shell transport carrier with locking lid and ventilation slits. Sized appropriately to reduce travel anxiety."
+  },
+
+  // --- PLAYPEN / SAFE FREE-ROAM SPACE ---
+  {
+    id: "playpen-popup-mesh",
+    name: "Pop-Up Breathable Small Animal Playpen (with Zipper Cover)",
+    brand: "Amakunft / Amazon UK",
+    category: "playpens",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£8.99 - £11.99",
+    retailer: "Amazon UK",
+    url: "https://www.amazon.co.uk/dp/B07PM2DJ7T",
+    links: [
+      { label: "Amazon UK (Pop-Up Playpen)", url: "https://www.amazon.co.uk/dp/B07PM2DJ7T" }
+    ],
+    badges: ["Adoption Essential", "Free Roam Space", "Foldable"],
+    summary: "Waterproof fabric and mesh pop-up playpen with zippered mesh roof. Provides a secure area for daily out-of-cage bonding and free-roam stimulation."
+  },
+  {
+    id: "playpen-songmics-panels",
+    name: "Songmics Modular Transparent Animal Playpen (12 Panels)",
+    brand: "Songmics",
+    category: "playpens",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£21.99 - £25.99",
+    retailer: "Amazon UK / Songmics UK",
+    url: "https://www.amazon.co.uk/dp/B075898NLN",
+    links: [
+      { label: "Amazon UK (Songmics 12-Panel Playpen)", url: "https://www.amazon.co.uk/dp/B075898NLN" }
+    ],
+    badges: ["⭐ Team Favourite", "Escape Proof", "Expandable"],
+    summary: "Smooth plastic modular panels that hamsters cannot climb. Can be configured into a huge 150x150cm play area for daily out-of-cage enrichment."
+  },
+
+  // --- CLUTTER & ENRICHMENT CHEWS ---
+  {
+    id: "clutter-india-botanicals",
+    name: "India's Clutter Bundle: Sunflower Head, Lotus Pod & Whimzees",
+    brand: "India's Hamster Rescue / Hope's",
+    category: "clutter",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£3.99 - £5.50",
+    retailer: "India's Rescue Store / Hope's Healthy Treats",
+    url: "https://www.indiashamsterrescue.co.uk/store",
+    links: [
+      { label: "India's Rescue Store", url: "https://www.indiashamsterrescue.co.uk/store" },
+      { label: "Hope's Healthy Treats (Lotus Pods & Chews)", url: "https://hopeshealthytreats.com/products/lotus-pod" }
+    ],
+    badges: ["⭐ 100% Profits to Rescue", "Adoption Essential", "Clutter Cover"],
+    summary: "Whole dried giant sunflower seed head, natural lotus seed pod, and vegetable dental whimzee chews to break up open floor sightlines."
+  },
+  {
+    id: "clutter-hopes-harvest",
+    name: "Hope's Natural Harvest Clutter & Root Pack",
+    brand: "Hope's Healthy Treats",
+    category: "clutter",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£6.50 - £8.99",
+    retailer: "Hope's Healthy Treats",
+    url: "https://hopeshealthytreats.com/products/botanical-box",
+    links: [
+      { label: "Hope's Healthy Treats (Harvest Box)", url: "https://hopeshealthytreats.com/products/botanical-box" }
+    ],
+    badges: ["⭐ UK Small Business", "Sensory Variety"],
+    summary: "Packed with dried dandelion roots, pear wood chew sticks, mini pinecones, and botanical textures for dental health and natural habitat coverage."
+  },
+
+  // --- 3+ ADDITIONAL HIDES BUNDLE ---
+  {
+    id: "hides-thrift-trio",
+    name: "Thrifted Trio: Ceramic Mug, Terracotta Flowerpot & Salt Pig",
+    brand: "Household / Charity Shop / Wilko",
+    category: "hides",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£3.00 - £5.00",
+    retailer: "Charity Shops / Kitchen Cupboard",
+    url: "https://www.indiashamsterrescue.co.uk/recommendations",
+    links: [
+      { label: "India's Rescue Recommendations", url: "https://www.indiashamsterrescue.co.uk/recommendations" }
+    ],
+    badges: ["🪙 Zero Waste Thrift", "Adoption Essential", "Washable"],
+    summary: "Meets India's requirement for 3+ extra hides! Clean ceramic mugs, unglazed terracotta pots on their side, and kitchen salt pigs provide cool shelter."
+  },
+  {
+    id: "hides-ceramic-trio",
+    name: "BUCATSTATE / Niteangel Ceramic Hide Trio & Salt Pig",
+    brand: "BUCATSTATE / Niteangel",
+    category: "hides",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£16.99 - £22.00",
+    retailer: "Amazon UK / Niteangel",
+    url: "https://www.amazon.co.uk/dp/B0B51Q8K8G",
+    links: [
+      { label: "Amazon UK (Ceramic Hide Collection)", url: "https://www.amazon.co.uk/dp/B0B51Q8K8G" }
+    ],
+    badges: ["⭐ Team Favourite", "Chew Proof", "Cooling Shelter"],
+    summary: "Three ceramic cooling shelters including a mushroom hide, ceramic jar hide, and salt pig. Easy to disinfect and chew-proof."
+  },
+
+  // --- 3-SUBSTRATE TEXTURE TRIO (FOR DIG BOX) ---
+  {
+    id: "sub-3-pack-bundle",
+    name: "3-Substrate Texture Trio (Coco Coir, Beech Chips & Cork Granules)",
+    brand: "Komodo / Lucky Reptile",
+    category: "substrates",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£12.50 - £15.00",
+    retailer: "Swell Reptiles / Amazon UK",
+    url: "https://www.reptiles.swelluk.com/",
+    links: [
+      { label: "Swell Reptiles (Substrates)", url: "https://www.reptiles.swelluk.com/" }
+    ],
+    badges: ["Adoption Essential", "3 Textures", "Sensory Burrowing"],
+    summary: "Complete 3-substrate bundle fulfilling India's requirement for at least 3 distinct digging textures: soil-like coco coir, smooth beech chips, and bouncy cork granules."
   }
 ];
 

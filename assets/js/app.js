@@ -5,7 +5,7 @@
 import { speciesList } from './data/species.js?v=3.6';
 import { careGuides } from './data/guides.js?v=3.6';
 import { unsafeItems } from './data/unsafe.js?v=3.6';
-import { products } from './data/products.js?v=3.6';
+import { products } from './data/products.js?v=3.7';
 import { foodDatabase } from './data/foods.js?v=3.6';
 import { rescuesList } from './data/rescues.js?v=3.6';
 import { adoptionChecklist } from './data/checklist.js?v=3.6';
@@ -13,7 +13,7 @@ import { icon, clean, cleanHtml } from './icons.js?v=3.6';
 import { openCardModal } from './infographics.js?v=3.2';
 import { renderBinderView, updateHeaderBadge } from './cards/binder.js?v=3.2';
 import { initPostbag, openPostbag } from './feedback.js?v=3.6';
-import { renderHomeBuilder } from './home_builder.js';
+import { renderHomeBuilder } from './home_builder.js?v=3.7';
 
 // Application State
 const state = {
@@ -1228,12 +1228,12 @@ function renderShop() {
 
   main.innerHTML = `
     <!-- Top Section Switcher (Catalog vs Builder) -->
-    <div class="flex items-center gap-2 mb-3">
-      <div class="folder-tabs" role="tablist">
-        <button type="button" id="shop-subtab-catalog" class="folder-tab is-active" aria-selected="true">
+    <div class="mb-4">
+      <div class="mode-toggle" role="tablist" aria-label="Section Navigation">
+        <button type="button" id="shop-subtab-catalog" class="mode-toggle-btn is-active" aria-selected="true">
           <span>📦 Safe Picks Catalog</span>
         </button>
-        <button type="button" id="shop-subtab-builder" class="folder-tab">
+        <button type="button" id="shop-subtab-builder" class="mode-toggle-btn">
           <span>🔨 Home Builder (By Budget)</span>
         </button>
       </div>

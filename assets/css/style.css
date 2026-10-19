@@ -672,6 +672,60 @@ h1, h2, h3, h4, .font-display {
   background-size: 12px 6px;
 }
 
+/* ---------- Mode Segmented Toggle ---------- */
+.mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: var(--paper-2);
+  border: var(--line);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  box-shadow: 2px 2px 0 var(--ink);
+  max-width: 100%;
+}
+.mode-toggle-btn {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: 1.5px solid transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+.mode-toggle-btn:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.5);
+}
+.mode-toggle-btn.is-active {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 1.5px 1.5px 0 var(--ink);
+}
+
+@media (max-width: 540px) {
+  .mode-toggle {
+    display: flex;
+    width: 100%;
+  }
+  .mode-toggle-btn {
+    flex: 1 1 0;
+    padding: 7px 8px;
+    font-size: 11.5px;
+    text-align: center;
+  }
+}
+
 /* ---------- Print ---------- */
 @media print {
   body * { visibility: hidden; }
@@ -679,5 +733,6 @@ h1, h2, h3, h4, .font-display {
   #adoption-summary-modal { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; background: white; }
   .no-print { display: none !important; }
 }
+
 
 

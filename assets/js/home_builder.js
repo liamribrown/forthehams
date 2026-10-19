@@ -2,190 +2,375 @@
 // www.forthehams.co.uk | UK hamster care, checked against India's Hamster Rescue standards
 // Theme: "Zine × 2005" (see assets/css/style.css)
 
-import { products } from './data/products.js?v=3.6';
+import { products } from './data/products.js?v=3.7';
 import { speciesList } from './data/species.js?v=3.6';
 import { icon, clean } from './icons.js?v=3.6';
 
-// Slots required for an ethical UK setup
+// All 16 Official Adoption Criteria from India's Hamster Rescue
 export const BUILDER_SLOTS = [
+  // --- SECTION 1: HABITAT & EXERCISE ---
   {
     id: 'enclosure',
-    name: '1. Enclosure',
+    criteriaNo: 1,
+    name: '1. Enclosure (100x50x50cm Minimum)',
     icon: 'cage',
     category: 'enclosures',
-    required: true,
-    tagline: '100x50cm (5,000 cm²) minimum',
-    tip: 'Unbroken floor space is paramount. No modular tubes or wire shelves with drop hazards.'
-  },
-  {
-    id: 'wheel',
-    name: '2. Running Wheel',
-    icon: 'wheel',
-    category: 'wheels',
-    required: true,
-    tagline: 'Solid & upright (28cm+ Syrian / 20–26cm Dwarf)',
-    tip: 'Syrians need 28–32cm to prevent painful spine curving. Wire rungs or mesh are dangerous.'
+    section: 'Habitat & Exercise',
+    tagline: '100 x 50 x 50cm unbroken floor (barless preferred)',
+    tip: 'Strict UK rescue welfare minimum unbroken floor space (5,000+ cm²). Barless enclosures are preferred to prevent climbing fall injuries and allow 20cm+ bedding depth.'
   },
   {
     id: 'bedding',
-    name: '3. Burrowing Bedding',
+    criteriaNo: 2,
+    name: '2. Safe Bedding (8+ Inches)',
     icon: 'cloud',
     category: 'bedding',
-    required: true,
-    tagline: '20cm–30cm deep burrow support',
-    tip: 'Must hold tunnels without collapsing. Compressed paper, kiln-dried aspen, or hemp. No hay or fluffy wool.'
+    section: 'Habitat & Exercise',
+    tagline: '8+ inches (20cm+) deep burrow support',
+    tip: 'Must hold tunnels without collapsing. Compressed paper (Fitch/Kaytee), dust-free aspen, or hemp (Aubiose). Strictly NO hay (causes corneal scratches & pouch punctures) and NO fluffy wool.'
+  },
+  {
+    id: 'wheel',
+    criteriaNo: 3,
+    name: '3. Species-Suitable Wheel',
+    icon: 'wheel',
+    category: 'wheels',
+    section: 'Habitat & Exercise',
+    tagline: '28cm Syrians • 26cm Dwarfs • 21cm Robos',
+    tip: 'Solid running track, upright. Hamster back must be completely flat. Syrian: 28cm minimum. Dwarfs: 26cm. Robos: 21cm. Wire mesh and flying saucers are strictly forbidden.'
   },
   {
     id: 'sand',
-    name: '4. Sand Bath & Dish',
+    criteriaNo: 4,
+    name: '4. Large Sand Bath (A4+ Size)',
     icon: 'sand',
     category: 'sand',
-    required: true,
-    tagline: 'Essential hygiene & coat care',
-    tip: 'Use non-calcium reptile desert sand or safe play sand. Hamsters groom their oils in sand.'
+    section: 'Habitat & Exercise',
+    tagline: 'Aim for A4+ dish filled with safe sand',
+    tip: 'Hamsters groom essential coat oils in sand. Use non-calcium reptile desert sand or safe baked play sand. Roborovskis need up to 1/3 of the entire cage dedicated to sand.'
   },
   {
-    id: 'hide',
-    name: '5. Multi-Chamber Hide',
+    id: 'platforms',
+    criteriaNo: 5,
+    name: '5. Platforms for Heavy Items',
+    icon: 'check',
+    category: 'platforms',
+    section: 'Habitat & Exercise',
+    tagline: 'Elevates wheel & sand bath above burrows',
+    tip: 'Heavy items (wheel, sand bath, ceramic hides) MUST be placed on wooden platforms or stilts so they never sink and crush a burrowing hamster below.'
+  },
+
+  // --- SECTION 2: DIGGING, FORAGING & NATURAL COVER ---
+  {
+    id: 'dig_box',
+    criteriaNo: 6,
+    name: '6. Dig Box with 3 Safe Substrates',
+    icon: 'log',
+    category: 'substrates',
+    section: 'Digging & Foraging',
+    tagline: 'Coco coir, beech chips & cork granules',
+    tip: 'Sensory dig box with at least 3 distinct digging textures (e.g. soil-like coco coir, smooth beech chips, and cork granules or moss) for wild sensory enrichment.'
+  },
+  {
+    id: 'sprays',
+    criteriaNo: 7,
+    name: '7. Variety of Harvest Sprays',
+    icon: 'sprout',
+    category: 'forage',
+    section: 'Digging & Foraging',
+    tagline: 'Golden flax, millets, sorghum & oat sprays',
+    tip: 'Diverse botanical seed sprays simulate wild steppe meadows, provide natural overhead shelter, and stimulate natural foraging behaviors. Freeze 48 hours before use!'
+  },
+  {
+    id: 'tunnels',
+    criteriaNo: 8,
+    name: '8. Two or More Tunnels (Cork Log + 1)',
+    icon: 'log',
+    category: 'tunnels',
+    section: 'Digging & Foraging',
+    tagline: 'Reptile cork oak log + 2nd safe tunnel',
+    tip: 'At least 2 tunnels: one natural reptile cork oak hollow log plus a second wooden bark, ceramic, or bamboo tunnel for secure transit across the habitat.'
+  },
+  {
+    id: 'branch',
+    criteriaNo: 9,
+    name: '9. Reptile Branch',
+    icon: 'sprout',
+    category: 'branches',
+    section: 'Digging & Foraging',
+    tagline: 'Grapevine, java branch or bamboo root',
+    tip: 'Natural sandblasted grapevine wood, java branch, or bamboo root. Provides 3D terrain, safe claw wear, and breaks up open floor sightlines.'
+  },
+
+  // --- SECTION 3: BURROWS, HIDES & HYDRATION ---
+  {
+    id: 'water',
+    criteriaNo: 10,
+    name: '10. Water Bottle or Bowl',
+    icon: 'bowl',
+    category: 'water',
+    section: 'Hides & Hydration',
+    tagline: 'Shallow ceramic dish or standing bottle',
+    tip: 'A shallow heavyweight ceramic dish (or tealight holder) allows hamsters to drink in an ergonomic natural posture without straining their necks.'
+  },
+  {
+    id: 'hide_mc',
+    criteriaNo: 11,
+    name: '11. Multi-Chamber Hide (with Lid)',
     icon: 'hide',
     category: 'hides',
-    required: true,
-    tagline: 'Bottomless dark underground burrow',
-    tip: 'Simulates natural burrows with chambers for sleeping, food hoard, and pee corner. Place directly on base.'
+    section: 'Hides & Hydration',
+    tagline: 'Enclosed with lid, bottomless (3+ rooms)',
+    tip: 'Simulates subterranean burrow architecture with separate sleeping, hoarding, and toileting chambers. Must have a removable roof for gentle health checks.'
+  },
+  {
+    id: 'extra_hides',
+    criteriaNo: 12,
+    name: '12. Three or More Additional Hides',
+    icon: 'hide',
+    category: 'hides',
+    section: 'Hides & Hydration',
+    tagline: 'Mugs, teapots, bird feeders, salt pigs, oil burners',
+    tip: 'India’s criteria requires 3+ extra hides! Clean ceramic mugs, sideways terracotta flowerpots, salt pigs, and oil burners make wonderful budget-friendly hides.'
   },
   {
     id: 'food',
-    name: '6. Species Seed Mix',
+    criteriaNo: 13,
+    name: '13. Species-Specific Food (Getzoo)',
     icon: 'bowl',
     category: 'food_mixes',
-    required: true,
-    tagline: '100% pellet-free species nutrition',
-    tip: 'Diverse natural seeds, grains, mealworms, and herbs. Zero compressed pellets or dyed biscuits.'
+    section: 'Hides & Hydration',
+    tagline: 'Getzoo gourmet seed mix (India’s top pick)',
+    tip: '100% pellet-free, diverse species seed mix. India’s Hamster Rescue recommends Getzoo. Strictly zero sugar or fruit for diabetes-prone Russian and Chinese dwarfs.'
+  },
+
+  // --- SECTION 4: ADOPTION DAY & FREE ROAM ---
+  {
+    id: 'carrier',
+    criteriaNo: 14,
+    name: '14. Transport Carrier (Large Only)',
+    icon: 'cage',
+    category: 'carriers',
+    section: 'Adoption Day & Free Roam',
+    tagline: 'Large size only for adoption collection day',
+    tip: 'Rescues will inspect your carrier on collection day. Large carriers only (e.g. Ferplast Aladino Large or Savic Elmo Large) lined with 5cm bedding and cucumber.'
   },
   {
-    id: 'forage',
-    name: '7. Forage & Enrichment',
+    id: 'playpen',
+    criteriaNo: 15,
+    name: '15. Playpen / Safe Free-Roam Space',
+    icon: 'sparkle',
+    category: 'playpens',
+    section: 'Adoption Day & Free Roam',
+    tagline: 'Pop-up mesh pen or modular plastic panels',
+    tip: 'A secure playpen (like Songmics transparent modular panels or pop-up mesh pen) for daily out-of-cage bonding, exercise, and mental stimulation.'
+  },
+  {
+    id: 'clutter',
+    criteriaNo: 16,
+    name: '16. Clutter & Enrichment Chews',
     icon: 'sprout',
-    category: 'forage',
-    required: false,
-    tagline: 'Sprays, cork log & dig textures',
-    tip: 'Flax, sorghum, millets, cork bark tunnels, and coco coir soil create sensory foraging joy.'
+    category: 'clutter',
+    section: 'Adoption Day & Free Roam',
+    tagline: 'Sunflower heads, lotus pods & whimzees',
+    tip: 'Clutter fills empty spaces so prey hamsters feel safe under overhead cover. Giant sunflower heads, lotus pods, whimzees, and dandelion roots.'
   }
 ];
 
-// Curated setup presets (All 100% Rescue-Approved Welfare!)
+// Curated Setup Presets (Covering ALL 16 of India's Adoption Criteria!)
 export const SETUP_PRESETS = [
   {
     id: 'smart_saver',
     name: 'Smart Saver & DIY',
-    badge: '🪙 Maximum Value',
+    badge: '🪙 Maximum Thrift & Ingenuity',
     tone: 'mint',
-    tagline: 'Clever DIY conversions & bulk savings',
-    desc: 'Proof that ethical care does not require a fortune. Meets the full 100x50cm standard and deep burrowing requirements with high-value UK favorites.',
-    targetBudget: 135,
+    tagline: 'Complete 16-point adoption setup on a sensible budget',
+    desc: 'Meets every single one of India’s 16 adoption requirements. Uses smart thrifted hides, bulk substrates, Argos play sand, and DIY stilts without sacrificing an ounce of ethical care.',
+    targetBudget: 195,
     items: {
       syrian: {
         enclosure: 'enc-pawhut-115',
-        wheel: 'wheel-pah-plastic-28',
         bedding: 'bed-aubiose-hemp',
+        wheel: 'wheel-pah-plastic-28',
         sand: 'sand-suburban-play',
-        hide: 'hide-happy-henrys',
-        food: 'food-mixerama-syrian',
-        forage: 'forage-flax-sprays'
+        platforms: 'plat-wooden-stilts',
+        dig_box: 'sub-3-pack-bundle',
+        sprays: 'forage-flax-sprays',
+        tunnels: 'tunnel-birch-wood',
+        branch: 'branch-grapevine-wood',
+        water: 'water-shallow-ceramic',
+        hide_mc: 'hide-happy-henrys',
+        extra_hides: 'hides-thrift-trio',
+        food: 'food-getzoo-syrian',
+        carrier: 'carrier-savic-elmo',
+        playpen: 'playpen-popup-mesh',
+        clutter: 'clutter-india-botanicals'
       },
       dwarf: {
         enclosure: 'enc-pawhut-115',
-        wheel: 'wheel-trixie-wooden-28',
         bedding: 'bed-aubiose-hemp',
+        wheel: 'wheel-bucatstate-26',
         sand: 'sand-suburban-play',
-        hide: 'hide-happy-henrys',
-        food: 'food-mixerama-dwarf',
-        forage: 'forage-flax-sprays'
+        platforms: 'plat-wooden-stilts',
+        dig_box: 'sub-3-pack-bundle',
+        sprays: 'forage-flax-sprays',
+        tunnels: 'tunnel-birch-wood',
+        branch: 'branch-grapevine-wood',
+        water: 'water-shallow-ceramic',
+        hide_mc: 'hide-happy-henrys',
+        extra_hides: 'hides-thrift-trio',
+        food: 'food-getzoo-dwarf',
+        carrier: 'carrier-savic-elmo',
+        playpen: 'playpen-popup-mesh',
+        clutter: 'clutter-india-botanicals'
       },
       roborovski: {
         enclosure: 'enc-pawhut-115',
-        wheel: 'wheel-trixie-wooden-28',
         bedding: 'bed-aubiose-hemp',
+        wheel: 'wheel-pah-plastic-28',
         sand: 'sand-suburban-play',
-        hide: 'hide-happy-henrys',
-        food: 'food-mixerama-robo',
-        forage: 'forage-flax-sprays'
+        platforms: 'plat-wooden-stilts',
+        dig_box: 'sub-3-pack-bundle',
+        sprays: 'forage-flax-sprays',
+        tunnels: 'tunnel-birch-wood',
+        branch: 'branch-grapevine-wood',
+        water: 'water-shallow-ceramic',
+        hide_mc: 'hide-happy-henrys',
+        extra_hides: 'hides-thrift-trio',
+        food: 'food-getzoo-dwarf',
+        carrier: 'carrier-savic-elmo',
+        playpen: 'playpen-popup-mesh',
+        clutter: 'clutter-india-botanicals'
       }
     }
   },
   {
     id: 'classic_turnkey',
     name: 'Classic Turnkey & Wire',
-    badge: '⚖️ UK Rescue Favorite',
+    badge: '⚖️ UK Rescue Community Favorite',
     tone: 'mustard',
-    tagline: 'Popular barred cages & premium bearings',
-    desc: 'The UK rescue community standard. Spacious barred enclosure, ultra-smooth silent wheel, paper bedding, and a handcrafted multi-chamber hide.',
-    targetBudget: 215,
+    tagline: 'Trusted barred enclosures & handcrafted enrichment',
+    desc: 'The gold-standard turnkey kit used across UK rescue foster homes. Roomy Savic Plaza cage, silent bearing wheel, Fitch paper bedding, handcrafted wooden multi-chamber, and modular Songmics playpen.',
+    targetBudget: 310,
     items: {
       syrian: {
         enclosure: 'enc-savic-plaza-120',
-        wheel: 'wheel-bucatstate-32',
         bedding: 'bed-fitch-paper-70l',
+        wheel: 'wheel-bucatstate-32',
         sand: 'sand-pets-desert',
-        hide: 'hide-hopes-mc',
-        food: 'food-mixerama-syrian',
-        forage: 'forage-flax-sprays'
+        platforms: 'plat-niteangel-corner',
+        dig_box: 'sub-3-pack-bundle',
+        sprays: 'forage-sorghum-dari',
+        tunnels: 'tunnel-birch-wood',
+        branch: 'branch-grapevine-wood',
+        water: 'water-trixie-standing',
+        hide_mc: 'hide-hopes-mc',
+        extra_hides: 'hide-ceramic-mushroom',
+        food: 'food-getzoo-syrian',
+        carrier: 'carrier-aladino-large',
+        playpen: 'playpen-songmics-panels',
+        clutter: 'clutter-india-botanicals'
       },
       dwarf: {
         enclosure: 'enc-savic-plaza-100',
-        wheel: 'wheel-bucatstate-26',
         bedding: 'bed-fitch-paper-70l',
+        wheel: 'wheel-bucatstate-26',
         sand: 'sand-pets-desert',
-        hide: 'hide-hopes-mc',
-        food: 'food-mixerama-dwarf',
-        forage: 'forage-flax-sprays'
+        platforms: 'plat-niteangel-corner',
+        dig_box: 'sub-3-pack-bundle',
+        sprays: 'forage-sorghum-dari',
+        tunnels: 'tunnel-birch-wood',
+        branch: 'branch-grapevine-wood',
+        water: 'water-trixie-standing',
+        hide_mc: 'hide-hopes-mc',
+        extra_hides: 'hide-ceramic-mushroom',
+        food: 'food-getzoo-dwarf',
+        carrier: 'carrier-aladino-large',
+        playpen: 'playpen-songmics-panels',
+        clutter: 'clutter-india-botanicals'
       },
       roborovski: {
         enclosure: 'enc-savic-plaza-100',
-        wheel: 'wheel-bucatstate-26',
         bedding: 'bed-fitch-paper-70l',
+        wheel: 'wheel-bucatstate-26',
         sand: 'sand-pets-desert',
-        hide: 'hide-hopes-mc',
-        food: 'food-mixerama-robo',
-        forage: 'forage-sorghum-dari'
+        platforms: 'plat-niteangel-corner',
+        dig_box: 'sub-3-pack-bundle',
+        sprays: 'forage-sorghum-dari',
+        tunnels: 'tunnel-birch-wood',
+        branch: 'branch-grapevine-wood',
+        water: 'water-trixie-standing',
+        hide_mc: 'hide-hopes-mc',
+        extra_hides: 'hide-ceramic-mushroom',
+        food: 'food-getzoo-dwarf',
+        carrier: 'carrier-aladino-large',
+        playpen: 'playpen-songmics-panels',
+        clutter: 'clutter-india-botanicals'
       }
     }
   },
   {
     id: 'showcase_acrylic',
     name: 'Acrylic & Showcase',
-    badge: '✨ Pre-Assembled Glass/Acrylic',
+    badge: '✨ Pre-Assembled Acrylic Suite',
     tone: 'lilac',
-    tagline: 'Barless front-viewing & modern aesthetics',
-    desc: 'Turnkey acrylic hybrid enclosure with 360° viewing, magnetic front door, dual bearing wheel, and boutique German artisan nutrition.',
-    targetBudget: 330,
+    tagline: 'Barless front-viewing & modern designer accessories',
+    desc: 'Turnkey acrylic hybrid habitat with deep substrate basin, magnetic doors, ultra-quiet dual bearing wheel, designer cooling ceramics, multi-chamber dig box, and Songmics playpen.',
+    targetBudget: 460,
     items: {
       syrian: {
         enclosure: 'enc-bucatstate-3',
-        wheel: 'wheel-bucatstate-32',
         bedding: 'bed-kaytee-clean-cozy',
+        wheel: 'wheel-bucatstate-32',
         sand: 'bath-niteangel-glass',
-        hide: 'hide-bucatstate-mc',
-        food: 'food-kornerbude-syrian',
-        forage: 'forage-indias-bouquet'
+        platforms: 'plat-niteangel-corner',
+        dig_box: 'sub-hopes-digbox',
+        sprays: 'forage-indias-bouquet',
+        tunnels: 'tunnel-bamboo-ceramic',
+        branch: 'branch-java-wood',
+        water: 'water-trixie-standing',
+        hide_mc: 'hide-bucatstate-mc',
+        extra_hides: 'hides-ceramic-trio',
+        food: 'food-getzoo-syrian',
+        carrier: 'carrier-aladino-large',
+        playpen: 'playpen-songmics-panels',
+        clutter: 'clutter-hopes-harvest'
       },
       dwarf: {
         enclosure: 'enc-bucatstate-3',
-        wheel: 'wheel-bucatstate-26',
         bedding: 'bed-kaytee-clean-cozy',
+        wheel: 'wheel-bucatstate-26',
         sand: 'bath-niteangel-glass',
-        hide: 'hide-bucatstate-mc',
-        food: 'food-kornerbude-dwarf',
-        forage: 'forage-indias-bouquet'
+        platforms: 'plat-niteangel-corner',
+        dig_box: 'sub-hopes-digbox',
+        sprays: 'forage-indias-bouquet',
+        tunnels: 'tunnel-bamboo-ceramic',
+        branch: 'branch-java-wood',
+        water: 'water-trixie-standing',
+        hide_mc: 'hide-bucatstate-mc',
+        extra_hides: 'hides-ceramic-trio',
+        food: 'food-getzoo-dwarf',
+        carrier: 'carrier-aladino-large',
+        playpen: 'playpen-songmics-panels',
+        clutter: 'clutter-hopes-harvest'
       },
       roborovski: {
         enclosure: 'enc-bucatstate-3',
-        wheel: 'wheel-bucatstate-26',
         bedding: 'bed-kaytee-clean-cozy',
+        wheel: 'wheel-bucatstate-26',
         sand: 'bath-niteangel-glass',
-        hide: 'hide-bucatstate-mc',
-        food: 'food-kornerbude-dwarf',
-        forage: 'forage-sorghum-dari'
+        platforms: 'plat-niteangel-corner',
+        dig_box: 'sub-hopes-digbox',
+        sprays: 'forage-indias-bouquet',
+        tunnels: 'tunnel-bamboo-ceramic',
+        branch: 'branch-java-wood',
+        water: 'water-trixie-standing',
+        hide_mc: 'hide-bucatstate-mc',
+        extra_hides: 'hides-ceramic-trio',
+        food: 'food-getzoo-dwarf',
+        carrier: 'carrier-aladino-large',
+        playpen: 'playpen-songmics-panels',
+        clutter: 'clutter-hopes-harvest'
       }
     }
   }
@@ -206,10 +391,10 @@ export function getProductPrice(p) {
 const builderState = {
   mode: 'presets', // 'presets' | 'custom'
   activePresetId: 'smart_saver',
-  targetBudget: 150,
-  selectedSlots: {}, // { enclosure: 'enc-pawhut-115', ... }
-  pickerActiveSlot: null, // slot id if item picker modal/drawer is open
-  onCartChange: null
+  targetBudget: 200,
+  selectedSlots: {}, // { enclosure: '...', ... }
+  pickerActiveSlot: null,
+  lastSpecies: 'all'
 };
 
 // Map general species ID ('syrian' / 'roborovski' / 'winter_white' etc.) to preset key
@@ -243,79 +428,44 @@ export function calculateSetupTotal(selectedSlots) {
   return parseFloat(total.toFixed(2));
 }
 
-// Evaluate welfare safety & completeness
+// Evaluate welfare safety & completeness against India's 16 criteria
 export function evaluateWelfare(selectedSlots, speciesId = 'all') {
   const issues = [];
   const passes = [];
 
-  const encId = selectedSlots.enclosure;
-  const wheelId = selectedSlots.wheel;
-  const bedId = selectedSlots.bedding;
-  const sandId = selectedSlots.sand;
-  const hideId = selectedSlots.hide;
-  const foodId = selectedSlots.food;
+  BUILDER_SLOTS.forEach(slot => {
+    const prodId = selectedSlots[slot.id];
+    const prod = products.find(p => p.id === prodId);
 
-  const enc = products.find(p => p.id === encId);
-  const wheel = products.find(p => p.id === wheelId);
-  const bed = products.find(p => p.id === bedId);
-  const sand = products.find(p => p.id === sandId);
-  const hide = products.find(p => p.id === hideId);
-  const food = products.find(p => p.id === foodId);
+    if (!prod) {
+      issues.push({ text: `Missing: ${slot.name}`, severity: 'error', slotId: slot.id });
+      return;
+    }
 
-  // 1. Enclosure check
-  if (enc) {
-    passes.push({ text: '100x50cm Minimum Floor Space Met (5,000+ cm²)', type: 'enc' });
-  } else {
-    issues.push({ text: 'Missing essential enclosure', severity: 'error' });
-  }
-
-  // 2. Wheel diameter check
-  if (wheel) {
-    if (speciesId === 'syrian') {
-      const isSmall = /20cm|22cm|24cm|26cm/i.test(wheel.name);
-      if (isSmall) {
-        issues.push({ text: 'Wheel may be under 28cm for a Syrian! Syrians need 28–32cm to avoid spinal damage.', severity: 'warning' });
+    // Specific criteria rule checks
+    if (slot.id === 'wheel') {
+      if (speciesId === 'syrian') {
+        const isSmall = /20cm|22cm|24cm|26cm/i.test(prod.name);
+        if (isSmall) {
+          issues.push({ text: 'Syrians need a 28cm+ wheel to avoid curved spines!', severity: 'warning', slotId: slot.id });
+        } else {
+          passes.push({ text: 'Criteria #3: 28cm+ Wheel for Syrian (Flat Spine)', type: 'wheel' });
+        }
+      } else if (speciesId === 'roborovski') {
+        passes.push({ text: 'Criteria #3: 21cm+ Wheel for Roborovski', type: 'wheel' });
       } else {
-        passes.push({ text: 'Spine-Safe Upright Wheel (28cm+ for Syrian)', type: 'wheel' });
+        passes.push({ text: 'Criteria #3: 26cm+ Wheel for Dwarf', type: 'wheel' });
+      }
+    } else if (slot.id === 'food') {
+      if ((speciesId === 'winter_white' || speciesId === 'campbells' || speciesId === 'chinese') && (prod.species && !prod.species.includes(speciesId) && prod.species.includes('syrian'))) {
+        issues.push({ text: 'Dwarfs are prone to diabetes! Pick a fruit-free dwarf mix.', severity: 'warning', slotId: slot.id });
+      } else {
+        passes.push({ text: `Criteria #${slot.criteriaNo}: ${slot.name}`, type: slot.id });
       }
     } else {
-      passes.push({ text: 'Spine-Safe Upright Wheel (20cm+ diameter)', type: 'wheel' });
+      passes.push({ text: `Criteria #${slot.criteriaNo}: ${slot.name}`, type: slot.id });
     }
-  } else {
-    issues.push({ text: 'Missing essential running wheel', severity: 'error' });
-  }
-
-  // 3. Bedding check
-  if (bed) {
-    passes.push({ text: 'Deep Burrowing Substrate (Safe, Dust-Free, No Hay)', type: 'bedding' });
-  } else {
-    issues.push({ text: 'Missing burrowing bedding', severity: 'error' });
-  }
-
-  // 4. Sand bath check
-  if (sand) {
-    passes.push({ text: 'Safe Sand Grooming Bath Included', type: 'sand' });
-  } else {
-    issues.push({ text: 'Missing essential sand bath', severity: 'error' });
-  }
-
-  // 5. Hide check
-  if (hide) {
-    passes.push({ text: 'Bottomless Multi-Chamber Burrow Hide', type: 'hide' });
-  } else {
-    issues.push({ text: 'Missing multi-chamber hide', severity: 'error' });
-  }
-
-  // 6. Food check
-  if (food) {
-    if ((speciesId === 'winter_white' || speciesId === 'campbells' || speciesId === 'chinese') && (food.species && !food.species.includes(speciesId) && food.species.includes('syrian'))) {
-      issues.push({ text: 'Dwarf hamsters are prone to diabetes! Ensure you pick a fruit-free dwarf seed mix.', severity: 'warning' });
-    } else {
-      passes.push({ text: '100% Pellet-Free Species-Specific Seed Mix', type: 'food' });
-    }
-  } else {
-    issues.push({ text: 'Missing ethical seed mix', severity: 'error' });
-  }
+  });
 
   const isComplete = !issues.some(i => i.severity === 'error');
   return { issues, passes, isComplete };
@@ -326,9 +476,9 @@ export function formatShoppingReceiptText(selectedSlots, currentSpecies = 'all')
   const total = calculateSetupTotal(selectedSlots);
   const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   let lines = [
-    `🐹 FOR THE HAMS! — Ethical Hamster Home Setup`,
+    `🐹 FOR THE HAMS! — India's Hamster Rescue Vetted Habitat`,
     `Generated: ${dateStr} | Species: ${currentSpecies.toUpperCase()}`,
-    `Standard: 100% Rescue-Approved Welfare (India's Hamster Rescue Standards)`,
+    `Standard: 100% Meets All 16 Adoption Criteria (India's Hamster Rescue #1213919)`,
     `Estimated Total: £${total.toFixed(2)}`,
     `--------------------------------------------------`
   ];
@@ -339,7 +489,8 @@ export function formatShoppingReceiptText(selectedSlots, currentSpecies = 'all')
       const p = products.find(prod => prod.id === prodId);
       if (p) {
         const price = getProductPrice(p);
-        lines.push(`• [${slot.name}] ${p.name}`);
+        lines.push(`• [Criteria #${slot.criteriaNo}] ${slot.name}`);
+        lines.push(`  Item: ${p.name}`);
         lines.push(`  Price: £${price.toFixed(2)} | Retailer: ${p.retailer || 'UK Stockist'}`);
         if (p.url) lines.push(`  Link: ${p.url}`);
         lines.push(``);
@@ -348,9 +499,20 @@ export function formatShoppingReceiptText(selectedSlots, currentSpecies = 'all')
   });
 
   lines.push(`--------------------------------------------------`);
-  lines.push(`Build your own setup at: https://www.forthehams.co.uk/#builder`);
-  lines.push(`UK Hamster Welfare: 100x50cm minimum • Solitary housing only • No hay, fluffy wool or small wheels!`);
+  lines.push(`Official India's Hamster Rescue Criteria: https://www.indiashamsterrescue.co.uk/hamstercareinfo`);
+  lines.push(`Build or customize your setup at: https://www.forthehams.co.uk/#builder`);
+  lines.push(`Ethical UK Baseline: 100x50x50cm minimum • Solitary only • No hay or fluffy wool!`);
   return lines.join('\n');
+}
+
+// Group slots by section
+function getSlotsBySection() {
+  const sections = {};
+  BUILDER_SLOTS.forEach(slot => {
+    if (!sections[slot.section]) sections[slot.section] = [];
+    sections[slot.section].push(slot);
+  });
+  return sections;
 }
 
 // Render the entire Home Builder view
@@ -367,6 +529,7 @@ export function renderHomeBuilder(container, options = {}) {
   const total = calculateSetupTotal(builderState.selectedSlots);
   const welfare = evaluateWelfare(builderState.selectedSlots, currentSpecies);
   const activePreset = SETUP_PRESETS.find(p => p.id === builderState.activePresetId);
+  const sections = getSlotsBySection();
 
   // Budget difference calculation
   const diff = builderState.targetBudget - total;
@@ -377,12 +540,12 @@ export function renderHomeBuilder(container, options = {}) {
   container.innerHTML = `
     <div class="home-builder animate-fade-in pb-12">
       <!-- Top Section Switcher (Catalog vs Builder) -->
-      <div class="flex items-center gap-2 mb-3">
-        <div class="folder-tabs" role="tablist">
-          <button type="button" id="builder-nav-catalog-btn" class="folder-tab">
+      <div class="mb-4">
+        <div class="mode-toggle" role="tablist" aria-label="Section Navigation">
+          <button type="button" id="builder-nav-catalog-btn" class="mode-toggle-btn">
             <span>📦 Safe Picks Catalog</span>
           </button>
-          <button type="button" class="folder-tab is-active" aria-selected="true">
+          <button type="button" class="mode-toggle-btn is-active" aria-selected="true">
             <span>🔨 Home Builder (By Budget)</span>
           </button>
         </div>
@@ -392,17 +555,17 @@ export function renderHomeBuilder(container, options = {}) {
       <header class="blueprint-card mb-5 relative overflow-hidden">
         <div class="flex flex-wrap items-center justify-between gap-2.5 mb-2">
           <div class="flex items-center gap-2">
-            <span class="sticker bg-mustard py-0.5 px-2 text-xs font-bold font-display uppercase tracking-wider">Interactive Tool</span>
-            <span class="tag tag-mint">${icon('tick', 12)} 100% Rescue Vetted</span>
+            <span class="sticker bg-mustard py-0.5 px-2 text-xs font-bold font-display uppercase tracking-wider">Adoption Ready</span>
+            <span class="tag tag-pink">${icon('heart', 12)} India's Rescue Standards</span>
           </div>
-          <span class="pixel text-[11px] text-ink-soft">BLUEPRINT_REV_3.6</span>
+          <span class="pixel text-[11px] text-ink-soft">INDIA'S_CRITERIA_REV_3.6</span>
         </div>
 
         <h1 class="text-2xl sm:text-3xl font-display leading-tight mb-2">
           Hamster Home Builder
         </h1>
         <p class="text-[14.5px] leading-relaxed text-ink-soft mb-3">
-          Plan an ethical, rescue-approved hamster habitat that fits your budget. Every build here meets the strict <strong>100x50cm unbroken floor space</strong> standard, with species-safe wheels and direct links to trusted UK stockists.
+          Build an ethical setup that fulfills <strong>all 16 official adoption criteria</strong> from <a href="https://www.indiashamsterrescue.co.uk/hamstercareinfo" target="_blank" rel="noopener noreferrer" class="underline font-bold text-ink hover:text-tomato">India's Hamster Rescue (Charity #1213919)</a>, tailored to your budget with direct links to UK stockists.
         </p>
 
         <!-- Equality Notice: Budget does not equal Welfare -->
@@ -411,20 +574,24 @@ export function renderHomeBuilder(container, options = {}) {
           <div>
             <strong class="font-bold">A thrifty home is every bit as ethical as an expensive home!</strong>
             <p class="mt-0.5 text-ink-soft">
-              Hamsters do not care how much you spend — they care about deep burrowing space, a large upright wheel, safe sand, and plenty of forage. Price differences reflect materials (e.g. acrylic vs DIY/wire) and pre-assembly, not animal happiness.
+              Hamsters do not care how much an enclosure costs — they only care about deep burrowing space, safe sand, a large upright wheel, and plenty of forage. Price differences reflect materials (e.g. acrylic vs DIY/wire) and pre-assembly, not animal happiness.
             </p>
           </div>
         </div>
 
-        <!-- Mode Segmented Switcher -->
-        <div class="flex items-center gap-2 mt-4 pt-2 border-t border-ink/10">
-          <span class="text-xs font-bold uppercase tracking-wide text-ink-soft shrink-0">Mode:</span>
-          <div class="folder-tabs inline-flex m-0" role="tablist">
-            <button type="button" id="builder-mode-presets" class="folder-tab ${builderState.mode === 'presets' ? 'is-active' : ''}">
-              <span>Curated Setup Styles</span>
+        <!-- Mode Segmented Switcher (Fixed & Anchored) -->
+        <div class="mt-4 pt-3 border-t-2 border-dashed border-ink/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs uppercase font-extrabold tracking-wider text-ink">Planning Mode:</span>
+            <span class="text-xs text-ink-soft hidden sm:inline">— Choose 1-click curated or custom build</span>
+          </div>
+
+          <div class="mode-toggle" role="tablist" aria-label="Planning Mode">
+            <button type="button" id="builder-mode-presets" class="mode-toggle-btn ${builderState.mode === 'presets' ? 'is-active' : ''}" aria-selected="${builderState.mode === 'presets'}">
+              <span>🪙 1-Click Curated Presets</span>
             </button>
-            <button type="button" id="builder-mode-custom" class="folder-tab ${builderState.mode === 'custom' ? 'is-active' : ''}">
-              <span>Custom Builder (Slot-by-Slot)</span>
+            <button type="button" id="builder-mode-custom" class="mode-toggle-btn ${builderState.mode === 'custom' ? 'is-active' : ''}" aria-selected="${builderState.mode === 'custom'}">
+              <span>🛠️ Custom Builder</span>
             </button>
           </div>
         </div>
@@ -455,7 +622,7 @@ export function renderHomeBuilder(container, options = {}) {
               </span>
             `}
             <p class="text-[11px] text-ink-soft mt-1">
-              ${isUnder ? 'Great job! Surplus can fund fresh veggies & vet care.' : 'Adjust any slot below to bring down the cost.'}
+              ${isUnder ? 'Great job! Surplus can fund fresh veggies & exotic vet fund.' : 'Adjust any slot below to bring down the cost.'}
             </p>
           </div>
         </div>
@@ -465,7 +632,7 @@ export function renderHomeBuilder(container, options = {}) {
           <div class="mt-3 pt-3 border-t border-ink/10 flex flex-wrap items-center justify-between gap-2">
             <label for="budget-slider" class="text-xs font-bold text-ink-soft">Adjust Target Budget:</label>
             <div class="flex items-center gap-2">
-              <input type="range" id="budget-slider" min="100" max="450" step="10" value="${builderState.targetBudget}" class="accent-tomato cursor-pointer">
+              <input type="range" id="budget-slider" min="150" max="600" step="10" value="${builderState.targetBudget}" class="accent-tomato cursor-pointer">
               <span class="font-display font-bold text-sm bg-paper-2 px-2 py-0.5 border border-ink rounded">£${builderState.targetBudget}</span>
             </div>
           </div>
@@ -477,14 +644,20 @@ export function renderHomeBuilder(container, options = {}) {
         </div>
       </div>
 
-      <!-- WELFARE CHECKMETER -->
+      <!-- WELFARE CHECKMETER (AGAINST ALL 16 ADOPTION CRITERIA) -->
       <div class="portal-box ${welfare.isComplete ? 'bg-mint-soft border-mint' : 'bg-tomato-soft border-tomato'} p-3.5 mb-5 rounded-xl text-xs sm:text-sm">
-        <div class="flex items-center gap-2 mb-1.5">
-          <span class="text-base">${welfare.isComplete ? '🎖️' : '⚠️'}</span>
-          <h3 class="font-display text-sm sm:text-base font-bold">
-            ${welfare.isComplete ? 'All 6 Welfare Essentials Fully Covered!' : 'Welfare Checklist Needs Attention'}
-          </h3>
+        <div class="flex items-center justify-between gap-2 mb-1.5">
+          <div class="flex items-center gap-2">
+            <span class="text-base">${welfare.isComplete ? '🎖️' : '⚠️'}</span>
+            <h3 class="font-display text-sm sm:text-base font-bold">
+              ${welfare.isComplete ? 'All 16 Adoption Criteria Fully Met! (Adoption Approved)' : `${welfare.passes.length} of 16 Criteria Met — Action Required`}
+            </h3>
+          </div>
+          <span class="pixel text-[11px] font-bold">${welfare.passes.length} / 16</span>
         </div>
+        <p class="text-xs text-ink-soft mb-2">
+          Checked against India's Hamster Rescue requirements (cage size, bedding, wheel, sand bath, platforms, dig textures, tunnels, branch, hides, food, carrier & playpen).
+        </p>
         <div class="flex flex-wrap gap-1.5 mt-2">
           ${welfare.passes.map(p => `
             <span class="tag tag-mint text-[11px]">${icon('tick', 11)} ${p.text}</span>
@@ -497,16 +670,24 @@ export function renderHomeBuilder(container, options = {}) {
         </div>
       </div>
 
-      <!-- 7 SETUP SLOTS (CARDS) -->
+      <!-- 16 SETUP SLOTS GROUPED BY 4 SECTIONS -->
       <section class="mb-6">
         <div class="flex items-baseline justify-between gap-2 mb-3">
-          <h2 class="text-xl sm:text-2xl font-display">Habitat Components</h2>
-          <span class="text-xs text-ink-soft">Tap 'Change' on any slot to swap</span>
+          <h2 class="text-xl sm:text-2xl font-display">Habitat & Adoption Checklist</h2>
+          <span class="text-xs text-ink-soft">Tap 'Swap / Change' on any item</span>
         </div>
 
-        <div class="grid grid-cols-1 gap-3.5">
-          ${BUILDER_SLOTS.map(slot => renderSlotCard(slot, builderState.selectedSlots[slot.id], currentSpecies)).join('')}
-        </div>
+        ${Object.entries(sections).map(([secName, secSlots]) => `
+          <div class="mb-5">
+            <div class="flex items-center gap-2 mb-2 pb-1 border-b-2 border-ink">
+              <span class="font-display text-base font-bold text-ink uppercase tracking-wide">${secName}</span>
+              <span class="text-xs text-ink-soft">(${secSlots.length} items)</span>
+            </div>
+            <div class="grid grid-cols-1 gap-3">
+              ${secSlots.map(slot => renderSlotCard(slot, builderState.selectedSlots[slot.id], currentSpecies)).join('')}
+            </div>
+          </div>
+        `).join('')}
       </section>
 
       <!-- SHOPPING RECEIPT & EXPORT -->
@@ -514,13 +695,13 @@ export function renderHomeBuilder(container, options = {}) {
         <div class="receipt-cutout-top"></div>
         <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-dashed border-ink/30 pb-3 mb-4">
           <div>
-            <span class="sticker bg-ink text-paper py-0.5 px-2 text-[10px] font-pixel">RECEIPT_UK_VET_01</span>
-            <h3 class="font-display text-xl font-bold mt-1">Your Curated Shopping Basket</h3>
-            <p class="text-xs text-ink-soft">Direct merchant links — we do not take commissions or sell anything.</p>
+            <span class="sticker bg-ink text-paper py-0.5 px-2 text-[10px] font-pixel">ADOPTION_RECEIPT_UK_16</span>
+            <h3 class="font-display text-xl font-bold mt-1">India's Rescue Adoption Shopping Basket</h3>
+            <p class="text-xs text-ink-soft">Direct links to verified UK makers, independent stores, and India's shop.</p>
           </div>
           <button type="button" id="copy-receipt-btn" class="btn btn-sm btn-tomato inline-flex items-center gap-1.5">
             ${icon('copy', 14)}
-            <span>Copy Shopping List</span>
+            <span>Copy Full Shopping List</span>
           </button>
         </div>
 
@@ -535,8 +716,11 @@ export function renderHomeBuilder(container, options = {}) {
             return `
               <div class="py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
                 <div class="min-w-0 flex-1">
-                  <span class="text-[10px] uppercase font-bold text-ink-soft block">${slot.name}</span>
-                  <strong class="font-bold text-ink">${clean(prod.name)}</strong>
+                  <div class="flex items-center gap-1.5">
+                    <span class="tag tag-mustard py-0 px-1 text-[10px] font-bold">#${slot.criteriaNo}</span>
+                    <span class="text-[11px] uppercase font-bold text-ink-soft">${slot.name}</span>
+                  </div>
+                  <strong class="font-bold text-ink block mt-0.5">${clean(prod.name)}</strong>
                   <span class="text-ink-soft block text-[11px]">${clean(prod.retailer || '')}</span>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
@@ -554,10 +738,10 @@ export function renderHomeBuilder(container, options = {}) {
         <!-- Receipt Total Footer -->
         <div class="pt-3 border-t-2 border-dashed border-ink/40 flex items-center justify-between">
           <div class="text-xs text-ink-soft">
-            <span>Checked against India's Hamster Rescue Standards</span>
+            <span>Fulfills 100% of India's Hamster Rescue Adoption Criteria</span>
           </div>
           <div class="text-right">
-            <span class="text-xs uppercase text-ink-soft block font-bold">Estimated Grand Total</span>
+            <span class="text-xs uppercase text-ink-soft block font-bold">Estimated Grand Total (16 Items)</span>
             <span class="font-display text-2xl font-extrabold text-tomato">£${total.toFixed(2)}</span>
           </div>
         </div>
@@ -592,7 +776,7 @@ function renderPresetsSection(currentSpecies) {
     <div class="presets-section mb-6">
       <div class="flex items-baseline justify-between gap-2 mb-2.5">
         <h2 class="text-xl sm:text-2xl font-display">1-Click Curated Setups</h2>
-        <span class="text-xs text-ink-soft">Select to prefill all 7 essentials</span>
+        <span class="text-xs text-ink-soft">Every setup includes all 16 criteria</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -613,7 +797,7 @@ function renderPresetsSection(currentSpecies) {
               <p class="text-[11.5px] text-ink-soft mt-2 leading-relaxed">${preset.desc}</p>
               <div class="mt-3 pt-2 border-t border-ink/10 flex items-center justify-between">
                 <span class="text-[11px] font-bold ${isActive ? 'text-tomato' : 'text-ink-soft'}">
-                  ${isActive ? '● Selected Setup' : '○ Tap to Load'}
+                  ${isActive ? '● Active Setup' : '○ Tap to Load'}
                 </span>
                 <button type="button" class="btn btn-xs ${isActive ? 'btn-tomato' : 'btn-mustard-soft'}">
                   ${isActive ? 'Active' : 'Apply'}
@@ -640,7 +824,10 @@ function renderSlotCard(slot, selectedProdId, currentSpecies) {
             ${icon(slot.icon, 20)}
           </span>
           <div>
-            <h3 class="font-display text-sm sm:text-base font-bold leading-none">${slot.name}</h3>
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="tag tag-mustard py-0 px-1 text-[10px] font-bold">Criteria #${slot.criteriaNo}</span>
+              <h3 class="font-display text-sm sm:text-base font-bold leading-none">${slot.name}</h3>
+            </div>
             <span class="text-[11px] text-ink-soft leading-tight block mt-0.5">${slot.tagline}</span>
           </div>
         </div>
@@ -688,7 +875,7 @@ function openSlotPicker(slotId, currentSpecies, container, options) {
 
   if (!backdrop || !body || !slot) return;
 
-  title.innerHTML = `Choose ${slot.name}`;
+  title.innerHTML = `Choose Criteria #${slot.criteriaNo}: ${slot.name}`;
 
   // Filter products by category and species
   const eligible = products.filter(p => {
@@ -701,7 +888,7 @@ function openSlotPicker(slotId, currentSpecies, container, options) {
 
   body.innerHTML = `
     <div class="mb-3 p-2.5 bg-paper-2 rounded border border-ink/20 text-xs text-ink-soft leading-normal">
-      <strong>Rescue Tip:</strong> ${slot.tip}
+      <strong>India's Rescue Adoption Standard:</strong> ${slot.tip}
     </div>
     <div class="divide-y divide-ink/10">
       ${eligible.map(p => {
@@ -812,7 +999,7 @@ function setupBuilderListeners(container, currentSpecies, options) {
         btn.classList.remove('btn-tomato');
         btn.classList.add('btn-mint');
         setTimeout(() => {
-          btn.innerHTML = `${icon('copy', 14)} <span>Copy Shopping List</span>`;
+          btn.innerHTML = `${icon('copy', 14)} <span>Copy Full Shopping List</span>`;
           btn.classList.remove('btn-mint');
           btn.classList.add('btn-tomato');
         }, 2500);
