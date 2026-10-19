@@ -194,11 +194,11 @@ function showCardModalUI(card, isFirstPull) {
       </div>
 
       <!-- Live Interactive Card Preview Stage (Always Instant & Crisp) -->
-      <div class="p-3 sm:p-4 overflow-y-auto flex-grow flex flex-col items-center justify-center bg-paper min-h-[300px]">
-        <div id="card-preview-stage" class="relative w-full max-w-xs flex flex-col items-center justify-center">
+      <div class="p-2 sm:p-4 overflow-y-auto flex-grow flex flex-col items-center justify-center bg-paper min-h-[320px]">
+        <div id="card-preview-stage" class="relative w-full max-w-[340px] flex flex-col items-center justify-center">
           <!-- Injected dynamically by renderLivePreview -->
         </div>
-        <p class="v2005 text-[11px] muted text-center mt-3">
+        <p class="v2005 text-[11px] muted text-center mt-2.5">
           ${formatCardNo(card.no)} • Series 1: Ham Basics • Rescue standard verified
         </p>
       </div>
@@ -334,14 +334,12 @@ function renderLivePreview() {
 
   stage.innerHTML = '';
   
-  // Wrap card in a miniature container simulating the format
+  // Wrap card in a container matching the selected format
   const wrap = document.createElement('div');
   wrap.className = 'w-full flex justify-center items-center';
 
   if (currentFormat === 'story') {
-    wrap.style.aspectRatio = '9 / 16';
-    wrap.style.maxHeight = '480px';
-    wrap.style.padding = '20px 10px';
+    wrap.style.padding = '14px 10px';
     wrap.style.borderRadius = '24px';
     wrap.style.border = '3px solid var(--tc-ink)';
     wrap.style.background = 'var(--tc-paper)';
