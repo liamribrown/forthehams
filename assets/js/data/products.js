@@ -10,11 +10,11 @@ export const products = [
     category: "food_mixes",
     species: ["syrian"],
     priceGuide: "£11.49 - £12.95",
-    retailer: "Bell's Tiny Tails / Bonny Burrows",
-    url: "https://bellstinytails.com/products/500g-kornerbude-syrian-hamster-seed-mix-food",
+    retailer: "Bonny Burrows / Bell's Tiny Tails",
+    url: "https://bonnyburrows.co.uk/products/syrian-food-seed-mix-500g-by-koernerbude",
     links: [
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/500g-kornerbude-syrian-hamster-seed-mix-food" },
-      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/syrian-food-seed-mix-500g-by-koernerbude" }
+      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/syrian-food-seed-mix-500g-by-koernerbude" },
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/collections/all" }
     ],
     badges: ["⭐ Rescue Favourite", "Pellet-Free", "German Welfare Standard"],
     summary: "Imported German species-specific seed mix stocked in the UK. Packed with whole grains, wild seeds, dried vegetables, flowers, and herbs with zero pellets or artificial fillers."
@@ -26,11 +26,11 @@ export const products = [
     category: "food_mixes",
     species: ["roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£11.49 - £12.95",
-    retailer: "Bell's Tiny Tails / Bonny Burrows",
-    url: "https://bellstinytails.com/products/500g-kornerbude-dwarf-hamster-seed-mix-food",
+    retailer: "Bonny Burrows / Bell's Tiny Tails",
+    url: "https://bonnyburrows.co.uk/products/dwarf-hamster-food-seed-mix-500g-by-koernerbude",
     links: [
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/500g-kornerbude-dwarf-hamster-seed-mix-food" },
-      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/dwarf-hamster-food-seed-mix-500g-by-koernerbude" }
+      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/dwarf-hamster-food-seed-mix-500g-by-koernerbude" },
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/collections/all" }
     ],
     badges: ["⭐ Rescue Favourite", "Diabetes-Safe", "Dwarf Specific"],
     summary: "Imported German dwarf hamster formula rich in fine grass seeds, millets, herbs, and blossoms. Completely fruit-free, sugar-free, and pellet-free."
@@ -75,9 +75,9 @@ export const products = [
     species: ["roborovski"],
     priceGuide: "£7.99 - £8.99",
     retailer: "Hope's Healthy Treats / Mixerama",
-    url: "https://hopeshealthytreats.com/products/mixerama-roborovski-hamster-seed-mix",
+    url: "https://hopeshealthytreats.com/products/mixerama-roborovksi-dwarf-hamster-seed-mix",
     links: [
-      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/mixerama-roborovski-hamster-seed-mix" },
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/mixerama-roborovksi-dwarf-hamster-seed-mix" },
       { label: "Mixerama DE", url: "https://www.mixerama.de/en/" }
     ],
     badges: ["⭐ Rescue Favourite", "Robo Specially Formulated"],
@@ -90,11 +90,12 @@ export const products = [
     category: "food_mixes",
     species: ["syrian"],
     priceGuide: "£9.50 - £9.99",
-    retailer: "Vetsend UK / BunnyNatureUK eBay",
+    retailer: "Vetsend UK / Amazon UK",
     url: "https://www.vetsend.co.uk/bunny-nature-hamster-dream-expert",
     links: [
       { label: "Vetsend UK", url: "https://www.vetsend.co.uk/bunny-nature-hamster-dream-expert" },
-      { label: "BunnyNatureUK eBay", url: "https://www.ebay.co.uk/str/bunbynatureuk" }
+      { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=Bunny+Nature+HamsterDream+EXPERT" },
+      { label: "eBay UK", url: "https://www.ebay.co.uk/sch/i.html?_nkw=Bunny+Nature+HamsterDream+EXPERT" }
     ],
     badges: ["Rescue Approved", "Pellet-Free", "Widely Available"],
     summary: "Completely pellet-free muesli mix with mealworms, barley, pumpkin seeds, and vital grasses. (Important: Always choose the EXPERT version, which contains zero compressed pellets)."
@@ -106,11 +107,12 @@ export const products = [
     category: "food_mixes",
     species: ["roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£9.50 - £9.99",
-    retailer: "Vetsend UK / BunnyNatureUK eBay",
+    retailer: "Vetsend UK / Amazon UK",
     url: "https://www.vetsend.co.uk/bunny-nature-dwarf-hamster-dream-expert",
     links: [
       { label: "Vetsend UK", url: "https://www.vetsend.co.uk/bunny-nature-dwarf-hamster-dream-expert" },
-      { label: "BunnyNatureUK eBay", url: "https://www.ebay.co.uk/str/bunbynatureuk" }
+      { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=Bunny+Nature+DwarfHamsterDream+EXPERT" },
+      { label: "eBay UK", url: "https://www.ebay.co.uk/sch/i.html?_nkw=Bunny+Nature+Dwarf+HamsterDream+EXPERT" }
     ],
     badges: ["Rescue Approved", "Pellet-Free", "Dwarf Balanced"],
     summary: "Specially balanced for all dwarf hamsters with micro-seeds, wild grass seeds, and mealworms. Sugar-free and fruit-free to safeguard against diabetes."
@@ -123,11 +125,11 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£3.78 - £8.49",
     retailer: "Chubby Cheeks UK / Rat Rations UK",
-    url: "https://www.chubbycheekshamsterfood.co.uk/product-page/hammykins-syrian-hamster-food",
+    url: "https://www.chubbycheekshamsterfood.co.uk/",
     links: [
-      { label: "Chubby Cheeks (Syrian)", url: "https://www.chubbycheekshamsterfood.co.uk/product-page/hammykins-syrian-hamster-food" },
-      { label: "Chubby Cheeks (Dwarf)", url: "https://www.chubbycheekshamsterfood.co.uk/product-page/hammykins-dwarf-hamster-food" },
-      { label: "Rat Rations UK", url: "https://ratrations.co.uk" }
+      { label: "Chubby Cheeks UK", url: "https://www.chubbycheekshamsterfood.co.uk/" },
+      { label: "Rat Rations (Syrian)", url: "https://ratrations.co.uk/lavenders-hamster-mixture" },
+      { label: "Rat Rations (Dwarf)", url: "https://ratrations.co.uk/dwarf-hamster-basic" }
     ],
     badges: ["UK Small Business", "Pellet-Free", "Custom Formulated"],
     summary: "Hand-blended UK species-specific mixes crafted without pellets, extruded biscuits, or added sugars. Separate tailored blends available for Syrians and diabetes-prone Dwarfs."
@@ -140,9 +142,9 @@ export const products = [
     species: ["syrian"],
     priceGuide: "£8.50 - £14.00",
     retailer: "Getzoo Official (Ships to UK)",
-    url: "https://www.getzoo.de/en/getzoo-goldhamsterfutter",
+    url: "https://www.getzoo.de/en/animal-feed/rodent-food/golden-hamster",
     links: [
-      { label: "Getzoo Official", url: "https://www.getzoo.de/en/getzoo-goldhamsterfutter" }
+      { label: "Getzoo Official", url: "https://www.getzoo.de/en/animal-feed/rodent-food/golden-hamster" }
     ],
     badges: ["German Welfare Standard", "Natural Steppe Diet"],
     summary: "Modeled directly on wild Syrian hamster steppe foraging. Includes buckwheat, dari, millets, mealworms, and herbal blossoms. Human-grade quality."
@@ -155,9 +157,9 @@ export const products = [
     species: ["roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£8.50 - £14.00",
     retailer: "Getzoo Official (Ships to UK)",
-    url: "https://www.getzoo.de/en/getzoo-zwerghamsterfutter-500g-1",
+    url: "https://www.getzoo.de/en/animal-feed/rodent-food/dwarf-hamster",
     links: [
-      { label: "Getzoo Official", url: "https://www.getzoo.de/en/getzoo-zwerghamsterfutter-500g-1" }
+      { label: "Getzoo Official", url: "https://www.getzoo.de/en/animal-feed/rodent-food/dwarf-hamster" }
     ],
     badges: ["German Welfare Standard", "Grass Seed Rich"],
     summary: "Rich in wild grass seeds and small grains mimicking the natural dry grasslands of dwarf hamsters. Zero sugary fillers or processed pellets."
@@ -172,11 +174,12 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£10.00 - £19.50",
     retailer: "India's Rescue Store / Bell's Tiny Tails / Hope's",
-    url: "https://www.indiashamsterrescue.co.uk/product-page/seed-spray-bouquet-bundle-for-hamsters-and-other-small-pets",
+    url: "https://www.indiashamsterrescue.co.uk/store",
     links: [
-      { label: "India's Rescue Store", url: "https://www.indiashamsterrescue.co.uk/product-page/seed-spray-bouquet-bundle-for-hamsters-and-other-small-pets" },
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/collections/sprays-spray-bundles" },
-      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/collections/hamsters" }
+      { label: "India's Rescue Store", url: "https://www.indiashamsterrescue.co.uk/store" },
+      { label: "Bell's Tiny Tails (125g)", url: "https://bellstinytails.com/products/variety-seeded-spray-bundle-125g" },
+      { label: "Bell's Tiny Tails (250g)", url: "https://bellstinytails.com/products/variety-spray-bundle-250g" },
+      { label: "Hope's (Spray Box)", url: "https://hopeshealthytreats.com/products/spray-box" }
     ],
     badges: ["⭐ 100% Profits Support Rescue", "Charity Store", "Essential Enrichment"],
     summary: "Hand-assembled spray bouquets containing flax, sorghum, red millet, wheat, and oat sprays. Buying from India's Hamster Rescue Store sends 100% of profits to veterinary care!"
@@ -189,11 +192,12 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£2.50 - £14.99",
     retailer: "Hope's Healthy Treats / Bell's Tiny Tails / India's Rescue",
-    url: "https://hopeshealthytreats.com/products/mini-royal-forage-box",
+    url: "https://hopeshealthytreats.com/products/flower-and-leaf-forage",
     links: [
-      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/mini-royal-forage-box" },
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/collections/forage" },
-      { label: "India's Rescue Store", url: "https://www.indiashamsterrescue.co.uk/product-page/india-s-hamster-rescue-treat-box-for-hamsters-mice-and-gerbils" }
+      { label: "Hope's (Flower & Leaf)", url: "https://hopeshealthytreats.com/products/flower-and-leaf-forage" },
+      { label: "Hope's (Dandelion)", url: "https://hopeshealthytreats.com/products/dandelion-leaf-forage" },
+      { label: "Bell's Tiny Tails (All Forage)", url: "https://bellstinytails.com/collections/all" },
+      { label: "India's Rescue Store", url: "https://www.indiashamsterrescue.co.uk/store" }
     ],
     badges: ["⭐ Team Favourite", "Pesticide Free", "UK Small Business"],
     summary: "Wholesome botanical forage featuring dried dandelion leaves, marigold flowers, hazelnut & strawberry leaves, and safe herbs to scatter across the bedding."
@@ -205,48 +209,45 @@ export const products = [
     category: "forage",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£2.45 - £5.99",
-    retailer: "Bell's Tiny Tails / Hope's / Bonny Burrows / Moony Paw",
-    url: "https://bellstinytails.com/products/25g-flax-sprays-bunch",
+    retailer: "Bell's Tiny Tails / Hope's / Bonny Burrows",
+    url: "https://bellstinytails.com/products/flax-sprays-bunch-25g",
     links: [
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/25g-flax-sprays-bunch" },
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/flax-sprays-bunch-25g" },
       { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/flax-sprays" },
-      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/flax-sprays-forage-for-hamsters-birds-gerbils" },
-      { label: "Moony Paw", url: "https://moonypaw.com/products/flax-unsorted" }
+      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/flax-sprays-forage-for-hamsters-birds-gerbils" }
     ],
     badges: ["⭐ Hamster Favourite", "Silky Fur"],
     summary: "Every hamster's absolute obsession. Packed with essential omega-3 fatty acids for a glossy coat and active foraging fun."
   },
   {
     id: "forage-sorghum-dari",
-    name: "Natural White, Red & Bronze Sorghum / Dari Sprays",
-    brand: "Bell's Tiny Tails / Bonny Burrows / Moony Paw",
+    name: "Natural White & Red Sorghum / Dari Sprays",
+    brand: "Bell's Tiny Tails / Hope's",
     category: "forage",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£2.99 - £4.50",
-    retailer: "Bell's Tiny Tails / Bonny Burrows / Moony Paw",
+    retailer: "Bell's Tiny Tails / Hope's Healthy Treats",
     url: "https://bellstinytails.com/products/100g-natural-white-sorghum-sprays",
     links: [
       { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/100g-natural-white-sorghum-sprays" },
-      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/natural-sorghum-sprays-hamster-forage-small-pet-treats" },
-      { label: "Moony Paw", url: "https://moonypaw.com/products/bronze-sorghum-stems" }
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/sorghum-spray" }
     ],
     badges: ["Boredom Breaker", "UK Small Business"],
-    summary: "Sturdy, popcorn-poppable seed stems that provide great physical resistance, encouraging natural harvest work and climbing effort."
+    summary: "Sturdy seed stems that provide great physical resistance, encouraging natural harvest work and climbing effort."
   },
   {
     id: "forage-millet-oat-grass",
-    name: "Millet, Oat, Amaranth & Pagima Grass Sprays",
-    brand: "Bell's Tiny Tails / India's Rescue / Bonny Burrows",
+    name: "Millet, Oat, Delicha & Grass Harvest Sprays",
+    brand: "Bell's Tiny Tails / Hope's",
     category: "forage",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£2.25 - £4.50",
-    retailer: "Bell's Tiny Tails / India's Rescue / Bonny Burrows / Moony Paw",
-    url: "https://bellstinytails.com/collections/sprays-spray-bundles",
+    retailer: "Bell's Tiny Tails / Hope's Healthy Treats",
+    url: "https://bellstinytails.com/products/delicha-coverage-sprays-25g",
     links: [
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/collections/sprays-spray-bundles" },
-      { label: "India's Rescue Store", url: "https://www.indiashamsterrescue.co.uk/product-page/foxtail-millet-coverage-spray-for-hamsters-mice-and-gerbils" },
-      { label: "Bonny Burrows", url: "https://bonnyburrows.co.uk/products/natural-dried-oat-sprays-for-small-animal-enrichment" },
-      { label: "Moony Paw", url: "https://moonypaw.com/products/pagima-green-sprays" }
+      { label: "Bell's Tiny Tails (Delicha)", url: "https://bellstinytails.com/products/delicha-coverage-sprays-25g" },
+      { label: "Hope's (Red Millet)", url: "https://hopeshealthytreats.com/products/3-red-millet" },
+      { label: "Hope's (Oat Sprays)", url: "https://hopeshealthytreats.com/products/oat-sprays" }
     ],
     badges: ["Overhead Cover", "Natural Harvest"],
     summary: "Tall, bushy sprays that create a canopy over the bedding so prey animals feel hidden and confident exploring above ground."
@@ -254,16 +255,16 @@ export const products = [
   {
     id: "forage-cork-log",
     name: "Natural Cork Oak Bark Log (Medium / Large)",
-    brand: "Swell Reptiles / Bell's Tiny Tails / Hope's",
+    brand: "Hope's / Swell Reptiles / Amazon UK",
     category: "forage",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£8.50 - £14.00",
-    retailer: "Swell Reptiles / Bell's Tiny Tails / Hope's",
-    url: "https://www.swelluk.com/reptile/decor/cork-bark",
+    retailer: "Hope's / Swell Reptiles / Amazon UK",
+    url: "https://hopeshealthytreats.com/products/cork-log-tunnel",
     links: [
-      { label: "Swell Reptiles", url: "https://www.swelluk.com/reptile/decor/cork-bark" },
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/enrichment-accessories" },
-      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/collections/hamsters" }
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/cork-log-tunnel" },
+      { label: "Swell Reptiles", url: "https://www.reptiles.swelluk.com/reptile-supplies" },
+      { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=cork+bark+tunnel+hamster" }
     ],
     badges: ["⭐ Team Favourite", "Nail Trimming", "Climbing Cover"],
     summary: "Hollow cork oak log. Rough bark texture naturally wears down sharp claws as hamsters clamber over and through it."
@@ -415,10 +416,11 @@ export const products = [
     category: "wheels",
     species: ["syrian"],
     priceGuide: "£38.99",
-    retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.com/products/30cm-wooden-wheel",
+    retailer: "Hope's Healthy Treats / Getzoo",
+    url: "https://hopeshealthytreats.com/collections/hamsters",
     links: [
-      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/30cm-wooden-wheel" }
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/collections/hamsters" },
+      { label: "Getzoo Cork Wheels", url: "https://www.getzoo.de/en/wheels" }
     ],
     badges: ["⭐ Team Favourite", "Natural Cork", "UK Small Business"],
     summary: "Premium wooden wheel lined with soft, natural cork that is gentle on delicate foot pads while providing silent rotation."
@@ -493,10 +495,10 @@ export const products = [
     category: "bedding",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£26.00 - £49.20",
-    retailer: "Fitch Recycling UK / Amazon UK",
-    url: "https://www.fitchrecycling.co.uk/animal-bedding.html",
+    retailer: "Fitch First UK / Amazon UK",
+    url: "https://www.fitchfirst.com/collections/pet-bedding",
     links: [
-      { label: "Fitch Direct", url: "https://www.fitchrecycling.co.uk/animal-bedding.html" },
+      { label: "Fitch First Official", url: "https://www.fitchfirst.com/collections/pet-bedding" },
       { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=Fitch+paper+bedding" }
     ],
     badges: ["⭐ Team Favourite", "Rescue Approved", "Bulk Value"],
@@ -556,9 +558,9 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£23.99",
     retailer: "Small Pet Select UK",
-    url: "https://smallpetselect.co.uk/collections/bedding-for-small-animals",
+    url: "https://smallpetselect.co.uk/products/aspen-shavings-bedding",
     links: [
-      { label: "Small Pet Select UK", url: "https://smallpetselect.co.uk/collections/bedding-for-small-animals" }
+      { label: "Small Pet Select UK", url: "https://smallpetselect.co.uk/products/aspen-shavings-bedding" }
     ],
     badges: ["⭐ Team Favourite", "Hardwood Safe"],
     summary: "100% natural aspen hardwood shavings. Scent-free, phenol-free, and dust-extracted."
@@ -605,10 +607,10 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£4.00 - £6.50",
     retailer: "Swell Reptiles / Bell's Tiny Tails / Amazon UK",
-    url: "https://www.swelluk.com/reptile/substrates/soil-coco-substrates",
+    url: "https://www.reptiles.swelluk.com/komodo-tropical-terrain-compact-brick",
     links: [
-      { label: "Swell Reptiles", url: "https://www.swelluk.com/reptile/substrates/soil-coco-substrates" },
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/substrates-textures" },
+      { label: "Swell Reptiles", url: "https://www.reptiles.swelluk.com/komodo-tropical-terrain-compact-brick" },
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/collections/all" },
       { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=Komodo+Tropical+Terrain+Coco+Coir" }
     ],
     badges: ["⭐ Team Favourite", "Natural Soil Texture"],
@@ -617,15 +619,15 @@ export const products = [
   {
     id: "sub-beech-chips",
     name: "Kiln-Dried Fine Beech Chips (Dig Box Substrate)",
-    brand: "Swell Reptiles / Bell's Tiny Tails",
+    brand: "Bell's Tiny Tails / Hope's",
     category: "substrates",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£4.50 - £7.99",
-    retailer: "Swell Reptiles / Bell's Tiny Tails",
-    url: "https://www.swelluk.com/reptile/substrates/wood-bark-chips",
+    retailer: "Bell's Tiny Tails / Hope's Healthy Treats",
+    url: "https://bellstinytails.com/products/beech-chips-digging-substrate-200g",
     links: [
-      { label: "Swell Reptiles", url: "https://www.swelluk.com/reptile/substrates/wood-bark-chips" },
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/substrates-textures" }
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/beech-chips-digging-substrate-200g" },
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/beech-chips" }
     ],
     badges: ["Rescue Approved", "Tactile Texture"],
     summary: "Kiln-dried hardwood beech chips that satisfy foraging and claw maintenance without dust."
@@ -633,14 +635,15 @@ export const products = [
   {
     id: "sub-cork-granules",
     name: "Natural Terrarium Cork Granules (3-8mm)",
-    brand: "KorkDeko / Bell's Tiny Tails",
+    brand: "Bell's Tiny Tails / Hope's / Amazon UK",
     category: "substrates",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£5.50 - £10.70",
-    retailer: "Bell's Tiny Tails / Amazon UK",
-    url: "https://bellstinytails.com/products/substrates-textures",
+    retailer: "Bell's Tiny Tails / Hope's / Amazon UK",
+    url: "https://bellstinytails.com/products/100g-natural-larger-cork-granules-digging-substrate",
     links: [
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/substrates-textures" },
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/100g-natural-larger-cork-granules-digging-substrate" },
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/cork-granules" },
       { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=terrarium+cork+granules" }
     ],
     badges: ["⭐ Team Favourite", "Soft Texture"],
@@ -649,15 +652,15 @@ export const products = [
   {
     id: "sub-forest-moss",
     name: "Dried Terrarium Sphagnum Moss",
-    brand: "Zoo Med / Bell's Tiny Tails",
+    brand: "Bell's Tiny Tails / Swell Reptiles",
     category: "substrates",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£4.50 - £7.50",
-    retailer: "Swell Reptiles / Bell's Tiny Tails",
-    url: "https://www.swelluk.com/reptile/substrates/moss",
+    retailer: "Bell's Tiny Tails / Swell Reptiles",
+    url: "https://bellstinytails.com/products/sphagnum-moss-20g",
     links: [
-      { label: "Swell Reptiles", url: "https://www.swelluk.com/reptile/substrates/moss" },
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/substrates-textures" }
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/sphagnum-moss-20g" },
+      { label: "Swell Reptiles", url: "https://www.reptiles.swelluk.com/reptile-supplies/reptile-decor-and-substrate/reptile-substrates/reptile-moss" }
     ],
     badges: ["Natural Scenery", "Rescue Approved"],
     summary: "100% natural dried sphagnum moss. Perfect for creating soft forest floors, covering wooden bridges, and topping dig boxes."
@@ -670,9 +673,9 @@ export const products = [
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£26.99",
     retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.com/products/multi-chamber-dig-box",
+    url: "https://hopeshealthytreats.com/collections/hamsters",
     links: [
-      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/products/multi-chamber-dig-box" }
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/collections/hamsters" }
     ],
     badges: ["⭐ Team Favourite", "UK Small Business"],
     summary: "Solid wood dig box divided into compartments so you can offer coco coir, beech chips, and cork granules side by side."
@@ -697,14 +700,14 @@ export const products = [
   {
     id: "sand-komodo-natural",
     name: "Komodo 100% Natural Sand (5kg)",
-    brand: "Komodo",
+    brand: "Komodo / Swell Reptiles",
     category: "sand",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£10.00",
     retailer: "Swell Reptiles / Amazon UK",
-    url: "https://www.swelluk.com/reptile/substrates/sand-soil-mixes",
+    url: "https://www.reptiles.swelluk.com/reptile-supplies/reptile-decor-and-substrate/reptile-substrates/sand-substrates",
     links: [
-      { label: "Swell Reptiles", url: "https://www.swelluk.com/reptile/substrates/sand-soil-mixes" },
+      { label: "Swell Reptiles", url: "https://www.reptiles.swelluk.com/reptile-supplies/reptile-decor-and-substrate/reptile-substrates/sand-substrates" },
       { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=Komodo+natural+reptile+sand+5kg" }
     ],
     badges: ["⭐ Team Favourite", "Rescue Approved"],
@@ -795,13 +798,12 @@ export const products = [
     species: ["syrian", "winter_white", "campbells", "chinese"],
     priceGuide: "£26.99",
     retailer: "Hope's Healthy Treats",
-    url: "https://hopeshealthytreats.com/products/multichamber-hide-3-chambers",
+    url: "https://hopeshealthytreats.com/collections/hamsters",
     links: [
-      { label: "Hope's (3-Chamber)", url: "https://hopeshealthytreats.com/products/multichamber-hide-3-chambers" },
-      { label: "Hope's (4-Chamber)", url: "https://hopeshealthytreats.com/products/multichamber-hide-4-chambers" }
+      { label: "Hope's Healthy Treats", url: "https://hopeshealthytreats.com/collections/hamsters" }
     ],
     badges: ["⭐ Team Favourite", "UK Small Business"],
-    summary: "Crafted by a UK small business with spacious 7cm+ entrance holes and pre-drilled holes for stilt legs."
+    summary: "Crafted by a UK small business with spacious entrance holes and pre-drilled holes for stilt legs."
   },
   {
     id: "hide-happy-henrys",
@@ -821,15 +823,15 @@ export const products = [
   {
     id: "hide-ceramic-mushroom",
     name: "Ceramic & Terracotta Cooling Hides",
-    brand: "BUCATSTATE / Bell's Tiny Tails",
+    brand: "Amazon UK / Bell's Tiny Tails",
     category: "hides",
     species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
     priceGuide: "£9.99 - £21.99",
-    retailer: "Bell's Tiny Tails / Amazon UK",
-    url: "https://bellstinytails.com/products/enrichment-accessories",
+    retailer: "Amazon UK / Bell's Tiny Tails",
+    url: "https://www.amazon.co.uk/s?k=ceramic+mushroom+hamster+hide",
     links: [
-      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/products/enrichment-accessories" },
-      { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=BUCATSTATE+ceramic+hide" }
+      { label: "Amazon UK", url: "https://www.amazon.co.uk/s?k=ceramic+mushroom+hamster+hide" },
+      { label: "Bell's Tiny Tails", url: "https://bellstinytails.com/collections/all" }
     ],
     badges: ["Summer Cooling", "Chew Proof"],
     summary: "Ceramic and terracotta hides remain cool in summer heat, help wear down nails, and are 100% chew-proof and easy to sterilize."

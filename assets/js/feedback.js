@@ -316,7 +316,7 @@ function showSuccessView(name) {
       <p class="hand text-[20px] text-tomato mt-1">thanks for writing to us, ${clean(name)}!</p>
       <div class="p-3.5 mt-4 rounded-xl bg-paper-2 border-2 border-ink text-left text-sm max-w-md mx-auto shadow-sm">
         <p class="leading-relaxed">
-          Your note has flown straight to the <strong>For the Hams!</strong> editor's desk (<code>${FEEDBACK_CONFIG.recipientEmail}</code>).
+          Your note has flown straight to the <strong>For the Hams!</strong> editor's desk.
         </p>
         <p class="text-xs muted mt-2">
           Every suggestion and tip-off helps keep UK hamsters safe, solitary, and in 100x50cm homes.
@@ -351,7 +351,7 @@ function showErrorFallback(name, email, topic, message) {
     <p>Don't worry, your letter is safe! You can send it directly to our inbox with one click:</p>
     <div>
       <a href="${mailtoUrl}" class="btn btn-xs btn-tomato inline-flex items-center gap-1">
-        ${icon('mail', 14)} <span>Send via email app (${FEEDBACK_CONFIG.recipientEmail})</span>
+        ${icon('mail', 14)} <span>Send via email app</span>
       </a>
     </div>
   `;
