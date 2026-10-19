@@ -123,14 +123,14 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css?v=3.8">
-  <link rel="stylesheet" href="assets/css/cards.css?v=3.8">
+  <link rel="stylesheet" href="assets/css/style.css?v=3.9">
+  <link rel="stylesheet" href="assets/css/cards.css?v=3.9">
   <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 </head>
 <body class="min-h-screen flex flex-col">
 
   <header class="site-header sticky top-0 z-40">
-    <div class="max-w-3xl mx-auto px-4 pt-3 pb-2 flex items-center justify-between gap-3">
+    <div class="max-w-3xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
       <a href="#guides" class="flex items-center gap-2 min-w-0" aria-label="For the Hams! home">
         <span id="logo-hamster" class="wiggle" style="display:inline-flex"></span>
         <span class="wordmark">For the<br>Hams<span class="bang">!</span></span>
@@ -145,15 +145,13 @@
         </a>
       </div>
     </div>
-
-    <!-- Species chips (injected) -->
-    <div class="px-3 pb-2.5" id="species-filter-container"></div>
   </header>
 
-  <!-- Species profile (injected) -->
-  <div class="max-w-3xl mx-auto px-3.5 w-full" id="species-banner-area"></div>
+  <!-- Species selector & profile (scrolls naturally with page, collapsed by default) -->
+  <div class="max-w-3xl mx-auto px-3.5 sm:px-4 pt-3 w-full" id="species-filter-container"></div>
+  <div class="max-w-3xl mx-auto px-3.5 sm:px-4 w-full" id="species-banner-area"></div>
 
-  <main class="flex-grow max-w-3xl mx-auto px-3.5 sm:px-4 pt-4 w-full pb-32">
+  <main class="flex-grow max-w-3xl mx-auto px-3.5 sm:px-4 pt-3 w-full pb-32">
     <div id="main-tab-content"></div>
 
     <!-- 2005 footer: 88x31 buttons -->
@@ -218,6 +216,6 @@
     <!-- Injected dynamically by infographics.js -->
   </div>
 
-  <script type="module" src="assets/js/app.js?v=3.8"></script>
+  <script type="module" src="assets/js/app.js?v=3.9"></script>
 </body>
 </html>

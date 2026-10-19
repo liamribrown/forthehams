@@ -5,7 +5,7 @@
 import { speciesList } from './data/species.js?v=3.6';
 import { careGuides } from './data/guides.js?v=3.6';
 import { unsafeItems } from './data/unsafe.js?v=3.6';
-import { products } from './data/products.js?v=3.7';
+import { products } from './data/products.js?v=3.9';
 import { foodDatabase } from './data/foods.js?v=3.6';
 import { rescuesList } from './data/rescues.js?v=3.6';
 import { adoptionChecklist } from './data/checklist.js?v=3.6';
@@ -13,7 +13,7 @@ import { icon, clean, cleanHtml } from './icons.js?v=3.6';
 import { openCardModal } from './infographics.js?v=3.2';
 import { renderBinderView, updateHeaderBadge } from './cards/binder.js?v=3.2';
 import { initPostbag, openPostbag } from './feedback.js?v=3.6';
-import { renderHomeBuilder } from './home_builder.js?v=3.8';
+import { renderHomeBuilder } from './home_builder.js?v=3.9';
 
 // Application State
 const state = {
@@ -28,6 +28,7 @@ const state = {
   shopSearch: '',
   shopView: localStorage.getItem('fth_shop_view') || 'list', // 'list' | 'grid'
   rescueRegion: 'all',
+  speciesPickerOpen: false,
   checkedItems: JSON.parse(localStorage.getItem('fth_checklist') || '{}')
 };
 
@@ -357,32 +358,68 @@ function setupBottomSheetListeners() {
 }
 
 // ==========================================
-// Species chips (wrap, always fully visible)
+// Species selector (compact toggle, scrolls away naturally)
 // ==========================================
 function renderSpeciesBar() {
   const container = document.getElementById('species-filter-container');
   if (!container) return;
 
+  const activeOpt = speciesOptions.find(o => o.id === state.currentSpecies) || speciesOptions[0];
+  const activeCol = speciesColour[activeOpt.id] || 'ink';
+  const isFiltered = state.currentSpecies !== 'all';
+
   container.innerHTML = `
-    <div class="max-w-3xl mx-auto flex flex-wrap items-center gap-1.5">
-      <span class="hand text-lg leading-none mr-0.5">which ham?</span>
-      ${speciesOptions.map(opt => {
-        const isActive = state.currentSpecies === opt.id;
-        const col = speciesColour[opt.id];
-        return `
-          <button type="button" data-species-btn="${opt.id}" class="chip ${isActive ? 'is-active' : ''}" aria-pressed="${isActive}">
-            ${opt.id !== 'all' ? `<span class="swatch bg-${col}"></span>` : ''}
-            <span>${opt.name}</span>
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-2">
+        <button type="button" id="toggle-species-picker" class="chip ${isFiltered ? 'is-active' : ''} flex items-center gap-1.5 py-1.5 px-3 shadow-xs" aria-expanded="${state.speciesPickerOpen}">
+          ${isFiltered ? `<span class="swatch bg-${activeCol}"></span>` : icon('hamster', 16)}
+          <span class="hand text-[17px] leading-none mr-0.5 ${isFiltered ? '' : 'text-tomato'}">which ham?</span>
+          <span class="font-display font-bold text-[13px]">${activeOpt.name}</span>
+          <span class="text-[10px] opacity-75 ml-0.5">${state.speciesPickerOpen ? '▴' : '▾'}</span>
+        </button>
+        ${isFiltered ? `
+          <button type="button" id="quick-clear-species" class="v2005 text-[11px] muted underline hover:text-ink cursor-pointer">
+            Show all species
           </button>
-        `;
-      }).join('')}
+        ` : ''}
+      </div>
+
+      ${state.speciesPickerOpen ? `
+        <div class="panel p-2.5 bg-paper-2 flex flex-wrap items-center gap-1.5 animate-fade-in">
+          ${speciesOptions.map(opt => {
+            const isActive = state.currentSpecies === opt.id;
+            const col = speciesColour[opt.id];
+            return `
+              <button type="button" data-species-btn="${opt.id}" class="chip ${isActive ? 'is-active' : ''}" aria-pressed="${isActive}">
+                ${opt.id !== 'all' ? `<span class="swatch bg-${col}"></span>` : ''}
+                <span>${opt.name}</span>
+              </button>
+            `;
+          }).join('')}
+        </div>
+      ` : ''}
     </div>
   `;
+
+  document.getElementById('toggle-species-picker')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    state.speciesPickerOpen = !state.speciesPickerOpen;
+    renderSpeciesBar();
+  });
+
+  document.getElementById('quick-clear-species')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    state.currentSpecies = 'all';
+    state.speciesPickerOpen = false;
+    renderSpeciesBar();
+    renderCurrentTab();
+  });
 
   container.querySelectorAll('[data-species-btn]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       state.currentSpecies = btn.getAttribute('data-species-btn') || 'all';
+      state.speciesPickerOpen = false;
       renderSpeciesBar();
       renderCurrentTab();
     });
