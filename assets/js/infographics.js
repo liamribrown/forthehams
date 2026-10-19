@@ -1,80 +1,126 @@
 // For the Hams! — Card Rasterization & Sharing Modal
-// Rasterizes off-screen DOM trading cards into crystal clear PNG images
-// using modern-screenshot via jsDelivr CDN.
+// Dual-mode rendering:
+// 1. Live interactive DOM preview renders instantaneously (zero delay, zero flicker)
+// 2. High-res PNG export using htmlToImage / modernScreenshot fallback for sharing & saving.
 
-import { getCardById, getCardByNumber, formatCardNo } from './data/cards.js?v=3.1';
-import { buildCard, buildExport } from './cards/card-template.js?v=3.1';
-import { collectCard } from './cards/binder.js?v=3.1';
-import { icon, clean } from './icons.js?v=3.1';
-
-// Import modern-screenshot from jsDelivr ESM
-let modernScreenshot = null;
-async function loadScreenshotLib() {
-  if (modernScreenshot) return modernScreenshot;
-  try {
-    modernScreenshot = await import('https://cdn.jsdelivr.net/npm/modern-screenshot@4.4.40/+esm');
-    return modernScreenshot;
-  } catch (err) {
-    console.error('Failed to load modern-screenshot', err);
-    return null;
-  }
-}
+import { getCardById, getCardByNumber, formatCardNo } from './data/cards.js?v=3.3';
+import { buildCard, buildExport } from './cards/card-template.js?v=3.3';
+import { collectCard } from './cards/binder.js?v=3.3';
+import { icon, clean } from './icons.js?v=3.3';
 
 // Active modal state
 let currentCard = null;
 let currentFormat = 'feed'; // 'feed' | 'story'
 let activeBlob = null;
 let activeUrl = null;
+let isRasterizing = false;
 
-// Renders off-screen element to high-res Blob
+// Robust rasterization helper
 export async function renderCardToBlob(card, format = 'feed') {
-  const lib = await loadScreenshotLib();
-  if (!lib || !lib.domToBlob) {
-    throw new Error('Screenshot library not ready');
-  }
-
-  // Ensure custom web fonts are rendered
   if (document.fonts && document.fonts.ready) {
     try { await document.fonts.ready; } catch (_) {}
   }
 
-  // Pre-load / decode the card image
+  // Pre-decode the card image if present
   if (card.art) {
     const preImg = new Image();
     preImg.src = card.art;
     try { await preImg.decode(); } catch (_) {}
   }
 
-  // Create isolated off-screen staging area
+  // Staging container visible off-screen
   const staging = document.createElement('div');
   staging.style.position = 'fixed';
-  staging.style.top = '-9999px';
+  staging.style.top = '0';
   staging.style.left = '-9999px';
   staging.style.width = format === 'story' ? '1080px' : '1080px';
   staging.style.height = format === 'story' ? '1920px' : '1350px';
   staging.style.overflow = 'hidden';
-  staging.style.zIndex = '-100';
+  staging.style.pointerEvents = 'none';
+  staging.style.zIndex = '-999';
 
   const exportEl = buildExport(card, format);
   staging.appendChild(exportEl);
   document.body.appendChild(staging);
 
   try {
-    const blob = await lib.domToBlob(exportEl, {
-      scale: 2, // 2x Retina resolution
-      quality: 0.95,
-      features: { copyStyles: true }
-    });
-    return blob;
+    // 1. Try window.htmlToImage (loaded via UMD)
+    if (typeof window !== 'undefined' && window.htmlToImage && window.htmlToImage.toBlob) {
+      const blob = await window.htmlToImage.toBlob(exportEl, {
+        pixelRatio: 2,
+        quality: 0.95
+      });
+      if (blob) return blob;
+    }
+
+    // 2. Try modern-screenshot dynamic import
+    try {
+      const ms = await import('https://cdn.jsdelivr.net/npm/modern-screenshot/+esm');
+      if (ms && ms.domToBlob) {
+        const blob = await ms.domToBlob(exportEl, {
+          scale: 2,
+          quality: 0.95
+        });
+        if (blob) return blob;
+      }
+    } catch (e) {
+      console.warn('modern-screenshot fallback failed', e);
+    }
+
+    // 3. Canvas SVG fallback
+    return await renderDomViaSvgFallback(exportEl, format);
   } finally {
     staging.remove();
   }
 }
 
+// Fallback: renders DOM element via SVG foreignObject onto canvas
+async function renderDomViaSvgFallback(element, format) {
+  const w = 1080;
+  const h = format === 'story' ? 1920 : 1350;
+  const canvas = document.createElement('canvas');
+  canvas.width = w * 2;
+  canvas.height = h * 2;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2, 2);
+
+  const clone = element.cloneNode(true);
+  const wrapper = document.createElement('div');
+  wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+  wrapper.appendChild(clone);
+
+  const dataUri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <foreignObject width="100%" height="100%">
+        ${wrapper.innerHTML}
+      </foreignObject>
+    </svg>
+  `);
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => resolve(blob), 'image/png');
+    };
+    img.onerror = () => {
+      // Last-ditch: simple canvas background
+      ctx.fillStyle = '#fff4df';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#22180f';
+      ctx.font = 'bold 36px sans-serif';
+      ctx.fillText(currentCard?.name || 'Trading Card', 60, 100);
+      canvas.toBlob(blob => resolve(blob), 'image/png');
+    };
+    img.src = dataUri;
+  });
+}
+
 // Main entry point: opens the trading card modal
 export async function openCardModal(cardIdentifier, type = 'guide') {
   let card = null;
-  if (typeof cardIdentifier === 'number' || !isNaN(parseInt(cardIdentifier, 10)) && String(parseInt(cardIdentifier, 10)) === String(cardIdentifier)) {
+  if (typeof cardIdentifier === 'number' || (!isNaN(parseInt(cardIdentifier, 10)) && String(parseInt(cardIdentifier, 10)) === String(cardIdentifier))) {
     card = getCardByNumber(cardIdentifier);
   } else {
     card = getCardById(cardIdentifier, type);
@@ -83,7 +129,7 @@ export async function openCardModal(cardIdentifier, type = 'guide') {
   if (!card) return;
   currentCard = card;
 
-  // Collect card into binder and check for first-pull celebration
+  // Collect card into binder and celebrate on first pull
   const isFirstPull = collectCard(card.no);
 
   if (isFirstPull && typeof confetti === 'function') {
@@ -95,10 +141,10 @@ export async function openCardModal(cardIdentifier, type = 'guide') {
   }
 
   showCardModalUI(card, isFirstPull);
-  await updateRenderedPreview();
+  renderLivePreview();
 }
 
-// Legacy alias for existing guide bottom-sheet triggers
+// Legacy alias for existing triggers
 export async function openInfographicModal(id, type = 'guide') {
   return openCardModal(id, type);
 }
@@ -147,13 +193,14 @@ function showCardModalUI(card, isFirstPull) {
         </a>
       </div>
 
-      <!-- Preview Stage -->
+      <!-- Live Interactive Card Preview Stage (Always Instant & Crisp) -->
       <div class="p-3 sm:p-4 overflow-y-auto flex-grow flex flex-col items-center justify-center bg-paper min-h-[300px]">
-        <div id="card-preview-stage" class="relative w-full max-w-xs flex flex-col items-center">
-          <div class="w-full flex items-center justify-center py-12 text-slate-500 font-hand text-xl">
-            Rendering card...
-          </div>
+        <div id="card-preview-stage" class="relative w-full max-w-xs flex flex-col items-center justify-center">
+          <!-- Injected dynamically by renderLivePreview -->
         </div>
+        <p class="v2005 text-[11px] muted text-center mt-3">
+          ${formatCardNo(card.no)} • Series 1: Ham Basics • Rescue standard verified
+        </p>
       </div>
 
       <!-- Actions Footer -->
@@ -188,112 +235,141 @@ function showCardModalUI(card, isFirstPull) {
     close();
   });
 
-  document.getElementById('fmt-feed-btn')?.addEventListener('click', async () => {
+  document.getElementById('fmt-feed-btn')?.addEventListener('click', () => {
     if (currentFormat === 'feed') return;
     currentFormat = 'feed';
     document.getElementById('fmt-feed-btn').classList.add('btn-mustard');
     document.getElementById('fmt-story-btn').classList.remove('btn-mustard');
-    await updateRenderedPreview();
+    activeBlob = null;
+    renderLivePreview();
   });
 
-  document.getElementById('fmt-story-btn')?.addEventListener('click', async () => {
+  document.getElementById('fmt-story-btn')?.addEventListener('click', () => {
     if (currentFormat === 'story') return;
     currentFormat = 'story';
     document.getElementById('fmt-story-btn').classList.add('btn-mustard');
     document.getElementById('fmt-feed-btn').classList.remove('btn-mustard');
-    await updateRenderedPreview();
+    activeBlob = null;
+    renderLivePreview();
   });
 
-  // Action handlers
+  // Action handlers with automatic high-res generation
   document.getElementById('btn-share-native')?.addEventListener('click', async () => {
-    if (!activeBlob || !currentCard) return;
-    const filename = `forthehams-${formatCardNo(currentCard.no).toLowerCase().replace(/[^a-z0-9]/g, '')}-${currentFormat}.png`;
-    const file = new File([activeBlob], filename, { type: 'image/png' });
+    const btn = document.getElementById('btn-share-native');
+    const origHtml = btn.innerHTML;
+    btn.innerHTML = `<span>Preparing...</span>`;
+    try {
+      const blob = await ensureBlobReady();
+      const filename = `forthehams-${formatCardNo(currentCard.no).toLowerCase().replace(/[^a-z0-9]/g, '')}-${currentFormat}.png`;
+      const file = new File([blob], filename, { type: 'image/png' });
 
-    if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
-      try {
-        await navigator.share({
-          title: `For the Hams! — ${currentCard.name}`,
-          text: `Trading Card ${formatCardNo(currentCard.no)}: ${currentCard.name}. Ethical hamster care standards via forthehams.co.uk`,
-          files: [file]
-        });
-      } catch (err) {
-        if (err.name !== 'AbortError') downloadImage();
+      if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+        try {
+          await navigator.share({
+            title: `For the Hams! — ${currentCard.name}`,
+            text: `Trading Card ${formatCardNo(currentCard.no)}: ${currentCard.name}. Ethical hamster care standards via forthehams.co.uk`,
+            files: [file]
+          });
+        } catch (err) {
+          if (err.name !== 'AbortError') triggerDownload(blob);
+        }
+      } else if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `For the Hams! — ${currentCard.name}`,
+            text: `Trading Card ${formatCardNo(currentCard.no)}: ${currentCard.name}\nUK rescue verified care at https://www.forthehams.co.uk/`,
+            url: 'https://www.forthehams.co.uk/'
+          });
+        } catch (err) {
+          if (err.name !== 'AbortError') triggerDownload(blob);
+        }
+      } else {
+        triggerDownload(blob);
       }
-    } else if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `For the Hams! — ${currentCard.name}`,
-          text: `Trading Card ${formatCardNo(currentCard.no)}: ${currentCard.name}\nUK rescue verified care at https://www.forthehams.co.uk/`,
-          url: 'https://www.forthehams.co.uk/'
-        });
-      } catch (err) {
-        if (err.name !== 'AbortError') downloadImage();
-      }
-    } else {
-      downloadImage();
+    } catch (e) {
+      console.error(e);
+      alert('Could not export image. Please try saving directly.');
+    } finally {
+      btn.innerHTML = origHtml;
     }
   });
 
-  document.getElementById('btn-download-png')?.addEventListener('click', downloadImage);
+  document.getElementById('btn-download-png')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-download-png');
+    const origHtml = btn.innerHTML;
+    btn.innerHTML = `<span>Saving...</span>`;
+    try {
+      const blob = await ensureBlobReady();
+      triggerDownload(blob);
+    } finally {
+      btn.innerHTML = origHtml;
+    }
+  });
 
   document.getElementById('btn-copy-png')?.addEventListener('click', async () => {
     const btn = document.getElementById('btn-copy-png');
-    if (!activeBlob || !navigator.clipboard || typeof ClipboardItem === 'undefined') {
-      downloadImage();
-      return;
-    }
+    const origHtml = btn.innerHTML;
+    btn.innerHTML = `${icon('sparkle', 16)}`;
     try {
-      await navigator.clipboard.write([new ClipboardItem({ 'image/png': activeBlob })]);
-      if (btn) btn.innerHTML = `${icon('tick', 16)}`;
-      setTimeout(() => { if (btn) btn.innerHTML = icon('copy', 16); }, 2000);
-    } catch {
-      downloadImage();
+      const blob = await ensureBlobReady();
+      if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        btn.innerHTML = `${icon('tick', 16)}`;
+        setTimeout(() => { btn.innerHTML = origHtml; }, 2000);
+      } else {
+        triggerDownload(blob);
+        btn.innerHTML = origHtml;
+      }
+    } catch (e) {
+      triggerDownload(activeBlob);
+      btn.innerHTML = origHtml;
     }
   });
 }
 
-async function updateRenderedPreview() {
+// Renders the live interactive card DOM preview (always instant and never throws preview errors)
+function renderLivePreview() {
   const stage = document.getElementById('card-preview-stage');
   if (!stage || !currentCard) return;
 
-  stage.innerHTML = `
-    <div class="py-12 flex flex-col items-center justify-center text-slate-600">
-      <span class="font-hand text-xl">Generating ${currentFormat === 'story' ? 'Story' : 'Post'} card...</span>
-    </div>
-  `;
+  stage.innerHTML = '';
+  
+  // Wrap card in a miniature container simulating the format
+  const wrap = document.createElement('div');
+  wrap.className = 'w-full flex justify-center items-center';
 
-  try {
-    const blob = await renderCardToBlob(currentCard, currentFormat);
-    activeBlob = blob;
-    if (activeUrl) URL.revokeObjectURL(activeUrl);
-    activeUrl = URL.createObjectURL(blob);
-
-    stage.innerHTML = `
-      <div class="relative w-full rounded-2xl overflow-hidden border-2 border-slate-900 shadow-md">
-        <img src="${activeUrl}" alt="${clean(currentCard.name)} Card" class="w-full h-auto block select-none" />
-      </div>
-      <p class="v2005 text-[11px] muted text-center mt-2.5">
-        High-res ${currentFormat === 'story' ? 'Story (9:16)' : 'Feed (4:5)'} ready to save or share!
-      </p>
-    `;
-  } catch (err) {
-    console.error('Rasterization error', err);
-    stage.innerHTML = `
-      <div class="p-4 text-center text-red-600 font-bold">
-        Preview error. Direct download is still available.
-      </div>
-    `;
+  if (currentFormat === 'story') {
+    wrap.style.aspectRatio = '9 / 16';
+    wrap.style.maxHeight = '480px';
+    wrap.style.padding = '20px 10px';
+    wrap.style.borderRadius = '24px';
+    wrap.style.border = '3px solid var(--tc-ink)';
+    wrap.style.background = 'var(--tc-paper)';
+    wrap.style.boxShadow = '5px 5px 0 var(--tc-ink)';
   }
+
+  const liveCard = buildCard(currentCard);
+  wrap.appendChild(liveCard);
+  stage.appendChild(wrap);
 }
 
-function downloadImage() {
-  if (!activeUrl || !currentCard) return;
+// Ensures a high-res rasterized PNG blob is generated when user taps Share / Save / Copy
+async function ensureBlobReady() {
+  if (activeBlob) return activeBlob;
+  const blob = await renderCardToBlob(currentCard, currentFormat);
+  activeBlob = blob;
+  return blob;
+}
+
+function triggerDownload(blob) {
+  if (!blob || !currentCard) return;
+  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = activeUrl;
+  a.href = url;
   const cleanName = currentCard.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   a.download = `forthehams-${formatCardNo(currentCard.no).toLowerCase().replace(/\s+/g, '')}-${cleanName}-${currentFormat}.png`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
