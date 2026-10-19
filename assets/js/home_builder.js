@@ -246,15 +246,15 @@ export const SETUP_PRESETS = [
   },
   {
     id: 'classic_turnkey',
-    name: 'Classic Turnkey & Wire',
+    name: 'Classic Turnkey & Timber',
     badge: '⚖️ UK Rescue Community Favorite',
     tone: 'mustard',
-    tagline: 'Trusted barred enclosures & handcrafted enrichment',
-    desc: 'The turnkey kit used across UK rescue foster homes. Roomy Savic Plaza cage, silent bearing wheel, Fitch paper bedding, handcrafted wooden multi-chamber, India’s spray bouquet, and Songmics playpen.',
-    targetBudget: 315,
+    tagline: 'Barless wooden enclosure & handcrafted enrichment',
+    desc: 'The turnkey barless kit used across UK rescue foster homes. Spacious 115cm PawHut wooden glass-fronted enclosure, silent bearing wheel, Fitch paper bedding, handcrafted wooden multi-chamber, India’s spray bouquet, and Songmics playpen.',
+    targetBudget: 290,
     items: {
       syrian: {
-        enclosure: 'enc-savic-plaza-120',
+        enclosure: 'enc-pawhut-115',
         bedding: 'bed-fitch-paper-70l',
         wheel: 'wheel-bucatstate-32',
         sand: 'sand-pets-desert',
@@ -272,7 +272,7 @@ export const SETUP_PRESETS = [
         clutter: 'clutter-india-botanicals'
       },
       dwarf: {
-        enclosure: 'enc-savic-plaza-100',
+        enclosure: 'enc-pawhut-115',
         bedding: 'bed-fitch-paper-70l',
         wheel: 'wheel-bucatstate-26',
         sand: 'sand-pets-desert',
@@ -290,7 +290,7 @@ export const SETUP_PRESETS = [
         clutter: 'clutter-india-botanicals'
       },
       roborovski: {
-        enclosure: 'enc-savic-plaza-100',
+        enclosure: 'enc-pawhut-115',
         bedding: 'bed-fitch-paper-70l',
         wheel: 'wheel-bucatstate-26',
         sand: 'sand-pets-desert',
@@ -861,6 +861,7 @@ function openSlotPicker(slotId, currentSpecies, container, options) {
   // Filter products by category, slot specificity, and species
   const eligible = products.filter(p => {
     if (p.category !== slot.category) return false;
+    if (slot.id === 'enclosure' && (p.id === 'enc-roselark-platform' || p.id === 'enc-roselark-water-bottle-holder')) return false;
     if (slot.id === 'sprays' && p.slotOnly !== 'sprays') return false;
     if (p.slotOnly && p.slotOnly !== slot.id) return false;
     if (currentSpecies !== 'all' && p.species && !p.species.includes(currentSpecies)) {
