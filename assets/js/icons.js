@@ -87,7 +87,9 @@ const P = {
   bulb: `<path d="M17.5 30.5c-3.5-2.6-5.6-6.4-5.4-10.6.4-6.4 5.6-11.2 11.9-11.2s11.5 4.8 11.9 11.2c.2 4.2-1.9 8-5.4 10.6v4.5h-13z"/><path d="M19 40h10"/>`,
   sparkle: `<path d="M24 6c1.2 9 3.2 11 12 12-8.8 1-10.8 3-12 12-1.2-9-3.2-11-12-12 8.8-1 10.8-3 12-12z"/>`,
   map: `<path d="M6 12l11-4 14 4 11-4v28l-11 4-14-4-11 4z"/><path d="M17 8v28M31 12v28"/>`,
-  reset: `<path d="M10 24a14 14 0 1 0 4.2-10"/><path d="M9.5 8.5v7.5H17"/>`
+  reset: `<path d="M10 24a14 14 0 1 0 4.2-10"/><path d="M9.5 8.5v7.5H17"/>`,
+  share: `<circle cx="36" cy="12" r="5"/><circle cx="12" cy="24" r="5"/><circle cx="36" cy="36" r="5"/><path d="M16.5 21.8l15-7.6M16.5 26.2l15 7.6"/>`,
+  download: `<path d="M24 10v20M15 22l9 9 9-9"/><path d="M10 38h28"/>`
 };
 
 export function icon(name, size = 20, extraClass = '') {

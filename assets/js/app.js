@@ -10,6 +10,7 @@ import { foodDatabase } from './data/foods.js?v=3.0';
 import { rescuesList } from './data/rescues.js?v=3.0';
 import { adoptionChecklist } from './data/checklist.js?v=3.0';
 import { icon, clean, cleanHtml } from './icons.js?v=3.0';
+import { openInfographicModal } from './infographics.js?v=3.1';
 
 // Application State
 const state = {
@@ -141,8 +142,8 @@ function setupNavigationListeners() {
   });
 }
 
-// Mobile Bottom Sheet Utility (with Swipe-Down-to-Close Gesture)
-function openBottomSheet(title, htmlContent) {
+// Mobile Bottom Sheet Utility (with Swipe-Down-to-Close Gesture & Infographic Sharing)
+function openBottomSheet(title, htmlContent, meta = {}) {
   const backdrop = document.getElementById('bottom-sheet-backdrop');
   const container = document.getElementById('bottom-sheet-container');
   const titleEl = document.getElementById('bottom-sheet-title');
@@ -151,16 +152,48 @@ function openBottomSheet(title, htmlContent) {
   if (!backdrop || !titleEl || !bodyEl) return;
 
   titleEl.textContent = clean(title) || 'Care guide';
+
+  const hasInfographic = Boolean(meta.guideId || meta.speciesId);
+  const infoId = meta.guideId || meta.speciesId;
+  const infoType = meta.guideId ? 'guide' : 'species';
+
   bodyEl.innerHTML = `
+    ${hasInfographic ? `
+      <div class="mb-3.5 p-3 rounded-xl bg-mustard-soft flex items-center justify-between gap-2.5" style="border: 2px solid var(--ink)">
+        <div class="min-w-0">
+          <div class="v2005 text-[10px] font-bold uppercase tracking-wide muted">Concise summary card</div>
+          <div class="font-display text-[14px] leading-tight text-slate-900">Need concise facts to save or send?</div>
+        </div>
+        <button type="button" data-trigger-infographic="${infoId}" data-infographic-type="${infoType}" class="btn btn-xs btn-tomato shrink-0 flex items-center gap-1.5 shadow-xs">
+          ${icon('share', 13)} <span>Share as Infographic</span>
+        </button>
+      </div>
+    ` : ''}
+
     ${htmlContent || ''}
-    <div class="mt-6 pt-4" style="border-top: 2px dashed rgba(34,24,15,.3)">
-      <button type="button" data-close-sheet-bottom class="btn btn-block">
+
+    <div class="mt-6 pt-4 flex flex-col sm:flex-row gap-2" style="border-top: 2px dashed rgba(34,24,15,.3)">
+      ${hasInfographic ? `
+        <button type="button" data-trigger-infographic="${infoId}" data-infographic-type="${infoType}" class="btn btn-tomato flex-1 flex items-center justify-center gap-1.5 py-2.5">
+          ${icon('share', 16)} <span>Share as Infographic</span>
+        </button>
+      ` : ''}
+      <button type="button" data-close-sheet-bottom class="btn ${hasInfographic ? 'sm:w-32' : 'btn-block'} py-2.5 flex items-center justify-center gap-1">
         ${icon('close', 16)} <span>Close</span>
       </button>
     </div>
   `;
 
   bodyEl.querySelector('[data-close-sheet-bottom]')?.addEventListener('click', closeBottomSheet);
+
+  bodyEl.querySelectorAll('[data-trigger-infographic]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = btn.getAttribute('data-trigger-infographic');
+      const type = btn.getAttribute('data-infographic-type') || 'guide';
+      if (id) openInfographicModal(id, type);
+    });
+  });
 
   if (container) {
     container.style.transition = '';
@@ -383,10 +416,25 @@ function renderSpeciesDetailBanner() {
               <div class="note-title">Food notes</div>
               ${clean(spec.dietSpecial)}
             </div>` : ''}
+
+          <div class="mt-3.5 pt-2.5 flex flex-wrap items-center justify-between gap-2" style="border-top: 1.5px dashed var(--ink)">
+            <span class="v2005 text-[11px] font-bold muted">Need concise ${clean(spec.name)} rules to share?</span>
+            <button type="button" data-trigger-species-infographic="${spec.id}" class="btn btn-xs btn-mustard flex items-center gap-1 shrink-0">
+              ${icon('share', 13)} <span>Share as Infographic</span>
+            </button>
+          </div>
         </div>
       ` : ''}
     </div>
   `;
+
+  document.querySelectorAll('[data-trigger-species-infographic]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const specId = btn.getAttribute('data-trigger-species-infographic');
+      if (specId) openInfographicModal(specId, 'species');
+    });
+  });
 
   document.getElementById('toggle-species-details')?.addEventListener('click', () => {
     state.speciesBannerExpanded = !isExpanded;
@@ -529,7 +577,8 @@ function renderCareGuides() {
         `<div class="guide-content">
            <span class="tag tag-mustard mb-2">${clean(guide.badge || 'Rescue standard')}</span>
            ${cleanHtml(guide.content || '')}
-         </div>`
+         </div>`,
+        { guideId: guide.id }
       );
     };
     card.addEventListener('click', open);
