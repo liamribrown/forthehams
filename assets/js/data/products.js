@@ -1,5 +1,5 @@
 // Curated ethical product directory
-// Informed by Fable's Hamster Rescue product library, India's Hamster Rescue recommendations, Bell's Tiny Tails, and Hope's Healthy Treats
+// Informed by Fable's Hamster Rescue product library, India's Hamster Rescue recommendations, Bell's Tiny Tails, Hope's Healthy Treats, and RoseLark Pet Products
 
 export const products = [
   // --- APPROVED COMMERCIAL SEED MIXES & NUTRITION ---
@@ -266,6 +266,21 @@ export const products = [
     badges: ["⭐ Team Favourite", "Nail Trimming", "Climbing Cover"],
     summary: "Hollow cork oak log. Rough bark texture naturally wears down sharp claws as hamsters clamber over and through it."
   },
+  {
+    id: "forage-roselark-spray-holder",
+    name: "RoseLark Personalised Spray Holder Stand",
+    brand: "RoseLark Pet Products",
+    category: "forage",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£9.99",
+    retailer: "RoseLark Pet Products UK",
+    url: "https://roselarkpetproducts.co.uk/products/personalised-hamster-spray-holder-name",
+    links: [
+      { label: "RoseLark (Spray Holder)", url: "https://roselarkpetproducts.co.uk/products/personalised-hamster-spray-holder-name" }
+    ],
+    badges: ["⭐ UK Small Business", "Forage Display", "Pet-Safe PLA"],
+    summary: "Handy stand crafted from pet-safe PLA that holds flax, sorghum, and millet sprays upright to create a natural foraging forest canopy."
+  },
 
   // --- ENCLOSURES & CAGES ---
   {
@@ -372,6 +387,38 @@ export const products = [
     ],
     badges: ["DIY Alternative", "Budget Friendly", "Video Guide"],
     summary: "Viral custom build using IKEA Linnmon/Lagkapten table tops and an acrylic/glass front. Watch the step-by-step video guide for measurements and assembly."
+  },
+  {
+    id: "enc-roselark-platform",
+    name: "RoseLark Modular Hamster Platform (Extendable Legs)",
+    brand: "RoseLark Pet Products",
+    category: "enclosures",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£19.00 - £24.99",
+    retailer: "RoseLark Pet Products UK",
+    url: "https://roselarkpetproducts.co.uk/products/modular-hamster-platform-with-extendable-legs",
+    links: [
+      { label: "RoseLark (Modular Platform)", url: "https://roselarkpetproducts.co.uk/products/modular-hamster-platform-with-extendable-legs" },
+      { label: "RoseLark (Round Sand Bath Platform)", url: "https://roselarkpetproducts.co.uk/products/round-pet-sand-bath-platform-with-17824" }
+    ],
+    badges: ["⭐ Welfare Essential", "Burrow Protection", "Modular Height"],
+    summary: "Essential sturdy platform designed to keep heavy sand baths, ceramic dishes, and wheels safely elevated above deep bedding to prevent burrow collapses."
+  },
+  {
+    id: "enc-roselark-water-bottle-holder",
+    name: "RoseLark Magnetic & Stand Water Bottle Holders",
+    brand: "RoseLark Pet Products",
+    category: "enclosures",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£10.50 - £11.99",
+    retailer: "RoseLark Pet Products UK",
+    url: "https://roselarkpetproducts.co.uk/products/magnetic-hamster-water-bottle-holder",
+    links: [
+      { label: "RoseLark (Magnetic Bottle Holder)", url: "https://roselarkpetproducts.co.uk/products/magnetic-hamster-water-bottle-holder" },
+      { label: "RoseLark (Adjustable Free-Standing)", url: "https://roselarkpetproducts.co.uk/products/adjustable-height-pet-water-bottle-holder-free-standing" }
+    ],
+    badges: ["⭐ UK Small Business", "Bucatstate Tested", "Pet-Safe PLA"],
+    summary: "Clever water bottle mounting solution tested on acrylic and glass enclosures like Bucatstate. Fits Classic 75ml and 150ml bottles securely without floor stands tipping."
   },
 
   // --- WHEELS ---
@@ -676,6 +723,22 @@ export const products = [
     badges: ["⭐ Team Favourite", "UK Small Business"],
     summary: "Solid wood dig box divided into compartments so you can offer coco coir, beech chips, and cork granules side by side."
   },
+  {
+    id: "sub-roselark-2section-digbox",
+    name: "RoseLark 2-Section Modular Dig Box",
+    brand: "RoseLark Pet Products",
+    category: "substrates",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£14.50 - £28.99",
+    retailer: "RoseLark Pet Products UK",
+    url: "https://roselarkpetproducts.co.uk/products/2-section-dig-box",
+    links: [
+      { label: "RoseLark (2-Section Dig Box)", url: "https://roselarkpetproducts.co.uk/products/2-section-dig-box" },
+      { label: "RoseLark (3-Piece Substrate Set)", url: "https://roselarkpetproducts.co.uk/products/scalloped-3-piece-hamster-substrate-set" }
+    ],
+    badges: ["⭐ UK Small Business", "Sensory Variety", "Pet-Safe PLA"],
+    summary: "Dual-compartment sensory dig box designed to hold two different textures side-by-side (such as cork granules and beech chips) for rich exploratory foraging."
+  },
 
   // --- SAND & BATHS ---
   {
@@ -770,6 +833,23 @@ export const products = [
     badges: ["Rescue Approved", "Splash Guard"],
     summary: "Large container with curved entrance lid that prevents hamsters kicking sand out into their bedding."
   },
+  {
+    id: "sand-roselark-corner-bath",
+    name: "RoseLark Dowel-Effect Corner Sand Bath & Dig Box",
+    brand: "RoseLark Pet Products",
+    category: "sand",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£17.50 - £27.99",
+    retailer: "RoseLark Pet Products UK",
+    url: "https://roselarkpetproducts.co.uk/products/dowel-effect-corner-sand-bath-for-hamsters",
+    links: [
+      { label: "RoseLark (Corner Sand Bath)", url: "https://roselarkpetproducts.co.uk/products/dowel-effect-corner-sand-bath-for-hamsters" },
+      { label: "RoseLark (Round Sand Bath)", url: "https://roselarkpetproducts.co.uk/products/round-hamster-sand-bath-dig-box-heart-dowel-design" },
+      { label: "RoseLark (Rectangle Bath with Lid)", url: "https://roselarkpetproducts.co.uk/products/rectangle-sand-bath-with-lid" }
+    ],
+    badges: ["⭐ UK Small Business", "Corner Saver", "Deep Sand Basin"],
+    summary: "Spacious corner sand bath with aesthetic natural dowel styling and deep walls to keep sand neatly contained while offering generous room for rolling and digging."
+  },
 
   // --- HIDES & MULTI-CHAMBERS ---
   {
@@ -836,5 +916,38 @@ export const products = [
     ],
     badges: ["Summer Cooling", "Chew Proof"],
     summary: "Ceramic and terracotta hides remain cool in summer heat, help wear down nails, and are 100% chew-proof and easy to sterilize."
+  },
+  {
+    id: "hide-roselark-4-chamber",
+    name: "RoseLark 4-Chamber Peep Hide with Burrow Starter",
+    brand: "RoseLark Pet Products",
+    category: "hides",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£19.99 - £35.99",
+    retailer: "RoseLark Pet Products UK",
+    url: "https://roselarkpetproducts.co.uk/products/4-chamber-peep-hide-with-burrow-starter",
+    links: [
+      { label: "RoseLark (4-Chamber Peep Hide)", url: "https://roselarkpetproducts.co.uk/products/4-chamber-peep-hide-with-burrow-starter" },
+      { label: "RoseLark (3-Chamber Modular Hide)", url: "https://roselarkpetproducts.co.uk/products/3-chamber-multi-chamber-hide-with-removable-lid" }
+    ],
+    badges: ["⭐ UK Small Business", "Bottomless Burrow", "Pet-Safe PLA"],
+    summary: "Four-room subterranean hide with an integrated bottomless burrow entrance and observation peep slots so you can inspect nests without disturbing burrow structure."
+  },
+  {
+    id: "hide-roselark-corner",
+    name: "RoseLark Corner Hide with Removable Lid",
+    brand: "RoseLark Pet Products",
+    category: "hides",
+    species: ["syrian", "roborovski", "winter_white", "campbells", "chinese"],
+    priceGuide: "£10.99 - £14.99",
+    retailer: "RoseLark Pet Products UK",
+    url: "https://roselarkpetproducts.co.uk/products/corner-hamster-hideout",
+    links: [
+      { label: "RoseLark (Corner Hide)", url: "https://roselarkpetproducts.co.uk/products/corner-hamster-hideout" },
+      { label: "RoseLark (Enchanted Garden Hide)", url: "https://roselarkpetproducts.co.uk/products/multi-level-circular-small-pet-hide" }
+    ],
+    badges: ["⭐ UK Small Business", "Space Saver", "Removable Lid"],
+    summary: "Space-saving 90-degree corner hide with a lift-off roof for gentle spot-cleaning. Open bottom allows the hamster to burrow straight down into deep bedding."
   }
 ];
+

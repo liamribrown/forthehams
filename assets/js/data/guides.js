@@ -209,7 +209,7 @@ export const careGuides = [
       <ul>
         <li>Glass baking/roasting dishes (IKEA Mixtur)</li>
         <li>Ceramic casserole/roasting dishes</li>
-        <li>Wooden corner dig boxes on stilts (Happy Henry's Homes, Bucatstate, Hope's Healthy Treats)</li>
+        <li>Modular and corner dig boxes on stilts (RoseLark Pet Products, Happy Henry's Homes, Bucatstate, Hope's Healthy Treats)</li>
       </ul>
 
       <h4>Approved Textures</h4>
@@ -244,7 +244,7 @@ export const careGuides = [
 
       <div class="callout callout-warning">
         <strong>⚠️ Never Pick Plants from Outdoors:</strong><br/>
-        Plants collected from outdoor gardens or parks are dangerous for pet hamsters. They may be contaminated with chemical pesticides, automotive exhaust soot, dog/cat urine, wild parasites (mites, worms), or be toxic lookalikes. Always purchase pet-safe, pesticide-free sprays from ethical UK small businesses (such as <strong>India's Hamster Rescue's eBay store</strong> or <strong>Hope's Healthy Treats</strong>).
+        Plants collected from outdoor gardens or parks are dangerous for pet hamsters. They may be contaminated with chemical pesticides, automotive exhaust soot, dog/cat urine, wild parasites (mites, worms), or be toxic lookalikes. Always purchase pet-safe, pesticide-free sprays from ethical UK small businesses (such as <strong>India's Hamster Rescue's store</strong>, <strong>Bell's Tiny Tails</strong>, <strong>Hope's Healthy Treats</strong>, or <strong>RoseLark Pet Products</strong>).
       </div>
     `
   },

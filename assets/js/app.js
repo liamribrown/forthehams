@@ -1178,7 +1178,7 @@ function renderShop() {
       <p class="mt-2 text-[14.5px] leading-relaxed pr-2">Kit we'd happily put in our own enclosures, all checked against rescue standards. Links go straight to each independent UK shop, stockist or DIY video.</p>
     </section>
 
-    <div class="mb-3">${searchField('shop-search-input', state.shopSearch, "Search Bell's Tiny Tails, Körnerbude, Fitch, IKEA...", 'clear-shop-search')}</div>
+    <div class="mb-3">${searchField('shop-search-input', state.shopSearch, "Search RoseLark, Bell's Tiny Tails, Körnerbude, Fitch, IKEA...", 'clear-shop-search')}</div>
 
     <div class="flex flex-wrap gap-1.5 mb-2.5">
       ${categories.map(c => `
