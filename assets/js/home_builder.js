@@ -2,7 +2,7 @@
 // www.forthehams.co.uk | UK hamster care, checked against India's Hamster Rescue standards
 // Theme: "Zine × 2005" (see assets/css/style.css)
 
-import { products } from './data/products.js?v=3.9';
+import { products } from './data/products.js?v=4.0';
 import { speciesList } from './data/species.js?v=3.6';
 import { icon, clean } from './icons.js?v=3.6';
 
