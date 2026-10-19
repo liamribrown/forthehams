@@ -164,7 +164,7 @@ function openBottomSheet(title, htmlContent, meta = {}) {
       <div class="mb-3.5 p-3 rounded-xl bg-mustard-soft flex items-center justify-between gap-2.5" style="border: 2px solid var(--ink)">
         <div class="min-w-0">
           <div class="v2005 text-[10px] font-bold uppercase tracking-wide muted">Collectible care card</div>
-          <div class="font-display text-[14px] leading-tight text-slate-900">Get the 2005-style trading card for this guide!</div>
+          <div class="font-display text-[14px] leading-tight text-slate-900">Share the info card!</div>
         </div>
         <button type="button" data-trigger-card="${infoId}" data-card-type="${infoType}" class="btn btn-xs btn-tomato shrink-0 flex items-center gap-1.5 shadow-xs">
           ${icon('share', 13)} <span>Share as card</span>
