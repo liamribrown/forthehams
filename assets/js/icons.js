@@ -89,7 +89,9 @@ const P = {
   map: `<path d="M6 12l11-4 14 4 11-4v28l-11 4-14-4-11 4z"/><path d="M17 8v28M31 12v28"/>`,
   reset: `<path d="M10 24a14 14 0 1 0 4.2-10"/><path d="M9.5 8.5v7.5H17"/>`,
   share: `<circle cx="36" cy="12" r="5"/><circle cx="12" cy="24" r="5"/><circle cx="36" cy="36" r="5"/><path d="M16.5 21.8l15-7.6M16.5 26.2l15 7.6"/>`,
-  download: `<path d="M24 10v20M15 22l9 9 9-9"/><path d="M10 38h28"/>`
+  download: `<path d="M24 10v20M15 22l9 9 9-9"/><path d="M10 38h28"/>`,
+  mail: `<rect x="6" y="11" width="36" height="26" rx="4"/><path d="M7 13.5l17 13 17-13"/>`,
+  paperplane: `<path d="M42 6L6 22l14 4 4 14 18-34zM20 26l8-8"/>`
 };
 
 export function icon(name, size = 20, extraClass = '') {

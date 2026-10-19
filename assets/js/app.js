@@ -9,10 +9,10 @@ import { products } from './data/products.js?v=3.6';
 import { foodDatabase } from './data/foods.js?v=3.6';
 import { rescuesList } from './data/rescues.js?v=3.6';
 import { adoptionChecklist } from './data/checklist.js?v=3.6';
-import { icon, clean, cleanHtml } from './icons.js?v=3.2';
+import { icon, clean, cleanHtml } from './icons.js?v=3.6';
 import { openCardModal } from './infographics.js?v=3.2';
 import { renderBinderView, updateHeaderBadge } from './cards/binder.js?v=3.2';
-import { initPostbag, openPostbag } from './feedback.js?v=3.5';
+import { initPostbag, openPostbag } from './feedback.js?v=3.6';
 
 // Application State
 const state = {
