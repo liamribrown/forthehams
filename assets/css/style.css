@@ -359,7 +359,7 @@ h1, h2, h3, h4, .font-display {
 .field {
   position: relative;
 }
-.field input {
+.field input, .field-input {
   width: 100%;
   background: var(--white);
   border: var(--line);
@@ -370,10 +370,48 @@ h1, h2, h3, h4, .font-display {
   color: var(--ink);
   box-shadow: inset 2px 2px 0 rgba(34,24,15,0.08);
 }
-.field input::placeholder { color: #9a8670; }
-.field input:focus { outline: none; box-shadow: 0 0 0 3px var(--mustard); }
+.field-input-plain {
+  padding: 9px 12px;
+}
+.field input::placeholder, .field-input::placeholder, .field textarea::placeholder { color: #9a8670; }
+.field input:focus, .field-input:focus, .field textarea:focus { outline: none; box-shadow: 0 0 0 3px var(--mustard); }
 .field .field-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); }
 .field .field-clear { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: 0; padding: 6px; cursor: pointer; }
+
+.field textarea {
+  width: 100%;
+  background: var(--white);
+  border: var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--ink);
+  box-shadow: inset 2px 2px 0 rgba(34,24,15,0.08);
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.45;
+}
+
+/* Postbag stamp & zine postcard details */
+.postbag-stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 8px;
+  background: var(--paper-2);
+  border: 2px dashed var(--ink);
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 var(--ink);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  transform: rotate(3deg);
+  user-select: none;
+}
 
 /* polaroid */
 .polaroid {
@@ -524,6 +562,76 @@ h1, h2, h3, h4, .font-display {
 @keyframes wiggle { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
 .wiggle:hover { animation: wiggle 0.4s ease-in-out 2; }
 
+/* ---------- Safe Picks Directory Ledger & View Toggle ---------- */
+.view-toggle {
+  display: inline-flex;
+  border: var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--paper-2);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.view-toggle-btn {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.view-toggle-btn + .view-toggle-btn {
+  border-left: var(--line);
+}
+.view-toggle-btn.is-active {
+  background: var(--mustard);
+  color: var(--ink);
+}
+
+.pick-ledger {
+  background: var(--white);
+  border: var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.pick-row {
+  padding: 13px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background 0.1s ease;
+}
+.pick-row + .pick-row {
+  border-top: 2px dashed rgba(34, 24, 15, 0.25);
+}
+.pick-row:hover {
+  background: rgba(255, 244, 223, 0.55);
+}
+@media (min-width: 640px) {
+  .pick-row {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .pick-row-actions {
+    width: 225px;
+    flex-shrink: 0;
+    border-left: 1.5px dashed rgba(34, 24, 15, 0.22);
+    padding-left: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
 /* ---------- Print ---------- */
 @media print {
   body * { visibility: hidden; }
@@ -531,3 +639,4 @@ h1, h2, h3, h4, .font-display {
   #adoption-summary-modal { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; background: white; }
   .no-print { display: none !important; }
 }
+

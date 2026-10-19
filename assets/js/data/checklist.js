@@ -1,5 +1,5 @@
 // "Let's Get You Adoption Ready!" Interactive Checklist
-// Directly models UK rescue adoption vetting standards (India's Hamster Rescue, Happy Hamsters UK, Bright Horizon)
+// Directly models UK rescue adoption vetting standards (India's Hamster Rescue, Fable's Hamster Rescue, Bright Horizon)
 
 export const adoptionChecklist = [
   {

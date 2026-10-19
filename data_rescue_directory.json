@@ -104,28 +104,6 @@
     }
   },
   {
-    "id": "happy-hamsters-uk",
-    "name": "Happy Hamsters UK",
-    "charity_number": "Independent Rescue",
-    "charity_type": "Foster-Based Rescue",
-    "coverage": "South West England & Hampshire",
-    "regions": [
-      "Hampshire",
-      "Dorset",
-      "Wiltshire",
-      "Surrey"
-    ],
-    "website": "https://www.happyhamstersuk.com",
-    "socials": {
-      "facebook": "https://www.facebook.com/happyhamstersuk"
-    },
-    "description": "Dedicated small animal rescue and surrender service in Southern England, matching hamsters into vetted ethical homes with proper enclosure sizes.",
-    "key_standards": {
-      "cage_minimum": "100 x 50 cm minimum floor space",
-      "bedding_minimum": "Deep paper or safe wood bedding"
-    }
-  },
-  {
     "id": "thames-valley",
     "name": "Thames Valley Hamster Rescue (TVHR)",
     "charity_number": "Independent Rescue",

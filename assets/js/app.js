@@ -2,16 +2,17 @@
 // www.forthehams.co.uk | UK hamster care, checked against India's Hamster Rescue standards
 // Theme: "Zine × 2005" (see assets/css/style.css)
 
-import { speciesList } from './data/species.js?v=3.0';
-import { careGuides } from './data/guides.js?v=3.0';
-import { unsafeItems } from './data/unsafe.js?v=3.0';
-import { products } from './data/products.js?v=3.0';
-import { foodDatabase } from './data/foods.js?v=3.0';
-import { rescuesList } from './data/rescues.js?v=3.0';
-import { adoptionChecklist } from './data/checklist.js?v=3.0';
+import { speciesList } from './data/species.js?v=3.6';
+import { careGuides } from './data/guides.js?v=3.6';
+import { unsafeItems } from './data/unsafe.js?v=3.6';
+import { products } from './data/products.js?v=3.6';
+import { foodDatabase } from './data/foods.js?v=3.6';
+import { rescuesList } from './data/rescues.js?v=3.6';
+import { adoptionChecklist } from './data/checklist.js?v=3.6';
 import { icon, clean, cleanHtml } from './icons.js?v=3.2';
 import { openCardModal } from './infographics.js?v=3.2';
 import { renderBinderView, updateHeaderBadge } from './cards/binder.js?v=3.2';
+import { initPostbag, openPostbag } from './feedback.js?v=3.5';
 
 // Application State
 const state = {
@@ -23,6 +24,7 @@ const state = {
   shopCategory: 'all',
   shopRetailer: 'all',
   shopSearch: '',
+  shopView: localStorage.getItem('fth_shop_view') || 'list', // 'list' | 'grid'
   rescueRegion: 'all',
   checkedItems: JSON.parse(localStorage.getItem('fth_checklist') || '{}')
 };
@@ -81,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderSpeciesBar();
   renderCurrentTab();
   setupNavigationListeners();
+  initPostbag();
 });
 
 function injectStaticIcons() {
@@ -99,6 +102,8 @@ function initRouting() {
   const hash = window.location.hash.replace('#', '');
   if (['guides', 'food', 'shop', 'checklist', 'rescues', 'binder'].includes(hash)) {
     state.activeTab = hash;
+  } else if (['write-us', 'feedback', 'postbag'].includes(hash)) {
+    setTimeout(() => openPostbag('general'), 100);
   }
   updateNavState();
   updateHeaderBadge();
@@ -121,6 +126,8 @@ window.addEventListener('hashchange', () => {
     state.activeTab = hash;
     updateNavState();
     renderCurrentTab();
+  } else if (['write-us', 'feedback', 'postbag'].includes(hash)) {
+    openPostbag('general');
   }
 });
 
@@ -505,7 +512,24 @@ function sectionTitle(title, aside = '') {
 }
 
 function speciesTags(list) {
-  return (list || []).map(sp => {
+  const arr = list || [];
+  if (arr.length >= 5) {
+    const on = state.currentSpecies !== 'all';
+    return `<span class="tag ${on ? 'tag-ink' : 'tag-mint'}">${on ? icon('tick', 11) : ''}All 5 species</span>`;
+  }
+  if (arr.length === 1 && arr[0] === 'syrian') {
+    const on = state.currentSpecies === 'syrian';
+    return `<span class="tag ${on ? 'tag-ink' : 'tag-mustard'}">${on ? icon('tick', 11) : ''}Syrian only</span>`;
+  }
+  if (arr.length === 1 && arr[0] === 'roborovski') {
+    const on = state.currentSpecies === 'roborovski';
+    return `<span class="tag ${on ? 'tag-ink' : 'tag-sky'}">${on ? icon('tick', 11) : ''}Roborovski only</span>`;
+  }
+  if (!arr.includes('syrian') && arr.length === 4) {
+    const on = state.currentSpecies !== 'all' && arr.includes(state.currentSpecies);
+    return `<span class="tag ${on ? 'tag-ink' : 'tag-sky'}">${on ? icon('tick', 11) : ''}All dwarf species</span>`;
+  }
+  return arr.map(sp => {
     const on = state.currentSpecies === sp;
     return `<span class="tag ${on ? 'tag-ink' : ''}">${on ? icon('tick', 11) : ''}${speciesLabel(sp)}</span>`;
   }).join('');
@@ -521,6 +545,70 @@ function pickBadge(badges) {
   const video = list.find(b => /Video|DIY/i.test(b));
   if (video) return { text: video, tone: 'lilac' };
   return { text: list[0], tone: 'mint' };
+}
+
+function getProductLinks(p) {
+  if (Array.isArray(p.links) && p.links.length > 0) {
+    return p.links;
+  }
+  return [{ label: p.retailer || 'Where to buy', url: p.url || '#' }];
+}
+
+function renderSupplierButtons(p, size = 'xs', alignEnd = false) {
+  const links = getProductLinks(p);
+  return `
+    <div class="flex flex-wrap items-center ${alignEnd ? 'sm:justify-end' : ''} gap-1.5">
+      ${links.map((lnk, idx) => {
+        const isVideo = /youtube\.com|youtu\.be/.test(lnk.url || '');
+        const isRescue = /India|Rescue/i.test(lnk.label || '');
+        let btnTone = '';
+        if (isVideo) btnTone = 'btn-lilac';
+        else if (isRescue) btnTone = 'btn-pink';
+        else if (idx === 0) btnTone = 'btn-tomato';
+        else btnTone = 'bg-mustard-soft';
+        return `
+          <a href="${lnk.url || '#'}" target="_blank" rel="noopener noreferrer" class="btn btn-${size} ${btnTone}">
+            ${isVideo ? icon('play', 13) : (isRescue ? icon('heart', 12) : '')}
+            <span>${clean(lnk.label)}</span>
+            ${!isVideo ? icon('ext', 11) : ''}
+          </a>`;
+      }).join('')}
+    </div>`;
+}
+
+function viewToggleHtml() {
+  return `
+    <div class="view-toggle shrink-0" role="group" aria-label="View mode">
+      <button type="button" data-view-mode="list" class="view-toggle-btn ${state.shopView === 'list' ? 'is-active' : ''}" aria-pressed="${state.shopView === 'list'}">
+        <span>List</span>
+      </button>
+      <button type="button" data-view-mode="grid" class="view-toggle-btn ${state.shopView === 'grid' ? 'is-active' : ''}" aria-pressed="${state.shopView === 'grid'}">
+        <span>Cards</span>
+      </button>
+    </div>`;
+}
+
+function productRow(p) {
+  const isVideo = /youtube\.com|youtu\.be/.test(p.url || '');
+  const badge = pickBadge(p.badges);
+  return `
+    <article class="pick-row">
+      <div class="min-w-0 flex-1">
+        <div class="flex flex-wrap items-center gap-1.5 mb-1">
+          <h3 class="text-[16.5px] leading-snug mr-1">${clean(p.name)}</h3>
+          ${badge ? `<span class="tag tag-${badge.tone} shrink-0">${badge.text}</span>` : ''}
+          ${speciesTags(p.species)}
+        </div>
+        <p class="text-[13.5px] leading-relaxed muted">${clean(p.summary)}</p>
+      </div>
+      <div class="pick-row-actions">
+        <div class="flex sm:flex-col items-baseline sm:items-end justify-between gap-2 mb-2 w-full">
+          <span class="v2005 text-[10px] uppercase font-bold muted">${isVideo ? 'DIY cost' : 'Price guide'}</span>
+          <span class="font-display text-[15.5px] leading-none">${clean(p.priceGuide)}</span>
+        </div>
+        ${renderSupplierButtons(p, 'xs', true)}
+      </div>
+    </article>`;
 }
 
 function productCard(p, idx = 0) {
@@ -540,14 +628,12 @@ function productCard(p, idx = 0) {
           ${speciesTags(p.species)}
         </div>
       </div>
-      <div class="panel-foot">
+      <div class="panel-foot flex-wrap">
         <div>
           <div class="v2005 text-[10px] uppercase font-bold muted">${isVideo ? 'DIY cost' : 'Around'}</div>
           <div class="font-display text-[17px]">${clean(p.priceGuide)}</div>
         </div>
-        <a href="${p.url || '#'}" target="_blank" rel="noopener noreferrer" class="btn btn-sm ${isVideo ? 'btn-lilac' : 'btn-tomato'}">
-          ${isVideo ? `${icon('play', 16)} Watch how` : `Where to buy ${icon('ext', 14)}`}
-        </a>
+        ${renderSupplierButtons(p, 'xs', false)}
       </div>
     </article>`;
 }
@@ -781,6 +867,14 @@ function renderFoodHub() {
     });
   });
 
+  document.querySelectorAll('[data-view-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.shopView = btn.getAttribute('data-view-mode') || 'list';
+      localStorage.setItem('fth_shop_view', state.shopView);
+      renderFoodHub();
+    });
+  });
+
   document.getElementById('reset-food-species')?.addEventListener('click', () => {
     state.currentSpecies = 'all';
     renderSpeciesBar();
@@ -815,14 +909,29 @@ function renderCommercialMixesView() {
       Good mixes and sprays aren't sprayed with pesticides, so grain mite eggs can hatch in a warm room. <strong>Freeze new bags for 48 hours</strong>, then let them come back to room temperature before feeding.
     </div>
 
-    <div class="panel p-4 mb-5 bg-lime-soft">
+    <div class="panel p-4 mb-4 bg-lime-soft">
       <h3 class="text-[17px] mb-1 flex items-center gap-1.5">${icon('sprout', 22)} Why no pellets?</h3>
       <p class="text-[14px] leading-relaxed">Pet shop muesli (like Harry Hamster) is full of dyed, sugary biscuits and hard pellets that hamsters leave behind. Rescue-approved mixes have 25+ whole seeds, grains and mealworms, with <strong>15–18% protein</strong> and <strong>no fruit or sugar for dwarfs</strong>.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      ${mixes.map((p, i) => productCard(p, i)).join('')}
+    <div class="flex items-center justify-between gap-2 mb-3">
+      <div class="v2005 text-[11px] muted">${mixes.length} rescue-approved seed ${mixes.length === 1 ? 'mix' : 'mixes'} · multiple UK stockists</div>
+      ${viewToggleHtml()}
     </div>
+
+    ${state.shopView === 'list' ? `
+      <div class="pick-ledger">
+        <div class="panel-bar bg-lime">
+          <span class="flex items-center gap-1.5">${icon('bowl', 16)} Approved Seed Mixes</span>
+          <span class="v2005 text-[10px] normal-case">Direct UK & EU stockists</span>
+        </div>
+        ${mixes.map(p => productRow(p)).join('')}
+      </div>
+    ` : `
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        ${mixes.map((p, i) => productCard(p, i)).join('')}
+      </div>
+    `}
 
     <div class="panel p-4 mt-5 bg-sky-soft tilt-l">
       <h3 class="text-[17px] mb-1">Ditch the bowl</h3>
@@ -975,6 +1084,31 @@ function getCategorySpeciesGuidance(category, speciesId) {
   }
 }
 
+const SHOP_CATEGORY_META = {
+  enclosures: { label: 'Enclosures & Cages', icon: 'cage', tone: 'mustard', rule: 'Minimum 100 × 50cm unbroken floor space' },
+  wheels: { label: 'Upright Wheels', icon: 'wheel', tone: 'sky', rule: 'Solid track — 28cm+ Syrians, 21–26cm+ Dwarfs' },
+  bedding: { label: 'Deep Burrowing Bedding', icon: 'cloud', tone: 'mint', rule: '20–25cm+ packed paper, aspen, or hemp (never hay)' },
+  food_mixes: { label: 'Seed Mixes', icon: 'bowl', tone: 'lime', rule: 'Pellet-free variety — zero fruit/sugar for dwarfs' },
+  forage: { label: 'Sprays & Botanical Forage', icon: 'sprout', tone: 'pink', rule: 'Freeze 48h first — natural harvest & overhead cover' },
+  substrates: { label: 'Dig Box Substrates', icon: 'log', tone: 'mustard-soft', rule: 'Coco coir, cork granules, moss & beech chips' },
+  sand: { label: 'Sand & Sand Baths', icon: 'sand', tone: 'sky-soft', rule: 'A4+ bath with reptile quartz sand — never dust' },
+  hides: { label: 'Multi-Chambers & Hides', icon: 'hide', tone: 'lilac', rule: 'Bottomless multi-chambers & cooling ceramic hides' }
+};
+
+function renderProductLedgerSection(catId, items) {
+  const meta = SHOP_CATEGORY_META[catId] || { label: 'Safe Picks', icon: 'paw', tone: 'paper-2', rule: 'Rescue verified standards' };
+  return `
+    <section class="pick-ledger mb-5">
+      <div class="panel-bar bg-${meta.tone}">
+        <span class="flex items-center gap-1.5 font-display text-[14px] normal-case tracking-normal">${icon(meta.icon, 18)} ${meta.label} <span class="v2005 text-[11px] muted font-normal">(${items.length})</span></span>
+        <span class="v2005 text-[10px] normal-case hidden sm:inline">${meta.rule}</span>
+      </div>
+      <div>
+        ${items.map(p => productRow(p)).join('')}
+      </div>
+    </section>`;
+}
+
 // ==========================================
 // 3. SAFE PICKS (independent directory, not a shop)
 // ==========================================
@@ -987,10 +1121,10 @@ function renderShop() {
     { id: 'wheels', label: 'Wheels' },
     { id: 'bedding', label: 'Bedding' },
     { id: 'food_mixes', label: 'Seed mixes' },
+    { id: 'forage', label: 'Sprays & forage' },
     { id: 'substrates', label: 'Dig stuff' },
     { id: 'sand', label: 'Sand & baths' },
-    { id: 'hides', label: 'Hides' },
-    { id: 'forage', label: 'Sprays & forage' }
+    { id: 'hides', label: 'Hides' }
   ];
 
   const filtered = products.filter(p => {
@@ -999,10 +1133,12 @@ function renderShop() {
     if (state.shopRetailer !== 'all' && !(p.retailer || '').toLowerCase().includes(state.shopRetailer.toLowerCase())) return false;
     if (state.shopSearch.trim()) {
       const q = state.shopSearch.toLowerCase();
+      const inLinks = (p.links || []).some(l => (l.label || '').toLowerCase().includes(q));
       return (p.name || '').toLowerCase().includes(q) ||
              (p.summary || '').toLowerCase().includes(q) ||
              (p.brand || '').toLowerCase().includes(q) ||
-             (p.retailer || '').toLowerCase().includes(q);
+             (p.retailer || '').toLowerCase().includes(q) ||
+             inLinks;
     }
     return true;
   });
@@ -1016,21 +1152,44 @@ function renderShop() {
   const activeSpecObj = speciesList.find(s => s.id === state.currentSpecies);
   const speciesGuidance = activeSpecObj ? getCategorySpeciesGuidance(state.shopCategory, state.currentSpecies) : '';
 
+  let listContentHtml = '';
+  if (state.shopView === 'list') {
+    if (state.shopCategory === 'all') {
+      const catOrder = ['enclosures', 'wheels', 'bedding', 'food_mixes', 'forage', 'substrates', 'sand', 'hides'];
+      listContentHtml = catOrder.map(catId => {
+        const catItems = filtered.filter(p => p.category === catId);
+        if (!catItems.length) return '';
+        return renderProductLedgerSection(catId, catItems);
+      }).join('');
+    } else {
+      listContentHtml = renderProductLedgerSection(state.shopCategory, filtered);
+    }
+  } else {
+    listContentHtml = `
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        ${filtered.map((p, i) => productCard(p, i)).join('')}
+      </div>`;
+  }
+
   main.innerHTML = `
     <section class="mb-4 relative">
       <span class="sticker tilt-r absolute right-0 -top-1">we don't sell<br>anything!</span>
       <h1 class="text-[32px]">Safe picks</h1>
-      <p class="mt-2 text-[14.5px] leading-relaxed pr-2">Kit we'd happily put in our own enclosures, all checked against rescue standards. Links go straight to the maker, shop or DIY video.</p>
+      <p class="mt-2 text-[14.5px] leading-relaxed pr-2">Kit we'd happily put in our own enclosures, all checked against rescue standards. Links go straight to each independent UK shop, stockist or DIY video.</p>
     </section>
 
-    <div class="mb-3">${searchField('shop-search-input', state.shopSearch, 'Search Bandaby, Fitch, IKEA...', 'clear-shop-search')}</div>
+    <div class="mb-3">${searchField('shop-search-input', state.shopSearch, "Search Bell's Tiny Tails, Körnerbude, Fitch, IKEA...", 'clear-shop-search')}</div>
 
-    <div class="flex flex-wrap gap-1.5 mb-2">
+    <div class="flex flex-wrap gap-1.5 mb-2.5">
       ${categories.map(c => `
         <button type="button" data-cat-btn="${c.id}" class="chip ${state.shopCategory === c.id ? 'is-active' : ''}" aria-pressed="${state.shopCategory === c.id}">${c.label}</button>
       `).join('')}
     </div>
-    <div class="v2005 text-[11px] muted mb-4">${filtered.length} ${filtered.length === 1 ? 'pick' : 'picks'} · ${activeCategoryObj.label.toLowerCase()}${activeSpecObj ? ` · ${clean(activeSpecObj.name)}` : ''}</div>
+
+    <div class="flex items-center justify-between gap-2 mb-4">
+      <div class="v2005 text-[11px] muted">${filtered.length} ${filtered.length === 1 ? 'pick' : 'picks'} · ${activeCategoryObj.label.toLowerCase()}${activeSpecObj ? ` · ${clean(activeSpecObj.name)}` : ''}</div>
+      ${viewToggleHtml()}
+    </div>
 
     ${activeSpecObj ? `
       <div class="rounded-xl p-3 mb-4 bg-${speciesColour[activeSpecObj.id] || 'mustard'}-soft flex items-start justify-between gap-2" style="border:2px solid var(--ink)">
@@ -1043,16 +1202,20 @@ function renderShop() {
         <p class="hand text-2xl mb-3">hmm, nothing matches that</p>
         <button type="button" id="reset-shop-filters" class="btn btn-sm btn-mustard">${icon('reset', 16)} Reset filters</button>
       </div>
-    ` : `
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        ${filtered.map((p, i) => productCard(p, i)).join('')}
-      </div>
-    `}
+    ` : listContentHtml}
   `;
 
   document.querySelectorAll('[data-cat-btn]').forEach(btn => {
     btn.addEventListener('click', () => {
       state.shopCategory = btn.getAttribute('data-cat-btn');
+      renderShop();
+    });
+  });
+
+  document.querySelectorAll('[data-view-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.shopView = btn.getAttribute('data-view-mode') || 'list';
+      localStorage.setItem('fth_shop_view', state.shopView);
       renderShop();
     });
   });
@@ -1198,6 +1361,7 @@ function renderRescues() {
     if (state.rescueRegion === 'England') {
       return reg.includes('england') || reg.includes('london') || reg.includes('midlands') ||
              reg.includes('thames') || reg.includes('south') || reg.includes('north') ||
+             reg.includes('east') || reg.includes('west') ||
              loc.includes('london') || reg.includes('national');
     }
     if (state.rescueRegion === 'Wales') {
@@ -1233,6 +1397,7 @@ function renderRescues() {
       ${filtered.map((r, i) => {
         const cNum = String(r.charityNumber || 'Community rescue');
         const charityText = /^(1|2|SC)/.test(cNum) ? `Charity #${cNum}` : cNum;
+        const websiteUrl = r.website || r.adoptUrl || '#';
         const targetUrl = r.adoptUrl || r.website || r.url || '#';
         const donationUrl = r.donateUrl || r.website || '#';
         const details = r.speciality || r.summary || '';
@@ -1245,11 +1410,14 @@ function renderRescues() {
                 <span class="v2005 text-[11px] font-bold muted">${clean(charityText)}</span>
                 ${isPartner ? `<span class="tag tag-pink">Our partner</span>` : ''}
               </div>
-              <h3 class="text-[19px]">${clean(r.name)}</h3>
+              <h3 class="text-[19px]">
+                <a href="${websiteUrl}" target="_blank" rel="noopener noreferrer" class="hover:underline">${clean(r.name)}</a>
+              </h3>
               <div class="text-[13.5px] mt-1 mb-2 flex items-start gap-1">${icon('pin', 15)} <span>${clean(locationText)}</span></div>
               <p class="text-[14px] leading-relaxed">${clean(details)}</p>
             </div>
             <div class="panel-foot">
+              <a href="${websiteUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm">Website ${icon('ext', 13)}</a>
               <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-tomato flex-1">Adopt ${icon('ext', 14)}</a>
               <a href="${donationUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-pink">${icon('heart', 15)} Donate</a>
             </div>
