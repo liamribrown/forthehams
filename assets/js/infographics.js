@@ -159,7 +159,7 @@ function showCardModalUI(card, isFirstPull) {
   }
 
   backdrop.innerHTML = `
-    <div id="card-modal-container" class="panel bg-white w-full max-w-lg max-h-[94vh] flex flex-col overflow-hidden rounded-2xl animate-slide-up shadow-2xl">
+    <div id="card-modal-container" class="panel bg-white w-full max-w-lg max-h-[92vh] flex flex-col overflow-hidden rounded-2xl animate-slide-up sm:animate-fade-in shadow-2xl relative my-auto">
       <!-- Modal Header Bar -->
       <div class="panel-bar bg-mustard flex items-center justify-between px-4 py-2.5 shrink-0">
         <div class="flex items-center gap-2">

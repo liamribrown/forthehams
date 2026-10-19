@@ -268,7 +268,7 @@ function setupBottomSheetListeners() {
   }, { passive: true });
 
   container.addEventListener('touchmove', (e) => {
-    if (e.touches.length !== 1) return;
+    if (e.touches.length !== 1 || window.innerWidth >= 640) return;
     const touch = e.touches[0];
     const deltaY = touch.clientY - touchStartY;
     const deltaX = touch.clientX - touchStartX;
